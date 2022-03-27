@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-#include "mousekeytest.h"
+﻿#include "mousekeytest.h"
 #include "ui_mousekeytest.h"
 
+#include "head.h"
 #include <qdebug.h>
 
 #ifdef Q_OS_WIN

@@ -1,11 +1,10 @@
-﻿#pragma execution_character_set("utf-8")
-#include "comchange.h"
+﻿#include "comchange.h"
 #include <QApplication>
 #include <QMutex>
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <qdebug.h>
-
+#include "head.h"
 #ifdef Q_OS_WIN
 #include <windows.h>
 #include "dbt.h"
@@ -47,14 +46,16 @@ QStringList ComChange::getAvailablePort()
     return strName;
 }
 
+
 /**
  * @brief       设置窗口句柄用于过滤事件
  * @param hwnd
  */
-void ComChange::setHWND(HWND hwnd)
+void ComChange::setWid(quintptr wid)
 {
-    this->m_hwnd = hwnd;
+    m_wid = wid;
 }
+
 
 ComChange::ComChange(QObject *parent) : QObject(parent)
 {
@@ -65,12 +66,13 @@ ComChange::ComChange(QObject *parent) : QObject(parent)
 bool ComChange::nativeEventFilter(const QByteArray &eventType, void *message, long *result)
 {
 #ifdef Q_OS_WIN
+    Q_UNUSED(result)
     if(eventType == "windows_generic_MSG")           // 处理windows消息
     {
         MSG* msg = reinterpret_cast<MSG*>(message);
 
         if(msg->message == WM_DEVICECHANGE               // 通知应用程序设备或计算机的硬件配置发生更改。
-          && msg->hwnd == this->m_hwnd)                  // 过滤事件
+          && msg->hwnd == (HWND)this->m_wid)                  // 过滤事件
         {
             PDEV_BROADCAST_HDR lpdb = (PDEV_BROADCAST_HDR)msg->lParam;
             switch (msg->wParam)

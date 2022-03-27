@@ -1,0 +1,30 @@
+﻿#include "widget.h"
+#include "ui_widget.h"
+#include "head.h"
+#include <QDebug>
+#include <logsavetxt.h>
+Widget::Widget(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::Widget)
+{
+    ui->setupUi(this);
+
+    this->setWindowTitle("自定义日志系统");
+//    LogSaveTxt::getInstance();   // 创建日志存储对象(无需窗口显示，只是保存)
+    m_timer = new QTimer(this);
+    connect(m_timer, &QTimer::timeout, this, &Widget::on_timer);
+    m_timer->start(1000);
+}
+
+Widget::~Widget()
+{
+    delete ui;
+}
+
+void Widget::on_timer()
+{
+    qDebug() << "debug信息";
+    qInfo() << "Info信息";
+    qWarning() << "Warning信息";
+    qCritical() << "critical信息";
+}
