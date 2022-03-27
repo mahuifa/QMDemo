@@ -1,5 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
-
+﻿#include "head.h"
 #include "widget.h"
 #include "ui_widget.h"
 #include "QWindow"

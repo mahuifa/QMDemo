@@ -1,10 +1,10 @@
-﻿#pragma execution_character_set("utf-8")
-#include "mwidgetbase.h"
-
-#ifdef Q_OS_WIN
+﻿#include "mwidgetbase.h"
+#include "head.h"
 #include <QEvent>
 #include <qdebug.h>
 #include <qgridlayout.h>
+
+#ifdef Q_OS_WIN
 #include <qt_windows.h>
 #include <windowsx.h>
 #pragma comment(lib, "user32.lib")
@@ -87,6 +87,8 @@ void MWidgetBase::titleBarEvent(QObject *watched, QEvent *event)
 
 bool MWidgetBase::nativeEvent(const QByteArray &eventType, void *message, long *result)
 {
+
+#ifdef Q_OS_WIN
     if (eventType == "windows_generic_MSG")   // 处理windows事件
     {
         MSG* msg = static_cast<MSG*>(message);
@@ -107,9 +109,12 @@ bool MWidgetBase::nativeEvent(const QByteArray &eventType, void *message, long *
         default:break;
         }
     }
+#endif
     return false;
 }
 
+
+#ifdef Q_OS_WIN
 /**
  * @brief         处理鼠标事件，实现鼠标在窗口边缘缩放功能，标题栏拖动，双击全屏、还原功能
  * @param msg
@@ -183,3 +188,4 @@ bool MWidgetBase::winMouseEvent(MSG *msg, long *result)
 
     return false;
 }
+#endif

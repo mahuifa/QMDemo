@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-#include "titlebar.h"
+﻿#include "titlebar.h"
 #include "ui_titlebar.h"
 #include <QStyle>
+#include "head.h"
 
 TitleBar::TitleBar(QWidget *parent) :
     QWidget(parent),

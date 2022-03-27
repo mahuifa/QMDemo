@@ -24,7 +24,10 @@ private:
     void init();          // 初始化
     void thisEvent(QObject *watched, QEvent *event);      // 当前窗口事件处理
     void titleBarEvent(QObject *watched, QEvent *event);  // 标题栏事件处理
+
+#ifdef Q_OS_WIN
     bool winMouseEvent(MSG* msg,  long *result);          // 鼠标事件处理
+#endif
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;

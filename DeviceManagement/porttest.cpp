@@ -1,8 +1,8 @@
-﻿#pragma execution_character_set("utf-8")
-#include "porttest.h"
+﻿#include "porttest.h"
 #include "ui_porttest.h"
 #include <qdebug.h>
 #include "comchange.h"
+#include "head.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -19,7 +19,7 @@ PortTest::PortTest(QWidget *parent) :
     this->setWindowTitle("获取所有可用串口；串口热插拔监测。");
 
     // 第二种方法
-    ComChange::getInstance()->setHWND((HWND)this->winId());
+    ComChange::getInstance()->setWid(this->winId());
     connect(ComChange::getInstance(), &ComChange::comStatus, this, &PortTest::on_comStatus);
     QStringList strName = ComChange::getAvailablePort();              // 获取所有可用串口
     ui->comboBox->addItems(strName);

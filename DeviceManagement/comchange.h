@@ -13,15 +13,14 @@
 
 #include <QObject>
 #include <qabstractnativeeventfilter.h>
-#include <qt_windows.h>
 
 class ComChange : public QObject, public QAbstractNativeEventFilter
 {
     Q_OBJECT
 public:
     static ComChange* getInstance();
-    static QStringList getAvailablePort();       // 获取系统中所有可用的串口名
-    void setHWND(HWND hwnd);                     // 设置窗口句柄
+    static QStringList getAvailablePort();          // 获取系统中所有可用的串口名
+    void setWid(quintptr wid);                     // 设置窗口句柄
 
 private:
     explicit ComChange(QObject *parent = nullptr);
@@ -39,7 +38,7 @@ signals:
 
 private:
     static ComChange* m_comChange;
-    HWND m_hwnd;
+    quintptr m_wid;
 
 };
 
