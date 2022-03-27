@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Style/main.css</file>
+        <file>Style/image/close.png</file>
+        <file>Style/image/max.png</file>
+        <file>Style/image/min.png</file>
+        <file>Style/image/restore.png</file>
+    </qresource>
+</RCC>
