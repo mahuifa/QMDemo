@@ -9,4 +9,5 @@
 #---------------------------------------------------------
 TEMPLATE = subdirs
 
-SUBDIRS += QMWidget     # qt自定义窗口
+SUBDIRS += QMWidget \                    # qt自定义窗口
+    DeviceManagement                     # 串口、鼠标、键盘热插拔检测模块
