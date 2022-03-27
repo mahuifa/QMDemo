@@ -1,0 +1,45 @@
+﻿*{
+        color: rgb(238, 238, 238);
+}
+
+/*标题栏样式*/
+#label_title{
+        font: 75 11pt "微软雅黑";
+}
+
+.TitleBar #background,#body {
+        background-color: qlineargradient(spread:pad, x1:0.154, y1:0.159636, x2:1, y2:1, stop:0 rgba(51, 8, 103, 230), stop:1 rgba(48, 207, 208, 255));
+}
+
+#but_close{
+border:transparent;
+background: url(:/Style/image/close.png) center center no-repeat;
+}
+
+#but_max, #but_max[Max=false]{
+border:transparent;
+background: url(:/Style/image/max.png) center center no-repeat;
+}
+
+#but_max[Max=true]{
+border:transparent;
+background: url(:/Style/image/restore.png) center center no-repeat;
+}
+
+#but_min{
+border:transparent;
+background: url(:/Style/image/min.png) center center no-repeat;
+}
+
+#but_close:hover, #but_max:hover, #but_min:hover{
+background-color: rgba(209, 209, 209, 100);
+}
+#but_close:pressed, #but_max:pressed, #but_min:pressed{
+background-color: rgba(51, 8, 103, 100);
+}
+
+/*播放控制栏*/
+.ControlBar #background{
+background-color: rgba(209, 209, 209, 100);
+border-radius:15px;
+}
