@@ -54,3 +54,4 @@ compile_commands.json
 bin*/
 *.png
 *.jpg
+*.gif
