@@ -14,6 +14,7 @@ Qt常用功能Demo
 | QMWidget         | 基于QWidget实现的自定义窗口模块    | windows                 |
 | DeviceManagement | 串口、鼠标、键盘热插拔监测功能模块 | windows                 |
 | QLog             | Qt日志系统                         | windows、linux、*mac*OS |
+| QMPlayer         | 视频播放器界面                     | windows                 |
 
 
 
@@ -73,3 +74,20 @@ Qt常用功能Demo
   ![QLog](README.assets/QLog.gif)
 
 ![log](README.assets/log.PNG)
+
+
+
+### 2.4 QMPlayer
+
+Qt实现的视频播放器界面Demo。
+
+* **实现功能**
+  * 基于QMWidget的自定义窗口；
+  * 增加侧边栏模块；
+  * 增加播放控制栏模块，包含播放停止、上一集、下一集、视频时间、音量控制、设置功能按键样式；
+  * 增加进度条模块，可跳转到鼠标点击位置；
+  * 通过`QPropertyAnimation`实现侧边栏、进度条、控制栏打开关闭动画效果；
+  * 实现双击全屏显示、还原效果。
+* **演示**
+
+![QMPlayer](README.assets/QMPlayer.gif)

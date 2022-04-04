@@ -11,4 +11,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += QMWidget \                      # qt自定义窗口
     DeviceManagement \                     # 串口、鼠标、键盘热插拔检测模块
-    QLog                                   # 自定义日志系统
+    QLog \                                 # 自定义日志系统
+    QMPlayer                               # 视频播放器界面

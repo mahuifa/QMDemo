@@ -1,0 +1,115 @@
+﻿*{
+        color: rgb(238, 238, 238);
+}
+
+/*标题栏样式*/
+#label_title{
+        font: 75 11pt "微软雅黑";
+}
+
+.TitleBar #background,#body {
+        background-color: qlineargradient(spread:pad, x1:0.154, y1:0.159636, x2:1, y2:1, stop:0 rgba(51, 8, 103, 230), stop:1 rgba(48, 207, 208, 255));
+}
+
+#but_close{
+border:transparent;
+background: url(:/Style/image/close.png) center center no-repeat;
+}
+
+#but_max, #but_max[Max=false]{
+border:transparent;
+background: url(:/Style/image/max.png) center center no-repeat;
+}
+
+#but_max[Max=true]{
+border:transparent;
+background: url(:/Style/image/restore.png) center center no-repeat;
+}
+
+#but_min{
+border:transparent;
+background: url(:/Style/image/min.png) center center no-repeat;
+}
+
+#but_close:hover, #but_max:hover, #but_min:hover, #but_play:hover, #but_play[play=false]:hover
+, #but_play[play=true]:hover, #but_previous:hover, #but_next:hover, #but_volume:hover
+, #but_volume[Middle=true]:hover, #but_volume[Middle=false]:hover, #but_setup:hover{
+background-color: rgba(209, 209, 209, 100);
+}
+#but_close:pressed, #but_max:pressed, #but_min:pressed, #but_play:pressed, #but_play[play=false]:pressed
+, #but_play[play=true]:pressed, #but_previous:pressed, #but_next:pressed, #but_volume:pressed
+, #but_volume[Middle=true]:pressed, #but_volume[Middle=false]:pressed, #but_setup:pressed{
+background-color: rgba(51, 8, 103, 100);
+}
+
+/*播放控制栏*/
+.ControlBar #background{
+background-color: rgba(209, 209, 209, 100);
+border-radius:15px;
+}
+
+#but_play, #but_play[play=false]{
+border:transparent;
+background: url(:/Style/image/播放.png) center center no-repeat;
+}
+
+#but_play[play=true]{
+border:transparent;
+background: url(:/Style/image/暂停.png) center center no-repeat;
+}
+
+#but_previous {
+border:transparent;
+background: url(:/Style/image/上一集.png) center center no-repeat;
+}
+
+#but_next {
+border:transparent;
+background: url(:/Style/image/下一集.png) center center no-repeat;
+}
+
+#but_volume, #but_volume[setup=true] {
+border:transparent;
+background: url(:/Style/image/音量大小.png) center center no-repeat;
+}
+
+#but_volume[setup=false] {
+border:transparent;
+background: url(:/Style/image/关闭音量.png) center center no-repeat;
+}
+
+#but_setup{
+border:transparent;
+background: url(:/Style/image/首页-设置.png) center center no-repeat;
+}
+
+/*侧边栏*/
+#sidebar #background{
+background-color: rgba(209, 209, 209, 100);
+}
+
+/*进度条*/
+QSlider::groove:horizontal{
+height:8px;
+border-radius:4px;
+}
+
+QSlider::add-page:horizontal{
+background:#FFFFFF;
+height:8px;
+border-radius:4px;
+}
+
+QSlider::sub-page:horizontal{
+background:#b5d6ff;
+height:8px;
+border-radius:4px;
+}
+
+QSlider::handle:horizontal{
+width:13px;
+margin-top:-3px;
+margin-bottom:-3px;
+border-radius:6px;
+background:qradialgradient(spread:pad,cx:0.5,cy:0.5,radius:0.5,fx:0.5,fy:0.5,stop:0.6 #b5d6ff,stop:0.8 #FFFFFF);
+}
