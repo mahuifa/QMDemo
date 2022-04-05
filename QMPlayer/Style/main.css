@@ -50,37 +50,37 @@ border-radius:15px;
 
 #but_play, #but_play[play=false]{
 border:transparent;
-background: url(:/Style/image/播放.png) center center no-repeat;
+background: url(:/Style/image/play.png) center center no-repeat;
 }
 
 #but_play[play=true]{
 border:transparent;
-background: url(:/Style/image/暂停.png) center center no-repeat;
+background: url(:/Style/image/stop.png) center center no-repeat;
 }
 
 #but_previous {
 border:transparent;
-background: url(:/Style/image/上一集.png) center center no-repeat;
+background: url(:/Style/image/previous.png) center center no-repeat;
 }
 
 #but_next {
 border:transparent;
-background: url(:/Style/image/下一集.png) center center no-repeat;
+background: url(:/Style/image/next.png) center center no-repeat;
 }
 
 #but_volume, #but_volume[setup=true] {
 border:transparent;
-background: url(:/Style/image/音量大小.png) center center no-repeat;
+background: url(:/Style/image/volume.png) center center no-repeat;
 }
 
 #but_volume[setup=false] {
 border:transparent;
-background: url(:/Style/image/关闭音量.png) center center no-repeat;
+background: url(:/Style/image/Closevolume.png) center center no-repeat;
 }
 
 #but_setup{
 border:transparent;
-background: url(:/Style/image/首页-设置.png) center center no-repeat;
+background: url(:/Style/image/setup.png) center center no-repeat;
 }
 
 /*侧边栏*/
