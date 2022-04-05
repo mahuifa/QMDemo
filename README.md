@@ -15,6 +15,7 @@ Qt常用功能Demo
 | DeviceManagement | 串口、鼠标、键盘热插拔监测功能模块 | windows                 |
 | QLog             | Qt日志系统                         | windows、linux、*mac*OS |
 | QMPlayer         | 视频播放器界面                     | windows                 |
+| TestCrashHandler | windows下程序崩溃定位Demo          | windows                 |
 
 
 
@@ -91,3 +92,20 @@ Qt实现的视频播放器界面Demo。
 * **演示**
 
 ![QMPlayer](README.assets/QMPlayer.gif)
+
+
+
+### 2.5 TestCrashHandler
+
+**实现功能：**
+
+* 通过win api实现qt程序崩溃问题定位功能；
+* 只支持msvc编译器；
+* 低耦合模块，一行代码直接引用功能，无需添加第三方依赖库；
+* 根据时间生成dump文件，每次崩溃生成一个文件，避免了覆盖问题；
+* 通过宏判断，在MinGW或其他系统环境编译时功能自动失效不会编译失败；
+* 支持release模块下生成dump文件。
+
+**演示：**
+
+![Dump](README.assets/Dump.gif)
