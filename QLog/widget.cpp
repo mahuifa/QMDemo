@@ -28,3 +28,9 @@ void Widget::on_timer()
     qWarning() << "Warning信息";
     qCritical() << "critical信息";
 }
+
+void Widget::on_com_FileType_activated(int index)
+{
+    ((LogSaveTxt*)LogSaveTxt::getInstance())->setFileType((LogSaveTxt::FileType)index);
+}
+

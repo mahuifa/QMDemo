@@ -22,6 +22,7 @@ public:
     explicit LogSaveBase(QObject *parent = nullptr);
     ~LogSaveBase();
 
+protected:
     /**
      * @brief           保存日志数据
      * @param type      日志级别
@@ -33,7 +34,6 @@ public:
      */
     virtual void on_logData(QtMsgType type, QTime time, QString file, QString function, int line, QString msg) = 0;
 
-protected:
     /**
      * @brief   打开新文件
      * @return  true：打开成功 false：打开失败

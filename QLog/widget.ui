@@ -14,8 +14,44 @@
    <string>Widget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
+   <item row="0" column="0" rowspan="2">
     <widget class="LogWidgetText" name="widget" native="true"/>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="com_FileType">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>设置日志保存文件类型</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Log</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>CSV</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>553</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
