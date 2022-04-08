@@ -20,16 +20,16 @@ void LogConfig::initTxtConfig()
     QSettings config("./config.ini", QSettings::IniFormat);
     if(!file.exists())
     {
-        config.beginGroup("Txt");
+        config.beginGroup("LogConfig");
         config.setValue("relyMode", 0);
-        config.setValue("time", 12);
+        config.setValue("time", 24);
         config.setValue("size", 100);
         config.setValue("name", "");
         config.setValue("rowNum",1000);
         config.endGroup();
     }
 
-    config.beginGroup("Txt");
+    config.beginGroup("LogConfig");
     txtConfig.relyMode = (TxtRelyMode)config.value("relyMode").toUInt();
     txtConfig.time = config.value("time").toUInt();
     txtConfig.size = config.value("size").toUInt();
@@ -41,6 +41,6 @@ void LogConfig::initTxtConfig()
 void LogConfig::setTxtLogName(QString name)
 {
     QSettings config("./config.ini", QSettings::IniFormat);
-    config.setValue("Txt/name", name);
+    config.setValue("LogConfig/name", name);
     txtConfig.name = name;
 }

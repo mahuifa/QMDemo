@@ -17,7 +17,7 @@ LogSaveBase::LogSaveBase(QObject *parent) : QObject(parent)
 
 LogSaveBase::~LogSaveBase()
 {
-
+    disconnect(LogInput::getInstance(), &LogInput::logData, this, &LogSaveBase::on_logData);
 }
 
 LogSaveBase* LogSaveBase::m_logSave = nullptr;

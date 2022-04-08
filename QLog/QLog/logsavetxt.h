@@ -1,4 +1,4 @@
-/******************************************************************************
+﻿/******************************************************************************
 * @文件名     logsavetxt.h
 * @功能       将日志保存到txt中
 * @开发者     mhf
@@ -17,11 +17,23 @@
 class LogSaveTxt : public LogSaveBase
 {
     Q_OBJECT
+    Q_PROPERTY(FileType m_type READ fileType WRITE setFileType)
+
+public:
+    enum FileType             // 日志保存的TxT文件类型
+    {
+        Log,                  // 日志保存到纯txt文本中
+        CSV,                  // 日志保存为csv文件，方便查看
+    };
+
+
 public:
     static LogSaveBase* getInstance();           // 获取单例对象
-    void on_logData(QtMsgType type, QTime time, QString file, QString function, int line, QString msg) override;
+    void setFileType(FileType type);
+    FileType fileType(){return m_type;}
 
 protected:
+    void on_logData(QtMsgType type, QTime time, QString file, QString function, int line, QString msg) override;
     bool openNewFile() override;
     bool relyTime();
     bool relySize();
@@ -37,7 +49,11 @@ signals:
 private:
     QFile m_file;
     QTextStream m_out;
-
+    FileType m_type;
+    QMutex m_mutex;
+    QString m_strLogFormat;         // 保存的日志内容格式
+    QString m_strNameFormat;        // 保存的日志文件名称格式
+    QString m_strTimeNameFormat;    // 保存的日志文件名称格式
 };
 
 #endif // LOGSAVETXT_H

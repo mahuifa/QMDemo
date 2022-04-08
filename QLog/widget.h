@@ -20,6 +20,8 @@ private slots:
 
     void on_timer();
 
+    void on_com_FileType_activated(int index);
+
 private:
     Ui::Widget *ui;
     QTimer* m_timer;
