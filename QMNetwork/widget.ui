@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="but_TCPClient">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -102,6 +102,19 @@
    </property>
    <property name="text">
     <string>HTTP</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>30</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>释放所有窗口</string>
    </property>
   </widget>
  </widget>
