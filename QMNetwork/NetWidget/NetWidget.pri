@@ -1,3 +1,4 @@
+QT += network
 FORMS += \
     $$PWD/tcpclient.ui
 
