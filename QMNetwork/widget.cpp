@@ -15,6 +15,7 @@ Widget::Widget(QWidget *parent)
 
 Widget::~Widget()
 {
+    on_pushButton_clicked();
     delete ui;
 }
 
