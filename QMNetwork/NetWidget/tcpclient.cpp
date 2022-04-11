@@ -1,9 +1,15 @@
-﻿#include "tcpclient.h"
+﻿#if defined(_MSC_VER) && (_MSC_VER >= 1600)
+# pragma execution_character_set("utf-8")
+#endif
+#include "tcpclient.h"
 #include "ui_tcpclient.h"
 #include <QHostAddress>
 #include <QDebug>
 #include <QByteArray>
 #include <QHostInfo>
+#include "share.h"
+
+using namespace Share;
 
 TCPClient::TCPClient(QWidget *parent) :
     QWidget(parent),
@@ -24,25 +30,6 @@ TCPClient::~TCPClient()
     delete ui;
 }
 
-/**
- * @brief  获取本机IPv4地址
- * @return
- */
-QString getLocalIP()
-{
-    QHostInfo info = QHostInfo::fromName(QHostInfo::localHostName());
-
-    for(auto address : info.addresses())
-    {
-        if(address.protocol() == QAbstractSocket::IPv4Protocol)
-        {
-            return address.toString();
-        }
-    }
-
-    return "0.0.0.0";
-}
-
 void TCPClient::init()
 {
     m_tcpClient = new QTcpSocket(this);
@@ -56,8 +43,8 @@ void TCPClient::connectSlots()
     connect(m_tcpClient, &QTcpSocket::stateChanged, this, &TCPClient::on_stateChanged);
     connect(m_tcpClient, &QTcpSocket::readyRead, this, &TCPClient::on_readyRead);
 
-#if (QT_VERSION <= QT_VERSION_CHECK(5,15,0))  // qt 后5.15error已经弃用，这里改用errorOccurred
-    connect(m_tcpClient, &QTcpSocket::error, this, &TCPClient::on_errorOccurred);
+#if (QT_VERSION <= QT_VERSION_CHECK(5,15,0))  // qt5.15 后error已经弃用，这里改用errorOccurred
+    connect(m_tcpClient, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(on_errorOccurred(QAbstractSocket::SocketError error)));   // 由于QAbstractSocket中有两个error()，所以不能直接使用Qt5的信号槽绑定方式
 #else
     connect(m_tcpClient, &QTcpSocket::errorOccurred, this, &TCPClient::on_errorOccurred);
 #endif

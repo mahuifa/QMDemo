@@ -1,4 +1,7 @@
-﻿#include "widget.h"
+﻿#if defined(_MSC_VER) && (_MSC_VER >= 1600)
+# pragma execution_character_set("utf-8")
+#endif
+#include "widget.h"
 #include "ui_widget.h"
 
 #include <QSharedPointer>
@@ -38,5 +41,17 @@ void Widget::on_pushButton_clicked()
         delete m_tcpClients.first();
         m_tcpClients.removeFirst();
     }
+    while (m_tcpServers.count())
+    {
+        delete m_tcpServers.first();
+        m_tcpServers.removeFirst();
+    }
+}
+
+
+void Widget::on_pushButton_2_clicked()
+{
+    m_tcpServers.append(new TCPServer);
+    m_tcpServers.last()->show();
 }
 
