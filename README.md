@@ -9,13 +9,14 @@ Qt常用功能Demo
 
 ## 1、说明
 
-| 模块名           | 功能                               | 支持系统                |
-| ---------------- | ---------------------------------- | ----------------------- |
-| QMWidget         | 基于QWidget实现的自定义窗口模块    | windows                 |
-| DeviceManagement | 串口、鼠标、键盘热插拔监测功能模块 | windows                 |
-| QLog             | Qt日志系统                         | windows、linux、*mac*OS |
-| QMPlayer         | 视频播放器界面                     | windows                 |
-| TestCrashHandler | windows下程序崩溃定位Demo          | windows                 |
+| 模块名           | 功能                               | 支持系统 |
+| ---------------- | ---------------------------------- | -------- |
+| QMWidget         | 基于QWidget实现的自定义窗口模块    | windows  |
+| DeviceManagement | 串口、鼠标、键盘热插拔监测功能模块 | windows  |
+| QLog             | Qt日志系统                         | 全平台   |
+| QMPlayer         | 视频播放器界面                     | windows  |
+| TestCrashHandler | windows下程序崩溃定位Demo          | windows  |
+| QMNetwork        | Qt网络编程Demo                     | 全平台   |
 
 
 
@@ -113,3 +114,35 @@ Qt实现的视频播放器界面Demo。
 **演示：**
 
 ![Dump](README.assets/Dump.gif)
+
+
+
+### 2.6 QMNetwork
+
+#### 2.6.1 <p><mark>TcpClient</mark></p> 
+
+  > * 支持打开多个TCP Client窗口；👍
+  > * 可选择是否以16进制字符串形式显示发送、接收的数据；👍
+  > * 自动统计发送数据的总字节大小、接收数据的总字节大小；👌
+  > * 判断TCP Socket状态变化；✌️ 
+  > * 判断TCP Socket各类异常状态；✋
+  > * 详细说明close、disconnectFromHost、abort三种断开连接的方式和优缺点； 👐
+  > * 代码注释详细，便于学习阅读。 👇
+
+![TcpClient](README.assets/TcpClient.gif)
+
+#### 2.6.2 <p><mark>TcpServer</mark></p> 
+
+> * 支持打开多个TCP Server窗口；👍
+> * 支持**同时连接多个**TcpClient，将连接的TcpClient添加进通信列表；
+> * 支持**自动移除**通信列表中断开连接的TcpClient；
+> * 支持**一对多**进行数据通信，或通过在连接TcpClient列表中勾选需要通信的对象进行数据通信；
+> * 可选择是否以16进制字符串形式显示发送、接收的数据；👍
+> * 自动统计发送数据的总字节大小、接收数据的总字节大小；👌
+> * 判断TCP Socket状态变化；✌️ 
+> * 判断TCP Server各类异常状态；✋
+> * 详细说明close、disconnectFromHost、abort三种断开连接的方式和优缺点； 👐
+> * 代码注释详细，便于学习阅读。 👇
+> * <font color="Red" size=5> 注意：这个代码主要用于学习，所以更加深入的问题没有考虑</font>这个代码存在一些内存泄漏问题，通过nextPendingConnection返回的QTcpSocket只有带QTcpServer释放时才会统一释放，所以如果程序需要频繁断开连接，解决这个内存泄漏问题就需要继承QTcpServer。
+
+![TcpServer](README.assets/TcpServer.gif)
