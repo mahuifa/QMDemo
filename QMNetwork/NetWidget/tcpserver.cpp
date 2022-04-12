@@ -122,13 +122,13 @@ void TCPServer::on_but_connect_clicked()
  */
 void TCPServer::on_disconnected()
 {
-    for(int i = m_tcpClients.count() - 1; i >= 0 ; i--)
+    for(int i = 0; i < m_tcpClients.count(); i++)
     {
         if(m_tcpClients.at(i)->state() != QAbstractSocket::ConnectedState)       // 未连接
         {
-            disconnect(m_tcpClients.at(i), &QTcpSocket::disconnected, this, &TCPServer::on_disconnected);        // 断开连接
+            disconnect(m_tcpClients.at(i), &QTcpSocket::disconnected, this, &TCPServer::on_disconnected);
             disconnect(m_tcpClients.at(i), &QTcpSocket::readyRead, this, &TCPServer::on_readyRead);
-            m_tcpClients.removeAt(i);       // 移除已经断开连接的Client
+            m_tcpClients.takeAt(i)->deleteLater();       // 移除已经断开连接的Client（注意这里不能使用delete，否则在vs中会报错）
             QListWidgetItem * item = ui->listWidget->item(i);
             ui->listWidget->removeItemWidget(item);
             delete item;                    // 不加这一行 listwidget的count不会变化
