@@ -119,7 +119,7 @@ Qt实现的视频播放器界面Demo。
 
 ### 2.6 QMNetwork
 
-#### 2.6.1 <p><mark>TcpClient</mark></p> 
+#### 2.6.1 TcpClient
 
   > * 支持打开多个TCP Client窗口；👍
   > * 可选择是否以16进制字符串形式显示发送、接收的数据；👍
@@ -131,7 +131,7 @@ Qt实现的视频播放器界面Demo。
 
 ![TcpClient](README.assets/TcpClient.gif)
 
-#### 2.6.2 <p><mark>TcpServer</mark></p> 
+#### 2.6.2 TcpServer
 
 > * 支持打开多个TCP Server窗口；👍
 > * 支持**同时连接多个**TcpClient，将连接的TcpClient添加进通信列表；
