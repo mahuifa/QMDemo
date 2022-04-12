@@ -50,10 +50,7 @@ void TCPServer::on_newConnection()
 {
     while (m_tcpServer->hasPendingConnections())
     {
-        qDebug() <<m_tcpServer->hasPendingConnections();
         QTcpSocket* tcpSocket = m_tcpServer->nextPendingConnection();      // 存在内存泄漏，最好使用时通过hasPendingConnections判断是否有未返回的连接
-
-        qDebug() <<m_tcpServer->hasPendingConnections();
         if(tcpSocket)
         {
             m_tcpClients.append(tcpSocket);
