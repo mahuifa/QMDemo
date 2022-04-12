@@ -35,7 +35,7 @@ TCPServer::~TCPServer()
 void TCPServer::init()
 {
     m_tcpServer = new QTcpServer(this);
-    m_tcpServer->setMaxPendingConnections(30);     // 设置最大允许连接数，不设置的话默认为30
+    m_tcpServer->setMaxPendingConnections(30);     // 设置最大允许连接数，不设置的话默认为30(如果设置过大就需要考虑内存泄漏问题)
     ui->line_localAddress->setText(getLocalIP());
 }
 
@@ -48,17 +48,23 @@ void TCPServer::connectSlots()
 
 void TCPServer::on_newConnection()
 {
-    QTcpSocket* tcpSocket = m_tcpServer->nextPendingConnection();         // 存在内存泄漏，可通过重写incomingConnection解决
-    if(tcpSocket)
+    while (m_tcpServer->hasPendingConnections())
     {
-        m_tcpClients.append(tcpSocket);
-    }
-    connect(tcpSocket, &QTcpSocket::disconnected, this, &TCPServer::on_disconnected);        // 断开连接
-    connect(tcpSocket, &QTcpSocket::readyRead, this, &TCPServer::on_readyRead);
+        qDebug() <<m_tcpServer->hasPendingConnections();
+        QTcpSocket* tcpSocket = m_tcpServer->nextPendingConnection();      // 存在内存泄漏，最好使用时通过hasPendingConnections判断是否有未返回的连接
 
-    QString strPeer = QString("%1 %2").arg(tcpSocket->peerAddress().toString()).arg(tcpSocket->peerPort());
-    strPeer.remove("::ffff:");
-    addPeer(strPeer);
+        qDebug() <<m_tcpServer->hasPendingConnections();
+        if(tcpSocket)
+        {
+            m_tcpClients.append(tcpSocket);
+        }
+        connect(tcpSocket, &QTcpSocket::disconnected, this, &TCPServer::on_disconnected);        // 断开连接
+        connect(tcpSocket, &QTcpSocket::readyRead, this, &TCPServer::on_readyRead);
+
+        QString strPeer = QString("%1 %2").arg(tcpSocket->peerAddress().toString()).arg(tcpSocket->peerPort());
+        strPeer.remove("::ffff:");
+        addPeer(strPeer);
+    }
 }
 
 /**
