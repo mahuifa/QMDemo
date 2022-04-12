@@ -5,8 +5,8 @@ FORMS += \
 
 HEADERS += \
     $$PWD/share.h \
-    $$PWD/tcpclient.h \ \                 # TCP Client
-    $$PWD/tcpserver.h
+    $$PWD/tcpclient.h \                  # TCP 客户端Demo
+    $$PWD/tcpserver.h                    # TCP 服务端Demo
 
 SOURCES += \
     $$PWD/share.cpp \

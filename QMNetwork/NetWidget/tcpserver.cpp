@@ -35,7 +35,7 @@ TCPServer::~TCPServer()
 void TCPServer::init()
 {
     m_tcpServer = new QTcpServer(this);
-    m_tcpServer->setMaxPendingConnections(30);     // 设置最大允许连接数，不设置的话默认为30
+    m_tcpServer->setMaxPendingConnections(30);     // 设置最大允许连接数，不设置的话默认为30(如果设置过大就需要考虑内存泄漏问题)
     ui->line_localAddress->setText(getLocalIP());
 }
 
@@ -48,17 +48,20 @@ void TCPServer::connectSlots()
 
 void TCPServer::on_newConnection()
 {
-    QTcpSocket* tcpSocket = m_tcpServer->nextPendingConnection();         // 存在内存泄漏，可通过重写incomingConnection解决
-    if(tcpSocket)
+    while (m_tcpServer->hasPendingConnections())
     {
-        m_tcpClients.append(tcpSocket);
-    }
-    connect(tcpSocket, &QTcpSocket::disconnected, this, &TCPServer::on_disconnected);        // 断开连接
-    connect(tcpSocket, &QTcpSocket::readyRead, this, &TCPServer::on_readyRead);
+        QTcpSocket* tcpSocket = m_tcpServer->nextPendingConnection();      // 存在内存泄漏，最好使用时通过hasPendingConnections判断是否有未返回的连接
+        if(tcpSocket)
+        {
+            m_tcpClients.append(tcpSocket);
+        }
+        connect(tcpSocket, &QTcpSocket::disconnected, this, &TCPServer::on_disconnected);        // 断开连接
+        connect(tcpSocket, &QTcpSocket::readyRead, this, &TCPServer::on_readyRead);
 
-    QString strPeer = QString("%1 %2").arg(tcpSocket->peerAddress().toString()).arg(tcpSocket->peerPort());
-    strPeer.remove("::ffff:");
-    addPeer(strPeer);
+        QString strPeer = QString("%1 %2").arg(tcpSocket->peerAddress().toString()).arg(tcpSocket->peerPort());
+        strPeer.remove("::ffff:");
+        addPeer(strPeer);
+    }
 }
 
 /**
@@ -122,13 +125,13 @@ void TCPServer::on_but_connect_clicked()
  */
 void TCPServer::on_disconnected()
 {
-    for(int i = m_tcpClients.count() - 1; i >= 0 ; i--)
+    for(int i = 0; i < m_tcpClients.count(); i++)
     {
         if(m_tcpClients.at(i)->state() != QAbstractSocket::ConnectedState)       // 未连接
         {
-            disconnect(m_tcpClients.at(i), &QTcpSocket::disconnected, this, &TCPServer::on_disconnected);        // 断开连接
+            disconnect(m_tcpClients.at(i), &QTcpSocket::disconnected, this, &TCPServer::on_disconnected);
             disconnect(m_tcpClients.at(i), &QTcpSocket::readyRead, this, &TCPServer::on_readyRead);
-            m_tcpClients.removeAt(i);       // 移除已经断开连接的Client
+            m_tcpClients.takeAt(i)->deleteLater();       // 移除已经断开连接的Client（注意这里不能使用delete，否则在vs中会报错）
             QListWidgetItem * item = ui->listWidget->item(i);
             ui->listWidget->removeItemWidget(item);
             delete item;                    // 不加这一行 listwidget的count不会变化

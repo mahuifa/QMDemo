@@ -137,12 +137,15 @@ Qt实现的视频播放器界面Demo。
 > * 支持**同时连接多个**TcpClient，将连接的TcpClient添加进通信列表；
 > * 支持**自动移除**通信列表中断开连接的TcpClient；
 > * 支持**一对多**进行数据通信，或通过在连接TcpClient列表中勾选需要通信的对象进行数据通信；
+> * 支持频繁断开连接大量的QTcpSocket并不存在内存泄漏；
 > * 可选择是否以16进制字符串形式显示发送、接收的数据；👍
 > * 自动统计发送数据的总字节大小、接收数据的总字节大小；👌
 > * 判断TCP Socket状态变化；✌️ 
 > * 判断TCP Server各类异常状态；✋
 > * 详细说明close、disconnectFromHost、abort三种断开连接的方式和优缺点； 👐
 > * 代码注释详细，便于学习阅读。 👇
-> * <font color="Red" size=5> 注意：这个代码主要用于学习，所以更加深入的问题没有考虑</font>这个代码存在一些内存泄漏问题，通过nextPendingConnection返回的QTcpSocket只有带QTcpServer释放时才会统一释放，所以如果程序需要频繁断开连接，解决这个内存泄漏问题就需要继承QTcpServer。
+> * <font color="Red" size=4> 注意：如果程序需要频繁断开连接，那就需要考虑内存泄漏问题</font>
+>   * QTcpServer存在一些内存泄漏问题，如果没有通过nextPendingConnection返回所有的的QTcpSocket并释放，将只有在QTcpServer释放时才会统一释放已连接的QTcpSocket；
+>   * 如果程序需要频繁断开连接，解决这个内存泄漏问题就需要通过hasPendingConnections函数判断是否有未返回的已连接QTcpSocket，如果有就调用nextPendingConnection返回并释放。
 
 ![TcpServer](README.assets/TcpServer.gif)
