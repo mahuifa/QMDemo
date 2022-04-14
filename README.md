@@ -17,6 +17,7 @@ Qt常用功能Demo
 | QMPlayer         | 视频播放器界面                     | windows  |
 | TestCrashHandler | windows下程序崩溃定位Demo          | windows  |
 | QMNetwork        | Qt网络编程Demo                     | 全平台   |
+| XlsxDemo         | Qt使用QXlsx读写Excel               | 全平台   |
 
 
 
@@ -149,3 +150,16 @@ Qt实现的视频播放器界面Demo。
 >   * 如果程序需要频繁断开连接，解决这个内存泄漏问题就需要通过hasPendingConnections函数判断是否有未返回的已连接QTcpSocket，如果有就调用nextPendingConnection返回并释放。
 
 ![TcpServer](README.assets/TcpServer.gif)
+
+
+
+### 2.7 XlsxDemo
+
+> 1. 创建一个新的Excel，并具有一个默认的Sheet；
+> 2. 打开Excel文件，并判断是否打开成功；
+> 3. 分别使用单元格引用和行列号两种方式将数据写入Excel；
+> 4. 分别使用单元格引用和行列行两种方式读取Excel所有数据；
+> 5. 将Excel数据另存为2.xlsx；
+> 6. 释放Excel数据。
+
+![qxlsx1](README.assets/qxlsx1.gif)
