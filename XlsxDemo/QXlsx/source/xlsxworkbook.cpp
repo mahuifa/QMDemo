@@ -1,4 +1,4 @@
-// xlsxworkbook.cpp
+﻿// xlsxworkbook.cpp
 
 #include <QtGlobal>
 #include <QXmlStreamWriter>
@@ -259,6 +259,7 @@ AbstractSheet *Workbook::insertSheet(int index, const QString &name, AbstractShe
     {
         qWarning("unsupported sheet type.");
         Q_ASSERT(false);
+//        return sheet;
     }
 
     d->sheets.insert(index, QSharedPointer<AbstractSheet>(sheet));

@@ -16,14 +16,27 @@
   <widget class="QPushButton" name="but_demo1">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>50</x>
      <y>50</y>
-     <width>75</width>
+     <width>111</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>Demo1</string>
+    <string>QXlsx基本使用</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="but_demo2">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>100</y>
+     <width>111</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>QXlsx工作表操作</string>
    </property>
   </widget>
  </widget>
