@@ -18,6 +18,8 @@ public:
 private slots:
     void on_but_demo1_clicked();
 
+    void on_but_demo2_clicked();
+
 private:
     Ui::Widget *ui;
 

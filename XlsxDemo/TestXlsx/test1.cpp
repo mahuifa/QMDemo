@@ -17,6 +17,7 @@ Test1::Test1(QWidget *parent) :
 
 Test1::~Test1()
 {
+    on_but_close_clicked();
     delete ui;
 }
 
@@ -141,12 +142,15 @@ void Test1::on_but_saveAs_clicked()
  */
 void Test1::on_but_close_clicked()
 {
-    delete m_xlsx;
-    m_xlsx = nullptr;
-    ui->but_write->setEnabled(false);
-    ui->but_recv->setEnabled(false);
-    ui->but_saveAs->setEnabled(false);
-    ui->but_close->setEnabled(false);
+    if(m_xlsx)
+    {
+        delete m_xlsx;
+        m_xlsx = nullptr;
+        ui->but_write->setEnabled(false);
+        ui->but_recv->setEnabled(false);
+        ui->but_saveAs->setEnabled(false);
+        ui->but_close->setEnabled(false);
+    }
 }
 
 
