@@ -49,7 +49,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>UDP客户端</string>
+    <string>UDP单播通信</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_4">

@@ -5,6 +5,7 @@
 #include <QWidget>
 #include "tcpclient.h"
 #include "tcpserver.h"
+#include "udpsocket.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -25,9 +26,12 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_pushButton_3_clicked();
+
 private:
     Ui::Widget *ui;
     QList<TCPClient*> m_tcpClients;   // 可打开任意多个TCP客户端
     QList<TCPServer*> m_tcpServers;   // 可打开任意多个TCP服务端
+    QList<UdpSocket*> m_udpsockets;   // 可打开任意多个UDP通信创建
 };
 #endif // WIDGET_H
