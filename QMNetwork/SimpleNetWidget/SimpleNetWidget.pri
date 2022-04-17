@@ -10,12 +10,18 @@
 #---------------------------------------------------------
 FORMS += \
     $$PWD/simpletcpclient.ui \
-    $$PWD/simpletcpserver.ui
+    $$PWD/simpletcpserver.ui \
+    $$PWD/simpleudpsocket1.ui \
+    $$PWD/simpleudpsocket2.ui
 
 HEADERS += \
     $$PWD/simpletcpclient.h \
-    $$PWD/simpletcpserver.h
+    $$PWD/simpletcpserver.h \
+    $$PWD/simpleudpsocket1.h \
+    $$PWD/simpleudpsocket2.h
 
 SOURCES += \
     $$PWD/simpletcpclient.cpp \
-    $$PWD/simpletcpserver.cpp
+    $$PWD/simpletcpserver.cpp \
+    $$PWD/simpleudpsocket1.cpp \
+    $$PWD/simpleudpsocket2.cpp
