@@ -28,6 +28,29 @@ Widget::~Widget()
  */
 void Widget::on_pushButton_clicked()
 {
+    // 简易版
+    while (m_simpleTcpClients.count())
+    {
+        delete m_simpleTcpClients.first();
+        m_simpleTcpClients.removeFirst();
+    }
+    while (m_simpleTcpServers.count())
+    {
+        delete m_simpleTcpServers.first();
+        m_simpleTcpServers.removeFirst();
+    }
+    while (m_simpleUdpSocket1s.count())
+    {
+        delete m_simpleUdpSocket1s.first();
+        m_simpleUdpSocket1s.removeFirst();
+    }
+    while (m_simpleUdpSocket2s.count())
+    {
+        delete m_simpleUdpSocket2s.first();
+        m_simpleUdpSocket2s.removeFirst();
+    }
+
+    // 进阶版
     while (m_tcpClients.count())
     {
         delete m_tcpClients.first();
@@ -37,6 +60,11 @@ void Widget::on_pushButton_clicked()
     {
         delete m_tcpServers.first();
         m_tcpServers.removeFirst();
+    }
+    while (m_udpsockets.count())
+    {
+        delete m_udpsockets.first();
+        m_udpsockets.removeFirst();
     }
 }
 
@@ -82,5 +110,21 @@ void Widget::on_but_simpleTcpServer_clicked()
 {
     m_simpleTcpServers.append(new SimpleTcpServer);
     m_simpleTcpServers.last()->show();
+}
+
+/**
+ * @brief 打开简易版UDP单播通信Demo
+ */
+void Widget::on_but_simpleUdp_clicked()
+{
+    m_simpleUdpSocket1s.append(new SimpleUdpSocket1);
+    m_simpleUdpSocket1s.last()->show();
+}
+
+
+void Widget::on_but_simpleUdp_2_clicked()
+{
+    m_simpleUdpSocket2s.append(new SimpleUdpSocket2);
+    m_simpleUdpSocket2s.last()->show();
 }
 

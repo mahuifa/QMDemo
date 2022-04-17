@@ -103,6 +103,32 @@
      <string>TCP服务端</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="but_simpleUdp">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>30</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>UDP单播通信1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="but_simpleUdp_2">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>30</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>UDP单播通信2</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
