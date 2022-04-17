@@ -32,5 +32,13 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-include($$PWD/NetWidget/NetWidget.pri)
+include($$PWD/SimpleNetWidget/SimpleNetWidget.pri)    # 较为简单的Qt网络通信学习Demo
+INCLUDEPATH += $$PWD/SimpleNetWidget
+include($$PWD/NetWidget/NetWidget.pri)                # 较为复杂的Qt网络通信学习Demo
 INCLUDEPATH += $$PWD/NetWidget
+
+# msvc  编译器使用utf-8编码
+msvc {
+QMAKE_CFLAGS += /utf-8
+QMAKE_CXXFLAGS += /utf-8
+}

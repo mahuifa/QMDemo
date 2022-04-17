@@ -66,3 +66,21 @@ void Widget::on_pushButton_3_clicked()
     m_udpsockets.last()->show();
 }
 
+/**
+ * @brief 打开简易版本TCP客户端
+ */
+void Widget::on_but_simpleTcpClient_clicked()
+{
+    m_simpleTcpClients.append(new SimpleTcpClient);
+    m_simpleTcpClients.last()->show();
+}
+
+/**
+ * @brief 打开简易版本TCP服务端
+ */
+void Widget::on_but_simpleTcpServer_clicked()
+{
+    m_simpleTcpServers.append(new SimpleTcpServer);
+    m_simpleTcpServers.last()->show();
+}
+
