@@ -142,7 +142,17 @@ Qt实现的视频播放器界面Demo。
 >
 > * 只保留了TCP监听连接/断开功能、数据发送、数据接收功能
 
+#### 1.3 SimpleUdpSocket1
 
+> 简易版UDP单播通信Demo
+>
+> - 使用传统UDP通信步骤实现UDP单播通信；
+
+#### 1.4 SimpleUdpSocket2
+
+> 简易版UDP单播通信Demo
+>
+> - 使用类TCP的UDP通信步骤实现UDP单播通信;
 
 
 
