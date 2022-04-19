@@ -90,7 +90,7 @@
      <string>UDP单播通信2</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="but_simpleUdpGroup">
     <property name="geometry">
      <rect>
       <x>20</x>
