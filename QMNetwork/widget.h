@@ -10,6 +10,8 @@
 #include "simpletcpserver.h"
 #include "simpleudpsocket1.h"
 #include "simpleudpsocket2.h"
+#include "simpleudpgroup.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -40,6 +42,8 @@ private slots:
 
     void on_but_simpleUdp_2_clicked();
 
+    void on_but_simpleUdpGroup_clicked();
+
 private:
     Ui::Widget *ui;
     /******************简易版网络通信Demo********************/
@@ -47,6 +51,7 @@ private:
     QList<SimpleTcpServer*> m_simpleTcpServers;     // 可打开任意多个TCP服务端
     QList<SimpleUdpSocket1*> m_simpleUdpSocket1s;   // 可打开任意多个UDP单播通信窗口
     QList<SimpleUdpSocket2*> m_simpleUdpSocket2s;   // 可打开任意多个UDP单播通信窗口
+    QList<SimpleUdpGroup*> m_simpleUdpGroups;       // 可打开任意多个UDP组播通信窗口
 
 
     /******************较复杂版网络通信Demo********************/
