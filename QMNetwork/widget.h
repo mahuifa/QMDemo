@@ -11,7 +11,7 @@
 #include "simpleudpsocket1.h"
 #include "simpleudpsocket2.h"
 #include "simpleudpgroup.h"
-
+#include "netproperty.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -44,8 +44,11 @@ private slots:
 
     void on_but_simpleUdpGroup_clicked();
 
+    void on_but_property_clicked();
+
 private:
     Ui::Widget *ui;
+    NetProperty* m_netProperty = nullptr;           // 网络属性窗口
     /******************简易版网络通信Demo********************/
     QList<SimpleTcpClient*> m_simpleTcpClients;     // 可打开任意多个TCP客户端
     QList<SimpleTcpServer*> m_simpleTcpServers;     // 可打开任意多个TCP服务端

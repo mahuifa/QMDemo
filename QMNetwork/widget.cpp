@@ -28,6 +28,12 @@ Widget::~Widget()
  */
 void Widget::on_pushButton_clicked()
 {
+    if(m_netProperty)
+    {
+        delete m_netProperty;
+        m_netProperty = nullptr;
+    }
+
     // 简易版
     while (m_simpleTcpClients.count())
     {
@@ -142,5 +148,17 @@ void Widget::on_but_simpleUdpGroup_clicked()
 {
     m_simpleUdpGroups.append(new SimpleUdpGroup);
     m_simpleUdpGroups.last()->show();
+}
+
+/**
+ * @brief 打开网络属性窗口
+ */
+void Widget::on_but_property_clicked()
+{
+    if(!m_netProperty)
+    {
+        m_netProperty = new NetProperty();
+    }
+    m_netProperty->show();
 }
 
