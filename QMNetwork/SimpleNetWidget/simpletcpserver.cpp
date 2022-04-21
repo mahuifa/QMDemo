@@ -73,9 +73,8 @@ void SimpleTcpServer::on_disconnected()
     disconnect(m_client, &QTcpSocket::disconnected, this, &SimpleTcpServer::on_disconnected);          // 断开绑定的信号槽
     disconnect(m_client, &QTcpSocket::readyRead, this, &SimpleTcpServer::on_readyRead);
     //delete m_client;                // 这里不能用delete，否则在vs里会报错 0x00007FFBF870A1CE (Qt5Networkd.dll)处(位于 QMNetwork.exe 中)引发的异常: 0xC0000005: 读取位置 0xFFFFFFFFFFFFFFFF 时发生访问冲突。
-    QTcpSocket* tcpSocket = m_client;
-    m_client = nullptr;              // 先将m_client置空，因为deleteLater不会置空
-    tcpSocket->deleteLater();        // 移除已经断开连接的Client（注意这里不能使用delete，否则在vs中会报错），但这种方式不会置为 空
+    m_client->deleteLater();        // 移除已经断开连接的Client（注意这里不能使用delete，否则在vs中会报错），但这种方式不会置为 空
+    m_client = nullptr;              
 }
 
 /**
