@@ -198,6 +198,24 @@ Qt实现的视频播放器界面Demo。
 
 
 
+### 3 NetProperty
+
+> Qt使用QNetworkInterface类获取当前系统的所有网络接口（网卡）信息，包括：
+>
+> * 切换所有网络接口；
+> * 网络接口索引；
+> * 网络接口最大传输数据单元；
+> * 网络接口名称；
+> * 网络接口关联标志；
+> * 网络接口类型说明；
+> * 网络接口物理地址；
+> * IPv6地址、子网掩码
+> * IPv4地址、子网掩码、广播地址。
+> 
+
+![NetProperty](README.assets/NetProperty.gif)
+
+
 ## 7、XlsxDemo
 
 > 1. QXlsx基本使用方法
