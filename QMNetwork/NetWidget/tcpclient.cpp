@@ -1,7 +1,4 @@
-﻿#if defined(_MSC_VER) && (_MSC_VER >= 1600)
-# pragma execution_character_set("utf-8")
-#endif
-#include "tcpclient.h"
+﻿#include "tcpclient.h"
 #include "ui_tcpclient.h"
 #include <QHostAddress>
 #include <QDebug>
