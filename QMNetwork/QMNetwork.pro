@@ -36,7 +36,7 @@ include($$PWD/SimpleNetWidget/SimpleNetWidget.pri)    # 较为简单的Qt网络�
 INCLUDEPATH += $$PWD/SimpleNetWidget
 include($$PWD/NetWidget/NetWidget.pri)                # 较为复杂的Qt网络通信学习Demo
 INCLUDEPATH += $$PWD/NetWidget
-include($$PWD/NetInterface/NetInterface.pri)          # 网络接口管理模块
+include($$PWD/NetInterface/NetInterface.pri)          # 网络接口管理模块（查询所有网卡信息和IP地址信息）
 INCLUDEPATH += $$PWD/NetInterface
 
 # msvc  编译器使用utf-8编码
