@@ -24,6 +24,9 @@ NetProperty::~NetProperty()
     delete ui;
 }
 
+/**
+ * @brief 获取所有的网卡可读名称
+ */
 void NetProperty::init()
 {
     // 获取所有网络接口
@@ -36,6 +39,10 @@ void NetProperty::init()
     }
 }
 
+/**
+ * @brief        通过下列框选择网卡名，显示选择网卡的所有信息
+ * @param index
+ */
 void NetProperty::on_com_Interface_activated(int index)
 {
     Q_UNUSED(index)
@@ -50,13 +57,18 @@ void NetProperty::on_com_Interface_activated(int index)
     ui->tableWidget->item(1, 1)->setText(QString::number(interface.maximumTransmissionUnit()));   // 获取网卡最大传输数据单元
     ui->tableWidget->item(2, 1)->setText(interface.name());                                       // 获取网卡名称
 
+#if 0    // 直接显示标志枚举
     QNetworkInterface::InterfaceFlags flags = interface.flags();
     QMetaEnum metaEnum = QMetaEnum::fromType<QNetworkInterface::InterfaceFlags>();
     ui->tableWidget->item(3, 1)->setText(metaEnum.valueToKeys(flags));                            // 返回与此网络接口关联的标志
+#else
+    ui->tableWidget->item(3, 1)->setText(FlagsToQString(interface.flags()));
+#endif
     ui->tableWidget->item(4, 1)->setText(TypeToQString(interface.type()));                        // 获取网络类型说明
     ui->tableWidget->item(5, 1)->setText(interface.hardwareAddress());                            // // 获取MAC地址
 
     ui->textEdit_ip->clear();
+    // 如果只是获取所有的IP地址可以使用allAddresses()函数
     const QList<QNetworkAddressEntry> entrys = interface.addressEntries();  // 返回此接口拥有的 IP 地址列表及其关联的网络掩码和广播地址。
     for(auto entery : entrys)
     {
@@ -83,6 +95,47 @@ void NetProperty::on_com_Interface_activated(int index)
         ui->textEdit_ip->append(ipInfo);              // 显示IP地址信息
     }
 }
+
+/**
+ * @brief        将网卡关联标志转换为可读的说明信息
+ * @param flags
+ * @return
+ */
+QString NetProperty::FlagsToQString(int flags)
+{
+    QString strFlags;
+    if(flags & QNetworkInterface::IsUp)
+    {
+        strFlags += "网络接口处于活动状态";
+    }
+    if(flags & QNetworkInterface::IsRunning)
+    {
+        strFlags.append(strFlags.isEmpty() ? "" : " | ");
+        strFlags += "网络接口已分配资源";
+    }
+    if(flags & QNetworkInterface::CanBroadcast)
+    {
+        strFlags.append(strFlags.isEmpty() ? "" : " | ");
+        strFlags += "网络接口工作在广播模式";
+    }
+    if(flags & QNetworkInterface::IsLoopBack)
+    {
+        strFlags.append(strFlags.isEmpty() ? "" : " | ");
+        strFlags += "网络接口是一个环回接口";
+    }
+    if(flags & QNetworkInterface::IsPointToPoint)
+    {
+        strFlags.append(strFlags.isEmpty() ? "" : " | ");
+        strFlags += "网络接口是一个点对点接口";
+    }
+    if(flags & QNetworkInterface::CanMulticast)
+    {
+        strFlags.append(strFlags.isEmpty() ? "" : " | ");
+        strFlags += "网络接口支持组播";
+    }
+    return strFlags;
+}
+
 
 /**
  * @brief        返回网卡类型说明

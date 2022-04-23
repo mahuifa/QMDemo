@@ -30,6 +30,7 @@ private slots:
 private:
 
     void init();
+    QString FlagsToQString(int flags);
     QString TypeToQString(int type);
 
 private:
