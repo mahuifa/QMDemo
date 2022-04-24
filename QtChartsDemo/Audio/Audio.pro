@@ -1,13 +1,13 @@
 #---------------------------------------------------------
-# 功能：       Qt网络通信程序Demo
+# 功能：     这个例子显示了动态数据的绘制（麦克风输入）
 # 编译器：
 #
 # @开发者     mhf
 # @邮箱       1603291350@qq.com
-# @时间       2022/04/07
+# @时间       2022/04/24
 # @备注
 #---------------------------------------------------------
-QT       += core gui network
+QT       += core gui charts multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,10 +19,12 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    widget.cpp
+    widget.cpp \
+    xyseriesiodevice.cpp
 
 HEADERS += \
-    widget.h
+    widget.h \
+    xyseriesiodevice.h
 
 FORMS += \
     widget.ui
@@ -32,13 +34,6 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-include($$PWD/SimpleNetWidget/SimpleNetWidget.pri)    # 较为简单的Qt网络通信学习Demo
-INCLUDEPATH += $$PWD/SimpleNetWidget
-include($$PWD/NetWidget/NetWidget.pri)                # 较为复杂的Qt网络通信学习Demo
-INCLUDEPATH += $$PWD/NetWidget
-include($$PWD/NetInterface/NetInterface.pri)          # 网络接口管理模块（查询所有网卡信息和IP地址信息）
-INCLUDEPATH += $$PWD/NetInterface
-
 contains(QT_ARCH, i386){        # 使用32位编译器
 DESTDIR = $$PWD/../bin          # 程序输出路径
 }else{
@@ -46,7 +41,7 @@ message("64bit")                # 使用64位编译器
 DESTDIR = $$PWD/../bin64
 }
 
-#msvc  编译器使用utf-8编码
+# msvc  编译器使用utf-8编码
 msvc {
 QMAKE_CFLAGS += /utf-8
 QMAKE_CXXFLAGS += /utf-8

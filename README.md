@@ -15,15 +15,16 @@ Qt常用功能Demo
 
 # 二、说明
 
-| 模块名           | 功能                               | 支持系统 |
-| ---------------- | ---------------------------------- | -------- |
-| QMWidget         | 基于QWidget实现的自定义窗口模块    | windows  |
-| DeviceManagement | 串口、鼠标、键盘热插拔监测功能模块 | windows  |
-| QLog             | Qt日志系统                         | 全平台   |
-| QMPlayer         | 视频播放器界面                     | windows  |
-| TestCrashHandler | windows下程序崩溃定位Demo          | windows  |
-| QMNetwork        | Qt网络编程Demo                     | 全平台   |
-| XlsxDemo         | Qt使用QXlsx读写Excel               | 全平台   |
+| 模块名           | 功能                                                         | 支持系统 |
+| ---------------- | ------------------------------------------------------------ | -------- |
+| QMWidget         | 基于QWidget实现的自定义窗口模块                              | windows  |
+| DeviceManagement | 串口、鼠标、键盘热插拔监测功能模块                           | windows  |
+| QLog             | Qt日志系统                                                   | 全平台   |
+| QMPlayer         | 视频播放器界面                                               | windows  |
+| TestCrashHandler | windows下程序崩溃定位Demo                                    | windows  |
+| QMNetwork        | Qt网络编程Demo                                               | 全平台   |
+| XlsxDemo         | Qt使用QXlsx读写Excel                                         | 全平台   |
+| QtChartsDemo     | [Qt使用QtCharts模块绘制图表Demo](./QtChartsDemo/QtCharts.md) | 全平台   |
 
 
 

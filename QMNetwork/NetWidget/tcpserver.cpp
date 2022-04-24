@@ -5,9 +5,6 @@
 #include <QListWidgetItem>
 #include <qhostinfo.h>
 
-#include "share.h"
-
-using namespace Share;
 
 TCPServer::TCPServer(QWidget *parent) :
     QWidget(parent),
@@ -33,7 +30,7 @@ void TCPServer::init()
 {
     m_tcpServer = new QTcpServer(this);
     m_tcpServer->setMaxPendingConnections(30);     // 设置最大允许连接数，不设置的话默认为30(如果设置过大就需要考虑内存泄漏问题)
-    ui->line_localAddress->setText(getLocalIP());
+    ui->line_localAddress->setText("127.0.0.1");
 }
 
 void TCPServer::connectSlots()
