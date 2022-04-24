@@ -15,6 +15,7 @@ SUBDIRS += QLog                           # 自定义日志系统
 SUBDIRS += QMPlayer                       # 视频播放器界面
 SUBDIRS += QMNetwork                      # Qt网络通信程序Demo
 SUBDIRS += XlsxDemo                       # Qt使用QXlsx读写Excel Demo
+SUBDIRS += QtChartsDemo                   # Qt使用QtCharts绘制图表 Demo
 
 win32 {
 SUBDIRS += TestCrashHandler               # windows下Qt程序崩溃问题定位Demo（只在msvc编译下有效）

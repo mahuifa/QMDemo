@@ -1,12 +1,9 @@
-﻿#include "tcpclient.h"
+#include "tcpclient.h"
 #include "ui_tcpclient.h"
 #include <QHostAddress>
 #include <QDebug>
 #include <QByteArray>
 #include <QHostInfo>
-#include "share.h"
-
-using namespace Share;
 
 TCPClient::TCPClient(QWidget *parent) :
     QWidget(parent),
@@ -30,7 +27,7 @@ TCPClient::~TCPClient()
 void TCPClient::init()
 {
     m_tcpClient = new QTcpSocket(this);
-    ui->line_localAddress->setText(getLocalIP());
+    ui->line_localAddress->setText("127.0.0.1");
 }
 
 void TCPClient::connectSlots()

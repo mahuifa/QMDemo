@@ -1,10 +1,7 @@
 ﻿#include "udpsocket.h"
 #include "ui_udpsocket.h"
-#include "share.h"
 
 #include <QNetworkDatagram>
-
-using namespace Share;
 
 UdpSocket::UdpSocket(QWidget *parent) :
     QWidget(parent),
@@ -24,7 +21,7 @@ UdpSocket::~UdpSocket()
 void UdpSocket::init()
 {
     m_udpSocket = new QUdpSocket(this);
-    ui->line_localAddress->setText(getLocalIP());
+    ui->line_localAddress->setText("127.0.0.1");
 }
 
 void UdpSocket::connectSlots()

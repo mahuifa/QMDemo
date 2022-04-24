@@ -45,6 +45,10 @@ message("64bit")                # 使用64位编译器
 DESTDIR = $$PWD/../bin64
 }
 
-
+# msvc  编译器使用utf-8编码
+msvc {
+QMAKE_CFLAGS += /utf-8
+QMAKE_CXXFLAGS += /utf-8
+}
 include(QLog/QLog.pri)
 INCLUDEPATH += $$PWD/QLog/
