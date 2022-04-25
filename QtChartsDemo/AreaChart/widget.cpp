@@ -2,7 +2,8 @@
 #include <QDebug>
 #include <QtCharts>         // 导入QtCharts所有的头文件，也可以单独导入某一个
 
-// 引入qchart命名空间（注意：如果是在ui中提升为QChartView，则QT_CHARTS_USE_NAMESPACE一定要放在#include "ui_widget.h"前面，否则编译会失败）
+// 引入qchart命名空间（注意：如果是在ui中提升为QChartView，
+// 则QT_CHARTS_USE_NAMESPACE一定要放在#include "ui_widget.h"前面，否则编译会失败）
 QT_CHARTS_USE_NAMESPACE
 #include "ui_widget.h"
 
@@ -44,9 +45,12 @@ void Widget::initChart()
     gradient.setCoordinateMode(QGradient::ObjectMode);
     series->setBrush(gradient);                                // 设置绘制面积图的颜色（不设置也没影响）
 
-//    QChart *chart = ui->chartView->chart();                    // 方法1：可以直接获取QChartView中的QChart
+#if 1
+    QChart *chart = ui->chartView->chart();                    // 方法1：可以直接获取QChartView中的QChart
+#else
     QChart *chart = new QChart();                              // 方法2：创建用于管理不同类型Series和其他其他图表相关对象（如图例和轴）的chart
     ui->chartView->setChart(chart);                            // 将包含series的QChart对象添加进ui中的chartView对象中
+#endif
     chart->addSeries(series);
     chart->setTitle("这是面积图演示Demo的标题");
     chart->createDefaultAxes();                                // 创建1组默认的坐标轴（XY轴），如果没有添加series则会创建失败

@@ -21,6 +21,11 @@ TCPClient::~TCPClient()
 #ifdef QT_DEBUG
     qDebug() <<"~TCPClient()";
 #endif
+
+    if(m_tcpClient->state() != QAbstractSocket::UnconnectedState)         // 判断连接状态
+    {
+        m_tcpClient->abort();
+    }
     delete ui;
 }
 
@@ -37,8 +42,9 @@ void TCPClient::connectSlots()
     connect(m_tcpClient, &QTcpSocket::stateChanged, this, &TCPClient::on_stateChanged);
     connect(m_tcpClient, &QTcpSocket::readyRead, this, &TCPClient::on_readyRead);
 
-#if (QT_VERSION <= QT_VERSION_CHECK(5,15,0))  // qt5.15 后error已经弃用，这里改用errorOccurred
-    connect(m_tcpClient, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(on_errorOccurred(QAbstractSocket::SocketError error)));   // 由于QAbstractSocket中有两个error()，所以不能直接使用Qt5的信号槽绑定方式
+#if (QT_VERSION <= QT_VERSION_CHECK(5,15,0))        // qt5.15 后error已经弃用，这里改用errorOccurred
+    connect(m_tcpClient, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
+            this, &TCPClient::on_errorOccurred);    // 由于QAbstractSocket中有两个error()，所以不能直接使用Qt5的信号槽绑定方式
 #else
     connect(m_tcpClient, &QTcpSocket::errorOccurred, this, &TCPClient::on_errorOccurred);
 #endif

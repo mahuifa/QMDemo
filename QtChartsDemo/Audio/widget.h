@@ -34,10 +34,9 @@ private:
 private:
     Ui::Widget *ui;
 
-    QAudioDeviceInfo m_inputDevice;
-    XYSeriesIODevice* m_device = nullptr;
-    QChart* m_chart = nullptr;
-    QLineSeries* m_series = nullptr;
-    QAudioInput* m_audioInput = nullptr;
+    QAudioDeviceInfo m_inputDevice;                // 音频输入设备信息对象
+    XYSeriesIODevice* m_device = nullptr;          // IO接口，用于获取音频数据并显示
+    QLineSeries* m_series = nullptr;               // 折线图对象
+    QAudioInput* m_audioInput = nullptr;           // 录音设备对象
 };
 #endif // WIDGET_H

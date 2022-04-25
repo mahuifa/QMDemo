@@ -1,4 +1,4 @@
-# Qt使用QtCharts模块绘制图表Demo
+# Qt使用QtCharts模块绘制图表Demo说明及演示
 
 [toc]
 
