@@ -19,6 +19,10 @@ SimpleTcpClient::SimpleTcpClient(QWidget *parent) :
 
 SimpleTcpClient::~SimpleTcpClient()
 {
+    if(m_tcpClient->state() != QAbstractSocket::UnconnectedState)
+    {
+        m_tcpClient->abort();   // 因为再关闭时会修改but_connect文本，所以如果由系统再析构时自动释放则会出现的错误，再这里关闭了就不会出现了
+    }
     delete ui;
 }
 

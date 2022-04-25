@@ -40,11 +40,11 @@ void Widget::initChart()
     chart->addSeries(m_series);
 
     QValueAxis *axisX = new QValueAxis;                 // 创建X轴
-    axisX->setRange(0, 10000);
+    axisX->setRange(0, 10000);                          // 设置显示同时10000个音频数据点
     axisX->setLabelFormat("%g");
     axisX->setTitleText("采样");
     QValueAxis *axisY = new QValueAxis;                 // 创建Y轴
-    axisY->setRange(0, 255);
+    axisY->setRange(0, 255);                            // 因为显示的使uchar类型数据，所以Y轴设置为0~255就可以
     axisY->setTitleText("输入音频电平");
 
     chart->addAxis(axisX, Qt::AlignBottom);           // 在chart中添加创建的X轴，指定在图表底部

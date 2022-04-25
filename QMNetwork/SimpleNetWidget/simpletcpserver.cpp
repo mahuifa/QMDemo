@@ -17,6 +17,11 @@ SimpleTcpServer::SimpleTcpServer(QWidget *parent) :
 
 SimpleTcpServer::~SimpleTcpServer()
 {
+    if(m_server->isListening())          // 判断是否正在监听连接
+    {
+        if(m_client) m_client->abort();       // 判断是否为空再释放
+        m_server->close();
+    }
     delete ui;
 }
 
@@ -39,7 +44,7 @@ void SimpleTcpServer::on_but_connect_clicked()
     }
     else
     {
-        m_client->abort();
+        if(m_client) m_client->abort();       // 判断是否为空再释放
         m_server->close();
         ui->but_connect->setText("开始监听");
     }
