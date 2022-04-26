@@ -13,7 +13,6 @@ FORMS += \
     $$PWD/logwidgettext.ui
 
 HEADERS += \
-    $$PWD/head.h \
     $$PWD/logconfig.h \
     $$PWD/loginput.h \
     $$PWD/logsavebase.h \

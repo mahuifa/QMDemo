@@ -1,7 +1,6 @@
 ﻿#include "titlebar.h"
 #include "ui_titlebar.h"
 #include <QStyle>
-#include "head.h"
 
 TitleBar::TitleBar(QWidget *parent) :
     QWidget(parent),

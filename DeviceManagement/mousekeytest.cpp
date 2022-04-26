@@ -1,7 +1,6 @@
 ﻿#include "mousekeytest.h"
 #include "ui_mousekeytest.h"
 
-#include "head.h"
 #include <qdebug.h>
 
 #ifdef Q_OS_WIN

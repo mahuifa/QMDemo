@@ -1,5 +1,4 @@
 ﻿#include "logsavetxt.h"
-#include "head.h"
 
 #include <qdebug.h>
 

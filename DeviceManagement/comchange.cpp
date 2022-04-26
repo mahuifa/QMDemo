@@ -4,7 +4,6 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <qdebug.h>
-#include "head.h"
 #ifdef Q_OS_WIN
 #include <windows.h>
 #include "dbt.h"

@@ -1,5 +1,4 @@
 ﻿#include "loginput.h"
-#include "head.h"
 
 
 QtMessageHandler messageHandle;

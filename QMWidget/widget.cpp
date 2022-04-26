@@ -1,5 +1,4 @@
-﻿#include "head.h"
-#include "widget.h"
+﻿#include "widget.h"
 #include "ui_widget.h"
 #include "QWindow"
 #include <QDebug>

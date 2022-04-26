@@ -26,7 +26,6 @@ SOURCES += \
 
 HEADERS += \
     comchange.h \               # 串口热插拔监测
-    head.h \
     mousekeytest.h \            # 鼠标、键盘热插拔监测
     porttest.h \
     widget.h

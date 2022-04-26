@@ -1,5 +1,4 @@
 ﻿#include "mwidgetbase.h"
-#include "head.h"
 #include <QEvent>
 #include <qdebug.h>
 #include <qgridlayout.h>
