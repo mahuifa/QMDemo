@@ -1,5 +1,4 @@
 ﻿#include "logconfig.h"
-#include "head.h"
 #include <QSettings>
 #include <qdir.h>
 

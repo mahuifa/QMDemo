@@ -1,6 +1,5 @@
 ﻿#include "logwidgettext.h"
 #include "ui_logwidgettext.h"
-#include "head.h"
 
 #include <qdebug.h>
 

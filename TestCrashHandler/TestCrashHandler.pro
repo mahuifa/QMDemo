@@ -31,6 +31,9 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+include($$PWD/CrashHandler/CrashHandler.pri)
+INCLUDEPATH += $$PWD/CrashHandler
+
 contains(QT_ARCH, i386){        # 使用32位编译器
 DESTDIR = $$PWD/../bin          # 程序输出路径
 }else{
@@ -38,5 +41,9 @@ message("64bit")                # 使用64位编译器
 DESTDIR = $$PWD/../bin64
 }
 
-include($$PWD/CrashHandler/CrashHandler.pri)
-INCLUDEPATH += $$PWD/CrashHandler
+# msvc  编译器使用utf-8编码
+msvc {
+QMAKE_CFLAGS += /utf-8
+QMAKE_CXXFLAGS += /utf-8
+}
+

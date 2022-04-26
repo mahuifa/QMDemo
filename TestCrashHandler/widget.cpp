@@ -1,7 +1,4 @@
-﻿#if defined(_MSC_VER) && (_MSC_VER >= 1600)
-#pragma execution_character_set("utf-8")
-#endif
-#include "widget.h"
+﻿#include "widget.h"
 #include "ui_widget.h"
 
 #include <QDebug>

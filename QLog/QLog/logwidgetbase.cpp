@@ -1,6 +1,5 @@
 ﻿#include "logwidgetbase.h"
 #include "loginput.h"
-#include "head.h"
 
 LogWidgetBase::LogWidgetBase(QWidget *parent) : QWidget(parent)
 {

@@ -1,5 +1,4 @@
 ﻿#include "logsavebase.h"
-#include "head.h"
 
 #include <QDir>
 #include <qmutex.h>

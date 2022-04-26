@@ -2,7 +2,6 @@
 #include "ui_porttest.h"
 #include <qdebug.h>
 #include "comchange.h"
-#include "head.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
