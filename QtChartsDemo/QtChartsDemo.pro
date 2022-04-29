@@ -10,5 +10,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += AreaChart \                       # 该示例显示了如何创建简单的面积图
-    Audio                                    # 这个例子显示了动态数据的绘制（麦克风输入）
+    Audio \                                  # 这个例子显示了动态数据的绘制（麦克风输入）
+    BarChart \                               # 该示例显示了如何创建条形图
+    LineChart                                # 简单的折线图
 
