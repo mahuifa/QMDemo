@@ -18,6 +18,9 @@ Widget::~Widget()
     delete ui;
 }
 
+/**
+ * @brief 初始化绘制曲线图
+ */
 void Widget::initChart()
 {
     QSplineSeries* series = new QSplineSeries();   // 创建一个样条曲线对象

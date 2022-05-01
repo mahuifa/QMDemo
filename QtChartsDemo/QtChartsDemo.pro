@@ -12,6 +12,7 @@ TEMPLATE = subdirs
 SUBDIRS += AreaChart \                       # 该示例演示了如何创建简单的面积图
     Audio \                                  # 这个例子演示了动态数据的绘制（麦克风输入）
     BarChart \                               # 该示例演示了如何创建条形图
+    DonutChart \                             # 这个例子展示了如何创建一个简单的圆环图，并对切片进行一些自定义。
     LineChart \                              # 该示例演示了如何创建简单的折线图
     SplineChart                              # 该示例演示了如何创建简单的样条曲线图。
 
