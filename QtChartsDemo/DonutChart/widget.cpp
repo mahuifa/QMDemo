@@ -28,7 +28,7 @@ void Widget::initChart()
     series->append("蛋白质占比 9.2%", 9.2);                              // 将具有指定值和标签的单个切片附加到series
     series->append("其它 23.8%", 223.8);
     series->append("碳水化合物 51.4%", 51.4);
-    QPieSlice* slice = series->append("脂肪赞比 15.6%", 15.6);           // 设置一个圆环切片，并返回这个切片对象
+    QPieSlice* slice = series->append("脂肪占比 15.6%", 15.6);           // 设置一个圆环切片，并返回这个切片对象
     slice->setExploded();                                               // 将当前切片分离
     slice->setLabelVisible();                                           // 显示当前切片的标签，默认是不显示的
 
