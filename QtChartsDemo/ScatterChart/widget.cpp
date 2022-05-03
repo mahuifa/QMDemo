@@ -1,6 +1,5 @@
 #include "widget.h"
 #include <QScatterSeries>
-#include <QValueAxis>
 #include <QRandomGenerator>
 #include <qmath.h>
 QT_CHARTS_USE_NAMESPACE    // 引入命名空间，必须放在ui_widget.h前
@@ -92,7 +91,7 @@ void Widget::on_pushButton_3_clicked()
     for(int i = 1; i < 5; i++)
     {
         qreal half = (size / 2) - 1;
-        qreal x = half + half * qCos(0.8 * i * M_PI);
+        qreal x = half + half * qCos(0.8 * i * M_PI);      // qCos函数需要使用到qmath.h
         qreal y = half + 1 + half * qSin(0.8 * i * M_PI);
         starPath.lineTo(x, y);                       // 添加五角星的绘制路径
     }

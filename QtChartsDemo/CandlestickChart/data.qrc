@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>acme.txt</file>
+    </qresource>
+</RCC>
