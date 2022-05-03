@@ -1,11 +1,11 @@
 #---------------------------------------------------------
-# 功能：       这个例子展示了如何创建一个简单的圆环图，并对切片进行一些自定义。
+# 功能：       该示例显示了如何创建盒须图（箱形图：一种用作显示一组数据分散情况资料的统计图）
 # 编译器：     Desktop Qt 5.12.12 MSVC2017 64bit（也支持其它编译器）
 # Qt IDE：    D:/Qt/Qt5.12.12/Tools/QtCreator/share/qtcreator
 #
 # @开发者     mhf
 # @邮箱       1603291350@qq.com
-# @时间       2022-05-02 10:34:27
+# @时间       2022-05-03 16:43:58
 # @备注
 #---------------------------------------------------------
 QT       += core gui charts
@@ -33,6 +33,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+
 contains(QT_ARCH, i386){        # 使用32位编译器
 DESTDIR = $$PWD/../bin          # 程序输出路径
 }else{
@@ -45,3 +46,6 @@ msvc {
 QMAKE_CFLAGS += /utf-8
 QMAKE_CXXFLAGS += /utf-8
 }
+
+RESOURCES += \
+    data.qrc
