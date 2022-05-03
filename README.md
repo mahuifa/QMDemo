@@ -1,4 +1,4 @@
-<img src="README.assets/Qt-5.12.12-green.svg">[![个人主页-CSDN-orange](README.assets/%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5-CSDN-orange.svg)](https://blog.csdn.net/qq_43627907?type=blog)[![国内站点-gitee-orange](README.assets/%E5%9B%BD%E5%86%85%E7%AB%99%E7%82%B9-gitee-orange.svg)](https://gitee.com/mahuifa/QMDemo)[![国外站点-github-brightgreen](README.assets/%E5%9B%BD%E5%A4%96%E7%AB%99%E7%82%B9-github-brightgreen.svg)](https://github.com/mahuifa/QMDemo)
+<img src="README.assets/Qt-5.12.12-green.png">[![个人主页-CSDN-orange](README.assets/%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5-CSDN-orange.png)](https://blog.csdn.net/qq_43627907?type=blog)[![国内站点-gitee-orange](README.assets/%E5%9B%BD%E5%86%85%E7%AB%99%E7%82%B9-gitee-orange.png)](https://gitee.com/mahuifa/QMDemo)[![国外站点-github-brightgreen](README.assets/%E5%9B%BD%E5%A4%96%E7%AB%99%E7%82%B9-github-brightgreen.png)](https://github.com/mahuifa/QMDemo)
 
 在这个仓库中收录了一些自己练习Qt用的Demo和日常开发中经常用到的功能模块。
 
