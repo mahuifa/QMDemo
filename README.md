@@ -14,6 +14,7 @@
 | QMNetwork        | [Qt网络编程Demo](./QMNetwork/QMNetwork.md)                   | 全平台   |
 | XlsxDemo         | Qt使用QXlsx读写Excel                                         | 全平台   |
 | QtChartsDemo     | [Qt使用QtCharts模块绘制图表Demo](./QtChartsDemo/QtCharts.md) | 全平台   |
+| PlayImage        | Qt使用QPainter绘制方式显示图片                               | 全平台   |
 
 
 
@@ -21,7 +22,7 @@
 
 ## 1、 QMWidget
 
-* **实现功能**
+* **介绍**
 
   * 鼠标在标题栏移动窗口
   * 双击标题栏最大化、还原
@@ -39,7 +40,7 @@
 
 ## 2、 DeviceManagement
 
-* **实现功能**
+* **介绍**
 
   * 通过继承**QAbstractNativeEventFilter**接口实现串口热插拔监测功能；
   * 通过在QWidget中重写**nativeEvent**实现串口热插拔监测功能；
@@ -57,7 +58,7 @@
 
 ## 3、 QLog
 
-* **实现功能**
+* **介绍**
 
   * 可选择日志显示到文本窗口并保存、不显示只保存两种使用方式；
   * 选择显示日志级别；
@@ -83,7 +84,7 @@
 
 Qt实现的视频播放器界面Demo。
 
-* **实现功能**
+* **介绍**
   * 基于QMWidget的自定义窗口；
   * 增加侧边栏模块；
   * 增加播放控制栏模块，包含播放停止、上一集、下一集、视频时间、音量控制、设置功能按键样式；
@@ -98,17 +99,24 @@ Qt实现的视频播放器界面Demo。
 
 ## 5、 TestCrashHandler
 
-**实现功能：**
+* **介绍：**
 
-* 通过win api实现qt程序崩溃问题定位功能；
-* 只支持**msvc编译器**；
-* 低耦合模块，**一行代码**直接引用功能，无需添加第三方依赖库；
-* 根据时间生成dump文件，每次崩溃生成一个文件，避免了覆盖问题；
-* 程序崩溃时自动生成dmp文件，可通过WinDbg或VS打开dmp文件定位崩溃位置；
-* 通过宏判断，在MinGW或其他系统环境编译时功能自动失效**不会编译失败**；
-* 支持release模块下生成dump文件。
+  * 通过win api实现qt程序崩溃问题定位功能；
 
-**演示：**
+  * 只支持**msvc编译器**；
+
+  * 低耦合模块，**一行代码**直接引用功能，无需添加第三方依赖库；
+
+  * 根据时间生成dump文件，每次崩溃生成一个文件，避免了覆盖问题；
+
+  * 程序崩溃时自动生成dmp文件，可通过WinDbg或VS打开dmp文件定位崩溃位置；
+
+  * 通过宏判断，在MinGW或其他系统环境编译时功能自动失效**不会编译失败**；
+
+  * 支持release模块下生成dump文件。
+
+
+* **演示：**
 
 ![Dump](README.assets/Dump.gif)
 
@@ -135,3 +143,17 @@ Qt实现的视频播放器界面Demo。
 >    8. 删除指定名称的工作表（Sheet）。
 
 ![qxlsx1](README.assets/qxlsx1.gif)
+
+
+
+## 7、PlayImage
+
+* **介绍**
+  * 使用QPainter绘制方式显示图片；
+  * 支持传入QPixmap、QImage两种格式；
+  * 以50Hz频率同时显示64路图片没有压力；
+  * 使用简单，没有第三方依赖，使用与所有平台、任意编译器；
+* **演示**
+  * 由于GIF录制频率比较低，所以看起来有点卡。
+
+![playImage](README.assets/playImage.gif)
