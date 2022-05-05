@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>868</width>
+    <height>672</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Widget</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="PlayImage" name="widget" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_2" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_3" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_4" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_5" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_31" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_32" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_33" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="PlayImage" name="widget_6" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_7" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_8" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_9" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_10" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_34" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_43" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_44" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <item>
+      <widget class="PlayImage" name="widget_45" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_46" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_47" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_48" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_49" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_50" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_51" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_52" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <item>
+      <widget class="PlayImage" name="widget_53" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_54" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_55" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_56" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_57" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_58" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_59" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_60" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item row="4" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <item>
+      <widget class="PlayImage" name="widget_61" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_62" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_63" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_64" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_65" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_66" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_67" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_68" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item row="5" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_10">
+     <item>
+      <widget class="PlayImage" name="widget_69" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_70" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_71" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_72" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_73" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_74" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_75" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_76" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item row="6" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_11">
+     <item>
+      <widget class="PlayImage" name="widget_77" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_78" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_79" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_80" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_81" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_82" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_83" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_84" native="true"/>
+     </item>
+    </layout>
+   </item>
+   <item row="7" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_12">
+     <item>
+      <widget class="PlayImage" name="widget_85" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_86" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_87" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_88" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_89" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_90" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_91" native="true"/>
+     </item>
+     <item>
+      <widget class="PlayImage" name="widget_92" native="true"/>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlayImage</class>
+   <extends>QWidget</extends>
+   <header>playimage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
