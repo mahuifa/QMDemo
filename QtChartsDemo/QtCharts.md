@@ -18,6 +18,7 @@
 | PieChart         | 该示例演示如何创建简单的饼图，并对饼图切片进行一些自定义 |
 | ScatterChart     | 这个例子展示了如何创建一个简单的散点图                   |
 | SplineChart      | 该示例演示了如何创建简单的样条曲线图                     |
+| PolarChart       | 该示例演示了任何创建一个非常简单的极坐标图【雷达图】     |
 
 
 
@@ -64,3 +65,7 @@
 ### 1.10 CandlestickChart
 
 ![CandlestickChart](QtCharts.assets/CandlestickChart.gif)
+
+### 1.11 PolarChart
+
+![image-20220507213204801](QtCharts.assets/image-20220507213204801.png)
