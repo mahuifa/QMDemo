@@ -17,6 +17,7 @@ SUBDIRS += QMNetwork                      # Qt网络通信程序Demo
 SUBDIRS += XlsxDemo                       # Qt使用QXlsx读写Excel Demo
 SUBDIRS += QtChartsDemo                   # Qt使用QtCharts绘制图表 Demo
 SUBDIRS += PlayImage                      # 使用 QPainter绘制图片
+SUBDIRS += QSqlDemo                       # Qt使用数据库Demo
 
 win32 {
 SUBDIRS += TestCrashHandler               # windows下Qt程序崩溃问题定位Demo（只在msvc编译下有效）
