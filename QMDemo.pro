@@ -9,7 +9,8 @@
 #---------------------------------------------------------
 TEMPLATE = subdirs
 
-SUBDIRS += QMWidget                       # qt自定义窗口
+SUBDIRS += QMWidget \                       # qt自定义窗口
+    ProgramFramework
 SUBDIRS += DeviceManagement               # 串口、鼠标、键盘热插拔检测模块
 SUBDIRS += QLog                           # 自定义日志系统
 SUBDIRS += QMPlayer                       # 视频播放器界面
