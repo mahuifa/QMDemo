@@ -1,4 +1,4 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    TableModel               # 示例演示了如何使用带有表视图的专用SQL表模型来编辑数据库中的信息。
+    TableModel               # 这个Demo中展示了如何使用具有表视图的专用 SQL 表模型（QSqlTableModel）来编辑数据库中的信息。
