@@ -96,7 +96,8 @@ void initModel(QSqlTableModel* model)
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    createConnection();
+
+    if(!createConnection()) return -1;
 
     QSqlTableModel model;                                   // 创建一个 单个数据库表的可编辑数据模型
     initModel(&model);
