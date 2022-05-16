@@ -1,10 +1,13 @@
-#include <QCoreApplication>
+#include <QApplication>
+#include <QSqlRelationalDelegate>
+#include <QSqlRelationalTableModel>
 #include <qmessagebox.h>
 #include <qsqldatabase.h>
 #include <qsqlquery.h>
+#include <qtableview.h>
 
 /**
- * @brief  创建并打开一个QSqlite数据库，并创建一个测试表person，同时默认创建5组数据
+ * @brief  创建并打开一个QSqlite数据库，并创建一个主表、两个从表
  * @return
  */
 bool createConnection()
@@ -37,12 +40,12 @@ bool createConnection()
     query.exec("insert into student values(3, '三毛', 2, 3)");
     query.exec("insert into student values(4, '小毛', 1, 4)");
 
-    query.exec("create table grade (id int, name varchar(20))");  // 创建年级子表
+    query.exec("create table grade (id int, name varchar(20))");  // 创建年级从表
     query.exec("insert into grade values(1, '一年级')");
     query.exec("insert into grade values(2, '二年级')");
     query.exec("insert into grade values(3, '三年级')");
 
-    query.exec("create table class (id int, name varchar(20))");  // 创建班级子表
+    query.exec("create table class (id int, name varchar(20))");  // 创建班级从表
     query.exec("insert into class values(1, '(1)班')");
     query.exec("insert into class values(2, '(2)班')");
     query.exec("insert into class values(3, '(3)班')");
@@ -51,13 +54,40 @@ bool createConnection()
     return true;
 }
 
+/**
+ * @brief        初始化设置model
+ * @param model
+ */
+void initModel(QSqlRelationalTableModel* model)
+{
+    model->setTable("student");
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->setRelation(2, QSqlRelation("grade", "id", "name"));  // 将第2列数据通过外键关联到从表
+    model->setRelation(3, QSqlRelation("class", "id", "name"));
+    // 设置列标题
+    model->setHeaderData(0, Qt::Horizontal, "ID");
+    model->setHeaderData(1, Qt::Horizontal, "姓名");
+    model->setHeaderData(2, Qt::Horizontal, "年级");
+    model->setHeaderData(3, Qt::Horizontal, "班级");
+
+    model->select();   // 查询数据库数据
+}
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QApplication a(argc, argv);
 
-    if(!createConnection()) return -1;
+    if(!createConnection()) return -1;         // 打开数据库并创建一个主表、两个子表
 
+    QSqlRelationalTableModel model;            // 创建一个支持使用外键的model
+    initModel(&model);
+
+    QTableView* view = new QTableView;         // 创建一个表格视图，用于显示数据库数据
+    view->resize(500, 300);
+    view->setWindowTitle("QSql-通过QSqlRelationalTableModel类使用外键Demo");
+    view->setModel(&model);
+    view->setItemDelegate(new QSqlRelationalDelegate(view));  // 与默认委托不同，QSqlRelationalDelegate 为其他表的外键字段提供了一个组合框
+    view->show();
 
     return a.exec();
 }
