@@ -6,10 +6,10 @@
 
 ## 1、说明
 
-| 工程       | 功能                                     |
-| ---------- | ---------------------------------------- |
-| TableModel | 展示了使用QSqlTableModel来显示数据库信息 |
-|            |                                          |
+| 工程                 | 功能                                                 |
+| -------------------- | ---------------------------------------------------- |
+| TableModel           | 展示了使用QSqlTableModel来显示数据库信息             |
+| RelationalTableModel | 展示了使用QSqlRelationalTableModel来使用数据库[外键] |
 
 
 
@@ -19,5 +19,7 @@
 
 ![image-20220518112255014](QSql.assets/image-20220518112255014.png)
 
+### 1.2 RelationalTableModel
 
+![RelationalTableModel](C:/Users/mhf/Desktop/RelationalTableModel.gif)
 
