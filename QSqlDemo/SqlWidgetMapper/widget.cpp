@@ -13,3 +13,15 @@ Widget::~Widget()
     delete ui;
 }
 
+
+void Widget::on_but_previous_clicked()
+{
+
+}
+
+
+void Widget::on_but_next_clicked()
+{
+
+}
+
