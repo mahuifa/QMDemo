@@ -5,6 +5,9 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
+class QSqlRelationalTableModel;
+class QItemSelectionModel;
+class QDataWidgetMapper;
 QT_END_NAMESPACE
 
 class Widget : public QWidget
@@ -15,12 +18,17 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
-private slots:
-    void on_but_previous_clicked();
+private:
+    void setupModel();
 
-    void on_but_next_clicked();
+private slots:
+    void updateButtons(int row);
 
 private:
     Ui::Widget *ui;
+    QSqlRelationalTableModel* m_model = nullptr;
+    QItemSelectionModel* m_selectionModel = nullptr;
+    QDataWidgetMapper* m_mapper = nullptr;
+    int m_index = 0;
 };
 #endif // WIDGET_H
