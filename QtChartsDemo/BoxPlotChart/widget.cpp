@@ -2,7 +2,6 @@
 #include "ui_widget.h"
 
 #include <qdebug.h>
-#include "boxdatareader.h"
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)

@@ -3,9 +3,11 @@
 #include <QMessageBox>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlTableModel>
+#include <QTableView>
 
 /**
- * @brief  创建并打开一个QSqlite数据库，并创建一个测试表person
+ * @brief  创建并打开一个QSqlite数据库，并创建一个测试表person，同时默认创建5组数据
  * @return
  */
 bool createConnection()
@@ -72,10 +74,39 @@ bool createConnection()
     return true;
 }
 
+/**
+ * @brief        初始化用于操作显示数据库的Model
+ * @param model  QSqlTableModel是一个高级接口，用于从单个表读取和写入数据库记录。
+ *               它构建在较低级别的QSqlQuery之上，可用于提供数据以查看类，如QTableView
+ */
+void initModel(QSqlTableModel* model)
+{
+    model->setTable("person");                                // 设置需要显示的数据库表
+#if 1
+    model->setEditStrategy(QSqlTableModel::OnFieldChange);    // 在界面上修改后数据立刻保存到数据库
+#else
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);   // 将将编辑数据库中值的策略设置为[在调用 submitAll() 或 revertAll() 之前，所有更改都将缓存在模型中（即在界面上修改数据后不会立刻存入数据库）]
+#endif
+    model->select();                                         // 获取数据库中的数据
+    model->setHeaderData(0, Qt::Horizontal, "ID");
+    model->setHeaderData(1, Qt::Horizontal, "名称");
+    model->setHeaderData(2, Qt::Horizontal, "姓氏");
+}
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    createConnection();
+
+    if(!createConnection()) return -1;
+
+    QSqlTableModel model;                                   // 创建一个 单个数据库表的可编辑数据模型
+    initModel(&model);
+
+    QTableView *view = new QTableView;                      // 创建一个用于显示表的视图实现（由于是基于QWidget的，所以可以直接显示）
+    view->resize(400, 300);                                 // 设置窗口大小
+    view->setWindowTitle("QSql-使用QSqlTableModel显示数据库内容Demo");
+    view->setModel(&model);                                 // 设置需要显示的表model
+    view->show();
 
     return a.exec();
 }
