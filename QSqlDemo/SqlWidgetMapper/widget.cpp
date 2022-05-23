@@ -17,14 +17,14 @@ Widget::Widget(QWidget *parent)
 
     setupModel();
 
-    QSqlTableModel* relModel = m_model->relationModel(m_index);
-    ui->com_type->setModel(relModel);
-    ui->com_type->setModelColumn(relModel->fieldIndex("description"));
+    QSqlTableModel* relModel = m_model->relationModel(m_index);        // 返回一个用于访问列是外键的表
+    ui->com_type->setModel(relModel);                                  // 将外键访问的列model传入下拉框
+    ui->com_type->setModelColumn(relModel->fieldIndex("description")); // 设置需要显示model中哪一列
 
-    m_mapper = new QDataWidgetMapper(this);
+    m_mapper = new QDataWidgetMapper(this);   // 可用于将模型数据映射到小部件，每次当前索引发生变化时，每个小部件都会通过映射时指定的属性使用来自模型的数据进行更新。
     m_mapper->setModel(m_model);
-    m_mapper->setItemDelegate(new QSqlRelationalDelegate(this));
-    m_mapper->addMapping(ui->line_name, m_model->fieldIndex("name"));
+    m_mapper->setItemDelegate(new QSqlRelationalDelegate(this)); // 与默认委托不同，QSqlRelationalDelegate 为其他表的外键字段提供了一个组合框
+    m_mapper->addMapping(ui->line_name, m_model->fieldIndex("name"));        // 在小部件和模型中的节之间添加映射
     m_mapper->addMapping(ui->text_address, m_model->fieldIndex("address"));
     m_mapper->addMapping(ui->com_type, m_index);
 
@@ -77,15 +77,19 @@ void Widget::setupModel()
     query.exec("insert into addresstype values(102, '工作')");
     query.exec("insert into addresstype values(103, '其它')");
 
-    m_model = new QSqlRelationalTableModel(this);
-    m_model->setTable("person");
-    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    m_model = new QSqlRelationalTableModel(this);               // 创建一个支持外键的表格model
+    m_model->setTable("person");                                // 设置主表名称
+    m_model->setEditStrategy(QSqlTableModel::OnManualSubmit);   // 设置修改数据后不自动保存到数据库
 
-    m_index = m_model->fieldIndex("typeid");
-    m_model->setRelation(m_index, QSqlRelation("addresstype", "id", "description"));
-    m_model->select();
+    m_index = m_model->fieldIndex("typeid");                    // 返回字段typeid的索引
+    m_model->setRelation(m_index, QSqlRelation("addresstype", "id", "description"));  // 设置通过外键关联从表
+    m_model->select();                                          // 查询数据库数据
 }
 
+/**
+ * @brief       根据当前索引修改按键状态
+ * @param row   当前查询数据库表的索引
+ */
 void Widget::updateButtons(int row)
 {
     ui->but_previous->setEnabled(row > 0);
