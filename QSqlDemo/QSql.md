@@ -6,10 +6,11 @@
 
 ## 1、说明
 
-| 工程                 | 功能                                                 |
-| -------------------- | ---------------------------------------------------- |
-| TableModel           | 展示了使用QSqlTableModel来显示数据库信息             |
-| RelationalTableModel | 展示了使用QSqlRelationalTableModel来使用数据库[外键] |
+| 工程                 | 功能                                                    |
+| -------------------- | ------------------------------------------------------- |
+| TableModel           | 展示了使用QSqlTableModel来显示数据库信息                |
+| RelationalTableModel | 展示了使用QSqlRelationalTableModel来使用数据库[外键]    |
+| SqlWidgetMapper      | 将数据库内容通过QDataWidgetMapper将模型数据映射到小部件 |
 
 
 
@@ -23,3 +24,6 @@
 
 ![RelationalTableModel](C:/Users/mhf/Desktop/RelationalTableModel.gif)
 
+### 1.3 SqlWidgetMapper
+
+![SqlWidgetMapper](QSql.assets/SqlWidgetMapper.gif)

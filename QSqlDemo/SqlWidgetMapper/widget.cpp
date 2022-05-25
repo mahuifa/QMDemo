@@ -15,6 +15,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->setWindowTitle("QSql-使用QDataWidgetMapper将数据库内容映射到控件上");
     setupModel();
 
     QSqlTableModel* relModel = m_model->relationModel(m_index);        // 返回一个用于访问列是外键的表
@@ -32,7 +33,7 @@ Widget::Widget(QWidget *parent)
     connect(ui->but_next, &QPushButton::clicked, m_mapper, &QDataWidgetMapper::toNext);
     connect(m_mapper, &QDataWidgetMapper::currentIndexChanged, this, &Widget::updateButtons);
 
-    m_mapper->toFirst();
+    m_mapper->toFirst();     // 显示model第一行数据
 }
 
 Widget::~Widget()
