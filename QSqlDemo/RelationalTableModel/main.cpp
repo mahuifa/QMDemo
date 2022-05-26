@@ -61,7 +61,7 @@ bool createConnection()
 void initModel(QSqlRelationalTableModel* model)
 {
     model->setTable("student");
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);      // 在界面修改后不立即保存到数据库
     model->setRelation(2, QSqlRelation("grade", "id", "name"));  // 将第2列数据通过外键关联到从表
     model->setRelation(3, QSqlRelation("class", "id", "name"));
     // 设置列标题
