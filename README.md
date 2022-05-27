@@ -20,6 +20,7 @@
 | QtChartsDemo     | [Qt使用QtCharts模块绘制图表Demo](./QtChartsDemo/QtCharts.md) | 全平台   |
 | PlayImage        | Qt使用QPainter绘制方式显示图片                               | 全平台   |
 | ProgramFramework | [用过的一些Qt程序模块设计架构Demo](./ProgramFramework/ProgramFramework.md) |          |
+| QSqlDemo         | [QSql学习Demo](./QSqlDemo/QSql.md)                           |          |
 
 
 

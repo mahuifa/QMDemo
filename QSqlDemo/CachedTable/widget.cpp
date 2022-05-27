@@ -10,6 +10,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    this->setWindowTitle("QSql-使用事务提交修改内容到数据库Demo");
 
     m_model = new QSqlTableModel(this);
     m_model->setTable("person");         // 设置需要操作的表
