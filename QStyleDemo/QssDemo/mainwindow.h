@@ -16,6 +16,10 @@ public:
     ~MainWindow();
 
 private:
+    void init();
+    void initStyle();
+
+private:
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

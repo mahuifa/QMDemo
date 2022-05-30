@@ -1,0 +1,13 @@
+QAbstractScrollArea{
+/*    background-color: rgba(255, 0, 0, 150);     /* 设置背景色*/*/
+    background-image: url(:/image/bg.PNG);    /* 设置背景图片*/
+    background-repeat:no-repeat;               /* 设置背景图像是否及如何重复*/
+    background-position:center;                /* 设置背景图像的起始位置*/
+    background-attachment: scroll;              /* 背景图像是否固定或者随着页面的其余部分滚动 */
+}
+
+/*由于QScrollArea里还有一层QWidget，所以需要将这一层QWidget设置透明才可以通过QAbstractScrollArea设置背景*/
+QScrollArea #scrollAreaWidgetContents
+{
+    background-color: rgba(255, 255, 255, 0);
+}
