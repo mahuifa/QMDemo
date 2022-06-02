@@ -11,9 +11,9 @@
 //MSVC编译器
 #ifdef _MSC_VER
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1600)
-#pragma execution_character_set("utf-8")
-#endif
+//#if defined(_MSC_VER) && (_MSC_VER >= 1600)
+//#pragma execution_character_set("utf-8")
+//#endif
 /**
  * @brief              应用程序崩溃处理程序
  * @param pException

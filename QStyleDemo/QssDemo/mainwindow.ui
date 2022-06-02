@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>QAbstractScrollArea</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="1" column="2">
+         <widget class="QPlainTextEdit" name="plainTextEdit">
+          <property name="maximumSize">
+           <size>
+            <width>220</width>
+            <height>220</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
+         <widget class="QScrollArea" name="scrollArea">
+          <property name="maximumSize">
+           <size>
+            <width>220</width>
+            <height>220</height>
+           </size>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>183</width>
+             <height>218</height>
+            </rect>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QTextEdit" name="textEdit">
+          <property name="maximumSize">
+           <size>
+            <width>220</width>
+            <height>220</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>QScrollArea</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>QPlainTextEdit</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QMdiArea" name="mdiArea">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>220</width>
+            <height>220</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QTextBrowser" name="textBrowser">
+          <property name="maximumSize">
+           <size>
+            <width>220</width>
+            <height>220</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>QTextEdit</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>QTextBrowser</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string> QGraphicsView</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>QMdiArea</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QGraphicsView" name="graphicsView">
+          <property name="maximumSize">
+           <size>
+            <width>220</width>
+            <height>220</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QListView" name="listView">
+          <property name="maximumSize">
+           <size>
+            <width>220</width>
+            <height>220</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QTreeWidget" name="treeWidget">
+          <property name="maximumSize">
+           <size>
+            <width>220</width>
+            <height>220</height>
+           </size>
+          </property>
+          <column>
+           <property name="text">
+            <string>1</string>
+           </property>
+          </column>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>** Widget</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>**View</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>单选复选框</string>
+       </attribute>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>46</y>
+          <width>151</width>
+          <height>181</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QCheckBox" name="checkBox">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>三态复选框</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_2">
+           <property name="text">
+            <string>两态复选框</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton">
+           <property name="text">
+            <string>单选框</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButton_2">
+           <property name="text">
+            <string>单选框</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
