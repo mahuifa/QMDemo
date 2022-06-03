@@ -1,4 +1,9 @@
 
+/********************共用样式**********************/
+*:!enabled {                                     /*不可用状态*/
+background-color: rgb(214, 214, 214);
+}
+
 /********************QAbstractScrollArea样式**********************/
 QAbstractScrollArea{
 /*    background-color: rgba(255, 0, 0, 150);*/     /* 设置背景色*/
@@ -51,3 +56,68 @@ QCheckBox::indicator::indeterminate:pressed{
 }
 
 
+/********************单选框样式**********************/
+
+QRadioButton::indicator{
+    width:15px;
+    height:15px;
+}
+
+QRadioButton::indicator:unchecked {
+    image: url(:/image/单选框-未选中.png);
+}
+
+QRadioButton::indicator:checked{
+image: url(:/image/单选框-选中.png);
+}
+
+QRadioButton::indicator:unchecked:hover,
+QRadioButton::indicator:checked:hover{
+    width: 16px;
+    height: 16px;
+}
+
+QRadioButton::indicator:unchecked:pressed,
+QRadioButton::indicator:checked:pressed{
+    background-color: rgb(8, 202, 255);
+}
+
+
+/********************QPushButton样式**********************/
+QPushButton {
+    border: 2px solid #8f8f91;         /* 设置边框粗细、样式、颜色*/
+    border-radius: 6px;                /* 设置边框圆角 */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #f6f7fa, stop: 1 #dadbde);
+    min-width: 80px;
+}
+
+QPushButton:pressed{                   /* 设置按键按下样式 */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QPushButton:flat {
+    border: none; /* no border for a flat push button */
+}
+
+QPushButton:default {                 /* 设置默认按键样式 */
+    border-color: rgb(85, 170, 255);
+}
+
+QPushButton:open {                    /* 设置菜单打开时button样式*/
+    background-color: qlineargradient(spread:pad, x1:0, y1:0.011, x2:1, y2:1, stop:0.488636 rgba(85, 170, 255, 255), stop:1 rgba(255, 255, 255, 255));
+}
+
+QPushButton::menu-indicator {          /* 设置下拉箭头 */
+    subcontrol-origin: content;        /* 父控件内子控件的原点矩形。是QSS独有的属性。值为父控件的盒子模式的区域 */
+    subcontrol-position: center right; /* 设置下拉箭头显示位置为水平方向上靠右，垂直方向居中*/
+}
+
+QPushButton::menu-indicator:pressed,
+QPushButton::menu-indicator:open {
+    position: relative;
+    top: 1px; left: 2px;               /* 设置在点击按键、打开菜单时偏移下拉箭头*/
+}
+
+/********************QPushButton样式**********************/
