@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include <QToolButton>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -31,6 +31,10 @@ void MainWindow::init()
     menu->addAction(new QAction("打开", this));
     menu->addAction(new QAction("保存", this));
     ui->pushButton_5->setMenu(menu);
+    // 为QToolButton添加菜单
+    ui->toolButton->setMenu(menu);
+    ui->toolButton_2->setMenu(menu);
+    ui->toolButton_3->setMenu(menu);
 }
 
 /**

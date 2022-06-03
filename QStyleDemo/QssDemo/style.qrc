@@ -7,5 +7,6 @@
         <file>image/正方形-未选中.png</file>
         <file>image/单选框-未选中.png</file>
         <file>image/单选框-选中.png</file>
+        <file>image/下.png</file>
     </qresource>
 </RCC>

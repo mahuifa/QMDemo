@@ -89,7 +89,8 @@ QPushButton {
     border-radius: 6px;                /* 设置边框圆角 */
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
-    min-width: 80px;
+    min-width: 80px;                   /* 设置按键的最小宽度 */
+    min-height: 25px;
 }
 
 QPushButton:pressed{                   /* 设置按键按下样式 */
@@ -106,7 +107,8 @@ QPushButton:default {                 /* 设置默认按键样式 */
 }
 
 QPushButton:open {                    /* 设置菜单打开时button样式*/
-    background-color: qlineargradient(spread:pad, x1:0, y1:0.011, x2:1, y2:1, stop:0.488636 rgba(85, 170, 255, 255), stop:1 rgba(255, 255, 255, 255));
+    background - color:qlineargradient(x1: 0 , y1: 0 , x2: 0 , y2: 1 ,
+                                  stop: 0 #dadbde, stop: 1 #f6f7fa);
 }
 
 QPushButton::menu-indicator {          /* 设置下拉箭头 */
@@ -120,4 +122,37 @@ QPushButton::menu-indicator:open {
     top: 1px; left: 2px;               /* 设置在点击按键、打开菜单时偏移下拉箭头*/
 }
 
-/********************QPushButton样式**********************/
+/********************QToolButton样式**********************/
+QToolButton {
+    border:2px solid #8f8f91;          /* 设置边框 */
+    border-radius: 6px;                /* 圆角 */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #f6f7fa, stop: 1 #dadbde);
+    min-width: 80px;
+    min-height: 25px;
+}
+
+QToolButton[popupMode="1"] {          /* setPopupMode设置了MenuButtonPopup后的样式*/
+    padding-right: 20px;              /* 设置元素右内边距*/
+}
+
+QToolButton:pressed {                 /* 鼠标按下样式 */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                  stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QToolButton::menu-button {           /* setPopupMode设置了MenuButtonPopup后包含下拉箭头button的样式*/
+    border: 2px solid #8f8f91;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px; /* 需要设置圆角和QToolButton一致*/
+    width: 16px;                     /* 设置下拉箭头button宽度 */
+}
+
+QToolButton::menu-arrow {           /* 设置下拉箭头样式 */
+    image: url(:/image/下.png);
+}
+
+QToolButton::menu-arrow:open {     /* 打开菜单时偏移下拉箭头 */
+    top: 1px;
+    left: 1px;
+}
