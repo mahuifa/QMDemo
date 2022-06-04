@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include <QToolButton>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -22,7 +22,19 @@ void MainWindow::init()
 {
     ui->mdiArea->setBackground(Qt::NoBrush);           // 如果不设置则QMdiArea的qss样式不会生效
     ui->checkBox->setTristate(true);                   // 开启QCheckBox不确定态
-    ui->checkBox->setGeometry(0, 0, 20, 20);
+
+    ui->pushButton_3->setAutoDefault(true);            // 设置默认按键
+    ui->pushButton_4->setFlat(true);                   // 设置后按钮跟背景色融为一体
+
+    // 为QPushButton添加菜单
+    QMenu* menu = new QMenu(this);
+    menu->addAction(new QAction("打开", this));
+    menu->addAction(new QAction("保存", this));
+    ui->pushButton_5->setMenu(menu);
+    // 为QToolButton添加菜单
+    ui->toolButton->setMenu(menu);
+    ui->toolButton_2->setMenu(menu);
+    ui->toolButton_3->setMenu(menu);
 }
 
 /**

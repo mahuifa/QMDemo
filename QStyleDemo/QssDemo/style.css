@@ -1,6 +1,11 @@
 
+/********************共用样式**********************/
+*:!enabled {                                     /*不可用状态*/
+background-color: rgb(214, 214, 214);
+}
+
 /********************QAbstractScrollArea样式**********************/
-QAbstractScrollArea{
+#tab QAbstractScrollArea{
 /*    background-color: rgba(255, 0, 0, 150);*/     /* 设置背景色*/
     background-image: url(:/image/bg.PNG);    /* 设置背景图片*/
     background-repeat:no-repeat;               /* 设置背景图像是否及如何重复*/
@@ -9,7 +14,7 @@ QAbstractScrollArea{
 }
 
 /*由于QScrollArea里还有一层QWidget，所以需要将这一层QWidget设置透明才可以通过QAbstractScrollArea设置背景*/
-QScrollArea #scrollAreaWidgetContents
+#tab QScrollArea #scrollAreaWidgetContents
 {
     background-color: rgba(255, 255, 255, 0);
 }
@@ -51,3 +56,160 @@ QCheckBox::indicator::indeterminate:pressed{
 }
 
 
+/********************单选框样式**********************/
+
+QRadioButton::indicator{
+    width:15px;
+    height:15px;
+}
+
+QRadioButton::indicator:unchecked {
+    image: url(:/image/单选框-未选中.png);
+}
+
+QRadioButton::indicator:checked{
+image: url(:/image/单选框-选中.png);
+}
+
+QRadioButton::indicator:unchecked:hover,
+QRadioButton::indicator:checked:hover{
+    width: 16px;
+    height: 16px;
+}
+
+QRadioButton::indicator:unchecked:pressed,
+QRadioButton::indicator:checked:pressed{
+    background-color: rgb(8, 202, 255);
+}
+
+
+/********************QPushButton样式**********************/
+QPushButton {
+    border: 2px solid #8f8f91;         /* 设置边框粗细、样式、颜色*/
+    border-radius: 6px;                /* 设置边框圆角 */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #f6f7fa, stop: 1 #dadbde);
+    min-width: 80px;                   /* 设置按键的最小宽度 */
+    min-height: 25px;
+}
+
+QPushButton:pressed{                   /* 设置按键按下样式 */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QPushButton:flat {
+    border: none; /* no border for a flat push button */
+}
+
+QPushButton:default {                 /* 设置默认按键样式 */
+    border-color: rgb(85, 170, 255);
+}
+
+QPushButton:open {                    /* 设置菜单打开时button样式*/
+    background - color:qlineargradient(x1: 0 , y1: 0 , x2: 0 , y2: 1 ,
+                                  stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QPushButton::menu-indicator {          /* 设置下拉箭头 */
+    subcontrol-origin: content;        /* 父控件内子控件的原点矩形。是QSS独有的属性。值为父控件的盒子模式的区域 */
+    subcontrol-position: center right; /* 设置下拉箭头显示位置为水平方向上靠右，垂直方向居中*/
+}
+
+QPushButton::menu-indicator:pressed,
+QPushButton::menu-indicator:open {
+    position: relative;
+    top: 1px; left: 2px;               /* 设置在点击按键、打开菜单时偏移下拉箭头*/
+}
+
+/********************QToolButton样式**********************/
+QToolButton {
+    border:2px solid #8f8f91;          /* 设置边框 */
+    border-radius: 6px;                /* 圆角 */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #f6f7fa, stop: 1 #dadbde);
+    min-width: 80px;
+    min-height: 25px;
+}
+
+QToolButton[popupMode="1"] {          /* setPopupMode设置了MenuButtonPopup后的样式*/
+    padding-right: 20px;              /* 设置元素右内边距*/
+}
+
+QToolButton:pressed {                 /* 鼠标按下样式 */
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                  stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QToolButton::menu-button {           /* setPopupMode设置了MenuButtonPopup后包含下拉箭头button的样式*/
+    border: 2px solid #8f8f91;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px; /* 需要设置圆角和QToolButton一致*/
+    width: 16px;                     /* 设置下拉箭头button宽度 */
+}
+
+QToolButton::menu-arrow {           /* 设置下拉箭头样式 */
+    image: url(:/image/下.png);
+}
+
+QToolButton::menu-arrow:open {     /* 打开菜单时偏移下拉箭头 */
+    top: 1px;
+    left: 1px;
+}
+
+/********************QComboBox样式**********************/
+QComboBox {
+    border: 1px solid gray;
+    border-radius: 3px;
+    padding: 1px 18px 1px 3px;         /* 设置元素边框与元素内容之间的上右下左的内边距 */
+    min-width: 6em;
+}
+
+QComboBox:editable {                   /* 设置可编辑的样式*/
+    background-color: white;
+}
+
+QComboBox:!editable,                   /* QComboBox不可编辑状态*/
+QComboBox::drop-down:editable {        /* 下拉箭头按键区域可编辑状态*/
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+}
+
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {      /* 当弹出窗口打开时，QComboBox获取“打开”状态(打开下拉框状态)*/
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8,
+                                stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1);
+}
+
+QComboBox:on {       /* 弹出下拉框窗口时移动文本*/
+    padding-top: 3px;
+    padding-left: 6px;
+}
+
+QComboBox::drop-down {                   /* 设置下拉按键*/
+    subcontrol-origin: padding;          /* 设置按键在QComboBox盒子模型中的参考位置margin border padding content*/
+    subcontrol-position: top right;      /* 设置按键位置靠上靠右*/
+    background-color: rgb(245, 245, 245);
+    width: 20px;
+
+    border-left-width: 2px;              /* 设置下拉按键左边框宽度*/
+    border-left-color: rgb(0, 255, 0);   /* 左边框颜色*/
+    border-left-style: solid;
+    border-top-right-radius: 3px;        /* 设置边框圆角*/
+    border-bottom-right-radius: 3px;
+}
+
+QComboBox::down-arrow {                  /* 设置下拉箭头*/
+    image: url(:/image/下.png);
+}
+
+QComboBox::down-arrow:on {               /* 打开下拉框时移动下拉箭头*/
+    top: 1px;
+    left: 1px;
+}
+
+QComboBox QAbstractItemView {
+    border: 2px solid rgb(0, 255, 0);      /* 设置下拉列表边框*/
+    selection-background-color: lightgray; /* 设置下拉列表选择项的背景色*/
+}
