@@ -5,7 +5,7 @@ background-color: rgb(214, 214, 214);
 }
 
 /********************QAbstractScrollArea样式**********************/
-QAbstractScrollArea{
+#tab QAbstractScrollArea{
 /*    background-color: rgba(255, 0, 0, 150);*/     /* 设置背景色*/
     background-image: url(:/image/bg.PNG);    /* 设置背景图片*/
     background-repeat:no-repeat;               /* 设置背景图像是否及如何重复*/
@@ -14,7 +14,7 @@ QAbstractScrollArea{
 }
 
 /*由于QScrollArea里还有一层QWidget，所以需要将这一层QWidget设置透明才可以通过QAbstractScrollArea设置背景*/
-QScrollArea #scrollAreaWidgetContents
+#tab QScrollArea #scrollAreaWidgetContents
 {
     background-color: rgba(255, 255, 255, 0);
 }
@@ -155,4 +155,61 @@ QToolButton::menu-arrow {           /* 设置下拉箭头样式 */
 QToolButton::menu-arrow:open {     /* 打开菜单时偏移下拉箭头 */
     top: 1px;
     left: 1px;
+}
+
+/********************QComboBox样式**********************/
+QComboBox {
+    border: 1px solid gray;
+    border-radius: 3px;
+    padding: 1px 18px 1px 3px;         /* 设置元素边框与元素内容之间的上右下左的内边距 */
+    min-width: 6em;
+}
+
+QComboBox:editable {                   /* 设置可编辑的样式*/
+    background-color: white;
+}
+
+QComboBox:!editable,                   /* QComboBox不可编辑状态*/
+QComboBox::drop-down:editable {        /* 下拉箭头按键区域可编辑状态*/
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+}
+
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {      /* 当弹出窗口打开时，QComboBox获取“打开”状态(打开下拉框状态)*/
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8,
+                                stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1);
+}
+
+QComboBox:on {       /* 弹出下拉框窗口时移动文本*/
+    padding-top: 3px;
+    padding-left: 6px;
+}
+
+QComboBox::drop-down {                   /* 设置下拉按键*/
+    subcontrol-origin: padding;          /* 设置按键在QComboBox盒子模型中的参考位置margin border padding content*/
+    subcontrol-position: top right;      /* 设置按键位置靠上靠右*/
+    background-color: rgb(245, 245, 245);
+    width: 20px;
+
+    border-left-width: 2px;              /* 设置下拉按键左边框宽度*/
+    border-left-color: rgb(0, 255, 0);   /* 左边框颜色*/
+    border-left-style: solid;
+    border-top-right-radius: 3px;        /* 设置边框圆角*/
+    border-bottom-right-radius: 3px;
+}
+
+QComboBox::down-arrow {                  /* 设置下拉箭头*/
+    image: url(:/image/下.png);
+}
+
+QComboBox::down-arrow:on {               /* 打开下拉框时移动下拉箭头*/
+    top: 1px;
+    left: 1px;
+}
+
+QComboBox QAbstractItemView {
+    border: 2px solid rgb(0, 255, 0);      /* 设置下拉列表边框*/
+    selection-background-color: lightgray; /* 设置下拉列表选择项的背景色*/
 }
