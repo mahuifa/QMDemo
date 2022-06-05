@@ -54,7 +54,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>183</width>
+             <width>141</width>
              <height>218</height>
             </rect>
            </property>
@@ -567,54 +567,112 @@
        <attribute name="title">
         <string>页</string>
        </attribute>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QGroupBox" name="groupBox_5">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>30</y>
-          <width>69</width>
-          <height>22</height>
+          <x>10</x>
+          <y>20</y>
+          <width>441</width>
+          <height>80</height>
          </rect>
         </property>
-        <property name="styleSheet">
-         <string notr="true"/>
+        <property name="title">
+         <string>下拉框控件样式</string>
         </property>
-        <property name="insertPolicy">
-         <enum>QComboBox::InsertAtBottom</enum>
-        </property>
-        <item>
-         <property name="text">
-          <string>1</string>
+        <widget class="QComboBox" name="comboBox">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>20</y>
+           <width>69</width>
+           <height>22</height>
+          </rect>
          </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>2</string>
+         <property name="styleSheet">
+          <string notr="true"/>
          </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>3</string>
+         <property name="insertPolicy">
+          <enum>QComboBox::InsertAtBottom</enum>
          </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>4</string>
+         <item>
+          <property name="text">
+           <string>1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>4</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QFontComboBox" name="fontComboBox">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>20</y>
+           <width>213</width>
+           <height>22</height>
+          </rect>
          </property>
-        </item>
+         <property name="writingSystem">
+          <enum>QFontDatabase::Any</enum>
+         </property>
+        </widget>
        </widget>
-       <widget class="QFontComboBox" name="fontComboBox">
+       <widget class="QGroupBox" name="groupBox_6">
         <property name="geometry">
          <rect>
-          <x>160</x>
-          <y>30</y>
-          <width>213</width>
-          <height>22</height>
+          <x>10</x>
+          <y>120</y>
+          <width>441</width>
+          <height>141</height>
          </rect>
         </property>
-        <property name="writingSystem">
-         <enum>QFontDatabase::Any</enum>
+        <property name="title">
+         <string>QFrame样式</string>
         </property>
+        <widget class="QFrame" name="frame">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>120</width>
+           <height>80</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_9">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>30</y>
+           <width>101</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>ToolTip</string>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
        </widget>
       </widget>
      </widget>
@@ -632,6 +690,21 @@
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="dockWidget_2">
+   <property name="minimumSize">
+    <size>
+     <width>150</width>
+     <height>38</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>标题</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2"/>
+  </widget>
  </widget>
  <resources/>
  <connections/>
