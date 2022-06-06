@@ -269,3 +269,30 @@ QDockWidget::float-button {
     padding: 2px;
 }
 
+
+/********************QGroupBox样式**********************/
+QGroupBox {
+    background-color:  qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                        stop: 0 #E0E0E0, stop: 1 #FFFFFF);
+    border: 2px solid gray;              /* 设置边框*/
+    border-radius: 5px;                  /* 边框圆角*/
+    margin-top: 1ex;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;             /* 设置GroupBox标题在盒子模型中的参考位置margin border padding content*/
+    subcontrol-position: top center;       /* 标题位于顶部中心位置*/
+    padding: 0 15px;                        /* 设置上下填充为0，左右填充为15*/
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #FF0ECE, stop: 1 #FFFFFF);  /* 设置标题背景色*/
+}
+
+/*QGroupBox复选框和QCheckBox样式一样*/
+QGroupBox::indicator{
+    width: 15px;           /*设置复选框矩形部分大小*/
+    height: 15px;
+}
+
+QGroupBox::indicator:unchecked {
+   image: url(:/image/正方形-未选中.png);    /* 设置未选中状态矩形部分图片*/
+}

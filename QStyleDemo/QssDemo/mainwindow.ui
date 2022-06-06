@@ -582,7 +582,7 @@
         <widget class="QComboBox" name="comboBox">
          <property name="geometry">
           <rect>
-           <x>0</x>
+           <x>20</x>
            <y>20</y>
            <width>69</width>
            <height>22</height>
@@ -673,6 +673,22 @@
           <string>TextLabel</string>
          </property>
         </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_7">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>280</y>
+          <width>431</width>
+          <height>151</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string> 可勾选的QGroupBox标题</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
        </widget>
       </widget>
      </widget>
