@@ -296,3 +296,22 @@ QGroupBox::indicator{
 QGroupBox::indicator:unchecked {
    image: url(:/image/正方形-未选中.png);    /* 设置未选中状态矩形部分图片*/
 }
+
+/********************QLineEdit样式**********************/
+QLineEdit {
+    border: 2px solid  rgb(0, 255, 0);     /* 设置边框*/
+    border-radius: 10px;                   /* 设置边框圆角*/
+    padding: 0 8px;                        /* 设置上下填充0，左右填充8*/
+    selection-background-color: darkgray;  /* 设置选中文本的背景色*/
+}
+
+/* 当echoMode设置为密文时的样式*/
+QLineEdit[echoMode="2"] {
+    /*lineedit-password-character: 9679;*/     /*9679为Unicode的实心圆*/
+    lineedit-password-character: 42;     /*42为Unicode的星*/
+}
+
+/* 只读样式*/
+QLineEdit:read-only {
+    color: rgb(200, 200, 200);
+}

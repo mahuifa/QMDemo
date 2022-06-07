@@ -680,8 +680,11 @@
           <x>10</x>
           <y>280</y>
           <width>431</width>
-          <height>151</height>
+          <height>91</height>
          </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
         </property>
         <property name="title">
          <string> 可勾选的QGroupBox标题</string>
@@ -689,6 +692,136 @@
         <property name="checkable">
          <bool>true</bool>
         </property>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_8">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>380</y>
+          <width>431</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>QLineEdit</string>
+        </property>
+        <widget class="QLineEdit" name="lineEdit">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>默认</string>
+         </property>
+         <property name="text">
+          <string>123</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_2">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>30</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>NoEcho</string>
+         </property>
+         <property name="text">
+          <string>123</string>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::NoEcho</enum>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_3">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>70</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>password</string>
+         </property>
+         <property name="text">
+          <string>123</string>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_4">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>70</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>passwordEchoOnEdit</string>
+         </property>
+         <property name="text">
+          <string>123</string>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::PasswordEchoOnEdit</enum>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_5">
+         <property name="geometry">
+          <rect>
+           <x>290</x>
+           <y>30</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>只读</string>
+         </property>
+         <property name="text">
+          <string>123</string>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_6">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>290</x>
+           <y>70</y>
+           <width>113</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>禁用</string>
+         </property>
+         <property name="text">
+          <string>123</string>
+         </property>
+         <property name="dragEnabled">
+          <bool>false</bool>
+         </property>
+         <property name="cursorMoveStyle">
+          <enum>Qt::LogicalMoveStyle</enum>
+         </property>
+        </widget>
        </widget>
       </widget>
      </widget>
