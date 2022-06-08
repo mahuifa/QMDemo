@@ -315,3 +315,14 @@ QLineEdit[echoMode="2"] {
 QLineEdit:read-only {
     color: rgb(200, 200, 200);
 }
+
+/********************QMainWindow样式**********************/
+QMainWindow::separator {          /* 窗口分割条样式， 例如QMainWindow和QDockWidget分割*/
+    background: yellow;
+    width: 10px;
+    height: 10px;
+}
+
+QMainWindow::separator:hover {
+    background: red;
+}

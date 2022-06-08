@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QToolButton>
 #include <QDebug>
+#include <QToolBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -35,6 +36,19 @@ void MainWindow::init()
     ui->toolButton->setMenu(menu);
     ui->toolButton_2->setMenu(menu);
     ui->toolButton_3->setMenu(menu);
+
+    // 设置菜单栏
+    QMenu* menuFile = ui->menubar->addMenu("文件");
+    QAction* open = menuFile->addAction("打开");
+    QAction* save = menuFile->addAction("保存");
+    ui->menubar->addMenu("编辑");
+    ui->menubar->addMenu("构建");
+
+    // 设置工具栏
+    QToolBar* toolbar = new QToolBar(this);
+    toolbar->addAction(open);
+    toolbar->addAction(save);
+    this->addToolBar(Qt::LeftToolBarArea, toolbar);   // 添加工具栏，停靠在窗口左侧
 }
 
 /**
