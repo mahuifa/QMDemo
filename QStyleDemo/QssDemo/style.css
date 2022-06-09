@@ -323,6 +323,28 @@ QMainWindow::separator {          /* 窗口分割条样式， 例如QMainWindow�
     height: 10px;
 }
 
-QMainWindow::separator:hover {
+QMainWindow::separator:hover {    /* 鼠标进入*/
     background: red;
+}
+
+
+/********************QMenu菜单样式**********************/
+QMenu {
+    background-color: #55aaff;     /* 设置菜单的背景，如果设置了QMenu::item无效*/
+    border: 2px solid #55ff7f;     /* 设置菜单边框*/
+}
+
+QMenu::item {
+    background-color: transparent;  /* 设置菜单项背景透明*/
+}
+
+QMenu::item:selected {            /* 当用户使用鼠标或键盘选择项目时*/
+    background-color: rgba(85, 170, 255, 100);
+}
+
+QMenu::separator {               /* 设置菜单栏分割线样式*/
+    height: 2px;
+    background: red;
+    margin-left: 15px;          /* 设置左外边距*/
+    margin-right: 5px;
 }

@@ -3,6 +3,7 @@
 #include <QToolButton>
 #include <QDebug>
 #include <QToolBar>
+#include <QStyle>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -40,7 +41,11 @@ void MainWindow::init()
     // 设置菜单栏
     QMenu* menuFile = ui->menubar->addMenu("文件");
     QAction* open = menuFile->addAction("打开");
+    open->setCheckable(true);                        // 设置菜单项可选
+    menuFile->addSeparator();                        // 添加分割栏
     QAction* save = menuFile->addAction("保存");
+    save->setCheckable(true);                        // 设置菜单项可选
+    save->setIcon(this->style()->standardIcon(QStyle::SP_DialogSaveButton));  // 设置菜单图标
     ui->menubar->addMenu("编辑");
     ui->menubar->addMenu("构建");
 
