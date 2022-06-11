@@ -213,3 +213,138 @@ QComboBox QAbstractItemView {
     border: 2px solid rgb(0, 255, 0);      /* 设置下拉列表边框*/
     selection-background-color: lightgray; /* 设置下拉列表选择项的背景色*/
 }
+
+/********************QDockWidget样式**********************/
+QDockWidget {
+    border: 2px solid rgb(0, 255, 0);
+    titlebar-close-icon: url(:/image/close.png);         /* 设置关闭按键图标*/
+    titlebar-normal-icon: url(:/image/undock.png);       /* 设置弹出窗口按键图标*/
+}
+
+QDockWidget::title {
+    text-align: right;                      /* 标题文本右对齐*/
+    background-color: rgb(0, 255, 0);       /* 设置标题栏背景色*/
+    padding-right: 15px;                    /* 标题元素的右内边距*/
+}
+
+QDockWidget::close-button,                  /* 设置关闭、浮动窗口按键样式*/
+QDockWidget::float-button {
+    border: 1px solid transparent;          /* 设置边框*/
+    background: transparent;                /* 设置背景色*/
+}
+QDockWidget::close-button:hover,
+QDockWidget::float-button:hover {
+    background: rgba(161, 161, 161, 70);   /* 设置标题栏按键鼠标进入的样式*/
+}
+
+QDockWidget::close-button:pressed,
+QDockWidget::float-button:pressed {
+    padding: 1px -1px -1px 1px;            /* 设置标题栏按键鼠标按下的样式*/
+}
+
+/*  设置标题栏关闭按键、浮动窗口按键靠左
+QDockWidget::close-button {
+    subcontrol-position: top left;
+    subcontrol-origin: margin;
+    position: absolute;
+    top: 0px; left: 0px; bottom: 0px;
+    width: 14px;
+}
+
+QDockWidget::float-button {
+    subcontrol-position: top left;
+    subcontrol-origin: margin;
+    position: absolute;
+    top: 0px; left: 16px; bottom: 0px;
+    width: 14px;
+}
+*/
+
+/********************QFrame、QLabel、QToolTip样式**********************/
+#groupBox_6 QFrame,
+#groupBox_6 QLabel,
+#groupBox_6 QToolTip {
+    border: 2px solid rgb(0, 255, 0);
+    border-radius: 4px;                  /* 设置边框圆角*/
+    padding: 2px;
+}
+
+
+/********************QGroupBox样式**********************/
+QGroupBox {
+    background-color:  qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                        stop: 0 #E0E0E0, stop: 1 #FFFFFF);
+    border: 2px solid gray;              /* 设置边框*/
+    border-radius: 5px;                  /* 边框圆角*/
+    margin-top: 1ex;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;             /* 设置GroupBox标题在盒子模型中的参考位置margin border padding content*/
+    subcontrol-position: top center;       /* 标题位于顶部中心位置*/
+    padding: 0 15px;                        /* 设置上下填充为0，左右填充为15*/
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #FF0ECE, stop: 1 #FFFFFF);  /* 设置标题背景色*/
+}
+
+/*QGroupBox复选框和QCheckBox样式一样*/
+QGroupBox::indicator{
+    width: 15px;           /*设置复选框矩形部分大小*/
+    height: 15px;
+}
+
+QGroupBox::indicator:unchecked {
+   image: url(:/image/正方形-未选中.png);    /* 设置未选中状态矩形部分图片*/
+}
+
+/********************QLineEdit样式**********************/
+QLineEdit {
+    border: 2px solid  rgb(0, 255, 0);     /* 设置边框*/
+    border-radius: 10px;                   /* 设置边框圆角*/
+    padding: 0 8px;                        /* 设置上下填充0，左右填充8*/
+    selection-background-color: darkgray;  /* 设置选中文本的背景色*/
+}
+
+/* 当echoMode设置为密文时的样式*/
+QLineEdit[echoMode="2"] {
+    /*lineedit-password-character: 9679;*/     /*9679为Unicode的实心圆*/
+    lineedit-password-character: 42;     /*42为Unicode的星*/
+}
+
+/* 只读样式*/
+QLineEdit:read-only {
+    color: rgb(200, 200, 200);
+}
+
+/********************QMainWindow样式**********************/
+QMainWindow::separator {          /* 窗口分割条样式， 例如QMainWindow和QDockWidget分割*/
+    background: yellow;
+    width: 10px;
+    height: 10px;
+}
+
+QMainWindow::separator:hover {    /* 鼠标进入*/
+    background: red;
+}
+
+
+/********************QMenu菜单样式**********************/
+QMenu {
+    background-color: #55aaff;     /* 设置菜单的背景，如果设置了QMenu::item无效*/
+    border: 2px solid #55ff7f;     /* 设置菜单边框*/
+}
+
+QMenu::item {
+    background-color: transparent;  /* 设置菜单项背景透明*/
+}
+
+QMenu::item:selected {            /* 当用户使用鼠标或键盘选择项目时*/
+    background-color: rgba(85, 170, 255, 100);
+}
+
+QMenu::separator {               /* 设置菜单栏分割线样式*/
+    height: 2px;
+    background: red;
+    margin-left: 15px;          /* 设置左外边距*/
+    margin-right: 5px;
+}
