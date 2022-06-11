@@ -870,6 +870,19 @@
            </property>
           </widget>
          </item>
+         <item row="0" column="2">
+          <widget class="QProgressBar" name="progressBar_3">
+           <property name="value">
+            <number>50</number>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </widget>

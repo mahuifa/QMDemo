@@ -377,9 +377,21 @@ QProgressBar {
     text-align: center;
 }
 
+QProgressBar:vertical {            /* 竖向进度条样式*/
+    border: 2px solid grey;
+    border-radius: 5px;
+    text-align: center;
+}
+
 /* 通过设置进度快宽度和边距可以得到一个条纹状的进度快*/
 QProgressBar::chunk {
     background-color: #05B8CC; /* 设置进度块样式*/
     width: 10px;               /* 设置进度块宽度*/
+    margin: 0.5px;             /* 设置进度块外边距*/
+}
+
+QProgressBar::chunk:vertical {
+    background-color: #05B8CC; /* 设置进度块样式*/
+    height: 10px;               /* 设置进度块高度*/
     margin: 0.5px;             /* 设置进度块外边距*/
 }
