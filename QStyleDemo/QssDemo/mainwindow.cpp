@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->setWindowTitle("Qss样式表常见用法Demo");
     init();
     initStyle();
 }
@@ -27,6 +28,7 @@ void MainWindow::init()
 
     ui->pushButton_3->setAutoDefault(true);            // 设置默认按键
     ui->pushButton_4->setFlat(true);                   // 设置后按钮跟背景色融为一体
+    ui->but_icon->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarMenuButton)); // 按键添加图标
 
     // 为QPushButton添加菜单
     QMenu* menu = new QMenu(this);

@@ -395,3 +395,101 @@ QProgressBar::chunk:vertical {
     height: 10px;               /* 设置进度块高度*/
     margin: 0.5px;             /* 设置进度块外边距*/
 }
+
+/********************QScrollBar横向滚动条样式**********************/
+QScrollBar:horizontal {         /* 设置横滚动条样式*/
+    border: 2px solid grey;
+    background: #32CC99;
+    height: 20px;
+    margin: 0px 20px 0px 20px;  /* 设置滚动条上,右,下,左边距*/
+}
+
+QScrollBar::handle:horizontal { /* 设置 滑动条中滑块的样式*/
+    background: #05B8CC;
+    border: 1px solid white;
+    min-width: 20px;
+}
+
+QScrollBar::add-line:horizontal {    /* 设置右按键*/
+    border: 2px solid grey;
+    background: rgb(255, 0, 0);
+    width: 20px;
+    subcontrol-position: right;     /* 按键位于右侧位置*/
+    subcontrol-origin: margin;      /* 设置按键在盒子模型中的参考位置margin border padding content*/
+}
+
+QScrollBar::sub-line:horizontal {    /* 设置左按键*/
+    border: 2px solid grey;
+    background: rgb(0, 255, 0);
+    width: 20px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::left-arrow:horizontal { /* 左按键中的箭头区域样式*/
+/*    border: 2px solid grey;
+    width: 15px;
+    height: 15px;*/
+    image: url(:/image/左.png);
+}
+
+QScrollBar::right-arrow:horizontal { /* 右按键中的箭头 区域*/
+    image: url(:/image/右.png);
+}
+
+QScrollBar::sub-page:horizontal {   /* 设置滑动条左侧区域样式*/
+    background: rgb(255, 0, 0);
+}
+
+QScrollBar::add-page:horizontal {   /* 设置滑动条右侧区域样式*/
+    background: none;
+}
+
+/********************QScrollBar竖向滚动条样式**********************/
+QScrollBar:vertical {
+    border: 2px solid grey;
+    background: #32CC99;
+    width: 20px;
+    margin: 20px 0px 20px 0px;  /* 设置滚动条上,右,下,左边距*/
+}
+
+QScrollBar::handle:vertical { /* 设置 滑动条中滑块的样式*/
+    background: #05B8CC;
+    border: 1px solid white;
+    min-height: 20px;
+}
+
+QScrollBar::add-line:vertical {    /* 设置下按键*/
+    border: 2px solid grey;
+    background: rgb(255, 0, 0);
+    height: 20px;
+    subcontrol-position: bottom;     /* 按键位于底部位置*/
+    subcontrol-origin: margin;      /* 设置按键在盒子模型中的参考位置margin border padding content*/
+}
+
+QScrollBar::sub-line:vertical {    /* 设置上按键*/
+    border: 2px solid grey;
+    background: rgb(0, 255, 0);
+    height: 20px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::up-arrow:vertical { /* 上按键中的箭头区域样式*/
+/*    border: 2px solid grey;
+    width: 15px;
+    height: 15px;*/
+    image: url(:/image/上.png);
+}
+
+QScrollBar::down-arrow:vertical { /* 下按键中的箭头 区域*/
+    image: url(:/image/下d.png);
+}
+
+QScrollBar::sub-page:vertical {   /* 设置滑动条上侧区域样式*/
+    background: rgb(255, 0, 0);
+}
+
+QScrollBar::add-page:vertical {   /* 设置滑动条下侧区域样式*/
+    background: none;
+}

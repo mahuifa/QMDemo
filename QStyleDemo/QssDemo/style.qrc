@@ -10,5 +10,9 @@
         <file>image/下.png</file>
         <file>image/close.png</file>
         <file>image/undock.png</file>
+        <file>image/右.png</file>
+        <file>image/左.png</file>
+        <file>image/上.png</file>
+        <file>image/下d.png</file>
     </qresource>
 </RCC>
