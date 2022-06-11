@@ -23,5 +23,5 @@
 
 ### 1.2 IconDemo
 
-![icon](C:/Users/mhf/Desktop/icon.gif)
+![icon](QStyleDemo.assets/icon.gif)
 
