@@ -348,3 +348,38 @@ QMenu::separator {               /* 设置菜单栏分割线样式*/
     margin-left: 15px;          /* 设置左外边距*/
     margin-right: 5px;
 }
+
+/********************QMenuBar菜单栏样式**********************/
+QMenuBar {
+    background-color: qlineargradient(spread:pad, x1:0.494318, y1:0.011, x2:0.517045, y2:1,
+                      stop:0.488636 rgba(85, 170, 255, 255), stop:0.914773 rgba(255, 255, 255, 255));
+    spacing: 30px;    /* 菜单栏项目之间的间距*/
+}
+
+QMenuBar::item {
+    padding: 10px 4px;  /* 定义菜单项元素边框与元素内容之间的距离，上下距离10px，左右距离4px*/
+}
+
+QMenuBar::item:selected {  /* 选中的菜单项的样式*/
+    background: #FFFF00;
+}
+
+QMenuBar::item:pressed {   /* 鼠标在菜单项按下的样式*/
+    background: #FF00FF;
+}
+
+/********************QProgressBar进度条样式**********************/
+/* 设置进度条边框、圆角，这里有一个bug，QProgressBar默认alignment的设置在使用qss后会将文本显示到左上角,
+可以重新设置alignment也可以使用text-align指定文本显示位置*/
+QProgressBar {
+    border: 2px solid grey;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* 通过设置进度快宽度和边距可以得到一个条纹状的进度快*/
+QProgressBar::chunk {
+    background-color: #05B8CC; /* 设置进度块样式*/
+    width: 10px;               /* 设置进度块宽度*/
+    margin: 0.5px;             /* 设置进度块外边距*/
+}
