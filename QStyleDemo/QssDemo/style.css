@@ -118,7 +118,7 @@ QPushButton::menu-indicator {          /* 设置下拉箭头 */
 
 QPushButton::menu-indicator:pressed,
 QPushButton::menu-indicator:open {
-    position: relative;
+    position: relative;                /* 指定了元素的定位类型*/
     top: 1px; left: 2px;               /* 设置在点击按键、打开菜单时偏移下拉箭头*/
 }
 
@@ -492,4 +492,78 @@ QScrollBar::sub-page:vertical {   /* 设置滑动条上侧区域样式*/
 
 QScrollBar::add-page:vertical {   /* 设置滑动条下侧区域样式*/
     background: none;
+}
+
+/********************QSizeGrip样式**********************/
+/* 位于窗口右下角，用于调整窗口大小*/
+QSizeGrip {
+    background-color: qconicalgradient(cx:0, cy:0, angle:135,
+                    stop:0 rgba(0, 207, 255, 255),
+                    stop:0.301136 rgba(0, 250, 255, 69),
+                    stop:0.423533 rgba(0, 121, 255, 145),
+                    stop:0.45 rgba(0, 218, 255, 208),
+                    stop:0.477273 rgba(71, 255, 244, 130),
+                    stop:0.517045 rgba(71, 205, 255, 130),
+                    stop:0.55 rgba(0, 111, 255, 255),
+                    stop:0.57754 rgba(0, 255, 218, 130),
+                    stop:0.625 rgba(0, 175, 255, 69),
+                    stop:0.982955 rgba(7, 0, 255, 69));
+    width: 20px;
+    height: 20px;
+}
+
+/********************QSlider横向滑动条样式**********************/
+QSlider {
+    background-color: rgba(170, 255, 255, 100);  /* 设置滑动条主体*/
+}
+
+QSlider::groove:horizontal {
+    border: 1px solid #999999;
+    height: 8px;                     /* 默认情况下，凹槽会扩展到滑块的大小。通过给它一个高度，它有一个固定的大小*/
+    background-color: qlineargradient(spread:reflect, x1:0.500364, y1:0.0561364, x2:0.5, y2:0.517045,
+                      stop:0 rgba(168, 164, 168, 250), stop:1 rgba(232, 232, 232, 255));
+    margin: 2px 0px;                /* 设置滑动条的滑动槽 上下边距2,左右边距0*/
+    border-radius: 4px;             /* 设置滑动槽圆角*/
+}
+
+QSlider::handle:horizontal {
+    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.50565, fy:0.500409,
+                      stop:0 rgba(0, 0, 0, 255), stop:0.361582 rgba(0, 146, 146, 255),
+                      stop:0.649718 rgba(255, 255, 255, 255), stop:1 rgba(0, 177, 181, 255));
+    border: 1px solid #5c5c5c;
+    width: 14px;
+    margin: -4px 0px;         /* 使用负的边距可以让滑块高度超过滑动槽高度*/
+    border-radius: 8px;       /* 通过设置圆角边框得到圆形的滑块 */
+}
+
+/********************QSlider竖向滑动条样式**********************/
+QSlider::groove:vertical {
+    background-color: qlineargradient(spread:reflect, x1:0, y1:0.510682, x2:0.5, y2:0.517045,
+                      stop:0 rgba(168, 164, 168, 250), stop:1 rgba(232, 232, 232, 255));
+    position: absolute;      /* 设置定位：绝对位置距离小部件的左侧和右侧 4px。在小部件上设置边距也应该工作......*/
+    /*left: 4px;*/           /* 元素左外边距边界与其包含块左边界之间的偏移*/
+    /*right: 4px;*/
+    width: 8px;
+    border-radius: 4px;      /* 设置滑动槽圆角*/
+}
+
+QSlider::handle:vertical {    /* 设置滑块样式*/
+    border: 1px solid #999999;
+    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.50565, fy:0.500409,
+                      stop:0 rgba(0, 0, 0, 255), stop:0.361582 rgba(0, 146, 146, 255),
+                      stop:0.649718 rgba(255, 255, 255, 255), stop:1 rgba(0, 177, 181, 255));
+    height: 14px;
+    margin: 0px -4px;
+    border-radius: 7px;
+}
+
+/* 设置了add-page、sub-page样式后，groove样式就失效了*/
+QSlider::add-page:vertical {    /* 设置滑块滑过区域样式*/
+    background-color: rgb(0, 170, 255);
+    border-radius: 4px;
+}
+
+QSlider::sub-page:vertical {      /* 设置滑块未滑过区域样式*/
+    background-color: rgb(0, 0, 0);
+    border-radius: 4px;
 }
