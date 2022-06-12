@@ -14,5 +14,7 @@
         <file>image/左.png</file>
         <file>image/上.png</file>
         <file>image/下d.png</file>
+        <file>image/加.png</file>
+        <file>image/减.png</file>
     </qresource>
 </RCC>

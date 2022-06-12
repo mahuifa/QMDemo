@@ -567,3 +567,77 @@ QSlider::sub-page:vertical {      /* 设置滑块未滑过区域样式*/
     background-color: rgb(0, 0, 0);
     border-radius: 4px;
 }
+
+/********************QSpinBox样式**********************/
+QSpinBox {
+    text-align:right;                      /* 标题文本右对齐*/
+    height: 30px;            /* 统一设置高度*/
+    /*padding-right: 15px; */    /* 设置元素的右内边距，为箭头腾出空间*/
+    border: 2px solid red;   /* 设置了边框后才会显示【加减图标】*/
+    background-color: qlineargradient(spread:pad, x1:0, y1:0.482591, x2:1, y2:0.477273,
+                      stop:0.0113636 rgba(85, 170, 255, 255),
+                      stop:1 rgba(255, 255, 255, 255));
+    selection-color: #000000;               /* 设置鼠标选择文本的颜色*/
+    selection-background-color: #55ff7f;    /* 设置鼠标选择文本的背景色*/
+}
+
+/* 增加按键样式*/
+QSpinBox::up-button {
+    subcontrol-origin: border;       /* 设置按键在盒子模型中的参考位置margin border padding content*/
+    subcontrol-position: top right;  /* 设置按键停靠位置右上角*/
+    border: 1px solid grey;          /* 设置按键边框，用于区分*/
+}
+
+QSpinBox::up-arrow {
+    border-image: url(:/image/上.png);  /* 设置增加按键图标*/
+}
+
+/* 减少按键样式*/
+QSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    border: 1px solid grey;
+}
+
+QSpinBox::down-arrow {
+    border-image: url(:/image/下d.png);   /* 设置减少按键图标*/
+}
+
+/* 设置鼠标进入按键的样式*/
+QSpinBox::up-button:hover,
+QSpinBox::down-button:hover {
+    background-color: rgba(0, 170, 255, 100);
+}
+
+/* 设置鼠标点击按键的样式*/
+QSpinBox::up-button:pressed,
+QSpinBox::down-button:pressed{
+    background-color: rgba(0, 170, 255, 200);
+}
+
+QSpinBox::up-arrow:disabled,        /* 禁用状态*/
+QSpinBox::down-arrow:disabled,
+QSpinBox::up-arrow:off,             /* 值为最大值时处于关闭状态*/
+QSpinBox::down-arrow:off {
+    background-color: rgb(210, 210, 210);
+}
+
+/* 设置使用加减图标的样式*/
+QSpinBox[buttonSymbols="1"]::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: right;
+    border: 1px solid grey;
+}
+QSpinBox[buttonSymbols="1"]::up-arrow {
+    border-image: url(:/image/加.png);
+}
+
+QSpinBox[buttonSymbols="1"]::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: left;
+    border: 1px solid grey;
+}
+QSpinBox[buttonSymbols="1"]::down-arrow {
+    border-image: url(:/image/减.png);
+}
+

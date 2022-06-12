@@ -21,7 +21,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -574,7 +574,7 @@
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>页</string>
+        <string>常用组件</string>
        </attribute>
        <widget class="QGroupBox" name="groupBox_5">
         <property name="geometry">
@@ -835,7 +835,7 @@
       </widget>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
-        <string>页</string>
+        <string>常用组件</string>
        </attribute>
        <widget class="QGroupBox" name="groupBox_9">
         <property name="geometry">
@@ -982,6 +982,120 @@
           <widget class="QSlider" name="horizontalSlider_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_5">
+       <attribute name="title">
+        <string>常用组件</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox_12">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>601</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>QSpinBox</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_10">
+         <item row="0" column="0">
+          <widget class="QSpinBox" name="spinBox">
+           <property name="toolTip">
+            <string>设置使用上下箭头</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QSpinBox" name="spinBox_2">
+           <property name="toolTip">
+            <string>设置使用加减图标，这里有一个bug，需要设置qss才会显示加减</string>
+           </property>
+           <property name="frame">
+            <bool>true</bool>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::PlusMinus</enum>
+           </property>
+           <property name="correctionMode">
+            <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+           </property>
+           <property name="stepType">
+            <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QSpinBox" name="spinBox_3">
+           <property name="toolTip">
+            <string>没有调节按键</string>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+           <property name="stepType">
+            <enum>QAbstractSpinBox::DefaultStepType</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QSpinBox" name="spinBox_4">
+           <property name="toolTip">
+            <string>使用后缀</string>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::UpDownArrows</enum>
+           </property>
+           <property name="suffix">
+            <string>后缀</string>
+           </property>
+           <property name="stepType">
+            <enum>QAbstractSpinBox::DefaultStepType</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QSpinBox" name="spinBox_5">
+           <property name="toolTip">
+            <string>使用前缀</string>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::UpDownArrows</enum>
+           </property>
+           <property name="suffix">
+            <string/>
+           </property>
+           <property name="prefix">
+            <string>前缀</string>
+           </property>
+           <property name="stepType">
+            <enum>QAbstractSpinBox::DefaultStepType</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QSpinBox" name="spinBox_6">
+           <property name="toolTip">
+            <string>设置只读</string>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="6">
+          <widget class="QSpinBox" name="spinBox_7">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>设置禁用</string>
            </property>
           </widget>
          </item>
