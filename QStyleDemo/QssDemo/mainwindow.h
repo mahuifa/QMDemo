@@ -18,9 +18,12 @@ public:
 private slots:
     void on_checkBox_stateChanged(int arg1);
 
+    void on_tabWidget_2_tabCloseRequested(int index);
+
 private:
     void init();
     void initStyle();
+    void connectSlots();
 
 private:
     Ui::MainWindow *ui;

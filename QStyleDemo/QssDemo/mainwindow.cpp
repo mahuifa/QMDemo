@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle("Qss样式表常见用法Demo");
     init();
     initStyle();
+    connectSlots();
 }
 
 MainWindow::~MainWindow()
@@ -56,6 +57,10 @@ void MainWindow::init()
     toolbar->addAction(open);
     toolbar->addAction(save);
     this->addToolBar(Qt::LeftToolBarArea, toolbar);   // 添加工具栏，停靠在窗口左侧
+
+    // 设置状态栏
+    ui->statusbar->addPermanentWidget(new QLabel("状态栏永久label"));
+    ui->statusbar->showMessage("状态栏临时消息");
 }
 
 /**
@@ -82,10 +87,34 @@ void MainWindow::initStyle()
 }
 
 /**
+ * @brief 绑定信号槽
+ */
+void MainWindow::connectSlots()
+{
+    connect(ui->horizontalSlider, &QSlider::valueChanged, ui->progressBar, &QProgressBar::setValue);
+    connect(ui->horizontalSlider_2, &QSlider::valueChanged, ui->progressBar_2, &QProgressBar::setValue);
+    connect(ui->verticalSlider, &QSlider::valueChanged, ui->progressBar_3, &QProgressBar::setValue);
+}
+
+/**
  * @brief       打印QCheckBox选中、未选中、不确定三态
  * @param arg1
  */
 void MainWindow::on_checkBox_stateChanged(int arg1)
 {
     qDebug() << arg1;
+}
+
+/**
+ * @brief       移除tab选项卡
+ * @param index
+ */
+void MainWindow::on_tabWidget_2_tabCloseRequested(int index)
+{
+    if(index == -1) return;
+
+    QWidget* tab = ui->tabWidget_2->widget(index);
+    ui->tabWidget_2->removeTab(index);
+    delete tab;
+    tab = nullptr;
 }
