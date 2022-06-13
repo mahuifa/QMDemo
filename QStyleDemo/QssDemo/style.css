@@ -11,6 +11,7 @@ background-color: rgb(214, 214, 214);
     background-repeat:no-repeat;               /* 设置背景图像是否及如何重复*/
     background-position:center;                /* 设置背景图像的起始位置*/
     background-attachment: scroll;              /* 背景图像是否固定或者随着页面的其余部分滚动 */
+    color: rgb(0, 255, 0);
 }
 
 /*由于QScrollArea里还有一层QWidget，所以需要将这一层QWidget设置透明才可以通过QAbstractScrollArea设置背景*/
@@ -118,7 +119,7 @@ QPushButton::menu-indicator {          /* 设置下拉箭头 */
 
 QPushButton::menu-indicator:pressed,
 QPushButton::menu-indicator:open {
-    position: relative;
+    position: relative;                /* 指定了元素的定位类型*/
     top: 1px; left: 2px;               /* 设置在点击按键、打开菜单时偏移下拉箭头*/
 }
 
@@ -347,4 +348,510 @@ QMenu::separator {               /* 设置菜单栏分割线样式*/
     background: red;
     margin-left: 15px;          /* 设置左外边距*/
     margin-right: 5px;
+}
+
+/********************QMenuBar菜单栏样式**********************/
+QMenuBar {
+    background-color: qlineargradient(spread:pad, x1:0.494318, y1:0.011, x2:0.517045, y2:1,
+                      stop:0.488636 rgba(85, 170, 255, 255), stop:0.914773 rgba(255, 255, 255, 255));
+    spacing: 30px;    /* 菜单栏项目之间的间距*/
+}
+
+QMenuBar::item {
+    padding: 10px 4px;  /* 定义菜单项元素边框与元素内容之间的距离，上下距离10px，左右距离4px*/
+}
+
+QMenuBar::item:selected {  /* 选中的菜单项的样式*/
+    background: #FFFF00;
+}
+
+QMenuBar::item:pressed {   /* 鼠标在菜单项按下的样式*/
+    background: #FF00FF;
+}
+
+/********************QProgressBar进度条样式**********************/
+/* 设置进度条边框、圆角，这里有一个bug，QProgressBar默认alignment的设置在使用qss后会将文本显示到左上角,
+可以重新设置alignment也可以使用text-align指定文本显示位置*/
+QProgressBar {
+    border: 2px solid grey;
+    border-radius: 5px;
+    text-align: center;
+}
+
+QProgressBar:vertical {            /* 竖向进度条样式*/
+    border: 2px solid grey;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* 通过设置进度快宽度和边距可以得到一个条纹状的进度快*/
+QProgressBar::chunk {
+    background-color: #05B8CC; /* 设置进度块样式*/
+    width: 10px;               /* 设置进度块宽度*/
+    margin: 0.5px;             /* 设置进度块外边距*/
+}
+
+QProgressBar::chunk:vertical {
+    background-color: #05B8CC; /* 设置进度块样式*/
+    height: 10px;               /* 设置进度块高度*/
+    margin: 0.5px;             /* 设置进度块外边距*/
+}
+
+/********************QScrollBar横向滚动条样式**********************/
+QScrollBar:horizontal {         /* 设置横滚动条样式*/
+    border: 2px solid grey;
+    background: #32CC99;
+    height: 20px;
+    margin: 0px 20px 0px 20px;  /* 设置滚动条上,右,下,左边距*/
+}
+
+QScrollBar::handle:horizontal { /* 设置 滑动条中滑块的样式*/
+    background: #05B8CC;
+    border: 1px solid white;
+    min-width: 20px;
+}
+
+QScrollBar::add-line:horizontal {    /* 设置右按键*/
+    border: 2px solid grey;
+    background: rgb(255, 0, 0);
+    width: 20px;
+    subcontrol-position: right;     /* 按键位于右侧位置*/
+    subcontrol-origin: margin;      /* 设置按键在盒子模型中的参考位置margin border padding content*/
+}
+
+QScrollBar::sub-line:horizontal {    /* 设置左按键*/
+    border: 2px solid grey;
+    background: rgb(0, 255, 0);
+    width: 20px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::left-arrow:horizontal { /* 左按键中的箭头区域样式*/
+/*    border: 2px solid grey;
+    width: 15px;
+    height: 15px;*/
+    image: url(:/image/左.png);
+}
+
+QScrollBar::right-arrow:horizontal { /* 右按键中的箭头 区域*/
+    image: url(:/image/右.png);
+}
+
+QScrollBar::sub-page:horizontal {   /* 设置滑动条左侧区域样式*/
+    background: rgb(255, 0, 0);
+}
+
+QScrollBar::add-page:horizontal {   /* 设置滑动条右侧区域样式*/
+    background: none;
+}
+
+/********************QScrollBar竖向滚动条样式**********************/
+QScrollBar:vertical {
+    border: 2px solid grey;
+    background: #32CC99;
+    width: 20px;
+    margin: 20px 0px 20px 0px;  /* 设置滚动条上,右,下,左边距*/
+}
+
+QScrollBar::handle:vertical { /* 设置 滑动条中滑块的样式*/
+    background: #05B8CC;
+    border: 1px solid white;
+    min-height: 20px;
+}
+
+QScrollBar::add-line:vertical {    /* 设置下按键*/
+    border: 2px solid grey;
+    background: rgb(255, 0, 0);
+    height: 20px;
+    subcontrol-position: bottom;     /* 按键位于底部位置*/
+    subcontrol-origin: margin;      /* 设置按键在盒子模型中的参考位置margin border padding content*/
+}
+
+QScrollBar::sub-line:vertical {    /* 设置上按键*/
+    border: 2px solid grey;
+    background: rgb(0, 255, 0);
+    height: 20px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::up-arrow:vertical { /* 上按键中的箭头区域样式*/
+/*    border: 2px solid grey;
+    width: 15px;
+    height: 15px;*/
+    image: url(:/image/上.png);
+}
+
+QScrollBar::down-arrow:vertical { /* 下按键中的箭头 区域*/
+    image: url(:/image/下d.png);
+}
+
+QScrollBar::sub-page:vertical {   /* 设置滑动条上侧区域样式*/
+    background: rgb(255, 0, 0);
+}
+
+QScrollBar::add-page:vertical {   /* 设置滑动条下侧区域样式*/
+    background: none;
+}
+
+/********************QSizeGrip样式**********************/
+/* 位于窗口右下角，用于调整窗口大小*/
+QSizeGrip {
+    background-color: qconicalgradient(cx:0, cy:0, angle:135,
+                    stop:0 rgba(0, 207, 255, 255),
+                    stop:0.301136 rgba(0, 250, 255, 69),
+                    stop:0.423533 rgba(0, 121, 255, 145),
+                    stop:0.45 rgba(0, 218, 255, 208),
+                    stop:0.477273 rgba(71, 255, 244, 130),
+                    stop:0.517045 rgba(71, 205, 255, 130),
+                    stop:0.55 rgba(0, 111, 255, 255),
+                    stop:0.57754 rgba(0, 255, 218, 130),
+                    stop:0.625 rgba(0, 175, 255, 69),
+                    stop:0.982955 rgba(7, 0, 255, 69));
+    width: 20px;
+    height: 20px;
+}
+
+/********************QSlider横向滑动条样式**********************/
+QSlider {
+    background-color: rgba(170, 255, 255, 100);  /* 设置滑动条主体*/
+}
+
+QSlider::groove:horizontal {
+    border: 1px solid #999999;
+    height: 8px;                     /* 默认情况下，凹槽会扩展到滑块的大小。通过给它一个高度，它有一个固定的大小*/
+    background-color: qlineargradient(spread:reflect, x1:0.500364, y1:0.0561364, x2:0.5, y2:0.517045,
+                      stop:0 rgba(168, 164, 168, 250), stop:1 rgba(232, 232, 232, 255));
+    border-radius: 4px;             /* 设置滑动槽圆角*/
+}
+
+QSlider::handle:horizontal {
+    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.50565, fy:0.500409,
+                      stop:0 rgba(0, 0, 0, 255), stop:0.361582 rgba(0, 146, 146, 255),
+                      stop:0.649718 rgba(255, 255, 255, 255), stop:1 rgba(0, 177, 181, 255));
+    border: 1px solid #5c5c5c;
+    width: 14px;
+    margin: -4px 0px;         /* 使用负的边距可以让滑块高度超过滑动槽高度*/
+    border-radius: 8px;       /* 通过设置圆角边框得到圆形的滑块 */
+}
+
+
+QSlider::sub-page:horizontal {    /* 设置滑块滑过区域样式*/
+    border: 1px solid #999999;
+    border-radius: 4px;
+    background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0,
+                     stop:0 rgba(231,80,229, 255),
+                     stop:1 rgba(7,208,255, 255));
+}
+
+
+/********************QSlider竖向滑动条样式**********************/
+QSlider::groove:vertical {
+    background-color: qlineargradient(spread:reflect, x1:0, y1:0.510682, x2:0.5, y2:0.517045,
+                      stop:0 rgba(168, 164, 168, 250), stop:1 rgba(232, 232, 232, 255));
+    position: absolute;      /* 设置定位：绝对位置距离小部件的左侧和右侧 4px。在小部件上设置边距也应该工作......*/
+    /*left: 4px;*/           /* 元素左外边距边界与其包含块左边界之间的偏移*/
+    /*right: 4px;*/
+    width: 8px;
+    border-radius: 4px;      /* 设置滑动槽圆角*/
+}
+
+QSlider::handle:vertical {    /* 设置滑块样式*/
+    border: 1px solid #999999;
+    background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.50565, fy:0.500409,
+                      stop:0 rgba(0, 0, 0, 255), stop:0.361582 rgba(0, 146, 146, 255),
+                      stop:0.649718 rgba(255, 255, 255, 255), stop:1 rgba(0, 177, 181, 255));
+    height: 14px;
+    margin: 0px -4px;
+    border-radius: 7px;
+}
+
+/* 设置了add-page、sub-page样式后，groove样式就失效了*/
+QSlider::add-page:vertical {    /* 设置滑块滑过区域样式*/
+    background-color: rgb(0, 170, 255);
+    border-radius: 4px;
+}
+
+QSlider::sub-page:vertical {      /* 设置滑块未滑过区域样式*/
+    background-color: rgb(0, 0, 0);
+    border-radius: 4px;
+}
+
+/********************QAbstractSpinBox样式，适用于QDateTimeEdit、QTimeEdit、QDateEdit、QDoubleSpinBox、QSpinBox**********************/
+QAbstractSpinBox {
+    text-align:right;                      /* 标题文本右对齐*/
+    height: 30px;            /* 统一设置高度*/
+    /*padding-right: 15px; */    /* 设置元素的右内边距，为箭头腾出空间*/
+    border: 2px solid red;   /* 设置了边框后才会显示【加减图标】*/
+    background-color: qlineargradient(spread:pad, x1:0, y1:0.482591, x2:1, y2:0.477273,
+                      stop:0.0113636 rgba(85, 170, 255, 255),
+                      stop:1 rgba(255, 255, 255, 255));
+    selection-color: #000000;               /* 设置鼠标选择文本的颜色*/
+    selection-background-color: #55ff7f;    /* 设置鼠标选择文本的背景色*/
+}
+
+/* 增加按键样式*/
+QAbstractSpinBox::up-button {
+    subcontrol-origin: border;       /* 设置按键在盒子模型中的参考位置margin border padding content*/
+    subcontrol-position: top right;  /* 设置按键停靠位置右上角*/
+    border: 1px solid grey;          /* 设置按键边框，用于区分*/
+}
+
+QAbstractSpinBox::up-arrow {
+    border-image: url(:/image/上.png);  /* 设置增加按键图标*/
+}
+
+/* 减少按键样式*/
+QAbstractSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    border: 1px solid grey;
+}
+
+QAbstractSpinBox::down-arrow {
+    border-image: url(:/image/下d.png);   /* 设置减少按键图标*/
+}
+
+/* 设置鼠标进入按键的样式*/
+QAbstractSpinBox::up-button:hover,
+QAbstractSpinBox::down-button:hover {
+    background-color: rgba(0, 170, 255, 100);
+}
+
+/* 设置鼠标点击按键的样式*/
+QAbstractSpinBox::up-button:pressed,
+QAbstractSpinBox::down-button:pressed{
+    background-color: rgba(0, 170, 255, 200);
+}
+
+QAbstractSpinBox::up-arrow:disabled,        /* 禁用状态*/
+QAbstractSpinBox::down-arrow:disabled,
+QAbstractSpinBox::up-arrow:off,             /* 值为最大值时处于关闭状态*/
+QAbstractSpinBox::down-arrow:off {
+    background-color: rgb(210, 210, 210);
+}
+
+/* 设置使用加减图标的样式*/
+QAbstractSpinBox[buttonSymbols="1"]::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: right;
+    border: 1px solid grey;
+}
+QAbstractSpinBox[buttonSymbols="1"]::up-arrow {
+    border-image: url(:/image/加.png);
+}
+
+QAbstractSpinBox[buttonSymbols="1"]::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: left;
+    border: 1px solid grey;
+}
+QAbstractSpinBox[buttonSymbols="1"]::down-arrow {
+    border-image: url(:/image/减.png);
+}
+
+
+/********************QSplitter样式**********************/
+#groupBox_13 QWidget {                /* 为widget设置边框，方便观看边界*/
+    border: 1px solid red;
+}
+
+QSplitter::handle {
+    height: 12px;                   /* 设置分割滑块高度*/
+}
+
+/* 设置水平分离布局滑块样式*/
+QSplitter::handle:horizontal {
+    background-color: qlineargradient(spread:reflect, x1:0, y1:0.510682, x2:0.5, y2:0.517045,
+                      stop:0 rgba(0, 204, 213, 250),
+                      stop:1 rgba(232, 232, 232, 255));
+}
+
+/* 设置竖直分离布局滑块样式*/
+QSplitter::handle:vertical {
+    background-color: qlineargradient(spread:reflect, x1:0.494, y1:0.0106818, x2:0.5, y2:0.517045,
+                      stop:0 rgba(0, 204, 213, 250),
+                      stop:1 rgba(232, 232, 232, 255));
+}
+
+/* 设置水平分离布局滑块按下样式*/
+QSplitter::handle:horizontal:pressed {
+    background-color: qlineargradient(spread:reflect, x1:0, y1:0.527727, x2:0.5, y2:0.517045,
+                      stop:0 rgba(255, 0, 0, 250),
+                      stop:1 rgba(232, 232, 232, 255));
+}
+/* 设置竖直分离布局滑块按下样式*/
+QSplitter::handle:vertical:pressed {
+    background-color: qlineargradient(spread:reflect, x1:0.494, y1:0.0106818, x2:0.5, y2:0.517045,
+                      stop:0 rgba(255, 0, 0, 250),
+                      stop:1 rgba(232, 232, 232, 255));
+}
+
+/********************QStatusBar状态栏样式**********************/
+QStatusBar {
+    background: brown;         /* 设置状态栏背景色*/
+    color: white;              /* 设置状态栏文本颜色*/
+}
+
+QStatusBar QWidget{            /* 设置状态栏中包含的部件的样式*/
+    color: white;
+}
+
+QStatusBar::item {            /* 设置状态栏中插入项的样式*/
+    border: 2px solid white;
+    border-radius: 3px;
+}
+
+/********************QTabWidget样式**********************/
+QTabWidget::pane {                 /* tabwidget窗格样式*/
+    border: 2px solid #C2C7CB;
+    position: absolute;            /* 指定了元素的定位类型static、relative、fixed、absolute、sticky*/
+    top: -1em;                     /* 上边距向上 偏移1em*/
+}
+
+/* tabBar标签栏在顶部时，tabBar栏向左边距15*/
+QTabWidget::tab-bar:top {
+/*    left: 15px;*/              /* 标签栏向右偏移15*/
+    alignment: center;           /* 标签栏居中对齐*/
+}
+
+QTabBar::tab {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+    border: 2px solid #C4C4C3;
+    padding: 2px;                /* 设置内边距填充*/
+}
+
+/* tab选中或者鼠标进入的样式*/
+QTabBar::tab:selected,
+QTabBar::tab:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+}
+
+/* tabBar为横向选中的样式，在顶部*/
+QTabBar::tab:top:selected{
+    border-color: red;
+    border-bottom-color: #C2C7CB;    /* 底部边框颜色与pane边框颜色相同*/
+}
+/* tabBar为横向未选中的样式，在顶部*/
+QTabBar::tab:top:!selected {
+    margin-top: 2px;                 /* 设置元素的上部边距，设置在选中里不生效*/
+}
+
+/* tabBar为横向选中的样式，在底部*/
+QTabBar::tab:bottom:selected{
+    border-color: red;
+    border-top-color: #C2C7CB;
+    margin-top: 2px;                 /* 设置元素的下边距，设置在未选中里不生效（我也不知道为啥）*/
+}
+
+/* tabBar为横向的样式，在顶部或者底部*/
+QTabBar::tab:top,
+QTabBar::tab:bottom
+{
+    min-width: 80px;
+    height: 20px;
+    border-top-left-radius: 22px;     /* 通过设置左上角，右下角圆角得到特殊图形*/
+    border-bottom-right-radius: 22px;
+}
+
+
+/* tabBar为竖向的样式，在左侧或者右侧*/
+QTabBar::tab:right,
+QTabBar::tab:left {
+    min-height: 80px;
+    width: 20px;
+}
+
+/* tabBar为竖向选中的样式，在左侧*/
+QTabBar::tab:left:selected{
+    border-color: red;
+    border-right-color: #C2C7CB;    /* 右侧边框颜色与pane边框颜色相同*/
+}
+
+/* tabBar为竖向未选中的样式，在左侧*/
+QTabBar::tab:left:!selected {
+    margin-left: 2px;                 /* 设置元素的左边距*/
+}
+
+/* tabBar为竖向选中的样式，在右部*/
+QTabBar::tab:right:selected {
+    border-color: red;
+    border-left-color: #C2C7CB;
+    margin-left: 2px;                 /* 设置元素的左边距*/
+}
+
+/* 设置第一个tab选项卡未选中样式*/
+QTabBar::tab:first:!selected {
+    border-left-color: #00FF00;
+    border-left-width: 3px;
+}
+
+/* 设置中间所有的tab选项卡未选中样式*/
+QTabBar::tab:middle:!selected {
+    border-bottom-color: #00FF00;
+    border-bottom-width: 3px;
+}
+
+/* 设置最后一个tab选项卡未选中样式*/
+QTabBar::tab:last:!selected {
+    border-right-color: #00FF00;
+    border-right-width: 3px;
+}
+
+/* 如果只有一个tab选项卡时的样式*/
+QTabBar::tab:only-one {
+    background: #00FFFF;
+}
+
+/*QTabBar的撕裂指示器，当tab标签过多时前面的tab标签显示不下时出现*/
+QTabBar::tear {
+    background-color: qlineargradient(spread:pad, x1:0, y1:0.482591, x2:1, y2:0.477273,
+                      stop:0.0113636 rgba(85, 170, 255, 255),
+                      stop:1 rgba(255, 255, 255, 255));
+    width: 20px;
+}
+
+/* QTabBar的滚动条，当tab标签过多时出现，包含两个调节but*/
+QTabBar::scroller {
+    width: 50px;       /* 设置两个but容器的宽度来调整but大小*/
+}
+
+/* 滚动按钮是工具按钮*/
+QTabBar QToolButton {
+    border: 2px solid #00FFFF;
+    min-width: 0px;             /* 因为在前面全局QToolButton最小宽度设置为80，这里需要还原*/
+    min-height: 0px;
+    margin-right: 2px;
+}
+
+/* 设置QTabWidget右上角右but样式*/
+QTabBar QToolButton::right-arrow {
+    image: url(:/image/右.png);
+}
+
+/* 设置QTabWidget右上角左but样式*/
+QTabBar QToolButton::left-arrow {
+    image: url(:/image/左.png);
+}
+
+/* 设置tab标签右侧关闭but样式*/
+QTabBar::close-button {
+    image: url(:/image/close.png);
+    subcontrol-position: right;       /* 这里有一个bug，只能设置right，否则but就会实现（不知道是不是我使用的问题还是就有这个bug）*/
+    border: 1px solid red;
+}
+
+/* 鼠标进入样式*/
+QTabBar::close-button:hover {
+    background-color: rgba(85, 170, 255, 150);
+}
+
+/* 鼠标按下样式*/
+QTabBar::close-button:pressed {
+    background-color: rgba(255, 0, 0, 150);
 }
