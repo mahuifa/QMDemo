@@ -21,7 +21,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -264,6 +264,9 @@ p, li { white-space: pre-wrap; }
             <width>220</width>
             <height>220</height>
            </size>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -1706,6 +1709,39 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>常用组件</string>
        </attribute>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>711</width>
+          <height>551</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_15">
+         <item row="0" column="1">
+          <widget class="QListWidget" name="listWidget">
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QListView" name="listView_2">
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QUndoView" name="undoView">
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_17">
        <attribute name="title">

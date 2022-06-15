@@ -855,3 +855,35 @@ QTabBar::close-button:hover {
 QTabBar::close-button:pressed {
     background-color: rgba(255, 0, 0, 150);
 }
+
+/********************QListView样式，用于QListView、QListWidget、QUndoView**********************/
+QListView {
+    alternate-background-color:  rgba(0, 170, 255, 50);   /* 交替背景色, 使用的前提是开启了隔行变色设置 setAlternatingRowColors(true);*/
+    background-color: rgb(240, 240, 240);
+    show-decoration-selected: 0;                          /* 0：选择文本 1：选择行*/
+}
+
+/* 当QAbstractItemView::alternatingRowColors () 设置为 true时，为绘制QAbstractItemView的行时的每个备用行设置此状态。
+   如果设置背景色则效果和alternate-background-color相同*/
+QListView::item:alternate {
+    border-bottom: 2px solid #00FFFF;       /* 设置交替行的下边框样式*/
+}
+
+QListView::item:selected {
+    border: 2px solid red;                  /* 设置选中行的边框*/
+}
+
+QListView::item:selected:!active {          /* 设置选中行失去焦点后的样式*/
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                            stop: 0 #ABAFE5, stop: 1 #8588B2);
+}
+
+QListView::item:selected:active {           /* 控件获得焦点时选中行的样式*/
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #6a6ea9, stop: 1 #888dd9);
+}
+
+QListView::item:hover {                    /* 鼠标进入行的样式*/
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                            stop: 0 #FFABFE, stop: 1 #DCDEF1);
+}

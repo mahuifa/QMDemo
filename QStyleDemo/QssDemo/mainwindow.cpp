@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->setWindowTitle("Qss样式表常见用法Demo");
     init();
+    initListView();
     initStyle();
     connectSlots();
 }
@@ -61,6 +62,23 @@ void MainWindow::init()
     // 设置状态栏
     ui->statusbar->addPermanentWidget(new QLabel("状态栏永久label"));
     ui->statusbar->showMessage("状态栏临时消息");
+}
+
+/**
+ * @brief 初始化ListView
+ */
+void MainWindow::initListView()
+{
+    QStringList strList;
+    strList << "123" << "456" << "789" << "abc" << "阿斯蒂芬"
+            << "123" << "456" << "789" << "abc" << "阿斯蒂芬"
+            << "123" << "456" << "789" << "abc" << "阿斯蒂芬";
+    strModel = new QStringListModel(strList);
+    ui->listView->setModel(strModel);
+    ui->listView_2->setModel(strModel);
+    ui->undoView->setModel(strModel);
+    ui->listWidget->addItems(strList);
+
 }
 
 /**
