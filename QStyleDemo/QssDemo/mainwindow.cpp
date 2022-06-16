@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QToolBar>
 #include <QStyle>
+#include <QFileSystemModel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle("Qss样式表常见用法Demo");
     init();
     initListView();
+    initTreeView();
     initStyle();
     connectSlots();
 }
@@ -78,7 +80,17 @@ void MainWindow::initListView()
     ui->listView_2->setModel(strModel);
     ui->undoView->setModel(strModel);
     ui->listWidget->addItems(strList);
+}
 
+/**
+ * @brief 初始化QTreeView
+ */
+void MainWindow::initTreeView()
+{
+    QFileSystemModel* model = new QFileSystemModel;   // 提供对本地文件系统的访问
+    model->setRootPath(QDir::currentPath());          // 将模型正在监视的目录设置为newPath
+    ui->treeView->setModel(model);
+    ui->treeView_2->setModel(model);
 }
 
 /**
@@ -112,6 +124,8 @@ void MainWindow::connectSlots()
     connect(ui->horizontalSlider, &QSlider::valueChanged, ui->progressBar, &QProgressBar::setValue);
     connect(ui->horizontalSlider_2, &QSlider::valueChanged, ui->progressBar_2, &QProgressBar::setValue);
     connect(ui->verticalSlider, &QSlider::valueChanged, ui->progressBar_3, &QProgressBar::setValue);
+
+    connect(ui->treeView, &QTreeView::expanded, ui->treeView_2, &QTreeView::setRootIndex);  // 可以通过设置树视图的根索引来显示特定目录的内容
 }
 
 /**

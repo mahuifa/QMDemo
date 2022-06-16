@@ -24,6 +24,7 @@ private slots:
 private:
     void init();
     void initListView();
+    void initTreeView();
     void initStyle();
     void connectSlots();
 

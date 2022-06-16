@@ -887,3 +887,19 @@ QListView::item:hover {                    /* 鼠标进入行的样式*/
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                             stop: 0 #FFABFE, stop: 1 #DCDEF1);
 }
+
+/********************QHeaderView标题行样式**********************/
+QHeaderView::section {   /*标题行样式*/
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                        stop: 0 #FFABFE, stop: 1 #DCDEF1);
+    color: white;         /* 设置标题行字体颜色*/
+    padding-left: 10px;   /* 设置元素左内边距*/
+    border: 1px solid #6c6c6c;
+}
+
+/* 没有具体效果，不知道是怎么用的，后面有时间在研究*/
+QHeaderView::section:checked,
+QHeaderView::down-arrow,
+QHeaderView::up-arrow {
+    background-color: red;
+}

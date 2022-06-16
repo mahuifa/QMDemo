@@ -21,7 +21,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -1707,7 +1707,7 @@ p, li { white-space: pre-wrap; }
       </widget>
       <widget class="QWidget" name="tab_16">
        <attribute name="title">
-        <string>常用组件</string>
+        <string>QListView</string>
        </attribute>
        <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
@@ -1745,8 +1745,114 @@ p, li { white-space: pre-wrap; }
       </widget>
       <widget class="QWidget" name="tab_17">
        <attribute name="title">
-        <string>常用组件</string>
+        <string>QTreeView</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_16">
+        <item row="0" column="0">
+         <widget class="QTreeView" name="treeView"/>
+        </item>
+        <item row="0" column="1">
+         <widget class="QTreeView" name="treeView_2">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::NoDragDrop</enum>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QTreeWidget" name="treeWidget_2">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <column>
+           <property name="text">
+            <string>第一列</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>第二列</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>第三列</string>
+           </property>
+          </column>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+           <property name="text">
+            <string>123</string>
+           </property>
+           <property name="text">
+            <string>321</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>新建子项目</string>
+            </property>
+            <property name="text">
+             <string>123</string>
+            </property>
+            <property name="text">
+             <string>321</string>
+            </property>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+           <property name="text">
+            <string>123</string>
+           </property>
+           <property name="text">
+            <string>321</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>新建子项目</string>
+            </property>
+            <property name="text">
+             <string>123</string>
+            </property>
+            <property name="text">
+             <string>321</string>
+            </property>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+           <property name="text">
+            <string>123</string>
+           </property>
+           <property name="text">
+            <string>321</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>新建子项目</string>
+            </property>
+            <property name="text">
+             <string>123</string>
+            </property>
+            <property name="text">
+             <string>321</string>
+            </property>
+           </item>
+          </item>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
