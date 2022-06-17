@@ -298,7 +298,7 @@ QGroupBox::indicator:unchecked {
    image: url(:/image/正方形-未选中.png);    /* 设置未选中状态矩形部分图片*/
 }
 
-/********************QLineEdit样式**********************/
+/********************QLineEdit样式，也适用于Item（如QListView、QTableView）**********************/
 QLineEdit {
     border: 2px solid  rgb(0, 255, 0);     /* 设置边框*/
     border-radius: 10px;                   /* 设置边框圆角*/
@@ -897,9 +897,19 @@ QHeaderView::section {   /*标题行样式*/
     border: 1px solid #6c6c6c;
 }
 
-/* 没有具体效果，不知道是怎么用的，后面有时间在研究*/
-QHeaderView::section:checked,
-QHeaderView::down-arrow,
-QHeaderView::up-arrow {
+QHeaderView::section:checked {            /* 选中的单元格的标题样式，在QTableView有效*/
     background-color: red;
+}
+
+/* 标题栏排序指示器样式，需要设置setSortIndicatorShown(true)才生效*/
+QHeaderView::down-arrow {
+border-image: url(:/image/下d.png);   /* 设置向下按键图标*/
+    width: 15px;                      /* 默认图标很小，需要设置大一点才好观察*/
+    height: 15px;
+}
+
+QHeaderView::up-arrow {
+border-image: url(:/image/上.png);    /* 设置向上按键图标*/
+    width: 15px;
+    height: 15px;
 }

@@ -5,6 +5,7 @@
 #include <QToolBar>
 #include <QStyle>
 #include <QFileSystemModel>
+#include <QStandardItemModel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     init();
     initListView();
     initTreeView();
+    initTableView();
     initStyle();
     connectSlots();
 }
@@ -91,6 +93,29 @@ void MainWindow::initTreeView()
     model->setRootPath(QDir::currentPath());          // 将模型正在监视的目录设置为newPath
     ui->treeView->setModel(model);
     ui->treeView_2->setModel(model);
+}
+
+/**
+ * @brief 初始化QTableView
+ */
+void MainWindow::initTableView()
+{
+    QFileSystemModel* fModel = new QFileSystemModel;   // 提供对本地文件系统的访问
+    fModel->setRootPath(QDir::currentPath());          // 将模型正在监视的目录设置为newPath
+    ui->tableView->setModel(fModel);
+
+    QStandardItemModel* sModel = new QStandardItemModel;
+    sModel->setColumnCount(5);                         // 设置表格有5列
+    sModel->setRowCount(10);                           // 设置表格有10行
+
+    for(int i = 0; i < sModel->columnCount(); i++)
+    {
+        sModel->setItem(0, i, new QStandardItem(this->style()->standardIcon(QStyle::StandardPixmap(i)),   // 设置第一行表格图标
+                                                QString("内容%1").arg(i)));                                // 设置第一行表格内容
+        sModel->setHeaderData(i, Qt::Horizontal, QString("第%1列").arg(i));  // 设置列标题
+    }
+    ui->tableView_2->setModel(sModel);
+    ui->tableView_2->horizontalHeader()->setSortIndicatorShown(true);
 }
 
 /**

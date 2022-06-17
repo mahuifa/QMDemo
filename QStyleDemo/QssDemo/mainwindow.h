@@ -25,6 +25,7 @@ private:
     void init();
     void initListView();
     void initTreeView();
+    void initTableView();
     void initStyle();
     void connectSlots();
 
