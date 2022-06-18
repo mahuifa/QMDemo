@@ -298,7 +298,7 @@ QGroupBox::indicator:unchecked {
    image: url(:/image/正方形-未选中.png);    /* 设置未选中状态矩形部分图片*/
 }
 
-/********************QLineEdit样式**********************/
+/********************QLineEdit样式，也适用于Item（如QListView、QTableView）**********************/
 QLineEdit {
     border: 2px solid  rgb(0, 255, 0);     /* 设置边框*/
     border-radius: 10px;                   /* 设置边框圆角*/
@@ -854,4 +854,81 @@ QTabBar::close-button:hover {
 /* 鼠标按下样式*/
 QTabBar::close-button:pressed {
     background-color: rgba(255, 0, 0, 150);
+}
+
+/********************QListView样式，用于QListView、QListWidget、QUndoView**********************/
+QListView {
+    alternate-background-color:  rgba(0, 170, 255, 50);   /* 交替背景色, 使用的前提是开启了隔行变色设置 setAlternatingRowColors(true);*/
+    background-color: rgb(240, 240, 240);
+    show-decoration-selected: 0;                          /* 0：选择文本 1：选择行*/
+}
+
+/* 当QAbstractItemView::alternatingRowColors () 设置为 true时，为绘制QAbstractItemView的行时的每个备用行设置此状态。
+   如果设置背景色则效果和alternate-background-color相同*/
+QListView::item:alternate {
+    border-bottom: 2px solid #00FFFF;       /* 设置交替行的下边框样式*/
+}
+
+QListView::item:selected {
+    border: 2px solid red;                  /* 设置选中行的边框*/
+}
+
+QListView::item:selected:!active {          /* 设置选中行失去焦点后的样式*/
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                            stop: 0 #ABAFE5, stop: 1 #8588B2);
+}
+
+QListView::item:selected:active {           /* 控件获得焦点时选中行的样式*/
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #6a6ea9, stop: 1 #888dd9);
+}
+
+QListView::item:hover {                    /* 鼠标进入行的样式*/
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                            stop: 0 #FFABFE, stop: 1 #DCDEF1);
+}
+
+/********************QHeaderView标题行样式**********************/
+QHeaderView::section {   /*标题行样式*/
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                        stop: 0 #FFABFE, stop: 1 #DCDEF1);
+    color: white;         /* 设置标题行字体颜色*/
+    padding-left: 10px;   /* 设置元素左内边距*/
+    border: 1px solid #6c6c6c;
+}
+
+QHeaderView::section:checked {            /* 选中的单元格的标题样式，在QTableView有效*/
+    background-color: red;
+}
+
+/* 标题栏排序指示器样式，需要设置setSortIndicatorShown(true)才生效*/
+QHeaderView::down-arrow {
+border-image: url(:/image/下d.png);   /* 设置向下按键图标*/
+    width: 15px;                      /* 默认图标很小，需要设置大一点才好观察*/
+    height: 15px;
+}
+
+QHeaderView::up-arrow {
+border-image: url(:/image/上.png);    /* 设置向上按键图标*/
+    width: 15px;
+    height: 15px;
+}
+
+/********************QTableView、QTableWidget样式**********************/
+QTableView {
+    background-color: #f0fffc;
+    selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5,
+                                stop: 0 #00aaff, stop: 1 white);  /* 选中单元格的背景*/
+
+}
+
+/* 表格左上角的按键样式*/
+QTableView QTableCornerButton::section {
+    background: #ffff7f;
+    border: 2px outset red;
+}
+
+/* 单元格中复选框未选中的样式*/
+QTableView::indicator:unchecked {
+    background-color: #ff55ff;
 }

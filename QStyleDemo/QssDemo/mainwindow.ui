@@ -21,7 +21,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -264,6 +264,9 @@ p, li { white-space: pre-wrap; }
             <width>220</width>
             <height>220</height>
            </size>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -1704,13 +1707,324 @@ p, li { white-space: pre-wrap; }
       </widget>
       <widget class="QWidget" name="tab_16">
        <attribute name="title">
-        <string>常用组件</string>
+        <string>QListView</string>
        </attribute>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>30</y>
+          <width>711</width>
+          <height>551</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_15">
+         <item row="0" column="1">
+          <widget class="QListWidget" name="listWidget">
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QListView" name="listView_2">
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QUndoView" name="undoView">
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_17">
        <attribute name="title">
-        <string>常用组件</string>
+        <string>QTreeView</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_16">
+        <item row="0" column="0">
+         <widget class="QTreeView" name="treeView"/>
+        </item>
+        <item row="0" column="1">
+         <widget class="QTreeView" name="treeView_2">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::NoDragDrop</enum>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QTreeWidget" name="treeWidget_2">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <column>
+           <property name="text">
+            <string>第一列</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>第二列</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>第三列</string>
+           </property>
+          </column>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+           <property name="text">
+            <string>123</string>
+           </property>
+           <property name="text">
+            <string>321</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>新建子项目</string>
+            </property>
+            <property name="text">
+             <string>123</string>
+            </property>
+            <property name="text">
+             <string>321</string>
+            </property>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+           <property name="text">
+            <string>123</string>
+           </property>
+           <property name="text">
+            <string>321</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>新建子项目</string>
+            </property>
+            <property name="text">
+             <string>123</string>
+            </property>
+            <property name="text">
+             <string>321</string>
+            </property>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>新建项目</string>
+           </property>
+           <property name="text">
+            <string>123</string>
+           </property>
+           <property name="text">
+            <string>321</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>新建子项目</string>
+            </property>
+            <property name="text">
+             <string>123</string>
+            </property>
+            <property name="text">
+             <string>321</string>
+            </property>
+           </item>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_18">
+       <attribute name="title">
+        <string>QTableView</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_17">
+        <item row="0" column="0">
+         <widget class="QTableView" name="tableView"/>
+        </item>
+        <item row="0" column="1">
+         <widget class="QTableView" name="tableView_2"/>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QTableWidget" name="tableWidget">
+          <property name="verticalScrollMode">
+           <enum>QAbstractItemView::ScrollPerItem</enum>
+          </property>
+          <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+           <bool>false</bool>
+          </attribute>
+          <row>
+           <property name="text">
+            <string>第1行</string>
+           </property>
+          </row>
+          <row>
+           <property name="text">
+            <string>第2行</string>
+           </property>
+          </row>
+          <row>
+           <property name="text">
+            <string>第3行</string>
+           </property>
+          </row>
+          <row>
+           <property name="text">
+            <string>第4行</string>
+           </property>
+          </row>
+          <row>
+           <property name="text">
+            <string>第5行</string>
+           </property>
+          </row>
+          <row>
+           <property name="text">
+            <string>第6行</string>
+           </property>
+          </row>
+          <row>
+           <property name="text">
+            <string>第7行</string>
+           </property>
+          </row>
+          <column>
+           <property name="text">
+            <string>第1列</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>第2列</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>第3列</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>第4列</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>第5列</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>第6列</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>第7列</string>
+           </property>
+          </column>
+          <item row="0" column="0">
+           <property name="text">
+            <string>11</string>
+           </property>
+           <property name="checkState">
+            <enum>Checked</enum>
+           </property>
+          </item>
+          <item row="0" column="1">
+           <property name="text">
+            <string>12</string>
+           </property>
+          </item>
+          <item row="0" column="2">
+           <property name="text">
+            <string>13</string>
+           </property>
+          </item>
+          <item row="0" column="3">
+           <property name="text">
+            <string>14</string>
+           </property>
+          </item>
+          <item row="0" column="4">
+           <property name="text">
+            <string>15</string>
+           </property>
+          </item>
+          <item row="0" column="5">
+           <property name="text">
+            <string>16</string>
+           </property>
+          </item>
+          <item row="0" column="6">
+           <property name="text">
+            <string>17</string>
+           </property>
+          </item>
+          <item row="1" column="0">
+           <property name="text">
+            <string>21</string>
+           </property>
+           <property name="checkState">
+            <enum>Checked</enum>
+           </property>
+          </item>
+          <item row="1" column="1">
+           <property name="text">
+            <string>22</string>
+           </property>
+          </item>
+          <item row="1" column="2">
+           <property name="text">
+            <string>23</string>
+           </property>
+          </item>
+          <item row="1" column="3">
+           <property name="text">
+            <string>24</string>
+           </property>
+          </item>
+          <item row="1" column="4">
+           <property name="text">
+            <string>25</string>
+           </property>
+          </item>
+          <item row="1" column="5">
+           <property name="text">
+            <string>26</string>
+           </property>
+          </item>
+          <item row="1" column="6">
+           <property name="text">
+            <string>27</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

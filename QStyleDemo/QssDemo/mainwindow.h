@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStringListModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,10 +23,14 @@ private slots:
 
 private:
     void init();
+    void initListView();
+    void initTreeView();
+    void initTableView();
     void initStyle();
     void connectSlots();
 
 private:
     Ui::MainWindow *ui;
+    QStringListModel* strModel = nullptr;
 };
 #endif // MAINWINDOW_H

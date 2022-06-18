@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QToolBar>
 #include <QStyle>
+#include <QFileSystemModel>
+#include <QStandardItemModel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->setWindowTitle("Qss样式表常见用法Demo");
     init();
+    initListView();
+    initTreeView();
+    initTableView();
     initStyle();
     connectSlots();
 }
@@ -64,6 +69,56 @@ void MainWindow::init()
 }
 
 /**
+ * @brief 初始化ListView
+ */
+void MainWindow::initListView()
+{
+    QStringList strList;
+    strList << "123" << "456" << "789" << "abc" << "阿斯蒂芬"
+            << "123" << "456" << "789" << "abc" << "阿斯蒂芬"
+            << "123" << "456" << "789" << "abc" << "阿斯蒂芬";
+    strModel = new QStringListModel(strList);
+    ui->listView->setModel(strModel);
+    ui->listView_2->setModel(strModel);
+    ui->undoView->setModel(strModel);
+    ui->listWidget->addItems(strList);
+}
+
+/**
+ * @brief 初始化QTreeView
+ */
+void MainWindow::initTreeView()
+{
+    QFileSystemModel* model = new QFileSystemModel;   // 提供对本地文件系统的访问
+    model->setRootPath(QDir::currentPath());          // 将模型正在监视的目录设置为newPath
+    ui->treeView->setModel(model);
+    ui->treeView_2->setModel(model);
+}
+
+/**
+ * @brief 初始化QTableView
+ */
+void MainWindow::initTableView()
+{
+    QFileSystemModel* fModel = new QFileSystemModel;   // 提供对本地文件系统的访问
+    fModel->setRootPath(QDir::currentPath());          // 将模型正在监视的目录设置为newPath
+    ui->tableView->setModel(fModel);
+
+    QStandardItemModel* sModel = new QStandardItemModel;
+    sModel->setColumnCount(5);                         // 设置表格有5列
+    sModel->setRowCount(10);                           // 设置表格有10行
+
+    for(int i = 0; i < sModel->columnCount(); i++)
+    {
+        sModel->setItem(0, i, new QStandardItem(this->style()->standardIcon(QStyle::StandardPixmap(i)),   // 设置第一行表格图标
+                                                QString("内容%1").arg(i)));                                // 设置第一行表格内容
+        sModel->setHeaderData(i, Qt::Horizontal, QString("第%1列").arg(i));  // 设置列标题
+    }
+    ui->tableView_2->setModel(sModel);
+    ui->tableView_2->horizontalHeader()->setSortIndicatorShown(true);
+}
+
+/**
  * @brief 加载qss文件
  */
 void MainWindow::initStyle()
@@ -94,6 +149,8 @@ void MainWindow::connectSlots()
     connect(ui->horizontalSlider, &QSlider::valueChanged, ui->progressBar, &QProgressBar::setValue);
     connect(ui->horizontalSlider_2, &QSlider::valueChanged, ui->progressBar_2, &QProgressBar::setValue);
     connect(ui->verticalSlider, &QSlider::valueChanged, ui->progressBar_3, &QProgressBar::setValue);
+
+    connect(ui->treeView, &QTreeView::expanded, ui->treeView_2, &QTreeView::setRootIndex);  // 可以通过设置树视图的根索引来显示特定目录的内容
 }
 
 /**
