@@ -84,7 +84,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>重命名</string>
+    <string>另存为</string>
    </property>
   </widget>
   <widget class="QPushButton" name="but_close">

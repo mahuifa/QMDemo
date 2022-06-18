@@ -51,12 +51,12 @@ void Test2::on_but_open_clicked()
         const QList<QWidget*> objects =  this->findChildren<QWidget*>();
         for(auto object: objects)
         {
-            object->setEnabled(true);
+            object->setEnabled(true);        // 打开Excel后所有控件设置为可用状态
         }
     }
     else
     {
-        qWarning() << "excel打开失败!";
+        qWarning() << QString("excel打开失败，可能是文件%1不存在!").arg(EXCEL_NAME);
     }
 }
 
@@ -69,13 +69,14 @@ void Test2::on_but_close_clicked()
     {
         delete m_xlsx;
         m_xlsx = nullptr;
-        const QList<QWidget*> objects =  this->findChildren<QWidget*>();
+        const QList<QWidget*> objects =  this->findChildren<QWidget*>();  // 禁用所有基类为QWidget的控件
         for(auto object: objects)
         {
+            qDebug() << object->objectName();
             object->setEnabled(false);
         }
-        ui->widget1->setEnabled(true);
-        ui->but_open->setEnabled(true);
+        ui->but_open->setEnabled(true);    // 打开Excel按键不被禁用
+        qWarning() << "关闭并释放Excel";
     }
 }
 
@@ -156,7 +157,7 @@ void Test2::on_but_select_clicked()
     bool ret = m_xlsx->selectSheet(strName);          // 将strName设置为活动工作表
     if(ret)
     {
-        qInfo() << QString("设置活动工作表%1成功！").arg(strName);
+        qInfo() << QString("设置活动工作表【%1】成功！").arg(strName);
         AbstractSheet::SheetType type = m_xlsx->currentSheet()->sheetType();   // 获取当前工作表的类型
         if(type == AbstractSheet::ST_WorkSheet)
         {
