@@ -913,3 +913,22 @@ border-image: url(:/image/上.png);    /* 设置向上按键图标*/
     width: 15px;
     height: 15px;
 }
+
+/********************QTableView、QTableWidget样式**********************/
+QTableView {
+    background-color: #f0fffc;
+    selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5,
+                                stop: 0 #00aaff, stop: 1 white);  /* 选中单元格的背景*/
+
+}
+
+/* 表格左上角的按键样式*/
+QTableView QTableCornerButton::section {
+    background: #ffff7f;
+    border: 2px outset red;
+}
+
+/* 单元格中复选框未选中的样式*/
+QTableView::indicator:unchecked {
+    background-color: #ff55ff;
+}
