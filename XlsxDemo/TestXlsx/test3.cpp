@@ -4,6 +4,10 @@
 #include <QDir>
 #include <qprocess.h>
 #include <QDebug>
+#include "xlsxdocument.h"
+QXLSX_USE_NAMESPACE            // 添加Xlsx命名空间
+
+#define EXCEL_NAME "state.xlsx"         // 本Demo使用的Excel文件名
 
 Test3::Test3(QWidget *parent) :
     QWidget(parent),
@@ -23,9 +27,15 @@ Test3::~Test3()
  */
 void Test3::on_but_show_clicked()
 {
-    bool ret = QProcess::startDetached("D:/WPS Office/ksolaunch.exe", QStringList() << QDir::currentPath() + "/1.xlsx");
+    bool ret = QProcess::startDetached("D:/WPS Office/ksolaunch.exe", QStringList() << QDir::currentPath() + EXCEL_NAME);
     if(!ret)
     {
         qWarning() << "打开Excel失败，请注意wps路径是否存在，或者替换其它程序打开excel";
     }
+}
+
+void Test3::on_but_addSheet_clicked()
+{
+    Document xlsx(EXCEL_NAME);
+    qDebug() << xlsx.load();
 }

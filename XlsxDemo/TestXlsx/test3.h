@@ -31,6 +31,8 @@ public:
 private slots:
     void on_but_show_clicked();
 
+    void on_but_addSheet_clicked();
+
 private:
     Ui::Test3 *ui;
 };
