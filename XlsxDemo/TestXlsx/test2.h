@@ -54,6 +54,8 @@ private slots:
 
     void on_but_delete_clicked();
 
+    void on_but_show_clicked();
+
 private:
     Ui::Test2 *ui;
 

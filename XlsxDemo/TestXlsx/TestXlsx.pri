@@ -9,12 +9,15 @@
 #---------------------------------------------------------
 FORMS += \
     $$PWD/test1.ui \
-    $$PWD/test2.ui
+    $$PWD/test2.ui \
+    $$PWD/test3.ui
 
 HEADERS += \
     $$PWD/test1.h \
-    $$PWD/test2.h
+    $$PWD/test2.h \
+    $$PWD/test3.h
 
 SOURCES += \
     $$PWD/test1.cpp \
-    $$PWD/test2.cpp
+    $$PWD/test2.cpp \
+    $$PWD/test3.cpp

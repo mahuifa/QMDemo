@@ -2,6 +2,8 @@
 #include "ui_test2.h"
 #include <QDebug>
 #include <QMetaEnum>
+#include <qdir.h>
+#include <qprocess.h>
 #include "xlsxabstractsheet.h"
 
 QXLSX_USE_NAMESPACE            // 添加Xlsx命名空间
@@ -109,6 +111,7 @@ void Test2::on_but_addSheet_clicked()
     }
     AbstractSheet::SheetType type = (AbstractSheet::SheetType)ui->com_sheetType->currentIndex();
     bool ret = m_xlsx->addSheet(strName, type);         // 创建一个新的工作表，参数二可以省略
+    qDebug() << m_xlsx->currentSheet()->sheetName();    // 创建一个新的工作表后会默认把新创建的表【设置为当前工作表】
     if(ret && m_xlsx->save())                           // 执行完操作后需要保存到原有Excel中，不保存则无效
     {
         qInfo() << QString("创建工作表：%1  %2 成功！").arg(strName).arg(type);
@@ -284,3 +287,14 @@ void Test2::on_but_delete_clicked()
     }
 }
 
+/**
+ * @brief  通过调用WPS打开当前路径下的Excel文件，如果打开失败需要替换自己的wps的安装路径
+ */
+void Test2::on_but_show_clicked()
+{
+    bool ret = QProcess::startDetached("D:/WPS Office/ksolaunch.exe", QStringList() << QDir::currentPath() + "/1.xlsx");
+    if(!ret)
+    {
+        qWarning() << "打开Excel失败，请注意wps路径是否存在，或者替换其它程序打开excel";
+    }
+}

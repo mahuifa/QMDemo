@@ -39,6 +39,8 @@ private slots:
 
     void on_but_close_clicked();
 
+    void on_but_show_clicked();
+
 private:
     Ui::Test1 *ui;
 
