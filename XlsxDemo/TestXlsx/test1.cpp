@@ -50,7 +50,7 @@ void Test1::on_but_open_clicked()
     {
         m_xlsx = new Document(EXCEL_NAME, this);        // 打开EXCEL_NAME文件，将所有数据读取到内存中，然后关闭excel文件
     }
-    if(m_xlsx->load())  // 判断文件是否打开成功（也可以使用isLoadPackage）
+    if(m_xlsx->load())  // 判断文件是否打开成功（也可以使用isLoadPackage）,如果文件不存在则为false
     {
         qInfo() << "excel打开成功!";
 

@@ -33,6 +33,10 @@ private slots:
 
     void on_but_addSheet_clicked();
 
+    void on_com_sheets_activated(const QString &arg1);
+
+    void on_com_state_activated(int index);
+
 private:
     Ui::Test3 *ui;
 };

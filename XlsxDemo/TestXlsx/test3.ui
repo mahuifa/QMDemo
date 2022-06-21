@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="but_show">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>200</y>
+     <x>270</x>
+     <y>120</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -29,7 +29,7 @@
   <widget class="QPushButton" name="but_addSheet">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>270</x>
      <y>90</y>
      <width>75</width>
      <height>23</height>
@@ -52,8 +52,8 @@
   <widget class="QComboBox" name="com_sheets">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>120</y>
+     <x>150</x>
+     <y>90</y>
      <width>111</width>
      <height>22</height>
     </rect>
@@ -62,18 +62,33 @@
     <string>所有工作表</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="com_state">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>160</y>
-     <width>111</width>
+     <y>120</y>
+     <width>231</width>
      <height>22</height>
     </rect>
    </property>
    <property name="toolTip">
     <string>工作表状态</string>
    </property>
+   <item>
+    <property name="text">
+     <string>显示（SS_Visible）</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>隐藏（SS_Hidden）</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>绝对隐藏（SS_VeryHidden）</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>
