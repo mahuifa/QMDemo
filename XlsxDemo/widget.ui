@@ -49,7 +49,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>工作表状态Demo</string>
+    <string>工作表显示/隐藏</string>
    </property>
   </widget>
  </widget>
