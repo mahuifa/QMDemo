@@ -39,6 +39,19 @@
     <string>QXlsx工作表操作</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="but_demo3">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>150</y>
+     <width>111</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>工作表显示/隐藏</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

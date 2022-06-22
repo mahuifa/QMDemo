@@ -1,6 +1,8 @@
 ﻿#include "test1.h"
 #include "ui_test1.h"
 #include <QDebug>
+#include <QProcess>
+#include <qdir.h>
 
 QXLSX_USE_NAMESPACE            // 添加Xlsx命名空间
 
@@ -48,7 +50,7 @@ void Test1::on_but_open_clicked()
     {
         m_xlsx = new Document(EXCEL_NAME, this);        // 打开EXCEL_NAME文件，将所有数据读取到内存中，然后关闭excel文件
     }
-    if(m_xlsx->load())  // 判断文件是否打开成功（也可以使用isLoadPackage）
+    if(m_xlsx->load())  // 判断文件是否打开成功（也可以使用isLoadPackage）,如果文件不存在则为false
     {
         qInfo() << "excel打开成功!";
 
@@ -153,14 +155,14 @@ void Test1::on_but_close_clicked()
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
+/**
+ * @brief 通过调用WPS打开当前路径下的Excel文件，如果打开失败需要替换自己的wps的安装路径
+ */
+void Test1::on_but_show_clicked()
+{
+     bool ret = QProcess::startDetached("D:/WPS Office/ksolaunch.exe", QStringList() << QDir::currentPath() + "/1.xlsx");
+     if(!ret)
+     {
+         qWarning() << "打开Excel失败，请注意wps路径是否存在，或者替换其它程序打开excel";
+     }
+}

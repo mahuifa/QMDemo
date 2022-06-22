@@ -16,7 +16,7 @@
 | QMPlayer         | 视频播放器界面                                               | windows  |
 | TestCrashHandler | windows下程序崩溃定位Demo                                    | windows  |
 | QMNetwork        | [Qt网络编程Demo](./QMNetwork/QMNetwork.md)                   |          |
-| XlsxDemo         | Qt使用QXlsx读写Excel                                         |          |
+| XlsxDemo         | [Qt使用QXlsx操作Excel Demo](./XlsxDemo/XlsxDemo.md)          |          |
 | QtChartsDemo     | [Qt使用QtCharts模块绘制图表Demo](./QtChartsDemo/QtCharts.md) |          |
 | PlayImage        | Qt使用QPainter绘制方式显示图片                               |          |
 | ProgramFramework | [用过的一些Qt程序模块设计架构Demo](./ProgramFramework/ProgramFramework.md) |          |
@@ -129,31 +129,7 @@ Qt实现的视频播放器界面Demo。
 
 
 
-
-## 6、XlsxDemo
-
-> 1. QXlsx基本使用方法
->    1. 创建一个新的Excel，并具有一个默认的Sheet；
->    2. 打开Excel文件，并判断是否打开成功；
->    3. 分别使用单元格引用和行列号两种方式将数据写入Excel；
->    4. 分别使用单元格引用和行列行两种方式读取Excel所有数据；
->    5. 将Excel数据另存为2.xlsx；
->    6. 释放Excel数据。
-> 2. QXlsx操作工作表（Sheet）
->    1. 查询打开的Excel中所有可用的工作表（Sheet）名称；
->    2. 创建指定名称的工作表（Sheet），自动添加到最末尾，支持ST_WorkSheet、ST_ChartSheet两种类型；
->    3. 在指定位置插入一个新的指定名称的工作表（Sheet），支持ST_WorkSheet、ST_ChartSheet两种类型；
->    4. 将某个工作表（Sheet）设置为当前活动工作表，并写入数据（ST_WorkSheet类型）；
->    5. 将指定名称的工作表（Sheet）重命名为一个新的名称，不改变其它因素；
->    6. 将指定名称的工作表（Sheet）拷贝为一个新的指定名称的工作表，两个工作表内容相同；
->    7. 将指定名称的工作表（Sheet）移动到指定位置；
->    8. 删除指定名称的工作表（Sheet）。
-
-![qxlsx1](README.assets/qxlsx1.gif)
-
-
-
-## 7、PlayImage
+## 6、PlayImage
 
 * **介绍**
   * 使用QPainter绘制方式显示图片；

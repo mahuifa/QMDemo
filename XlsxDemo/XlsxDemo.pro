@@ -39,7 +39,7 @@ DESTDIR = $$PWD/../bin64        # 使用64位编译器
 }
 
 
-include($$PWD/QXlsx/QXlsx.pri)             # QXlsx源代码，版本V1.4.3
+include($$PWD/QXlsx/QXlsx.pri)             # QXlsx源代码，版本V1.4.3  https://github.com/QtExcel/QXlsx/releases
 INCLUDEPATH += $$PWD/QXlsx
 include($$PWD/TestXlsx/TestXlsx.pri)       # QXlsx使用Demo
 INCLUDEPATH += $$PWD/TestXlsx

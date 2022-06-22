@@ -84,7 +84,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>重命名</string>
+    <string>另存为</string>
    </property>
   </widget>
   <widget class="QPushButton" name="but_close">
@@ -101,6 +101,19 @@
    </property>
    <property name="text">
     <string>关闭excel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="but_show">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>80</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>显示Excel</string>
    </property>
   </widget>
  </widget>

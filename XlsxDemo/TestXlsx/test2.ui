@@ -13,11 +13,11 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>80</y>
+     <y>100</y>
      <width>270</width>
      <height>40</height>
     </rect>
@@ -90,97 +90,88 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QPushButton" name="but_show">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>28</y>
-     <width>331</width>
-     <height>25</height>
+     <x>360</x>
+     <y>30</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QPushButton" name="but_open">
-      <property name="text">
-       <string>打开Excel</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="but_close">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>关闭</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QComboBox" name="com_sheets">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="but_querySheet">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>查询工作表名称</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <property name="text">
+    <string>显示Excel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="but_querySheet">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>258</x>
+     <y>29</y>
+     <width>92</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>查询工作表名称</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="but_open">
+   <property name="geometry">
+    <rect>
+     <x>21</x>
+     <y>29</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>打开Excel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="but_close">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>102</x>
+     <y>29</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>关闭</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="com_sheets">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>183</x>
+     <y>30</y>
+     <width>69</width>
+     <height>20</height>
+    </rect>
+   </property>
   </widget>
   <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>140</y>
+     <y>150</y>
      <width>401</width>
      <height>54</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>新Sheet名：</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1" colspan="2">
-     <widget class="QLineEdit" name="line_newSheetName">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QPushButton" name="but_rename">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>重命名</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="4">
-     <widget class="QPushButton" name="but_copy">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>复制工作表</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
      <widget class="QPushButton" name="but_addSheet">
       <property name="enabled">
        <bool>false</bool>
@@ -190,7 +181,7 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
+    <item row="0" column="1">
      <widget class="QPushButton" name="but_insert">
       <property name="enabled">
        <bool>false</bool>
@@ -200,7 +191,7 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
+    <item row="0" column="2">
      <widget class="QPushButton" name="but_select">
       <property name="enabled">
        <bool>false</bool>
@@ -210,7 +201,7 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="3">
+    <item row="0" column="3">
      <widget class="QPushButton" name="but_move">
       <property name="enabled">
        <bool>false</bool>
@@ -220,13 +211,47 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="4">
+    <item row="0" column="4">
      <widget class="QPushButton" name="but_delete">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="text">
        <string>删除工作表</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>新Sheet名：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QLineEdit" name="line_newSheetName">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QPushButton" name="but_rename">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>重命名</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="4">
+     <widget class="QPushButton" name="but_copy">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>复制工作表</string>
       </property>
      </widget>
     </item>
