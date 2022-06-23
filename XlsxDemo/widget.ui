@@ -13,46 +13,62 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QPushButton" name="but_demo1">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>50</y>
-     <width>111</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>QXlsx基本使用</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="but_demo2">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>100</y>
-     <width>111</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>QXlsx工作表操作</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="but_demo3">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>150</y>
-     <width>111</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>工作表显示/隐藏</string>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="Test1" name="tab">
+      <attribute name="title">
+       <string>QXlsx基本使用</string>
+      </attribute>
+     </widget>
+     <widget class="Test2" name="tab_2">
+      <attribute name="title">
+       <string>QXlsx工作表操作</string>
+      </attribute>
+     </widget>
+     <widget class="Test3" name="tab_3">
+      <attribute name="title">
+       <string>工作表显示/隐藏</string>
+      </attribute>
+     </widget>
+     <widget class="Test4" name="tab_4">
+      <attribute name="title">
+       <string>插入图表</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Test1</class>
+   <extends>QWidget</extends>
+   <header>test1.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Test2</class>
+   <extends>QWidget</extends>
+   <header>test2.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Test3</class>
+   <extends>QWidget</extends>
+   <header>test3.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Test4</class>
+   <extends>QWidget</extends>
+   <header>test4.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
