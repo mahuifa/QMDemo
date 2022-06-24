@@ -10,7 +10,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("QXlsx读写Excel 示例程序");
+    this->setWindowTitle("QXlsx操作Excel 示例程序");
 }
 
 Widget::~Widget()

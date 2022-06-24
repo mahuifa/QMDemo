@@ -15,6 +15,11 @@ public:
     explicit Test4(QWidget *parent = nullptr);
     ~Test4();
 
+private slots:
+    void on_but_show_clicked();
+
+    void on_pushButton_clicked();
+
 private:
     Ui::Test4 *ui;
 };
