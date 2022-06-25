@@ -14,6 +14,7 @@ FORMS += \
     $$PWD/test4.ui
 
 HEADERS += \
+    $$PWD/Interface.h \
     $$PWD/test1.h \
     $$PWD/test2.h \
     $$PWD/test3.h \

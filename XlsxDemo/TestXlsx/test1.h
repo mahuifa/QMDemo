@@ -13,19 +13,21 @@
 
 #include <QWidget>
 #include "xlsxdocument.h"
-
+#include "Interface.h"
 
 namespace Ui {
 class Test1;
 }
 
-class Test1 : public QWidget
+class Test1 :public InterFace
 {
     Q_OBJECT
 
 public:
     explicit Test1(QWidget *parent = nullptr);
     ~Test1();
+
+    QString getExcelName() override;
 
 private slots:
     void on_but_open_clicked();
@@ -38,8 +40,6 @@ private slots:
     void on_but_saveAs_clicked();
 
     void on_but_close_clicked();
-
-    void on_but_show_clicked();
 
 private:
     Ui::Test1 *ui;

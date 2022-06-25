@@ -19,6 +19,8 @@ private:
 
 private slots:
 
+    void on_but_show_clicked();
+
 private:
     Ui::Widget *ui;
 };

@@ -15,12 +15,13 @@
 #define TEST3_H
 
 #include <QWidget>
+#include "Interface.h"
 
 namespace Ui {
 class Test3;
 }
 
-class Test3 : public QWidget
+class Test3 :  public InterFace
 {
     Q_OBJECT
 
@@ -28,8 +29,9 @@ public:
     explicit Test3(QWidget *parent = nullptr);
     ~Test3();
 
+    QString getExcelName() override;
+
 private slots:
-    void on_but_show_clicked();
 
     void on_but_addSheet_clicked();
 

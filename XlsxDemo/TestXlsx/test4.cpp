@@ -11,11 +11,10 @@ QXLSX_USE_NAMESPACE
 #define EXCEL_NAME "chart.xlsx"         // 本Demo使用的Excel文件名
 
 Test4::Test4(QWidget *parent) :
-    QWidget(parent),
+    InterFace(parent),
     ui(new Ui::Test4)
 {
     ui->setupUi(this);
-//    qDebug() << EXCEL_EXE;
 }
 
 Test4::~Test4()
@@ -23,14 +22,11 @@ Test4::~Test4()
     delete ui;
 }
 
-void Test4::on_but_show_clicked()
+QString Test4::getExcelName()
 {
-    bool ret = QProcess::startDetached("D:/WPS Office/ksolaunch.exe", QStringList() << QDir::currentPath() + "/" + EXCEL_NAME);
-    if(!ret)
-    {
-        qWarning() << "打开Excel失败，请注意wps路径是否存在，或者替换其它程序打开excel";
-    }
+    return EXCEL_NAME;
 }
+
 
 void Test4::on_pushButton_clicked()
 {

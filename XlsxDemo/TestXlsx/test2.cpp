@@ -7,10 +7,10 @@
 #include "xlsxabstractsheet.h"
 
 QXLSX_USE_NAMESPACE            // 添加Xlsx命名空间
-#define EXCEL_NAME "./1.xlsx"  // 本demo中用到的excel文件路径文件名
+#define EXCEL_NAME "1.xlsx"  // 本demo中用到的excel文件路径文件名
 
 Test2::Test2(QWidget *parent) :
-    QWidget(parent),
+    InterFace(parent),
     ui(new Ui::Test2)
 {
     ui->setupUi(this);
@@ -22,6 +22,11 @@ Test2::~Test2()
 {
     on_but_close_clicked();
     delete ui;
+}
+
+QString Test2::getExcelName()
+{
+    return  EXCEL_NAME;
 }
 
 #if 0            // 使用到的函数
@@ -287,14 +292,3 @@ void Test2::on_but_delete_clicked()
     }
 }
 
-/**
- * @brief  通过调用WPS打开当前路径下的Excel文件，如果打开失败需要替换自己的wps的安装路径
- */
-void Test2::on_but_show_clicked()
-{
-    bool ret = QProcess::startDetached("D:/WPS Office/ksolaunch.exe", QStringList() << QDir::currentPath() + "/1.xlsx");
-    if(!ret)
-    {
-        qWarning() << "打开Excel失败，请注意wps路径是否存在，或者替换其它程序打开excel";
-    }
-}

@@ -90,19 +90,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="but_show">
-   <property name="geometry">
-    <rect>
-     <x>360</x>
-     <y>30</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>显示Excel</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="but_querySheet">
    <property name="enabled">
     <bool>false</bool>
@@ -161,7 +148,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
