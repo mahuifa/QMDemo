@@ -16,6 +16,7 @@ Test2::Test2(QWidget *parent) :
     ui->setupUi(this);
 
     this->setWindowTitle("QXlsx中通过Document对象操作工作表Demo");
+    this->setToolTip(this->windowTitle());
 }
 
 Test2::~Test2()

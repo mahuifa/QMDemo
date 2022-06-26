@@ -15,6 +15,7 @@ Test3::Test3(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("QXlsx查询设置工作表隐藏或可见状态Demo");
+    this->setToolTip(this->windowTitle());
 }
 
 Test3::~Test3()

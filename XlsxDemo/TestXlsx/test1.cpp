@@ -14,7 +14,7 @@ Test1::Test1(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("QXlsx基本读写Excel");
-
+    this->setToolTip(this->windowTitle());
 }
 
 Test1::~Test1()
