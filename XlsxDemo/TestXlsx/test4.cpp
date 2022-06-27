@@ -30,12 +30,13 @@ QString Test4::getExcelName()
 }
 
 /**
- * @brief 从源码中void ChartPrivate::saveXmlChart(QXmlStreamWriter &writer) const函数看
+ * @brief 演示在工作表中插入图表，这里演示了Qxlsx中所有图表类型；
+ *        从源码中void ChartPrivate::saveXmlChart(QXmlStreamWriter &writer) const函数看
  *        部分ChartType类型还不支持，如CT_StockChart
  */
 void Test4::on_pushButton_clicked()
 {
-    Document xlsx;               // 创建一个Excel对象（默认有一个Sheet1）
+    Document xlsx;                    // 创建一个Excel对象（默认有一个Sheet1）
     for(int i = 1; i < 10; i++)
     {
         xlsx.write(i, 1, i * i * i);    // 在第一列写入9个数据
@@ -147,5 +148,114 @@ void Test4::on_pushButton_clicked()
     bubbleChart->setChartType(Chart::CT_BubbleChart);
     bubbleChart->addSeries(CellRange("A1:A9"));
 
-    xlsx.saveAs(EXCEL_NAME);
+    if(xlsx.saveAs(EXCEL_NAME))    // 如果文件已经存在则覆盖
+    {
+        qInfo() << "插入所有图表Demo保存成功！";
+    }
+    else
+    {
+        qWarning() << "插入所有图表Demo保存失败！";
+    }
+}
+
+/**
+ * @brief 1、设置【图例】位置；
+ *        2、设置图表【标题】；
+ *        3、打开图表网格线；
+ *        4、行列交换标头；
+ *        5、设置插入的数据范围是否包含标题；
+ *        6、插入图表，引用其它工作表数据。
+ */
+void Test4::on_pushButton_2_clicked()
+{
+    Document xlsx;
+
+    for(int i = 1; i < 10; i++)
+    {
+        xlsx.write(1, i + 1, QString("Pos %1").arg(i));      // 写入列标题
+        xlsx.write(2, i + 1, i * i * i);                     // 写入数据
+        xlsx.write(3, i + 1, i * i);
+    }
+    // 写入行标题
+    xlsx.write(2, 1, "Set 1");
+    xlsx.write(3, 1, "Set 2");
+
+    // 插入一个柱状图，并设置图例在【右边】
+    xlsx.write(5, 4, "图例在右边");
+    Chart* barChart1 = xlsx.insertChart(5, 3, QSize(300, 300));  // 插入图表
+    barChart1->setChartType(Chart::CT_BarChart);
+    barChart1->setChartLegend(Chart::Right);     // 设置图例在右边，可设置None：无图例, Left：左边, Right：右边， Top：上边, Bottom：下边
+    barChart1->setChartTitle("Test1");
+    barChart1->addSeries(CellRange(1, 1, 3, 10), nullptr, true, true, false);
+
+    // 插入一个柱状图，启动【主网格线】
+    xlsx.write(5, 10, "图例在左边，启动主网格线");
+    Chart* barChart2 = xlsx.insertChart(5, 9, QSize(300, 300));  // 插入图表
+    barChart2->setChartType(Chart::CT_BarChart);
+    barChart2->setChartLegend(Chart::Left);
+    barChart2->setChartTitle("Test2");
+    barChart2->setGridlinesEnable(true);   // 启动主网格线
+    barChart2->addSeries(CellRange(1, 1, 3, 10), nullptr, true, true, false);
+
+    // 插入一个柱状图，启动【次网格线】
+    xlsx.write(5, 16, "图例在上边，启动次网格线");
+    Chart* barChart3 = xlsx.insertChart(5, 15, QSize(300, 300));  // 插入图表
+    barChart3->setChartType(Chart::CT_BarChart);
+    barChart3->setChartLegend(Chart::Top);
+    barChart3->setChartTitle("Test3");
+    barChart3->setGridlinesEnable(false, true);  // 关闭主网格线，启动子网格线
+    barChart3->addSeries(CellRange(1, 1, 3, 10), nullptr, true, true, false);
+
+    // 插入一个柱状图，【行列交换标头】
+    xlsx.write(25, 4, "图例在下边，行列交换标头");
+    Chart* barChart4 = xlsx.insertChart(25, 3, QSize(300, 300));  // 插入图表
+    barChart4->setChartType(Chart::CT_BarChart);
+    barChart4->setChartLegend(Chart::Bottom);
+    barChart4->setChartTitle("Test4");
+    barChart4->addSeries(CellRange(1, 1, 3, 10), nullptr, false, true, true);  // 参数5【true：以1列为1个数据系列，false：以1行为1个数据系列】
+
+    // 插入一个柱状图，【数据范围不包含标题】
+    xlsx.write(25, 10, "数据范围不包含标题");
+    Chart* barChart5 = xlsx.insertChart(25, 9, QSize(300, 300));  // 插入图表
+    barChart5->setChartType(Chart::CT_BarChart);
+    barChart5->setChartLegend(Chart::Right);
+    barChart5->setChartTitle("Test5");
+    // 参数1：添加数据系列范围；参数2：指定插入的数据位于哪个工作表（Sheet），默认为NULL，即当前工作表；
+    // 参数3，数据系列范围第一行是否为列标题，true：为标题；参数4，数据系列范围第1列是否为行标题，true：为标题；默认都不为标题
+    // 参数5：交换行列标头。
+    barChart5->addSeries(CellRange(1, 1, 3, 10));
+
+    // 插入一个柱状图，【数据范围包含列标题】
+    xlsx.write(25, 16, "数据范围包含列标题");
+    Chart* barChart6 = xlsx.insertChart(25, 15, QSize(300, 300));  // 插入图表
+    barChart6->setChartType(Chart::CT_BarChart);
+    barChart6->setChartLegend(Chart::Right);
+    barChart6->setChartTitle("Test6");
+    barChart6->addSeries(CellRange(1, 1, 3, 10), nullptr, true);
+
+    // 插入一个柱状图，【数据范围包含行标题】
+    xlsx.write(45, 4, "数据范围包含行标题");
+    Chart* barChart7 = xlsx.insertChart(45, 3, QSize(300, 300));  // 插入图表
+    barChart7->setChartType(Chart::CT_BarChart);
+    barChart7->setChartLegend(Chart::Right);
+    barChart7->setChartTitle("Test7");
+    barChart7->addSeries(CellRange(1, 1, 3, 10), nullptr, false, true);
+
+    // 添加一个工作表（Sheet2）,在Sheet2中插入图表，数据为Sheet1中的数据
+    xlsx.addSheet("Sheet2");                                     // 添加一个工作表，当前工作表为Sheet2
+    xlsx.write(3, 4, "插入图表，引用Sheet1数据");
+    Chart* barChart8 = xlsx.insertChart(3, 3, QSize(300, 300));  // 插入图表
+    barChart8->setChartType(Chart::CT_BarChart);
+    barChart8->setChartLegend(Chart::Right);
+    barChart8->setChartTitle("Test8");
+    barChart8->addSeries(CellRange(1, 1, 3, 10), xlsx.sheet("Sheet1"));   // 添加数据系列范围，并指定为Sheet1中的数据
+
+    if(xlsx.saveAs(EXCEL_NAME))                             // 如果文件已经存在则覆盖
+    {
+        qInfo() << "保存成功！";
+    }
+    else
+    {
+        qWarning() << "保存失败！";
+    }
 }
