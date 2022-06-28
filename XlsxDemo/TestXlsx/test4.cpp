@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <xlsxdocument.h>
 #include <xlsxchart.h>
+#include <xlsxchartsheet.h>
 QXLSX_USE_NAMESPACE
 
 #define EXCEL_NAME "chart.xlsx"         // 本Demo使用的Excel文件名
@@ -249,6 +250,33 @@ void Test4::on_pushButton_2_clicked()
     barChart8->setChartLegend(Chart::Right);
     barChart8->setChartTitle("Test8");
     barChart8->addSeries(CellRange(1, 1, 3, 10), xlsx.sheet("Sheet1"));   // 添加数据系列范围，并指定为Sheet1中的数据
+
+    if(xlsx.saveAs(EXCEL_NAME))                             // 如果文件已经存在则覆盖
+    {
+        qInfo() << "保存成功！";
+    }
+    else
+    {
+        qWarning() << "保存失败！";
+    }
+}
+
+/**
+ * @brief 插入图表Sheet，并绘制一个柱状图
+ */
+void Test4::on_pushButton_3_clicked()
+{
+    Document xlsx;
+    for(int i = 1; i < 10; i++)
+    {
+        xlsx.write(i, 1, i * i);         // 在Sheet1中写入1列数据
+    }
+
+    xlsx.addSheet("Chart1", AbstractSheet::ST_ChartSheet);               // 插入一个名称为【Chart1】，类型为【图表】的Sheet
+    Chartsheet* sheet = static_cast<Chartsheet*>(xlsx.currentSheet());   // 获取当前工作表，并将类型转换为Chartsheet*
+    Chart* barChart = sheet->chart();           // 图表Sheet中会默认内置一个Chart，从这一步开始就和正常操作图表一样了
+    barChart->setChartType(Chart::CT_BarChart); // 设置图表类型位柱状图
+    barChart->addSeries(CellRange("A1:A9"), xlsx.sheet("Sheet1")); // 添加数据系列，数据位于Sheet1中的A1-A9
 
     if(xlsx.saveAs(EXCEL_NAME))                             // 如果文件已经存在则覆盖
     {

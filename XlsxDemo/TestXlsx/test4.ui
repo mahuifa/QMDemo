@@ -39,6 +39,19 @@
     <string>工作表插入图表【进阶】</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>150</y>
+     <width>171</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>插入图表Sheet</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
