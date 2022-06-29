@@ -3,6 +3,9 @@
 #include "test1.h"
 #include "test2.h"
 #include "test3.h"
+#include <QProcess>
+#include <QDebug>
+#include <qdir.h>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -10,7 +13,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("QXlsx读写Excel 示例程序");
+    this->setWindowTitle("QXlsx操作Excel 示例程序");
 }
 
 Widget::~Widget()
@@ -18,46 +21,13 @@ Widget::~Widget()
     delete ui;
 }
 
-/**
- * @brief          通过传入枚举值创建对象
- * @param type
- */
-void Widget::createObject(Widget::DemoType type)
+void Widget::on_but_show_clicked()
 {
-    if(m_widget)
+    InterFace* interFace = static_cast<InterFace*>(ui->tabWidget->currentWidget());  // 获取当前tabwidget中的widget并转换为接口对象
+    bool ret = QProcess::startDetached("D:/WPS Office/ksolaunch.exe",
+                                       QStringList() << QDir::currentPath() + "/" + interFace->getExcelName());  // 打开当前示例用到excel文件
+    if(!ret)
     {
-        delete m_widget;
-        m_widget = nullptr;
+        qWarning() << "打开Excel失败，请注意wps路径是否存在，或者替换其它程序打开excel";
     }
-    switch (type)
-    {
-    case Demo1:
-        m_widget = new Test1();
-        break;
-    case Demo2:
-        m_widget = new Test2();
-        break;
-    case Demo3:
-        m_widget = new Test3();
-        break;
-    }
-    m_widget->show();
-}
-
-
-void Widget::on_but_demo1_clicked()
-{
-    createObject(Demo1);
-}
-
-
-void Widget::on_but_demo2_clicked()
-{
-    createObject(Demo2);
-}
-
-
-void Widget::on_but_demo3_clicked()
-{
-    createObject(Demo3);
 }
