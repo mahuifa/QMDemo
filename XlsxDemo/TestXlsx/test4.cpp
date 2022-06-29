@@ -125,7 +125,7 @@ void Test4::on_pushButton_clicked()
     bar3DChart->setChartType(Chart::CT_Bar3DChart);
     bar3DChart->addSeries(CellRange("A1:A9"));
 
-    // 插入饼图图（还不支持）
+    // 插入饼图（还不支持）
     xlsx.write(83, 4, "CT_OfPieChart");
     Chart* ofPieChart = xlsx.insertChart(83, 3, QSize(300, 300));
     ofPieChart->setChartType(Chart::CT_OfPieChart);
