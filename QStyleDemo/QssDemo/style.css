@@ -888,6 +888,12 @@ QListView::item:hover {                    /* 鼠标进入行的样式*/
                             stop: 0 #FFABFE, stop: 1 #DCDEF1);
 }
 
+/* 设置属性ViewMode为IconMode，属性Flow为LeftToRight时的样式*/
+QListView[flow="0"][viewMode="1"]::item {
+    height: 50px;
+    width: 50px;
+}
+
 /********************QHeaderView标题行样式**********************/
 QHeaderView::section {   /*标题行样式*/
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
@@ -931,4 +937,46 @@ QTableView QTableCornerButton::section {
 /* 单元格中复选框未选中的样式*/
 QTableView::indicator:unchecked {
     background-color: #ff55ff;
+}
+
+/********************QToolBar样式**********************/
+QToolBar {
+    background-color: qlineargradient(spread:pad, x1:0, y1:0.54, x2:0.994318, y2:0.517045,
+                                      stop:0.0113636 #1f4037, stop:0.642045 #99f2c8);
+    spacing: 20px;    /* 工具栏中插入项之间的间距*/
+}
+
+/* 工具栏可用于鼠标移动的句柄样式*/
+QToolBar::handle {
+    background: red;
+}
+
+/********************QToolBox样式**********************/
+QToolBox {
+    background: red;         /* 设置QToolBox底层背景*/
+}
+
+/* 由于QToolBox底层背景上还有一层QWidget，所以直接设置背景色没有效果，需要再设置QWidget背景*/
+QToolBox QWidget {
+    background-color: rgb(0, 225, 165);
+}
+
+QToolBox::tab {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                            stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                            stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+    border-radius: 5px;
+    color: black;
+}
+
+QToolBox::tab:selected {
+    font: italic;
+}
+
+/********************QToolTip样式**********************/
+QToolTip {
+    border: 2px solid darkgray; /* 设置边框*/
+    padding: 5px;               /* 设置上下左右内填充*/
+    border-radius: 3px;         /* 圆角*/
+    opacity: 150;               /* 不透明度，范围[0-255]，只支持QToolTip*/
 }

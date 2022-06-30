@@ -6,7 +6,7 @@
 #include <QStyle>
 #include <QFileSystemModel>
 #include <QStandardItemModel>
-
+#include <QToolTip>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
