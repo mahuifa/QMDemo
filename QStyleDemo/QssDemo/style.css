@@ -124,7 +124,7 @@ QPushButton::menu-indicator:open {
 }
 
 /********************QToolButton样式**********************/
-QToolButton {
+#tab_2 QToolButton {                   /* 这里使用#tab_2限定样式的作用范围，防止影响其它tab中的控件样式*/
     border:2px solid #8f8f91;          /* 设置边框 */
     border-radius: 6px;                /* 圆角 */
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
@@ -979,4 +979,55 @@ QToolTip {
     padding: 5px;               /* 设置上下左右内填充*/
     border-radius: 3px;         /* 圆角*/
     opacity: 150;               /* 不透明度，范围[0-255]，只支持QToolTip*/
+}
+
+/********************QDial样式，很多样式都无效**********************/
+QDial {
+    background-color: rgb(85, 255, 255);     /* 不支持渐变*/
+}
+
+QDial:!enabled{
+    background-color: rgb(0, 0, 0);          /* 不可用*/
+}
+
+
+/********************qcalendarwidget样式**********************/
+/* 日历控件头部导航栏样式*/
+#qt_calendar_navigationbar {
+    background-color: qlineargradient(spread:pad, x1:0.489, y1:0.0456818, x2:0.477, y2:1, stop:0.0113636 rgba(0, 0, 0, 255), stop:0.954545 rgba(168, 168, 170, 255));
+    height: 50px;
+}
+
+QCalendarWidget QToolButton {
+    border: 2px solid #00ffff;     /* 画出日历中所有QToolButton的边框*/
+}
+
+/* 日历中左箭头按键样式*/
+QCalendarWidget #qt_calendar_prevmonth {
+    background: #d6d6a0;
+}
+/* 日历中右箭头按键样式*/
+QCalendarWidget #qt_calendar_nextmonth {
+    background: #aa55ff;
+}
+
+/* 月份按键样式*/
+QCalendarWidget #qt_calendar_monthbutton {
+    background: #aaff00;
+}
+
+/* 年按键样式*/
+QCalendarWidget #qt_calendar_yearbutton {
+    background: #55aa7f;
+}
+
+/* 显示日期部分是一个表格控件(QTableView)*/
+#qt_calendar_calendarview {
+    background: black;
+    color: white;
+    selection-color: red;                             /* 选择日期单元格字体颜色*/
+    alternate-background-color: rgb(128, 128, 128);   /* 表头样式（表头部分不是QHeaderView，所以使用QHeaderView来设置样式是无效的*/
+    selection-background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.50565, fy:0.500409, /* 选中日期单元格背景颜色*/
+                                                stop:0 rgba(0, 0, 0, 255), stop:0.361582 rgba(0, 146, 146, 255),
+                                                stop:0.649718 rgba(255, 255, 255, 255), stop:1 rgba(0, 177, 181, 255));
 }
