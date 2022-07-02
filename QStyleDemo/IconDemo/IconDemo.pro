@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------
 # 功能：       Qt使用QStyle内置图标Demo
-# 编译器：     %{ActiveProject:Kit:Name}（也支持其它编译器）
+# 编译器：     MSVC2015-64（也支持其它编译器）
 # Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
 # @开发者     mhf
