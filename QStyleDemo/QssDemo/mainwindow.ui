@@ -21,7 +21,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -753,7 +753,7 @@ p, li { white-space: pre-wrap; }
            <item row="0" column="1">
             <widget class="QLabel" name="label_9">
              <property name="toolTip">
-              <string>ToolTip</string>
+              <string>ToolTip样式</string>
              </property>
              <property name="text">
               <string>TextLabel</string>
@@ -2083,135 +2083,131 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>QToolBox</string>
        </attribute>
-       <widget class="QToolBox" name="toolBox">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>30</y>
-          <width>341</width>
-          <height>521</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>3</number>
-        </property>
-        <widget class="QWidget" name="page">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>341</width>
-           <height>391</height>
-          </rect>
-         </property>
-         <attribute name="label">
-          <string>Page 1</string>
-         </attribute>
-         <widget class="QPushButton" name="pushButton_9">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>30</y>
-            <width>75</width>
-            <height>23</height>
-           </rect>
+       <layout class="QGridLayout" name="gridLayout_26">
+        <item row="0" column="0">
+         <widget class="QToolBox" name="toolBox">
+          <property name="currentIndex">
+           <number>3</number>
           </property>
-          <property name="text">
-           <string>PushButton</string>
-          </property>
+          <widget class="QWidget" name="page">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>341</width>
+             <height>391</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Page 1</string>
+           </attribute>
+           <widget class="QPushButton" name="pushButton_9">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>30</y>
+              <width>75</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>PushButton</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_10">
+            <property name="geometry">
+             <rect>
+              <x>120</x>
+              <y>30</y>
+              <width>75</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>PushButton</string>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="page_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>341</width>
+             <height>391</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Page 2</string>
+           </attribute>
+           <widget class="QCheckBox" name="checkBox_4">
+            <property name="geometry">
+             <rect>
+              <x>30</x>
+              <y>40</y>
+              <width>71</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>CheckBox</string>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioButton_4">
+            <property name="geometry">
+             <rect>
+              <x>140</x>
+              <y>40</y>
+              <width>89</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>RadioButton</string>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="page_3">
+           <attribute name="label">
+            <string>页</string>
+           </attribute>
+           <widget class="QTextEdit" name="textEdit_2">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>30</y>
+              <width>104</width>
+              <height>71</height>
+             </rect>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="page_4">
+           <attribute name="label">
+            <string>页</string>
+           </attribute>
+           <widget class="QLineEdit" name="lineEdit_7">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>30</y>
+              <width>113</width>
+              <height>20</height>
+             </rect>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="page_5">
+           <attribute name="label">
+            <string>页</string>
+           </attribute>
+           <attribute name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;123&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </attribute>
+          </widget>
          </widget>
-         <widget class="QPushButton" name="pushButton_10">
-          <property name="geometry">
-           <rect>
-            <x>120</x>
-            <y>30</y>
-            <width>75</width>
-            <height>23</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>PushButton</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="page_2">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>341</width>
-           <height>391</height>
-          </rect>
-         </property>
-         <attribute name="label">
-          <string>Page 2</string>
-         </attribute>
-         <widget class="QCheckBox" name="checkBox_4">
-          <property name="geometry">
-           <rect>
-            <x>30</x>
-            <y>40</y>
-            <width>71</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>CheckBox</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="radioButton_4">
-          <property name="geometry">
-           <rect>
-            <x>140</x>
-            <y>40</y>
-            <width>89</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>RadioButton</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="page_3">
-         <attribute name="label">
-          <string>页</string>
-         </attribute>
-         <widget class="QTextEdit" name="textEdit_2">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>30</y>
-            <width>104</width>
-            <height>71</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="page_4">
-         <attribute name="label">
-          <string>页</string>
-         </attribute>
-         <widget class="QLineEdit" name="lineEdit_7">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>113</width>
-            <height>20</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="page_5">
-         <attribute name="label">
-          <string>页</string>
-         </attribute>
-         <attribute name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;123&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </attribute>
-        </widget>
-       </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

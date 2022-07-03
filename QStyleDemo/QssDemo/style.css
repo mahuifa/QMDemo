@@ -7,10 +7,10 @@ background-color: rgb(214, 214, 214);
 /********************QAbstractScrollArea样式**********************/
 #tab QAbstractScrollArea{
 /*    background-color: rgba(255, 0, 0, 150);*/     /* 设置背景色*/
-    background-image: url(:/image/bg.PNG);    /* 设置背景图片*/
-    background-repeat:no-repeat;               /* 设置背景图像是否及如何重复*/
-    background-position:center;                /* 设置背景图像的起始位置*/
-    background-attachment: scroll;              /* 背景图像是否固定或者随着页面的其余部分滚动 */
+    background-image: url(:/image/bg.PNG);          /* 设置背景图片*/
+    background-repeat:no-repeat;                    /* 设置背景图像是否及如何重复*/
+    background-position:center;                     /* 设置背景图像的起始位置*/
+    background-attachment: scroll;                  /* 背景图像是否固定或者随着页面的其余部分滚动 */
     color: rgb(0, 255, 0);
 }
 
@@ -546,6 +546,7 @@ QSlider::sub-page:horizontal {    /* 设置滑块滑过区域样式*/
 }
 
 
+
 /********************QSlider竖向滑动条样式**********************/
 QSlider::groove:vertical {
     background-color: qlineargradient(spread:reflect, x1:0, y1:0.510682, x2:0.5, y2:0.517045,
@@ -994,7 +995,9 @@ QDial:!enabled{
 /********************qcalendarwidget样式**********************/
 /* 日历控件头部导航栏样式*/
 #qt_calendar_navigationbar {
-    background-color: qlineargradient(spread:pad, x1:0.489, y1:0.0456818, x2:0.477, y2:1, stop:0.0113636 rgba(0, 0, 0, 255), stop:0.954545 rgba(168, 168, 170, 255));
+    background-color: qlineargradient(spread:pad, x1:0.489, y1:0.0456818, x2:0.477, y2:1,
+                                     stop:0.0113636 rgba(0, 0, 0, 255),
+                                     stop:0.954545 rgba(168, 168, 170, 255));
     height: 50px;
 }
 
