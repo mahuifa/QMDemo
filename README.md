@@ -10,18 +10,22 @@
 
 | 模块名           | 功能                                                         | 支持系统 |
 | ---------------- | ------------------------------------------------------------ | -------- |
+|                  | **使用Qt内置模块**                                           |          |
 | QMWidget         | 基于QWidget实现的自定义窗口模块                              | windows  |
 | DeviceManagement | 串口、鼠标、键盘热插拔监测功能模块                           | windows  |
 | QLog             | Qt日志系统                                                   |          |
 | QMPlayer         | 视频播放器界面                                               | windows  |
 | TestCrashHandler | windows下程序崩溃定位Demo                                    | windows  |
 | QMNetwork        | [Qt网络编程Demo](./QMNetwork/QMNetwork.md)                   |          |
-| XlsxDemo         | [Qt使用QXlsx操作Excel Demo](./XlsxDemo/XlsxDemo.md)          |          |
 | QtChartsDemo     | [Qt使用QtCharts模块绘制图表Demo](./QtChartsDemo/QtCharts.md) |          |
 | PlayImage        | Qt使用QPainter绘制方式显示图片                               |          |
 | ProgramFramework | [用过的一些Qt程序模块设计架构Demo](./ProgramFramework/ProgramFramework.md) |          |
 | QSqlDemo         | [QSql学习Demo](./QSqlDemo/QSql.md)                           |          |
 | QStyleDemo       | [Qt样式美化设置Demo说明及演示](./QStyleDemo/QStyleDemo.md)   |          |
+|                  |                                                              |          |
+|                  | **使用到第三方库**                                           |          |
+| XlsxDemo         | [Qt使用QXlsx操作Excel Demo](./XlsxDemo/XlsxDemo.md)          |          |
+| OpenCVDemo       | [Qt使用OpenCV进行视频、图像操作Demo](./OpenCVDemo/OpenCVDemo.md) |          |
 
 
 

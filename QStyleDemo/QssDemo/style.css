@@ -7,10 +7,10 @@ background-color: rgb(214, 214, 214);
 /********************QAbstractScrollArea样式**********************/
 #tab QAbstractScrollArea{
 /*    background-color: rgba(255, 0, 0, 150);*/     /* 设置背景色*/
-    background-image: url(:/image/bg.PNG);    /* 设置背景图片*/
-    background-repeat:no-repeat;               /* 设置背景图像是否及如何重复*/
-    background-position:center;                /* 设置背景图像的起始位置*/
-    background-attachment: scroll;              /* 背景图像是否固定或者随着页面的其余部分滚动 */
+    background-image: url(:/image/bg.PNG);          /* 设置背景图片*/
+    background-repeat:no-repeat;                    /* 设置背景图像是否及如何重复*/
+    background-position:center;                     /* 设置背景图像的起始位置*/
+    background-attachment: scroll;                  /* 背景图像是否固定或者随着页面的其余部分滚动 */
     color: rgb(0, 255, 0);
 }
 
@@ -124,7 +124,7 @@ QPushButton::menu-indicator:open {
 }
 
 /********************QToolButton样式**********************/
-QToolButton {
+#tab_2 QToolButton {                   /* 这里使用#tab_2限定样式的作用范围，防止影响其它tab中的控件样式*/
     border:2px solid #8f8f91;          /* 设置边框 */
     border-radius: 6px;                /* 圆角 */
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
@@ -546,6 +546,7 @@ QSlider::sub-page:horizontal {    /* 设置滑块滑过区域样式*/
 }
 
 
+
 /********************QSlider竖向滑动条样式**********************/
 QSlider::groove:vertical {
     background-color: qlineargradient(spread:reflect, x1:0, y1:0.510682, x2:0.5, y2:0.517045,
@@ -888,6 +889,12 @@ QListView::item:hover {                    /* 鼠标进入行的样式*/
                             stop: 0 #FFABFE, stop: 1 #DCDEF1);
 }
 
+/* 设置属性ViewMode为IconMode，属性Flow为LeftToRight时的样式*/
+QListView[flow="0"][viewMode="1"]::item {
+    height: 50px;
+    width: 50px;
+}
+
 /********************QHeaderView标题行样式**********************/
 QHeaderView::section {   /*标题行样式*/
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
@@ -931,4 +938,99 @@ QTableView QTableCornerButton::section {
 /* 单元格中复选框未选中的样式*/
 QTableView::indicator:unchecked {
     background-color: #ff55ff;
+}
+
+/********************QToolBar样式**********************/
+QToolBar {
+    background-color: qlineargradient(spread:pad, x1:0, y1:0.54, x2:0.994318, y2:0.517045,
+                                      stop:0.0113636 #1f4037, stop:0.642045 #99f2c8);
+    spacing: 20px;    /* 工具栏中插入项之间的间距*/
+}
+
+/* 工具栏可用于鼠标移动的句柄样式*/
+QToolBar::handle {
+    background: red;
+}
+
+/********************QToolBox样式**********************/
+QToolBox {
+    background: red;         /* 设置QToolBox底层背景*/
+}
+
+/* 由于QToolBox底层背景上还有一层QWidget，所以直接设置背景色没有效果，需要再设置QWidget背景*/
+QToolBox QWidget {
+    background-color: rgb(0, 225, 165);
+}
+
+QToolBox::tab {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                            stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                            stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+    border-radius: 5px;
+    color: black;
+}
+
+QToolBox::tab:selected {
+    font: italic;
+}
+
+/********************QToolTip样式**********************/
+QToolTip {
+    border: 2px solid darkgray; /* 设置边框*/
+    padding: 5px;               /* 设置上下左右内填充*/
+    border-radius: 3px;         /* 圆角*/
+    opacity: 150;               /* 不透明度，范围[0-255]，只支持QToolTip*/
+}
+
+/********************QDial样式，很多样式都无效**********************/
+QDial {
+    background-color: rgb(85, 255, 255);     /* 不支持渐变*/
+}
+
+QDial:!enabled{
+    background-color: rgb(0, 0, 0);          /* 不可用*/
+}
+
+
+/********************qcalendarwidget样式**********************/
+/* 日历控件头部导航栏样式*/
+#qt_calendar_navigationbar {
+    background-color: qlineargradient(spread:pad, x1:0.489, y1:0.0456818, x2:0.477, y2:1,
+                                     stop:0.0113636 rgba(0, 0, 0, 255),
+                                     stop:0.954545 rgba(168, 168, 170, 255));
+    height: 50px;
+}
+
+QCalendarWidget QToolButton {
+    border: 2px solid #00ffff;     /* 画出日历中所有QToolButton的边框*/
+}
+
+/* 日历中左箭头按键样式*/
+QCalendarWidget #qt_calendar_prevmonth {
+    background: #d6d6a0;
+}
+/* 日历中右箭头按键样式*/
+QCalendarWidget #qt_calendar_nextmonth {
+    background: #aa55ff;
+}
+
+/* 月份按键样式*/
+QCalendarWidget #qt_calendar_monthbutton {
+    background: #aaff00;
+}
+
+/* 年按键样式*/
+QCalendarWidget #qt_calendar_yearbutton {
+    background: #55aa7f;
+}
+
+/* 显示日期部分是一个表格控件(QTableView)*/
+#qt_calendar_calendarview {
+    background: black;
+    color: white;
+    selection-color: red;                             /* 选择日期单元格字体颜色*/
+    alternate-background-color: rgb(128, 128, 128);   /* 表头样式（表头部分不是QHeaderView，所以使用QHeaderView来设置样式是无效的*/
+    selection-background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.50565, fy:0.500409, /* 选中日期单元格背景颜色*/
+                                                stop:0 rgba(0, 0, 0, 255), stop:0.361582 rgba(0, 146, 146, 255),
+                                                stop:0.649718 rgba(255, 255, 255, 255), stop:1 rgba(0, 177, 181, 255));
 }
