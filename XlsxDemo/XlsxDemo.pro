@@ -44,8 +44,11 @@ INCLUDEPATH += $$PWD/QXlsx
 include($$PWD/TestXlsx/TestXlsx.pri)       # QXlsx使用Demo
 INCLUDEPATH += $$PWD/TestXlsx
 
-# 使用utf-8编码
+# 使用utf-8编码，这种用法好像只在msvc2017以后才有效
 msvc {
 QMAKE_CFLAGS += /utf-8
 QMAKE_CXXFLAGS += /utf-8
 }
+
+RESOURCES += \
+    appendix.qrc

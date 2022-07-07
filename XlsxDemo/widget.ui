@@ -72,6 +72,11 @@
        <string>插入图表</string>
       </attribute>
      </widget>
+     <widget class="Test5" name="tab_5">
+      <attribute name="title">
+       <string>插入图片</string>
+      </attribute>
+     </widget>
     </widget>
    </item>
   </layout>
@@ -99,6 +104,12 @@
    <class>Test4</class>
    <extends>QWidget</extends>
    <header>test4.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Test5</class>
+   <extends>QWidget</extends>
+   <header>test5.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
