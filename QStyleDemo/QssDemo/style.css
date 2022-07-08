@@ -1034,3 +1034,77 @@ QCalendarWidget #qt_calendar_yearbutton {
                                                 stop:0 rgba(0, 0, 0, 255), stop:0.361582 rgba(0, 146, 146, 255),
                                                 stop:0.649718 rgba(255, 255, 255, 255), stop:1 rgba(0, 177, 181, 255));
 }
+
+
+/********************QTreeView样式**********************/
+QTreeView {
+    background-color: rgba(85, 255, 127, 100);   /* 整体背景色*/
+    alternate-background-color: rgba(255, 255, 0, 100);          /* 交替行背景色，需要当QAbstractItemView::alternatingRowColors () 设置为 true才生效*/
+}
+
+QTreeView::item {
+    border: 1px solid red;
+    border-top-color: transparent;            /* 设置上边框透明*/
+    border-bottom-color: transparent;
+}
+
+/* 鼠标进入样式*/
+QTreeView::item:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1);
+    border: 1px solid #bfcde4;
+}
+
+/* 鼠标选中某行后的样式*/
+QTreeView::item:selected {
+    border: 2px solid #FF7dbc;
+}
+
+/* 鼠标选中行有焦点的样式*/
+QTreeView::item:selected:active{
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #6ea1f1, stop: 1 #567dbc);
+}
+
+/* 鼠标选中行失去焦点的样式*/
+QTreeView::item:selected:!active {
+    background: #aaffff;
+}
+
+/*分支指示器样式（左侧小箭头部分）*/
+QTreeView::branch {
+    background: palette(base);
+}
+
+/*
+has-siblings：QTreeView中具有同级的项（当前节点下方同级）
+has-children：QTreeView中具有子项的项
+adjoins-item：当QTreeView的::branch与某个item相邻时，将设置此状态
+*/
+/* 有同级，与item不相邻*/
+QTreeView::branch:has-siblings:!adjoins-item {
+    background: cyan;
+}
+/* 有同级，与item相邻*/
+QTreeView::branch:has-siblings:adjoins-item {
+    background: red;
+}
+
+/*没有同级、没有子项、与item相邻*/
+QTreeView::branch:!has-children:!has-siblings:adjoins-item {
+    background: blue;
+}
+/*有同级、有子项，并且关闭的节点*/
+QTreeView::branch:closed:has-children:has-siblings {
+    background: pink;
+}
+/*有子项、没有同级、并且关闭的节点*/
+QTreeView::branch:has-children:!has-siblings:closed {
+    background: gray;
+}
+/* 有同级、有子项、打开的节点*/
+QTreeView::branch:open:has-children:has-siblings {
+    background: magenta;
+}
+/* 没有同级、有子项、打开的节点*/
+QTreeView::branch:open:has-children:!has-siblings {
+    background: green;
+}

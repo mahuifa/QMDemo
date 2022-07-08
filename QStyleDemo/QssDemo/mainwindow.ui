@@ -21,7 +21,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -1802,7 +1802,14 @@ p, li { white-space: pre-wrap; }
        </attribute>
        <layout class="QGridLayout" name="gridLayout_16">
         <item row="0" column="0">
-         <widget class="QTreeView" name="treeView"/>
+         <widget class="QTreeView" name="treeView">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item row="0" column="1">
          <widget class="QTreeView" name="treeView_2">
@@ -1813,7 +1820,7 @@ p, li { white-space: pre-wrap; }
            <enum>QAbstractItemView::NoDragDrop</enum>
           </property>
           <property name="alternatingRowColors">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -2094,8 +2101,8 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>341</width>
-             <height>391</height>
+             <width>100</width>
+             <height>30</height>
             </rect>
            </property>
            <attribute name="label">
@@ -2133,8 +2140,8 @@ p, li { white-space: pre-wrap; }
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>341</width>
-             <height>391</height>
+             <width>100</width>
+             <height>30</height>
             </rect>
            </property>
            <attribute name="label">
@@ -2168,6 +2175,14 @@ p, li { white-space: pre-wrap; }
            </widget>
           </widget>
           <widget class="QWidget" name="page_3">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>100</width>
+             <height>30</height>
+            </rect>
+           </property>
            <attribute name="label">
             <string>页</string>
            </attribute>
@@ -2183,6 +2198,14 @@ p, li { white-space: pre-wrap; }
            </widget>
           </widget>
           <widget class="QWidget" name="page_4">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>814</width>
+             <height>478</height>
+            </rect>
+           </property>
            <attribute name="label">
             <string>页</string>
            </attribute>
@@ -2198,6 +2221,14 @@ p, li { white-space: pre-wrap; }
            </widget>
           </widget>
           <widget class="QWidget" name="page_5">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>100</width>
+             <height>30</height>
+            </rect>
+           </property>
            <attribute name="label">
             <string>页</string>
            </attribute>

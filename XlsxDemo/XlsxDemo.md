@@ -12,6 +12,7 @@
 | Test2 | QXlsx操作工作表（Sheet）Demo，包括新建、插入、查询、移动、重命名、复制、删除等。 |
 | Test3 | 查询设置工作表（Sheet）可见/隐藏状态                         |
 | Test4 | Qxlsx插入图表功能演示                                        |
+| Test5 | Excel中插入、读取图片                                        |
 
 
 
@@ -90,3 +91,13 @@
 ![image-20220629154520501](XlsxDemo.assets/image-20220629154520501.png)
 
 ![image-20220629154549163](XlsxDemo.assets/image-20220629154549163.png)
+
+
+
+### 1.5 Test5
+
+> 1. 在当前Sheet指定位置插入图片；
+> 2. 获取当前Sheet中图片个数；
+> 3. 通过索引方式和行列号方式读取当前Sheet中的图片。
+
+![test5-tuya](XlsxDemo.assets/test5-tuya.gif)

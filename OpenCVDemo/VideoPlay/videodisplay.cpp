@@ -49,7 +49,7 @@ void VideoDisplay::on_but_open_clicked()
         {
             m_play = true;
             ui->but_open->setText("关闭摄像头");
-            QtConcurrent::run(this, &VideoDisplay::readImage);
+            QtConcurrent::run(this, &VideoDisplay::readImage);   // 在线程中读取
         }
     }
     else
@@ -74,7 +74,7 @@ void VideoDisplay::on_but_play_clicked()
         {
             m_play = true;
             ui->but_play->setText("停止播放");
-            QtConcurrent::run(this, &VideoDisplay::readImage);
+            QtConcurrent::run(this, &VideoDisplay::readImage);   // 在线程中读取
         }
     }
     else

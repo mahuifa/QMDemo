@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("Qss样式表常见用法Demo");
+    this->setWindowTitle("Qss样式表入门练习Demo");
     init();
     initListView();
     initTreeView();
