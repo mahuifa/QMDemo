@@ -7,7 +7,7 @@
 #include "xlsxdocument.h"
 QXLSX_USE_NAMESPACE            // 添加Xlsx命名空间
 
-#define EXCEL_NAME "state.xlsx"         // 本Demo使用的Excel文件名
+#define EXCEL_NAME "test3.xlsx"         // 本Demo使用的Excel文件名
 
 Test3::Test3(QWidget *parent) :
     InterFace(parent),

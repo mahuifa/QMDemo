@@ -5,7 +5,7 @@
 #include <xlsxdocument.h>
 QXLSX_USE_NAMESPACE
 
-#define EXCEL_NAME "image.xlsx"         // 本Demo使用的Excel文件名
+#define EXCEL_NAME "test5.xlsx"         // 本Demo使用的Excel文件名
 
 Test5::Test5(QWidget *parent) :
     InterFace(parent),
