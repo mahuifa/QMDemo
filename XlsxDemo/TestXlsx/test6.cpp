@@ -40,10 +40,11 @@ void Test6::on_but_merge_clicked()
 
     // 在Excel中写入三组数据
     xlsx.write("B3", "hello");
+    xlsx.write("C3", "123");
     xlsx.write("B8", 123456);
     xlsx.write("E8", "北风卷地白草折，胡天八月即飞雪");
 
-    xlsx.mergeCells("B3:F6");                  // 可以通过【单元格引用】直接设置单元格合并
+    xlsx.mergeCells("B3:F6");                  // 可以通过【单元格引用】直接设置单元格合并(注意，有数据的单元格应该时第一个位置)
     xlsx.mergeCells(CellRange(8, 2, 20, 3));   // 通过【行列号】设置单元格合并
 
     Format format;
@@ -89,7 +90,7 @@ void Test6::on_but_unmerge_clicked()
 }
 
 /**
- * @brief          设置单元格水平对齐
+ * @brief    在不修改其它内容情况下设置单元格水平对齐
  * @param
  */
 void Test6::on_com_alignmentH_activated(int index)
@@ -116,7 +117,7 @@ void Test6::on_com_alignmentH_activated(int index)
 }
 
 /**
- * @brief       设置单元格垂直对齐
+ * @brief       在不修改其它内容情况下设置单元格垂直对齐
  * @param index
  */
 void Test6::on_com_alignmentV_activated(int index)
