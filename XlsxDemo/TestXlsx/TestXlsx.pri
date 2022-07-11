@@ -13,7 +13,8 @@ FORMS += \
     $$PWD/test3.ui \
     $$PWD/test4.ui \
     $$PWD/test5.ui \
-    $$PWD/test6.ui
+    $$PWD/test6.ui \
+    $$PWD/test7.ui
 
 HEADERS += \
     $$PWD/Interface.h \
@@ -22,7 +23,8 @@ HEADERS += \
     $$PWD/test3.h \
     $$PWD/test4.h \
     $$PWD/test5.h \
-    $$PWD/test6.h
+    $$PWD/test6.h \
+    $$PWD/test7.h
 
 SOURCES += \
     $$PWD/test1.cpp \
@@ -30,4 +32,5 @@ SOURCES += \
     $$PWD/test3.cpp \
     $$PWD/test4.cpp \
     $$PWD/test5.cpp \
-    $$PWD/test6.cpp
+    $$PWD/test6.cpp \
+    $$PWD/test7.cpp
