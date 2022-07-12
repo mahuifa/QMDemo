@@ -9,7 +9,7 @@
 #include <xlsxchartsheet.h>
 QXLSX_USE_NAMESPACE
 
-#define EXCEL_NAME "chart.xlsx"         // 本Demo使用的Excel文件名
+#define EXCEL_NAME "test4.xlsx"         // 本Demo使用的Excel文件名
 
 Test4::Test4(QWidget *parent) :
     InterFace(parent),

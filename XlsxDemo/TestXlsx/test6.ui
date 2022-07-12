@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Test6</class>
+ <widget class="QWidget" name="Test6">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>70</y>
+     <width>281</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="1">
+     <widget class="QPushButton" name="but_merge">
+      <property name="text">
+       <string>合并单元格</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QPushButton" name="but_unmerge">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>取消合并单元格</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>水平对齐：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="com_alignmentH">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <item>
+       <property name="text">
+        <string>AlignHGeneral</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>AlignLeft</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>AlignHCenter</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>AlignRight</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>AlignHFill</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>AlignHJustify</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>AlignHMerge</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>AlignHDistributed</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>垂直对齐：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QComboBox" name="com_alignmentV">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <item>
+       <property name="text">
+        <string>AlignTop</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>AlignVCenter</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>AlignBottom</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>AlignVJustify</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>AlignVDistributed</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

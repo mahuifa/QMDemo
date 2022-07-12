@@ -77,6 +77,16 @@
        <string>插入图片</string>
       </attribute>
      </widget>
+     <widget class="Test6" name="tab_6">
+      <attribute name="title">
+       <string>合并单元格、文本对齐</string>
+      </attribute>
+     </widget>
+     <widget class="Test7" name="tab_7">
+      <attribute name="title">
+       <string>字体样式</string>
+      </attribute>
+     </widget>
     </widget>
    </item>
   </layout>
@@ -110,6 +120,18 @@
    <class>Test5</class>
    <extends>QWidget</extends>
    <header>test5.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Test6</class>
+   <extends>QWidget</extends>
+   <header>test6.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Test7</class>
+   <extends>QWidget</extends>
+   <header>test7.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
