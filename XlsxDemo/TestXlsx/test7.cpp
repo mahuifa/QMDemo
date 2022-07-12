@@ -110,7 +110,7 @@ void Test7::on_pushButton_3_clicked()
     // 设置字体加粗
     Format format4;
     format4.setFontBold(true);
-    xlsx.write(1, 6, "字体颜色", format4);
+    xlsx.write(1, 6, "字体加粗", format4);
     qDebug() << xlsx.cellAt(1, 6)->format().fontBold();  // 获取当前单元格的字体是否加粗
 
     // 设置字体特殊格式（上、下标）
