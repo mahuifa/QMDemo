@@ -33,18 +33,14 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
-#程序版本
-VERSION = 1.0.0.0
-#程序图标
-#RC_ICONS = app.ico
-#公司名称
-QMAKE_TARGET_COMPANY ="company"
-#程序说明
-QMAKE_TARGET_DESCRIPTION = "test app"
-#版权信息
-QMAKE_TARGET_COPYRIGHT = "Copyright(C) 2017"
-#程序名称
-QMAKE_TARGET_PRODUCT = "app"
-#程序语言
-#0x0800代表和系统当前语言一致
-RC_LANG = 0x0800
+contains(QT_ARCH, i386){        # 使用32位编译器
+DESTDIR = $$PWD/../bin          # 程序输出路径
+}else{
+DESTDIR = $$PWD/../bin64        # 使用64位编译器
+}
+
+# msvc  编译器使用utf-8编码（好像只在msvc2017以后才有效）
+msvc {
+QMAKE_CFLAGS += /utf-8
+QMAKE_CXXFLAGS += /utf-8
+}

@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QPainter>
 #include <QTextDocument>
+#include <QWheelEvent>
 
 RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
 {
@@ -15,4 +16,20 @@ RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
 void RenderArea::paintEvent(QPaintEvent *event)
 {
 
+}
+
+/**
+ * @brief        鼠标滚轮缩放事件
+ * @param event
+ */
+void RenderArea::wheelEvent(QWheelEvent *event)
+{
+    if(event->angleDelta().y() > 0)    // 放大
+    {
+    }
+    else                      // 缩小
+    {
+    }
+
+    QWidget::wheelEvent(event);
 }
