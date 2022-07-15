@@ -1,6 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include "renderarea.h"
+#include <QColorDialog>
 #include <QDebug>
 #include <QMetaEnum>
 
@@ -11,6 +12,7 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
 
     init();
+    connectSlots();
 }
 
 Widget::~Widget()
@@ -52,6 +54,33 @@ void Widget::init()
     }
 
     ui->widget->installEventFilter(this);
+    ui->com_shape->setCurrentIndex(0);
+    ui->com_penStyle->setCurrentIndex(1);
+}
+
+void Widget::connectSlots()
+{
+    connect(ui->com_penStyle, QOverload<int>::of(&QComboBox::activated), this, &Widget::setPen);
+    connect(ui->com_penCapStyle, QOverload<int>::of(&QComboBox::activated), this, &Widget::setPen);
+    connect(ui->com_penJoinStyle, QOverload<int>::of(&QComboBox::activated), this, &Widget::setPen);
+    connect(ui->spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &Widget::setPen);
+}
+
+void Widget::setPen()
+{
+    QPen pen;
+    pen.setStyle(Qt::PenStyle(ui->com_penStyle->currentData().toInt()));   // 设置画笔样式
+    Qt::PenJoinStyle joinStyle = Qt::PenJoinStyle(ui->com_penJoinStyle->currentData().toInt());
+    pen.setJoinStyle(joinStyle);
+    if(Qt::MiterJoin == joinStyle)
+    {
+        pen.setMiterLimit(20);
+    }
+    pen.setWidth(ui->spinBox->value());     // 设置画笔线宽
+    pen.setColor(m_color);                  // 设置画笔颜色
+//    pen.setBrush()
+    pen.setCapStyle(Qt::PenCapStyle(ui->com_penCapStyle->currentData().toInt()));  // 设置画笔笔帽样式
+    ui->widget->setPen(pen);
 }
 
 /**
@@ -79,7 +108,7 @@ bool Widget::eventFilter(QObject *watched, QEvent *event)
  */
 void Widget::on_horizontalSlider_origin_valueChanged(int value)
 {
-    qDebug() << value;
+    ui->widget->setTranslate(value,  ui->widget->height() - ui->verticalSlider_origin->value());
 }
 
 /**
@@ -88,7 +117,7 @@ void Widget::on_horizontalSlider_origin_valueChanged(int value)
  */
 void Widget::on_verticalSlider_origin_valueChanged(int value)
 {
-    qDebug() << ui->widget->height() - value;
+    ui->widget->setTranslate(ui->horizontalSlider_origin->value(), ui->widget->height() - value);
 }
 
 /**
@@ -97,10 +126,40 @@ void Widget::on_verticalSlider_origin_valueChanged(int value)
  */
 void Widget::on_horizontalSlider_rotate_valueChanged(int value)
 {
-    qDebug() << value;
+    ui->widget->setRotate(value);
 }
 
+/**
+ * @brief           设置抗锯齿
+ * @param checked
+ */
 void Widget::on_checkBox_clicked(bool checked)
 {
-    qDebug() << checked;
+    ui->widget->setAntialiased(checked);
+}
+
+void Widget::on_but_color_clicked()
+{
+    m_color = QColorDialog::getColor(m_color, this);
+    setPen();
+}
+
+void Widget::on_com_brushStyle_activated(int index)
+{
+    Q_UNUSED(index)
+    Qt::BrushStyle style = Qt::BrushStyle(ui->com_brushStyle->currentData().toInt());
+    QBrush brush;
+    brush.setStyle(style);
+    brush.setColor(Qt::red);
+    ui->widget->setBrush(brush);
+}
+
+/**
+ * @brief        设置绘制图案类型
+ * @param index
+ */
+void Widget::on_com_shape_activated(int index)
+{
+    Q_UNUSED(index)
+    ui->widget->setShape(RenderArea::Shape(ui->com_shape->currentData().toInt()));
 }

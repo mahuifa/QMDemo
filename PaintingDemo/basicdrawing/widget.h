@@ -17,12 +17,14 @@ public:
 
 private:
     void init();
+    void connectSlots();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 
 private slots:
+    void setPen();
     void on_horizontalSlider_origin_valueChanged(int value);
 
     void on_verticalSlider_origin_valueChanged(int value);
@@ -31,7 +33,15 @@ private slots:
 
     void on_checkBox_clicked(bool checked);
 
+    void on_but_color_clicked();
+
+    void on_com_brushStyle_activated(int index);
+
+    void on_com_shape_activated(int index);
+
 private:
     Ui::Widget *ui;
+    QColor m_color;
+    QBrush m_penBrush;
 };
 #endif // WIDGET_H

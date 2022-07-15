@@ -32,47 +32,85 @@
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0" colspan="2">
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="2" column="1">
+         <item row="11" column="1">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>画笔粗细：</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
           <widget class="QComboBox" name="com_penCapStyle">
            <property name="toolTip">
             <string>线条收头样式</string>
            </property>
           </widget>
          </item>
+         <item row="15" column="1">
+          <widget class="QCheckBox" name="checkBox">
+           <property name="text">
+            <string>抗锯齿</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>形状：</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
          <item row="3" column="1">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>画笔样式：</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1">
           <widget class="QComboBox" name="com_penJoinStyle">
            <property name="toolTip">
             <string>线条连接样式</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="com_shape"/>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_5">
+         <item row="5" column="1">
+          <widget class="QLabel" name="label_4">
            <property name="text">
-            <string>线条连接样式：</string>
+            <string>笔帽样式：</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
+         <item row="2" column="1">
+          <widget class="QComboBox" name="com_shape">
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="but_color">
+           <property name="text">
+            <string>画笔颜色</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="1">
           <widget class="QComboBox" name="com_brushStyle"/>
          </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>画笔粗细：</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="1">
+         <item row="14" column="1">
           <widget class="QSlider" name="horizontalSlider_rotate">
            <property name="maximum">
             <number>360</number>
@@ -82,72 +120,45 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>画笔样式：</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
+         <item row="12" column="1">
           <widget class="QSpinBox" name="spinBox">
            <property name="value">
             <number>1</number>
            </property>
           </widget>
          </item>
-         <item row="6" column="0">
+         <item row="7" column="1">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>线条连接样式：</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="13" column="1">
           <widget class="QLabel" name="label_10">
            <property name="text">
             <string>旋转：</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>形状：</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
+         <item row="9" column="1">
           <widget class="QLabel" name="label_6">
            <property name="text">
             <string>笔刷样式：</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
+         <item row="4" column="1">
           <widget class="QComboBox" name="com_penStyle"/>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>笔帽样式：</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QCheckBox" name="checkBox">
-           <property name="text">
-            <string>抗锯齿</string>
-           </property>
-          </widget>
          </item>
         </layout>
        </item>
