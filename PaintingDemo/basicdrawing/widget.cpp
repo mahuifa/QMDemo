@@ -148,10 +148,50 @@ void Widget::on_com_brushStyle_activated(int index)
 {
     Q_UNUSED(index)
     Qt::BrushStyle style = Qt::BrushStyle(ui->com_brushStyle->currentData().toInt());
-    QBrush brush;
-    brush.setStyle(style);
-    brush.setColor(Qt::red);
-    ui->widget->setBrush(brush);
+
+    switch (style)
+    {
+    case Qt::LinearGradientPattern:    // 添加线性渐变图案
+    {
+        QLinearGradient linearGradient(0, 0, 100, 100);
+        linearGradient.setColorAt(0.0, Qt::white);
+        linearGradient.setColorAt(0.2, Qt::green);
+        linearGradient.setColorAt(1.0, Qt::black);
+        ui->widget->setBrush(linearGradient);
+        break;
+    }
+    case Qt::RadialGradientPattern:   // 添加径向渐变图案
+    {
+        QRadialGradient radialGradient(50, 50, 50, 70, 70);
+        radialGradient.setColorAt(0.0, Qt::white);
+        radialGradient.setColorAt(0.2, Qt::green);
+        radialGradient.setColorAt(1.0, Qt::black);
+        ui->widget->setBrush(radialGradient);
+        break;
+    }
+    case Qt::ConicalGradientPattern:   // 添加锥形渐变图案
+    {
+        QConicalGradient conicalGradient(50, 50, 150);
+        conicalGradient.setColorAt(0.0, Qt::white);
+        conicalGradient.setColorAt(0.2, Qt::green);
+        conicalGradient.setColorAt(1.0, Qt::black);
+        ui->widget->setBrush(conicalGradient);
+        break;
+    }
+    case Qt::TexturePattern:           // 添加图片纹理笔刷
+    {
+        ui->widget->setBrush(QBrush(QPixmap("C:/Users/mhf/Pictures/grid.PNG")));
+        break;
+    }
+    default:
+    {
+        QBrush brush;
+        brush.setStyle(style);
+        brush.setColor(Qt::red);
+        ui->widget->setBrush(brush);
+        break;
+    }
+    }
 }
 
 /**

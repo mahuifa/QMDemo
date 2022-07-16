@@ -117,7 +117,7 @@ void RenderArea::drawPattern(QPainter &painter)
 {
     painter.save();
 
-    QRect rect(10, 20, 80, 60);
+    QRect rect(10, 20, 280, 260);
     static const QPoint points[4] = {
         QPoint(10, 80),
         QPoint(20, 10),
@@ -128,9 +128,9 @@ void RenderArea::drawPattern(QPainter &painter)
     int arcLength = 120 * 16;       // 弧线角度
     // 创建一个绘制路径
     QPainterPath path;
-    path.moveTo(20, 80);    // 移动开始点
+    path.moveTo(20, 180);    // 移动开始点
     path.lineTo(20, 30);    // 添加一条(80到30d)竖线
-    path.cubicTo(QPoint(80, 0), QPoint(50, 50), QPoint(80, 80)); // 添加一条曲线
+    path.cubicTo(QPoint(180, 0), QPoint(80, 80), QPoint(180, 180)); // 添加一条曲线
     switch (m_shape)
     {
     case Line:      // 绘制线段
