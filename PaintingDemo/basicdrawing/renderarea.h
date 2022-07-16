@@ -52,7 +52,8 @@ private:
     QBrush m_brush;                 // 笔刷
     qreal m_rotate = 0;             // 旋转角度
     Shape m_shape = Line;           // 绘制图案
-    qreal m_zoom = 1;
+    qreal m_zoom = 1;               // 缩放级别
+    QPixmap m_pixmap;               // 绘制的图片
     bool m_antialiased = false;     // 渲染是否抗锯齿
 };
 

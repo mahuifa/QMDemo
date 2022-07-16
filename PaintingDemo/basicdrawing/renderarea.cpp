@@ -11,6 +11,7 @@ RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
     // 设置背景填充色
     this->setBackgroundRole(QPalette::Base);
     this->setAutoFillBackground(true);
+    m_pixmap.load("://1.png");
 }
 
 /**
@@ -117,59 +118,85 @@ void RenderArea::drawPattern(QPainter &painter)
     painter.save();
 
     QRect rect(10, 20, 80, 60);
+    static const QPoint points[4] = {
+        QPoint(10, 80),
+        QPoint(20, 10),
+        QPoint(80, 30),
+        QPoint(90, 70)
+    };
+    int startAngle = 20 * 16;       // 开始角度 startAngle和arcLength必须以1/16度指定
+    int arcLength = 120 * 16;       // 弧线角度
+    // 创建一个绘制路径
+    QPainterPath path;
+    path.moveTo(20, 80);    // 移动开始点
+    path.lineTo(20, 30);    // 添加一条(80到30d)竖线
+    path.cubicTo(QPoint(80, 0), QPoint(50, 50), QPoint(80, 80)); // 添加一条曲线
     switch (m_shape)
     {
-    case Line:
+    case Line:      // 绘制线段
     {
         painter.drawLine(rect.bottomLeft(), rect.topRight());
         break;
     }
-    case Points:
+    case Points:    // 绘制4个点
     {
+        painter.drawPoints(points, 4);
         break;
     }
-    case Polyline:
+    case Polyline:  // 画多线段
     {
+        painter.drawPolyline(points, 4);
         break;
     }
-    case Polygon:
+    case Polygon:   // 画多边形
     {
+        painter.drawPolygon(points, 4);
         break;
     }
-    case Rect:
+    case Rect:      // 画矩形
     {
+        painter.drawRect(rect);
         break;
     }
-    case RoundedRect:
+    case RoundedRect:   // 画圆角矩形
     {
+        painter.drawRoundedRect(rect, 25, 25, Qt::AbsoluteSize);    // 使用绝对值（像素）
+//        painter.drawRoundedRect(rect, 25, 25, Qt::RelativeSize);    // 指定相对于边界矩形的大小，通常使用百分比测量值。
         break;
     }
-    case Ellipse:
+    case Ellipse:   // 画椭圆
     {
+        painter.drawEllipse(rect);
         break;
     }
-    case Arc:
+    case Arc:      // 从20度开始，画一个120的弧线（角度的正值表示逆时针方向，负值表示顺时针方向。零度位于3点钟位置）
     {
+        painter.drawArc(rect, startAngle, arcLength);
         break;
     }
-    case Chord:
+    case Chord:    // 绘制由给定矩形、startAngle和arcLength定义的弦
     {
+        painter.drawChord(rect, startAngle, arcLength);
         break;
     }
-    case Pie:
+    case Pie:     // 绘制饼图（扇形）
     {
+        painter.drawPie(rect, startAngle, arcLength);
         break;
     }
-    case Path:
+    case Path:   // 绘制由QPainterPath组成的图形
     {
+        painter.drawPath(path);
         break;
     }
-    case Text:
+    case Text:  // 绘制文本
     {
+        painter.drawText(rect, Qt::AlignCenter, "Qt Text \n 绘制文本");
         break;
     }
-    case Pixmap:
+    case Pixmap: // 绘制图片
     {
+        painter.drawPixmap(10, 10, m_pixmap);
         break;
     }
     }
