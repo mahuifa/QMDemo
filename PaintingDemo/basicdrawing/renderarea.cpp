@@ -103,8 +103,19 @@ void RenderArea::drawOrigin(QPainter &painter)
     painter.save();      // 保存画家状态
 
     painter.setPen(QPen(QColor(0, 0, 0), 2));
+    painter.drawText(QRect(10, -30, 100, 25), Qt::AlignLeft, QString("当前角度：%1").arg(m_rotate));
+    // 画原点
     painter.drawPoint(0, 0);
     painter.drawEllipse(-5, -5, 10, 10);
+    painter.drawLine(QPoint(0, 0), QPoint(100, 0));   // 画X轴
+    painter.drawLine(QPoint(0, 0), QPoint(0, 100));   // 画Y轴
+    QPainterPath path;
+    path.moveTo(100, -3);
+    path.lineTo(106, 0);
+    path.lineTo(100, 3);
+    painter.drawPath(path);  // 画X轴箭头
+    painter.rotate(90);
+    painter.drawPath(path);  // 画Y轴箭头
 
     painter.restore();  // 恢复画家状态
 }

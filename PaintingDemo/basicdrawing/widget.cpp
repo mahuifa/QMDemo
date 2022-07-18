@@ -64,6 +64,7 @@ void Widget::connectSlots()
     connect(ui->com_penCapStyle, QOverload<int>::of(&QComboBox::activated), this, &Widget::setPen);
     connect(ui->com_penJoinStyle, QOverload<int>::of(&QComboBox::activated), this, &Widget::setPen);
     connect(ui->spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &Widget::setPen);
+//    connect(ui->dial_rotate, &QDial::valueChanged, ui->widget, &RenderArea::setRotate);                // 旋转
 }
 
 void Widget::setPen()
@@ -120,14 +121,6 @@ void Widget::on_verticalSlider_origin_valueChanged(int value)
     ui->widget->setTranslate(ui->horizontalSlider_origin->value(), ui->widget->height() - value);
 }
 
-/**
- * @brief          旋转
- * @param value
- */
-void Widget::on_horizontalSlider_rotate_valueChanged(int value)
-{
-    ui->widget->setRotate(value);
-}
 
 /**
  * @brief           设置抗锯齿
@@ -202,4 +195,13 @@ void Widget::on_com_shape_activated(int index)
 {
     Q_UNUSED(index)
     ui->widget->setShape(RenderArea::Shape(ui->com_shape->currentData().toInt()));
+}
+
+/**
+ * @brief         旋转
+ * @param value
+ */
+void Widget::on_dial_rotate_valueChanged(int value)
+{
+    ui->widget->setRotate((value + 90) % 360);     // 由于QDial默认0为竖直向下方向，QPainter默认0度为向右，所以需要+90度
 }

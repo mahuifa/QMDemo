@@ -29,8 +29,6 @@ private slots:
 
     void on_verticalSlider_origin_valueChanged(int value);
 
-    void on_horizontalSlider_rotate_valueChanged(int value);
-
     void on_checkBox_clicked(bool checked);
 
     void on_but_color_clicked();
@@ -38,6 +36,8 @@ private slots:
     void on_com_brushStyle_activated(int index);
 
     void on_com_shape_activated(int index);
+
+    void on_dial_rotate_valueChanged(int value);
 
 private:
     Ui::Widget *ui;

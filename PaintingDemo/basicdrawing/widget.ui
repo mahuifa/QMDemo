@@ -22,6 +22,12 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>531</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
        <width>270</width>
@@ -30,36 +36,28 @@
      </property>
      <widget class="QWidget" name="dockWidgetContents">
       <layout class="QGridLayout" name="gridLayout_3">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
        <item row="0" column="0" colspan="2">
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="11" column="1">
-          <widget class="QLabel" name="label_3">
+         <item row="1" column="1">
+          <widget class="QLabel" name="label">
            <property name="text">
-            <string>画笔粗细：</string>
+            <string>形状：</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="6" column="1">
-          <widget class="QComboBox" name="com_penCapStyle">
-           <property name="toolTip">
-            <string>线条收头样式</string>
-           </property>
-          </widget>
-         </item>
-         <item row="15" column="1">
-          <widget class="QCheckBox" name="checkBox">
+         <item row="5" column="1">
+          <widget class="QLabel" name="label_4">
            <property name="text">
-            <string>抗锯齿</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>形状：</string>
+            <string>笔帽样式：</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -76,23 +74,6 @@
            </property>
           </widget>
          </item>
-         <item row="8" column="1">
-          <widget class="QComboBox" name="com_penJoinStyle">
-           <property name="toolTip">
-            <string>线条连接样式</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>笔帽样式：</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
          <item row="2" column="1">
           <widget class="QComboBox" name="com_shape">
            <property name="currentIndex">
@@ -100,23 +81,33 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QPushButton" name="but_color">
+         <item row="4" column="1">
+          <widget class="QComboBox" name="com_penStyle"/>
+         </item>
+         <item row="14" column="1">
+          <widget class="QCheckBox" name="checkBox">
            <property name="text">
-            <string>画笔颜色</string>
+            <string>抗锯齿</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>笔刷样式：</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
          <item row="10" column="1">
           <widget class="QComboBox" name="com_brushStyle"/>
          </item>
-         <item row="14" column="1">
-          <widget class="QSlider" name="horizontalSlider_rotate">
-           <property name="maximum">
-            <number>360</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+         <item row="8" column="1">
+          <widget class="QComboBox" name="com_penJoinStyle">
+           <property name="toolTip">
+            <string>线条连接样式</string>
            </property>
           </widget>
          </item>
@@ -124,6 +115,20 @@
           <widget class="QSpinBox" name="spinBox">
            <property name="value">
             <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QComboBox" name="com_penCapStyle">
+           <property name="toolTip">
+            <string>线条收头样式</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="but_color">
+           <property name="text">
+            <string>画笔颜色</string>
            </property>
           </widget>
          </item>
@@ -147,18 +152,46 @@
            </property>
           </widget>
          </item>
-         <item row="9" column="1">
-          <widget class="QLabel" name="label_6">
+         <item row="11" column="1">
+          <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>笔刷样式：</string>
+            <string>画笔粗细：</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
-          <widget class="QComboBox" name="com_penStyle"/>
+         <item row="15" column="1">
+          <widget class="QDial" name="dial_rotate">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>150</height>
+            </size>
+           </property>
+           <property name="maximum">
+            <number>360</number>
+           </property>
+           <property name="value">
+            <number>270</number>
+           </property>
+           <property name="sliderPosition">
+            <number>270</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="wrapping">
+            <bool>true</bool>
+           </property>
+           <property name="notchTarget">
+            <double>10.000000000000000</double>
+           </property>
+           <property name="notchesVisible">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
