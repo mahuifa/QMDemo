@@ -12,6 +12,7 @@ RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
     this->setBackgroundRole(QPalette::Base);
     this->setAutoFillBackground(true);
     m_pixmap.load("://1.png");
+    m_pen.setWidth(10);              // 画笔默认宽度为10，便于观察效果
 }
 
 /**
@@ -130,10 +131,10 @@ void RenderArea::drawPattern(QPainter &painter)
 
     QRect rect(10, 20, 280, 260);
     static const QPoint points[4] = {
-        QPoint(10, 80),
-        QPoint(20, 10),
-        QPoint(80, 30),
-        QPoint(90, 70)
+        QPoint(100, 280),
+        QPoint(120, 30),
+        QPoint(280, 60),
+        QPoint(290, 270)
     };
     int startAngle = 20 * 16;       // 开始角度 startAngle和arcLength必须以1/16度指定
     int arcLength = 120 * 16;       // 弧线角度

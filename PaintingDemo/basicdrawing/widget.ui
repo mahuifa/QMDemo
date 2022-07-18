@@ -24,7 +24,7 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>100</width>
+       <width>152</width>
        <height>531</height>
       </size>
      </property>
@@ -102,26 +102,33 @@
           </widget>
          </item>
          <item row="10" column="1">
-          <widget class="QComboBox" name="com_brushStyle"/>
+          <widget class="QComboBox" name="com_brushStyle">
+           <property name="toolTip">
+            <string>在不封闭的图形中无效，如直线、弧形等</string>
+           </property>
+          </widget>
          </item>
          <item row="8" column="1">
           <widget class="QComboBox" name="com_penJoinStyle">
            <property name="toolTip">
-            <string>线条连接样式</string>
+            <string>线条连接样式（在单条直线或有弧形的图形无效，如圆角矩形、椭圆）</string>
            </property>
           </widget>
          </item>
          <item row="12" column="1">
           <widget class="QSpinBox" name="spinBox">
-           <property name="value">
+           <property name="singleStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>10</number>
            </property>
           </widget>
          </item>
          <item row="6" column="1">
           <widget class="QComboBox" name="com_penCapStyle">
            <property name="toolTip">
-            <string>线条收头样式</string>
+            <string>线条收头样式（绘制封闭形状时无效，如矩形、圆形等）</string>
            </property>
           </widget>
          </item>

@@ -10,6 +10,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    this->setWindowTitle("QPainter基本绘图Demo");
 
     init();
     connectSlots();
@@ -64,9 +65,11 @@ void Widget::connectSlots()
     connect(ui->com_penCapStyle, QOverload<int>::of(&QComboBox::activated), this, &Widget::setPen);
     connect(ui->com_penJoinStyle, QOverload<int>::of(&QComboBox::activated), this, &Widget::setPen);
     connect(ui->spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &Widget::setPen);
-//    connect(ui->dial_rotate, &QDial::valueChanged, ui->widget, &RenderArea::setRotate);                // 旋转
 }
 
+/**
+ * @brief 设置画笔
+ */
 void Widget::setPen()
 {
     QPen pen;
@@ -131,12 +134,19 @@ void Widget::on_checkBox_clicked(bool checked)
     ui->widget->setAntialiased(checked);
 }
 
+/**
+ * @brief 设置画笔颜色
+ */
 void Widget::on_but_color_clicked()
 {
     m_color = QColorDialog::getColor(m_color, this);
     setPen();
 }
 
+/**
+ * @brief        设置笔刷
+ * @param index
+ */
 void Widget::on_com_brushStyle_activated(int index)
 {
     Q_UNUSED(index)
