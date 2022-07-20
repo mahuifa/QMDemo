@@ -155,7 +155,7 @@ void RenderArea::drawPattern(QPainter &painter)
         painter.drawPoints(points, 4);
         break;
     }
-    case Polyline:  // 画多线段
+    case Polyline:  // 画多线段(折线)
     {
         painter.drawPolyline(points, 4);
         break;

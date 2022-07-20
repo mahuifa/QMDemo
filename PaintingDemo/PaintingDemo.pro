@@ -1,3 +1,4 @@
 TEMPLATE = subdirs
 
-SUBDIRS += basicdrawing              # QPainter基本绘图Demo
+SUBDIRS += basicdrawing \              # QPainter基本绘图Demo
+    Transformations
