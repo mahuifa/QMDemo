@@ -5,6 +5,7 @@
 
 QT_BEGIN_NAMESPACE
 class QComboBox;
+class RenderArea;
 QT_END_NAMESPACE
 
 class Widget : public QWidget
@@ -24,5 +25,7 @@ private:
     QComboBox* m_comShape = nullptr;    // 绘制图案选择
     QComboBox* m_comOperation[NumTransformendAreas];  // 包含多个QComboBox指针的指针数组
     QList<QPainterPath> m_shapes;       // 绘制图案
+    RenderArea* m_originalRenderArea = nullptr;       // 原始渲染区域
+    RenderArea* m_transformedRenderAreas[NumTransformendAreas];  // 可进行缩放、偏移、旋转的区域
 };
 #endif // WIDGET_H

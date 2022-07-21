@@ -27,9 +27,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    renderarea.cpp \
     widget.cpp
 
 HEADERS += \
+    renderarea.h \
     widget.h
 
 # Default rules for deployment.
