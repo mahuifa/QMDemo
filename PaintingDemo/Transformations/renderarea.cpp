@@ -55,7 +55,7 @@ void RenderArea::paintEvent(QPaintEvent *event)
     painter.save();                    // 保存当前绘制状态，save()后所有QPainter设置在restore（）后将失效(比如画笔设置)
     transformPainter(painter);         // 设置偏移、缩放、旋转
     drawCoordinates(painter);          // 绘制坐标系
-    painter.drawPath(m_shape);
+    painter.fillPath(m_shape, Qt::blue);
     painter.restore();
 }
 

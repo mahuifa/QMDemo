@@ -6,10 +6,10 @@
 
 ## 1、说明
 
-| 类名         | 功能                 |
-| ------------ | -------------------- |
-| basicdrawing | QPainter基本绘图Demo |
-|              |                      |
+| 类名            | 功能                                 |
+| --------------- | ------------------------------------ |
+| basicdrawing    | QPainter基本绘图Demo                 |
+| Transformations | QPainter偏移原点、旋转、缩放功能Demo |
 
 
 
@@ -28,3 +28,13 @@
 > 4. 可设置坐标原点水平、垂直偏移、旋转、缩放。
 
 ![basicdrawing](PaintingDemo.assets/basicdrawing.gif)
+
+
+
+### 1.2 Transformations
+
+> 1、使用QPainterPath设置绘制较复杂的图案；
+>
+> 2、演示绘图时偏移坐标轴原点、选择、缩放操作。
+
+![Transformations](PaintingDemo.assets/Transformations.gif)

@@ -7,6 +7,7 @@
 
 Widget::Widget(QWidget *parent): QWidget(parent)
 {
+    this->setWindowTitle("QPainter偏移原点、旋转、缩放功能Demo");
     initUI();
     setupShapes();         // 设置形状
 }
@@ -23,7 +24,7 @@ void Widget::initUI()
     m_comShape->addItem("时钟图案");
     m_comShape->addItem("房子图案");
     m_comShape->addItem("文字图案");
-    // 这里可以用activated也可以用currentIndexChanged
+    // 这里可以用activated也可以用currentIndexChanged，由于这两个信号都有重载，所以需要加上QOverload
     connect(m_comShape, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Widget::shapeSelected);
 
     // 添加布局
