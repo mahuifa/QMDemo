@@ -18,6 +18,11 @@ public:
 
 private:
     void initUI();
+    void setupShapes();
+
+private slots:
+    void shapeSelected(int index);
+    void operationChanged(int index);
 
 private:
     enum {NumTransformendAreas = 3};    // 定义一个常量，等同于宏常量【枚举常量可设置私有】

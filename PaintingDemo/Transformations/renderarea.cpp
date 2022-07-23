@@ -20,6 +20,26 @@ RenderArea::RenderArea(QWidget *parent) : QWidget(parent)
 }
 
 /**
+ * @brief       设置用于绘制的图案路径
+ * @param shape
+ */
+void RenderArea::setShape(const QPainterPath &shape)
+{
+    this->m_shape = shape;
+    this->update();
+}
+
+/**
+ * @brief            设置绘制图案的操作
+ * @param operations
+ */
+void RenderArea::setOperations(const QList<Operation> &operations)
+{
+    this->m_operations = operations;
+    this->update();
+}
+
+/**
  * @brief        重绘事件函数
  * @param event
  */
@@ -35,6 +55,7 @@ void RenderArea::paintEvent(QPaintEvent *event)
     painter.save();                    // 保存当前绘制状态，save()后所有QPainter设置在restore（）后将失效(比如画笔设置)
     transformPainter(painter);         // 设置偏移、缩放、旋转
     drawCoordinates(painter);          // 绘制坐标系
+    painter.drawPath(m_shape);
     painter.restore();
 }
 
@@ -59,7 +80,7 @@ void RenderArea::drawOutline(QPainter &painter)
  */
 void RenderArea::transformPainter(QPainter &painter)
 {
-    for(auto operation : operations)
+    for(auto operation : m_operations)
     {
         switch (operation)
         {

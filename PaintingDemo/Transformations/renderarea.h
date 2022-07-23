@@ -17,6 +17,9 @@ class RenderArea : public QWidget
 public:
     explicit RenderArea(QWidget *parent = nullptr);
 
+    void setShape(const QPainterPath& shape);
+    void setOperations(const QList<Operation>& operations);
+
 protected:
     void paintEvent(QPaintEvent *event) override;
     void drawOutline(QPainter& painter);
@@ -26,9 +29,10 @@ protected:
 public slots:
 
 private:
-    QList<Operation> operations;    // 保存所有的缩放、偏移、旋转操作
+    QList<Operation> m_operations;    // 保存所有的缩放、偏移、旋转操作
     QRect m_fontRectX;              // X轴字体矩形范围
     QRect m_fontRectY;              // Y轴字体矩形范围
+    QPainterPath m_shape;           // 用于绘制图案的路径
 };
 
 #endif // RENDERAREA_H
