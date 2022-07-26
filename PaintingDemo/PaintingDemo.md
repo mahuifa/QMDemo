@@ -6,10 +6,11 @@
 
 ## 1、说明
 
-| 类名            | 功能                                 |
-| --------------- | ------------------------------------ |
-| basicdrawing    | QPainter基本绘图Demo                 |
-| Transformations | QPainter偏移原点、旋转、缩放功能Demo |
+| 类名              | 功能                                               |
+| ----------------- | -------------------------------------------------- |
+| basicdrawing      | QPainter基本绘图Demo                               |
+| Transformations   | QPainter偏移原点、旋转、缩放功能Demo               |
+| Concentriccircles | QPainter绘制时【数据类型】和【抗锯齿】对效果的影响 |
 
 
 
@@ -38,3 +39,15 @@
 > 2、演示绘图时偏移坐标轴原点、选择、缩放操作。
 
 ![Transformations](PaintingDemo.assets/Transformations.gif)
+
+
+
+### 1.3 Concentriccircles
+
+> 1. 使用浮点数进行绘制，绘制的圆会更加均匀；
+> 2. 使用整形进行绘制，比浮点数计算快，适用于频繁、大量的重绘，但绘制效果较差；
+> 3. 开启抗锯齿后线条会更加平滑;
+> 4. 将布局改为使用设计器布局，减少使用代码布局，使关注点更多在绘制图形上；
+> 5. 将使用定时器更新绘制改为使用滑动条更新，增加可控性，便于观察绘制细节。
+
+![Concentriccircles-tuya](PaintingDemo.assets/Concentriccircles-tuya.gif)
