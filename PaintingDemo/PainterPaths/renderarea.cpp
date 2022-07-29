@@ -19,6 +19,7 @@ void RenderArea::setFill(bool flag)
 void RenderArea::initPath()
 {
 
+    /****************** 第一行 ******************/
     // 多边形
     QPolygonF playgonf;
     playgonf.append(QPointF(20, 20));
@@ -36,6 +37,7 @@ void RenderArea::initPath()
     // 圆形区域
     m_path.addRegion(QRegion(450, 10, 40, 50, QRegion::Ellipse));
 
+    /****************** 第二行 ******************/
     // 圆角矩形
     m_path.addRoundRect(QRect(20, 150, 100, 100), 20, 20);
 
@@ -70,6 +72,31 @@ void RenderArea::initPath()
     m_path.connectPath(path);  // connectPath方法会将m_path的画笔位置(最后一个点)和path的画笔位置(第一个点)连接起来
 #endif
 
+    /****************** 第三行 ******************/
+    // 三次贝塞尔曲线
+    m_path.moveTo(20, 300);
+    m_path.cubicTo(QPointF(130, 300), QPointF(50, 350), QPointF(100, 400));
+
+    // 两个路径填充区域相交位置
+    QPainterPath path1;
+    path1.addRect(150, 300, 100, 100);
+    QPainterPath path2;
+    path2.addEllipse(200, 280, 80, 80);
+    m_path.addPath(path1.intersected(path2));   // 返回path1路径填充区域与path2路径填充区域相交的路径
+
+    // 二次贝塞尔曲线
+    m_path.moveTo(300, 300);
+    m_path.quadTo(QPointF(400, 300), QPointF(360, 400));
+
+    qDebug() << "绘制路径中元素的个数："         << m_path.elementCount();
+    qDebug() << "获取第0个元素："              << m_path.elementAt(0);            // 相当于获取playgonf.append(QPointF(20, 20));这一个点
+    qDebug() << "画家填充规则："               << m_path.fillRule();
+    qDebug() << "传入矩形是否与路径m_path相交：" << m_path.intersects(QRect(150, 10, 100, 100));
+    qDebug() << "传入路径是否与路径m_path相交：" << m_path.intersects(path1);
+    qDebug() << "路径中是否没有元素："          << m_path.isEmpty();
+    qDebug() << "当前路径的长度："             << path1.length();
+    qDebug() << "指定长度len占整个路径百分比："  << path1.percentAtLength(100);
+    qDebug() << "路径path1中25%位置的点："     << path1.pointAtPercent(0.25);
 }
 
 
@@ -88,5 +115,6 @@ void RenderArea::paintEvent(QPaintEvent *event)
     {
         painter.fillPath(m_path, Qt::blue);
     }
-    painter.drawRect(m_path.boundingRect());     // 将绘制路径m_path的边界矩形返回并绘制，便于观察
+//    painter.drawRect(m_path.boundingRect());     // 将绘制路径m_path的边界矩形返回并绘制，便于观察
+    painter.drawRect(m_path.controlPointRect());   // 功能与boundingRect()相似
 }
