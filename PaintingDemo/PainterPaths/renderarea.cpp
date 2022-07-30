@@ -88,6 +88,19 @@ void RenderArea::initPath()
     m_path.moveTo(300, 300);
     m_path.quadTo(QPointF(400, 300), QPointF(360, 400));
 
+    // 将路径中最后一个元素（点）的位置设置为QPointF(200, 0)
+//    m_path.setElementPositionAt(m_path.elementCount() - 1, 200, 0);
+
+
+    // 使用simplified()简化（融合）路径，合并所有相交的子路径，并返回不包含相交边的路径。连续的平行线也将合并
+    QPainterPath path3;
+    path3.addRect(450, 300, 60, 60);
+    path3.addEllipse(480, 300, 50, 50);
+    path3.addRect(485, 310, 20, 20);
+    path3.setFillRule(Qt::WindingFill);         // 这里需要设置为WindingFill填充才能简化路径
+    qDebug() << "简化路径后始终使用默认的填充规则：" <<path3.simplified().fillRule();
+    m_path.addPath(path3.simplified());
+
     qDebug() << "绘制路径中元素的个数："         << m_path.elementCount();
     qDebug() << "获取第0个元素："              << m_path.elementAt(0);            // 相当于获取playgonf.append(QPointF(20, 20));这一个点
     qDebug() << "画家填充规则："               << m_path.fillRule();
