@@ -77,12 +77,12 @@ void RenderArea::initPath()
     m_path.moveTo(20, 300);
     m_path.cubicTo(QPointF(130, 300), QPointF(50, 350), QPointF(100, 400));
 
-    // 两个路径填充区域相交位置
+    // 两个路径填充区域相交位置【And】
     QPainterPath path1;
     path1.addRect(150, 300, 100, 100);
     QPainterPath path2;
     path2.addEllipse(200, 280, 80, 80);
-    m_path.addPath(path1.intersected(path2));   // 返回path1路径填充区域与path2路径填充区域相交的路径
+    m_path.addPath(path1.intersected(path2));   // 返回path1路径填充区域与path2路径填充区域相交的路径（功能与 【&】 相同）
 
     // 二次贝塞尔曲线
     m_path.moveTo(300, 300);
@@ -96,11 +96,41 @@ void RenderArea::initPath()
     QPainterPath path3;
     path3.addRect(450, 300, 60, 60);
     path3.addEllipse(480, 300, 50, 50);
-    path3.addRect(485, 310, 20, 20);
     path3.setFillRule(Qt::WindingFill);         // 这里需要设置为WindingFill填充才能简化路径
     qDebug() << "简化路径后始终使用默认的填充规则：" <<path3.simplified().fillRule();
     m_path.addPath(path3.simplified());
 
+
+    /****************** 第四行 ******************/
+    // path5路径【减】去path4路径的填充面积
+    QPainterPath path4;
+    path4.addRect(20, 450, 100, 100);
+    QPainterPath path5;
+    path5.addEllipse(70, 430, 80, 80);
+    m_path.addPath(path4.subtracted(path5));   // 功能与 【-】 相同
+
+    // 交换path5、path6两个路径内容
+    QPainterPath path6;
+    path6.addRect(150, 450, 100, 100);
+    path5.swap(path6);
+    m_path.addPath(path5);
+
+    // 路径反向、转换为多边形并进行变换
+    QPainterPath path7 = m_path.toReversed();                 // 创建并返回路径的反向副本(原来路径不变)。
+    QMatrix matrix;
+    matrix.translate(150, 0);                                 // 向右偏移150像素
+    m_path.addPolygon(path7.toFillPolygons(matrix).at(0));    // 将m_path反向副本转换为多个多边形，并取出第1个（原来的最后一个）,并通过matrix进行变化
+
+    // 返回一条路径，该路径是path8路径的填充区域和path9的填充区域的并集【加】。
+    QPainterPath path8;
+    path8.addRect(450, 450, 60, 60);
+    QPainterPath path9;
+    path9.addEllipse(480, 450, 50, 50);
+    m_path.addPath(path8.united(path9));                      // united()函数的功能与 【+ |】 相同
+
+//    m_path.translate(200, 0);                               // 将当前路径整体进行偏移
+
+    /****************** 打印信息 ******************/
     qDebug() << "绘制路径中元素的个数："         << m_path.elementCount();
     qDebug() << "获取第0个元素："              << m_path.elementAt(0);            // 相当于获取playgonf.append(QPointF(20, 20));这一个点
     qDebug() << "画家填充规则："               << m_path.fillRule();
@@ -110,6 +140,14 @@ void RenderArea::initPath()
     qDebug() << "当前路径的长度："             << path1.length();
     qDebug() << "指定长度len占整个路径百分比："  << path1.percentAtLength(100);
     qDebug() << "路径path1中25%位置的点："     << path1.pointAtPercent(0.25);
+    // 通过slopeAtPercent计算路径中50%位置的斜率，这里由于路径只有一条直线，所以斜率是 (50 - 0) / (100 - 0) = 0.5
+    QPainterPath pathSlope;
+    pathSlope.moveTo(0, 0);
+    pathSlope.lineTo(100, 50);
+    qDebug() << "路径中50%位置斜率：" <<pathSlope.slopeAtPercent(0.5);
+
+    qDebug() << "toFillPolygon："<< m_path.toFillPolygons().count();          // 仅为具有重叠边界矩形的子路径创建多边形
+    qDebug() << "toSubpathPolygons："<< m_path.toSubpathPolygons().count();   // 此函数为每个子路径创建一个多边形，而不考虑相交的子路径（即重叠的边界矩形）
 }
 
 
@@ -123,6 +161,8 @@ void RenderArea::paintEvent(QPaintEvent *event)
     if(!m_isFill)
     {
         painter.drawPath(m_path);
+//        painter.drawPath(m_path.translated(100, 0));    // 将当前路径拷贝一份并整体进行偏移，原来路径不变
+//        painter.drawPolygon(m_path.toFillPolygon());  // 将路径转换为一个多边形，toFillPolygons()将路径转换为多个多边形
     }
     else
     {
