@@ -11,6 +11,7 @@
 | basicdrawing      | QPainter基本绘图Demo                               |
 | Transformations   | QPainter偏移原点、旋转、缩放功能Demo               |
 | Concentriccircles | QPainter绘制时【数据类型】和【抗锯齿】对效果的影响 |
+| PainterPaths      | QPainterPath使用示例                               |
 
 
 
@@ -51,3 +52,12 @@
 > 5. 将使用定时器更新绘制改为使用滑动条更新，增加可控性，便于观察绘制细节。
 
 ![Concentriccircles-tuya](PaintingDemo.assets/Concentriccircles-tuya.gif)
+
+
+
+### 1.4 PainterPaths
+
+> * QPainterPath使用示例，包含QPainterPath中所有函数的使用方式；
+> * 采用绘制轮廓和填充两种方式进行绘制，更便于观察效果。
+
+![image-20220801122927716](PaintingDemo.assets/image-20220801122927716.png)

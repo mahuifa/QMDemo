@@ -7,6 +7,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->setWindowTitle("QPainterPath使用示例");
     ui->widget_2->setFill(true);
 }
 
