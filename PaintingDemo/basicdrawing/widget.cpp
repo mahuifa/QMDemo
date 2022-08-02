@@ -156,27 +156,27 @@ void Widget::on_com_brushStyle_activated(int index)
     {
     case Qt::LinearGradientPattern:    // 添加线性渐变图案
     {
-        QLinearGradient linearGradient(0, 0, 100, 100);
+        QLinearGradient linearGradient(0, 0, 200, 200);
         linearGradient.setColorAt(0.0, Qt::white);
-        linearGradient.setColorAt(0.2, Qt::green);
+        linearGradient.setColorAt(0.5, Qt::green);
         linearGradient.setColorAt(1.0, Qt::black);
         ui->widget->setBrush(linearGradient);
         break;
     }
     case Qt::RadialGradientPattern:   // 添加径向渐变图案
     {
-        QRadialGradient radialGradient(50, 50, 50, 70, 70);
+        QRadialGradient radialGradient(100, 100, 150, 100, 100);
         radialGradient.setColorAt(0.0, Qt::white);
-        radialGradient.setColorAt(0.2, Qt::green);
+        radialGradient.setColorAt(0.3, Qt::green);
         radialGradient.setColorAt(1.0, Qt::black);
         ui->widget->setBrush(radialGradient);
         break;
     }
     case Qt::ConicalGradientPattern:   // 添加锥形渐变图案
     {
-        QConicalGradient conicalGradient(50, 50, 150);
+        QConicalGradient conicalGradient(100, 100, 150);
         conicalGradient.setColorAt(0.0, Qt::white);
-        conicalGradient.setColorAt(0.2, Qt::green);
+        conicalGradient.setColorAt(0.5, Qt::green);
         conicalGradient.setColorAt(1.0, Qt::black);
         ui->widget->setBrush(conicalGradient);
         break;
