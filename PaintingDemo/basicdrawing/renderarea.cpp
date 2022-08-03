@@ -212,6 +212,41 @@ void RenderArea::drawPattern(QPainter &painter)
         break;
     }
     }
+
+
+    QGradient *gradient = const_cast<QGradient*>(m_brush.gradient());
+    if(gradient)
+    {
+        QPen pen = m_pen;
+        pen.setColor(QColor(255, 0, 0));
+        painter.setPen(pen);
+        switch (gradient->type())
+        {
+        case QGradient::LinearGradient:
+        {
+            QLinearGradient* linearGradient = static_cast<QLinearGradient*>(gradient);
+            painter.drawPoint(linearGradient->start());               // 线性 渐变开始点
+            painter.drawPoint(linearGradient->finalStop());           // 线性渐变结束点
+            break;
+        }
+        case QGradient::RadialGradient:
+        {
+            QRadialGradient* radialGradient = static_cast<QRadialGradient*>(gradient);
+            painter.drawPoint(radialGradient->center());             // 径向渐变中心点
+            painter.drawPoint(radialGradient->focalPoint());         // 径向渐变焦点
+            break;
+        }
+        case QGradient::ConicalGradient:
+        {
+            QConicalGradient* radialGradient = static_cast<QConicalGradient*>(gradient);
+            painter.drawPoint(radialGradient->center());             // 扇形渐变中心点
+            break;
+        }
+        case QGradient::NoGradient:break;
+        }
+    }
+
+
     painter.restore();
 }
 
