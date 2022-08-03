@@ -35,9 +35,8 @@
 
 ### 1.2 Transformations
 
-> 1、使用QPainterPath设置绘制较复杂的图案；
->
-> 2、演示绘图时偏移坐标轴原点、选择、缩放操作。
+> 1. 使用QPainterPath设置绘制较复杂的图案；
+> 2. 演示绘图时偏移坐标轴原点、选择、缩放操作。
 
 ![Transformations](PaintingDemo.assets/Transformations.gif)
 
@@ -57,7 +56,7 @@
 
 ### 1.4 PainterPaths
 
-> * QPainterPath使用示例，包含QPainterPath中所有函数的使用方式；
-> * 采用绘制轮廓和填充两种方式进行绘制，更便于观察效果。
+> 1. QPainterPath使用示例，包含QPainterPath中所有函数的使用方式；
+> 2. 采用绘制轮廓和填充两种方式进行绘制，更便于观察效果。
 
 ![image-20220801122927716](PaintingDemo.assets/image-20220801122927716.png)
