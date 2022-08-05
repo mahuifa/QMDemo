@@ -18,7 +18,6 @@
 | TestCrashHandler | windows下程序崩溃定位Demo                                    | windows  |
 | QMNetwork        | [Qt网络编程Demo](./QMNetwork/QMNetwork.md)                   |          |
 | QtChartsDemo     | [Qt使用QtCharts模块绘制图表Demo](./QtChartsDemo/QtCharts.md) |          |
-| PlayImage        | Qt使用QPainter绘制方式显示图片                               |          |
 | ProgramFramework | [用过的一些Qt程序模块设计架构Demo](./ProgramFramework/ProgramFramework.md) |          |
 | QSqlDemo         | [QSql学习Demo](./QSqlDemo/QSql.md)                           |          |
 | QStyleDemo       | [Qt样式美化设置Demo说明及演示](./QStyleDemo/QStyleDemo.md)   |          |
@@ -133,15 +132,3 @@ Qt实现的视频播放器界面Demo。
 ![Dump](README.assets/Dump.gif)
 
 
-
-## 6、PlayImage
-
-* **介绍**
-  * 使用QPainter绘制方式显示图片；
-  * 支持传入QPixmap、QImage两种格式；
-  * 以50Hz频率同时显示64路图片没有压力；
-  * 使用简单，没有第三方依赖，使用与所有平台、任意编译器；
-* **演示**
-  * 由于GIF录制频率比较低，所以看起来有点卡。
-
-![playImage](README.assets/playImage.gif)
