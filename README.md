@@ -16,6 +16,7 @@
 | QLog             | Qt日志系统                                                   |          |
 | QMPlayer         | 视频播放器界面                                               | windows  |
 | TestCrashHandler | windows下程序崩溃定位Demo                                    | windows  |
+| FunctionalModule | 常用功能模块，开发时直接复用                                 |          |
 | QMNetwork        | [Qt网络编程Demo](./QMNetwork/QMNetwork.md)                   |          |
 | QtChartsDemo     | [Qt使用QtCharts模块绘制图表Demo](./QtChartsDemo/QtCharts.md) |          |
 | ProgramFramework | [用过的一些Qt程序模块设计架构Demo](./ProgramFramework/ProgramFramework.md) |          |
@@ -130,5 +131,4 @@ Qt实现的视频播放器界面Demo。
 * **演示：**
 
 ![Dump](README.assets/Dump.gif)
-
 
