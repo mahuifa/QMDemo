@@ -56,15 +56,19 @@ void Widget::init()
 
     ui->widget->installEventFilter(this);
     ui->com_shape->setCurrentIndex(0);
-    ui->com_penStyle->setCurrentIndex(1);
 }
 
 void Widget::connectSlots()
 {
-    connect(ui->com_penStyle, QOverload<int>::of(&QComboBox::activated), this, &Widget::setPen);
-    connect(ui->com_penCapStyle, QOverload<int>::of(&QComboBox::activated), this, &Widget::setPen);
-    connect(ui->com_penJoinStyle, QOverload<int>::of(&QComboBox::activated), this, &Widget::setPen);
+    // activated()只有用户操作时才触发，currentIndexChanged()时用户操作或者程序更改时触发，所以这里需要使用currentIndexChanged()
+    connect(ui->com_penStyle, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Widget::setPen);
+    connect(ui->com_penCapStyle, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Widget::setPen);
+    connect(ui->com_penJoinStyle, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Widget::setPen);
     connect(ui->spinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &Widget::setPen);
+
+    // 由于init()在connectSlots()前，所以这几行代码需要触发信号就只能放在connectSlots()后
+    ui->com_penStyle->setCurrentIndex(1);
+    ui->com_penJoinStyle->setCurrentIndex(0);
 }
 
 /**
@@ -76,9 +80,9 @@ void Widget::setPen()
     pen.setStyle(Qt::PenStyle(ui->com_penStyle->currentData().toInt()));   // 设置画笔样式
     Qt::PenJoinStyle joinStyle = Qt::PenJoinStyle(ui->com_penJoinStyle->currentData().toInt());
     pen.setJoinStyle(joinStyle);
-    if(Qt::MiterJoin == joinStyle)
+    if(Qt::MiterJoin == joinStyle)   // 笔样式设置为 Qt::MiterJoin 时才有效
     {
-        pen.setMiterLimit(20);
+        pen.setMiterLimit(0.2);   // 将此笔的斜接限制设置为0.2，笔的宽度的倍数。
     }
     pen.setWidth(ui->spinBox->value());     // 设置画笔线宽
     pen.setColor(m_color);                  // 设置画笔颜色
@@ -156,27 +160,27 @@ void Widget::on_com_brushStyle_activated(int index)
     {
     case Qt::LinearGradientPattern:    // 添加线性渐变图案
     {
-        QLinearGradient linearGradient(0, 0, 100, 100);
+        QLinearGradient linearGradient(0, 0, 200, 200);    // 从QPoint(0, 0)到QPoint(200, 200)的线性渐变色
         linearGradient.setColorAt(0.0, Qt::white);
-        linearGradient.setColorAt(0.2, Qt::green);
+        linearGradient.setColorAt(0.5, Qt::green);
         linearGradient.setColorAt(1.0, Qt::black);
         ui->widget->setBrush(linearGradient);
         break;
     }
     case Qt::RadialGradientPattern:   // 添加径向渐变图案
     {
-        QRadialGradient radialGradient(50, 50, 50, 70, 70);
+        QRadialGradient radialGradient(QPointF(150, 150), 150, QPointF(100, 100));  // 中心点QPointF(150, 150)，圆形半径150，焦点QPointF(100, 100)
         radialGradient.setColorAt(0.0, Qt::white);
-        radialGradient.setColorAt(0.2, Qt::green);
+        radialGradient.setColorAt(0.3, Qt::green);
         radialGradient.setColorAt(1.0, Qt::black);
         ui->widget->setBrush(radialGradient);
         break;
     }
     case Qt::ConicalGradientPattern:   // 添加锥形渐变图案
     {
-        QConicalGradient conicalGradient(50, 50, 150);
+        QConicalGradient conicalGradient(150, 150, 90);    // 中心点QPointF(150, 150)，角度90（0度为3点钟方向）
         conicalGradient.setColorAt(0.0, Qt::white);
-        conicalGradient.setColorAt(0.2, Qt::green);
+        conicalGradient.setColorAt(0.5, Qt::green);
         conicalGradient.setColorAt(1.0, Qt::black);
         ui->widget->setBrush(conicalGradient);
         break;

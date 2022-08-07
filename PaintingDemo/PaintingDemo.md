@@ -12,13 +12,14 @@
 | Transformations   | QPainter偏移原点、旋转、缩放功能Demo               |
 | Concentriccircles | QPainter绘制时【数据类型】和【抗锯齿】对效果的影响 |
 | PainterPaths      | QPainterPath使用示例                               |
+| PlayImage         | Qt使用QPainter绘制方式显示图片                     |
 
 
 
 
 ## 2、相关博客
 
-
+* [CSDN](https://blog.csdn.net/qq_43627907/category_11970609.html)
 
 ## 3、实现效果
 
@@ -35,9 +36,8 @@
 
 ### 1.2 Transformations
 
-> 1、使用QPainterPath设置绘制较复杂的图案；
->
-> 2、演示绘图时偏移坐标轴原点、选择、缩放操作。
+> 1. 使用QPainterPath设置绘制较复杂的图案；
+> 2. 演示绘图时偏移坐标轴原点、选择、缩放操作。
 
 ![Transformations](PaintingDemo.assets/Transformations.gif)
 
@@ -57,7 +57,19 @@
 
 ### 1.4 PainterPaths
 
-> * QPainterPath使用示例，包含QPainterPath中所有函数的使用方式；
-> * 采用绘制轮廓和填充两种方式进行绘制，更便于观察效果。
+> 1. QPainterPath使用示例，包含QPainterPath中所有函数的使用方式；
+> 2. 采用绘制轮廓和填充两种方式进行绘制，更便于观察效果。
 
 ![image-20220801122927716](PaintingDemo.assets/image-20220801122927716.png)
+
+### 1.5 PlayImage
+
+> 1. 使用QPainter绘制方式显示图片；
+> 2. 支持传入QPixmap、QImage两种格式；
+> 3. 以50Hz频率同时显示64路图片没有压力；
+> 4. 使用简单，没有第三方依赖，使用与所有平台、任意编译器；
+
+* **演示**
+  * 由于GIF录制频率比较低，所以看起来有点卡。
+
+![playImage](PaintingDemo.assets/playImage.gif)
