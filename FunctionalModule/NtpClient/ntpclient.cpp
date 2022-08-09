@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QtEndian>
 #include <QElapsedTimer>
+#include <QMetaEnum>
 
 NtpClient::NtpClient(QObject *parent) : QObject(parent)
 {
@@ -30,6 +31,8 @@ void NtpClient::close()
 void NtpClient::on_connected()
 {
     qDebug() << "连接成功！";
+    QMetaEnum m = QMetaEnum::fromType<QAbstractSocket::SocketState>();      // 获取QUdpSocket连接状态字符串
+    emit updateData(QString("连接成功：%1  %2").arg(m_socket->peerName()).arg(m.key(m_socket->state())));
 }
 
 void NtpClient::getTime()
@@ -146,7 +149,7 @@ void NtpClient::on_readData()
 
     dateTime.setMSecsSinceEpoch(currentLocalTimestamp1);
     strTime = dateTime.toString("yyyy-MM-dd HH:mm:ss zzz");
-    emit updateTime(strTime);
+    emit updateData(strTime);
 #else        // 计算方式2：往返时延Delay=（T4-T1）-（T3-T2）            实际时间=程序处理时间（timer.elapsed()） + 服务器数据发出时间（T3）+ 通信时延（Delay）
     qint64 currentLocalTimestamp2 = timer.elapsed() + translateTimestamp + (((currentLocalTimestamp - originTimestamp) - (translateTimestamp - receiveTimestamp)) / 2);
     dateTime.setMSecsSinceEpoch(currentLocalTimestamp2);

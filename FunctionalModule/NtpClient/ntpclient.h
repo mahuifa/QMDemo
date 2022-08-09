@@ -32,7 +32,7 @@ public:
     void getTime();
 
 signals:
-    void updateTime(const QString& time);          // 更新时间
+    void updateData(const QString& time);          // 添加显示到界面上文本框中的信息
 
 private slots:
     void on_connected();
