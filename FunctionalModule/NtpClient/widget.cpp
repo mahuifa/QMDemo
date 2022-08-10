@@ -11,6 +11,8 @@ Widget::Widget(QWidget *parent)
     this->setWindowTitle("NTP时间同步客户端");
 
     connect(&m_ntpClient, &NtpClient::updateData, ui->textEdit, &QTextEdit::append);
+
+
 }
 
 Widget::~Widget()

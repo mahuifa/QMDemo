@@ -6,6 +6,10 @@
 #include <QElapsedTimer>
 #include <QMetaEnum>
 
+#ifdef Q_OS_WIN
+#include <Windows.h>
+#endif
+
 NtpClient::NtpClient(QObject *parent) : QObject(parent)
 {
     m_socket = new QUdpSocket(this);
@@ -76,6 +80,7 @@ void NtpClient::sendData()
     }
 }
 
+
 /**
  * @brief     将QByteArray类型时间戳数据转换为整形并且进行大小端转换
  * @param bt
@@ -106,8 +111,9 @@ qint64 byte64ToMillionSecond(QByteArray bt) {
  */
 void NtpClient::on_readData()
 {
-    QElapsedTimer timer;
+    QElapsedTimer timer;       // 统计数据解析消耗的时间
     timer.start();
+
     QByteArray buf = m_socket->readAll();
     qint64 currentLocalTimestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();        // 客户端接收到响应报文时的时间戳 T4
     if(buf.count() < 48)          // Ntp协议帧长度为48字节
@@ -156,5 +162,32 @@ void NtpClient::on_readData()
     strTime = dateTime.toString("yyyy-MM-dd HH:mm:ss zzz");
 #endif
     qDebug() << strTime;
+    setDateTime(dateTime);
 }
 
+
+#ifdef Q_OS_WIN
+void NtpClient::setDateTime(QDateTime& dateTime)
+{
+    QDate date = dateTime.date();
+    QTime time = dateTime.time();
+
+    SYSTEMTIME system_time = {0};
+    memset(&system_time, 0, sizeof(SYSTEMTIME));
+    system_time.wYear = date.year();
+    system_time.wMonth = date.month();
+    system_time.wDay = date.day();
+    system_time.wHour = time.hour();
+    system_time.wMinute = time.minute();
+    system_time.wSecond = time.second();
+    system_time.wMilliseconds = time.msec();
+    if (SetLocalTime(&system_time))
+    {
+        emit updateData("设置时间成功！");
+    }
+    else
+    {
+        emit updateData("设置时间失败！");
+    }
+}
+#endif

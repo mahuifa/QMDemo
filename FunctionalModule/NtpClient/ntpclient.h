@@ -38,6 +38,7 @@ private slots:
     void on_connected();
     void on_readData();
     void sendData();
+    void setDateTime(QDateTime& dateTime);
 
 private:
     QUdpSocket* m_socket = nullptr;
