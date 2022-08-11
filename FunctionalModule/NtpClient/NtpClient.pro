@@ -2,7 +2,8 @@
 # @功能：       NTP时间同步客户端程序Demo
 #              1、使用UDP进行通信；
 #              2、毫秒级时间精度；
-#              3、使用多个阿里云NTP时间同步服务器、腾讯云NTP时间同步服务器。
+#              3、使用多个阿里云NTP时间同步服务器、腾讯云NTP时间同步服务器；
+#              4、支持windows、linux下修改系统时间。
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #

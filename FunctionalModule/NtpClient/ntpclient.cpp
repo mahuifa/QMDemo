@@ -9,6 +9,9 @@
 #ifdef Q_OS_WIN
 #include <Windows.h>
 #endif
+#ifdef Q_OS_LINUX
+#include <sys/time.h>
+#endif
 
 NtpClient::NtpClient(QObject *parent) : QObject(parent)
 {
@@ -166,11 +169,11 @@ void NtpClient::on_readData()
 }
 
 
-#ifdef Q_OS_WIN
 void NtpClient::setDateTime(QDateTime& dateTime)
 {
     QDate date = dateTime.date();
     QTime time = dateTime.time();
+#ifdef Q_OS_WIN
 
     SYSTEMTIME system_time = {0};
     memset(&system_time, 0, sizeof(SYSTEMTIME));
@@ -181,7 +184,7 @@ void NtpClient::setDateTime(QDateTime& dateTime)
     system_time.wMinute = time.minute();
     system_time.wSecond = time.second();
     system_time.wMilliseconds = time.msec();
-    if (SetLocalTime(&system_time))
+    if (SetLocalTime(&system_time))            // 仅限于管理员。
     {
         emit updateData("设置时间成功！");
     }
@@ -189,5 +192,30 @@ void NtpClient::setDateTime(QDateTime& dateTime)
     {
         emit updateData("设置时间失败！");
     }
-}
 #endif
+
+#ifdef Q_OS_LINUX
+    struct tm tptr;
+    struct timeval tv;
+
+    tptr.tm_year = date.year() - 1900;            // 这里必须-1900，否则设置不成功
+    tptr.tm_mon = date.month();
+    tptr.tm_mday = date.day();
+    tptr.tm_hour = time.hour();
+    tptr.tm_min = time.minute();
+    tptr.tm_sec = time.second();
+
+    tv.tv_sec = mktime(&tptr);                    // 将tptr赋值给tv_sec
+    tv.tv_usec = time.msec() * 1000;              // 设置微秒值
+
+    if (0 == settimeofday(&tv, NULL))            // 仅限于超级用户, 使用sudo ./NtpClient
+    {
+        emit updateData("设置时间成功！");
+    }
+    else
+    {
+        emit updateData("设置时间失败！");
+    }
+#endif
+}
+
