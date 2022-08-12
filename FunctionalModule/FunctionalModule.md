@@ -6,13 +6,14 @@
 
 ## 1、说明
 
-| 类名             | 功能                               | 支持系统 |
-| ---------------- | ---------------------------------- | -------- |
-| QMWidget         | 基于QWidget实现的自定义窗口模块    | windows  |
-| DeviceManagement | 串口、鼠标、键盘热插拔监测功能模块 | windows  |
-| QLog             | Qt日志系统                         |          |
-| QMPlayer         | Qt实现的视频播放器界面Demo         | windows  |
-| TestCrashHandler | windows下程序崩溃定位Demo          | windows  |
+| 类名             | 功能                               | 支持系统       |
+| ---------------- | ---------------------------------- | -------------- |
+| QMWidget         | 基于QWidget实现的自定义窗口模块    | windows        |
+| DeviceManagement | 串口、鼠标、键盘热插拔监测功能模块 | windows        |
+| QLog             | Qt日志系统                         |                |
+| QMPlayer         | Qt实现的视频播放器界面Demo         | windows        |
+| TestCrashHandler | windows下程序崩溃定位Demo          | windows        |
+| NtpClient        | NTP时间同步客户端                  | Windows、Linux |
 
 
 
@@ -96,3 +97,21 @@
 > 7. 支持release模块下生成dump文件。
 
 ![Dump](FunctionalModule.assets/Dump.gif)
+
+
+
+### 1.6 NtpClient
+
+> **NTP时间同步客户端程序Demo**
+>
+> 1. 使用UDP进行通信；
+> 2. 毫秒级时间精度；
+> 3. 使用多个阿里云NTP时间同步服务器、腾讯云NTP时间同步服务器；
+> 4. 支持windows、linux下修改系统时间。
+>
+> **注意：**由于设置系统时间的功能比较重要，所以不管是Windows还是Linux都需要最高权限才可以。
+>
+> 1. Windows下需要【以管理员身份运行】打开QtCreator或者编译后给NtpClient.exe设置权限【属性->兼容性->以管理员身份运行此程序】，否则无法修改系统时间；
+> 2. Linux下编译后使用【sudo ./NtpClient】 运行程序。
+
+![NtpClient](FunctionalModule.assets/NtpClient.gif)

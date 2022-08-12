@@ -64,7 +64,6 @@ QByteArray toNtpPacket() {
     result[3] = char(precision & 0xff);
 
     qint64 currentLocalTimestamp = QDateTime::currentMSecsSinceEpoch();
-    qDebug() << currentLocalTimestamp;
     result.append((const char *)&currentLocalTimestamp, sizeof(qint64));
 
     return result;
