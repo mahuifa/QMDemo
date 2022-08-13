@@ -36,10 +36,21 @@ void PortTest::on_comStatus(QString name, bool flag)
 {
     if(flag)              // 串口插入时自动添加串口名
     {
-        ui->comboBox->addItem(name);
-        ui->comboBox_2->addItem(name);
-        ui->comboBox_3->addItem(name);
-        ui->comboBox_4->addItem(name);
+        if(ui->comboBox->findText(name) < 0)       // 判断新增的串口名称在下拉框中是否存在，如果不存在则添加
+        {
+            ui->comboBox->addItem(name);
+        }
+        if(ui->comboBox_2->findText(name) < 0)
+        {
+            ui->comboBox_2->addItem(name);
+        }
+        if(ui->comboBox_3->findText(name) < 0)
+        {
+            ui->comboBox_3->addItem(name);
+        }
+        if(ui->comboBox_4->findText(name) < 0)
+        {
+            ui->comboBox_4->addItem(name);
     }
     else                  // 串口拔出时自动移除串口名
     {
