@@ -168,6 +168,10 @@ void NtpClient::on_readData()
 }
 
 
+/**
+ * @brief           设置系统时间（注意：这个功能需要使用管理员权限或者超级用户权限）
+ * @param dateTime
+ */
 void NtpClient::setDateTime(QDateTime& dateTime)
 {
     QDate date = dateTime.date();
