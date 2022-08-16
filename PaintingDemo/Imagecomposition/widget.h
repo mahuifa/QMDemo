@@ -2,6 +2,8 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QPainter>
+#include <QToolButton>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -15,7 +17,21 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+private slots:
+    void on_sourceButton_clicked();
+
+    void on_destinationButton_clicked();
+
+    void on_operatorComboBox_currentIndexChanged(int index);
+
+private:
+    void addOp(QPainter::CompositionMode mode, const QString &name);
+    void loadImage(const QString &fileName, QImage& image, QToolButton *button);
+
 private:
     Ui::Widget *ui;
+    QImage sourceImage;
+    QImage destinationImage;
+    QImage resultImage;
 };
 #endif // WIDGET_H
