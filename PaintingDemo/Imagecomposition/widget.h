@@ -27,11 +27,13 @@ private slots:
 private:
     void addOp(QPainter::CompositionMode mode, const QString &name);
     void loadImage(const QString &fileName, QImage& image, QToolButton *button);
+    QPointF imagePos(const QImage& image) const;
+    void recalculateResult();
 
 private:
     Ui::Widget *ui;
     QImage sourceImage;
     QImage destinationImage;
-    QImage resultImage;
+    QImage resultImage;               // 合成后的图片
 };
 #endif // WIDGET_H
