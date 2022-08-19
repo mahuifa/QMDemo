@@ -857,6 +857,15 @@ QTabBar::close-button:pressed {
     background-color: rgba(255, 0, 0, 150);
 }
 
+/********************* QStackedWidget样式 *********************/
+#stackedWidget {
+    border: 1px solid red;
+}
+
+#stackedWidget QWidget{
+    background-color: rgb(0, 255, 0);
+}
+
 /********************QListView样式，用于QListView、QListWidget、QUndoView**********************/
 QListView {
     alternate-background-color:  rgba(0, 170, 255, 50);   /* 交替背景色, 使用的前提是开启了隔行变色设置 setAlternatingRowColors(true);*/
