@@ -15,7 +15,12 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+private slots:
+    void on_checkBox_transform_clicked(bool checked);
+
 private:
     Ui::Widget *ui;
+
+    QTransform m_transform;
 };
 #endif // WIDGET_H
