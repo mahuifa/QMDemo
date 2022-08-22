@@ -14,39 +14,52 @@
    <string>Widget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="1">
-    <widget class="QSlider" name="horizontalSlider_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3">
-    <widget class="QDial" name="dial"/>
-   </item>
    <item row="1" column="1" colspan="3">
     <widget class="RenderArea" name="renderArea" native="true"/>
    </item>
    <item row="1" column="0">
-    <widget class="QSlider" name="verticalSlider">
+    <widget class="QSlider" name="verticalSlider_origin">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBelow</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2">
+    <widget class="QPushButton" name="but_reset">
+     <property name="text">
+      <string>重置</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QPushButton" name="but_transform">
+     <property name="text">
+      <string>反转</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1" colspan="3">
-    <widget class="QSlider" name="horizontalSlider">
+    <widget class="QSlider" name="horizontalSlider_origin">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QCheckBox" name="checkBox_transform">
-     <property name="text">
-      <string>反转Transform</string>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBelow</enum>
      </property>
     </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QPushButton" name="but_original">
+     <property name="text">
+      <string>原始</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3" rowspan="4">
+    <widget class="QDial" name="dial"/>
    </item>
   </layout>
  </widget>

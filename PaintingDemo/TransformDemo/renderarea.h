@@ -12,7 +12,8 @@ public:
 
     void setTransform(const QTransform &transform);
 
-signals:
+private:
+    void showData();
 
 protected:
     void paintEvent(QPaintEvent *event) override;

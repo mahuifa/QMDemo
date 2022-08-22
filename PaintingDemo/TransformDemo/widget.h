@@ -15,8 +15,20 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private slots:
-    void on_checkBox_transform_clicked(bool checked);
+
+    void on_but_reset_clicked();
+
+    void on_but_transform_clicked();
+
+    void on_but_original_clicked();
+
+    void on_horizontalSlider_origin_valueChanged(int value);
+
+    void on_verticalSlider_origin_valueChanged(int value);
 
 private:
     Ui::Widget *ui;
