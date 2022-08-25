@@ -35,6 +35,8 @@ private slots:
 
     void on_dial_valueChanged(int value);
 
+    void on_horizontalSlider_scale_valueChanged(int value);
+
 private:
     Ui::Widget *ui;
 

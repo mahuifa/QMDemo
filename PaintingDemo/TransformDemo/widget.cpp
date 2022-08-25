@@ -8,9 +8,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-//    m_transform.translate(50, 50);
-//    m_transform.rotate(10);
-//    m_transform.scale(0.5, 1);
+    this->setWindowTitle("QTransform偏移原点、旋转、缩放功能Demo");
 
     ui->renderArea->installEventFilter(this);
 }
@@ -30,7 +28,7 @@ bool Widget::eventFilter(QObject *watched, QEvent *event)
 {
     if(watched == ui->renderArea && event->type() == QEvent::Resize)
     {
-        reset();
+        on_but_reset_clicked();
     }
 
     return  QWidget::eventFilter(watched, event);
@@ -63,8 +61,8 @@ void Widget::on_but_original_clicked()
  */
 void Widget::on_but_reset_clicked()
 {
-    m_transform.reset();
     reset();
+    m_transform.reset();
     ui->renderArea->setTransform(m_transform);
 }
 
@@ -107,16 +105,30 @@ void Widget::on_verticalSlider_origin_valueChanged(int value)
 }
 
 /**
- * @brief          设置旋转功能
+ * @brief          设置旋转功能，虽然说支持XAxis、YAxis，但似乎有bug，旋转后就无法还原
  * @param value
  */
 void Widget::on_dial_valueChanged(int value)
 {
     static int pastValue = 0;
     pastValue = m_transform.isIdentity() ? 0 : pastValue;
-    m_transform.rotate(-pastValue);             // 由于QTransform中rotate是累计的，所以在设置之前这里进行重置
+    m_transform.rotate(-pastValue, Qt::ZAxis);             // 由于QTransform中rotate是累计的，所以在设置之前这里进行重置
     pastValue = ((value + 90) % 360);
 
-    m_transform.rotate(pastValue);      // 由于QDial默认0为竖直向下方向，QPainter默认0度为向右，所以需要+90度
+    m_transform.rotate(pastValue, Qt::ZAxis);      // 由于QDial默认0为竖直向下方向，QPainter默认0度为向右，所以需要+90度
+    ui->renderArea->setTransform(m_transform);
+}
+
+/**
+ * @brief         缩放
+ * @param value
+ */
+void Widget::on_horizontalSlider_scale_valueChanged(int value)
+{
+    static int pastValue = 50;
+    qreal s = value > pastValue ? 1.1 : 0.9;
+    pastValue = value;
+
+    m_transform.scale(s, s);
     ui->renderArea->setTransform(m_transform);
 }

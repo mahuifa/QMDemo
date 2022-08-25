@@ -62,7 +62,7 @@ void RenderArea::paintEvent(QPaintEvent *event)
     painter.setTransform(m_transform);          // 设置QTransform
 
     // 画一个矩形
-    QRect rect(200, 100, 200, 200);
+    QRect rect(-100, -100, 200, 200);
     painter.drawRect(rect);
     painter.setFont(QFont("黑体", 25, QFont::Bold));
 
