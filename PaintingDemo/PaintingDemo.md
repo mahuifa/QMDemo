@@ -13,6 +13,7 @@
 | Concentriccircles | QPainter绘制时【数据类型】和【抗锯齿】对效果的影响 |
 | PainterPaths      | QPainterPath使用示例                               |
 | PlayImage         | Qt使用QPainter绘制方式显示图片                     |
+| TransformDemo     | QTransform偏移原点、旋转、缩放功能Demo             |
 
 
 
@@ -73,3 +74,12 @@
   * 由于GIF录制频率比较低，所以看起来有点卡。
 
 ![playImage](PaintingDemo.assets/playImage.gif)
+
+
+
+### 1.7 TransformDemo
+
+> * 在QPainter绘图时使用QTransform类进行偏移、缩放、旋转等操作；
+> * 通过QTransform对绘制的图元进行映射。
+
+![TransformDemo-tuya](PaintingDemo.assets/TransformDemo-tuya.gif)
