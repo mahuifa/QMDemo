@@ -27,6 +27,7 @@ private:
     void drawText();
     void drawPixmap();
     void drawPath();
+    void addWidget();
     void clear();
 
 private:
