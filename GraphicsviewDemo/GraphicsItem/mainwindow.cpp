@@ -9,6 +9,7 @@
 #include <QTextFrameFormat>
 #include <qgraphicsitem.h>
 #include <qtoolbutton.h>
+#include "qgraphicspointsitem.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,18 +27,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-#if 0
-enum ItemType{
-    Line,                // 直线
-    Rect,                // 矩形
-    Ellipse,             // 椭圆
-    Polygon,             // 多边形
-    SimpleText,          // 简单文本
-    Text,                // 文本
-    Pixmap,              // 图片
-    Path                 // 路径
-};
-#endif
 
 /**
  * @brief  初始化工具栏
@@ -53,6 +42,7 @@ void MainWindow::initToolBar()
     QPushButton* but7 = new QPushButton("图片");
     QPushButton* but8 = new QPushButton("路径");
     QPushButton* but9 = new QPushButton("窗口");
+    QPushButton* but10 = new QPushButton("自定义散点");
     QPushButton* but_clear = new QPushButton("清除");
 
     // 按键设置可选
@@ -65,6 +55,7 @@ void MainWindow::initToolBar()
     but7->setCheckable(true);
     but8->setCheckable(true);
     but9->setCheckable(true);
+    but10->setCheckable(true);
     but_clear->setCheckable(true);
 
     // 添加进按键组，默认是单选模式
@@ -77,6 +68,7 @@ void MainWindow::initToolBar()
     m_butGroup.addButton(but7);
     m_butGroup.addButton(but8);
     m_butGroup.addButton(but9);
+    m_butGroup.addButton(but10);
     m_butGroup.addButton(but_clear);
 
     // 添加进工具栏
@@ -89,6 +81,7 @@ void MainWindow::initToolBar()
     ui->toolBar->addWidget(but7);
     ui->toolBar->addWidget(but8);
     ui->toolBar->addWidget(but9);
+    ui->toolBar->addWidget(but10);
     ui->toolBar->addWidget(but_clear);
 
     // 绑定信号槽
@@ -101,6 +94,7 @@ void MainWindow::initToolBar()
     connect(but7, &QPushButton::clicked, this, &MainWindow::drawPixmap);
     connect(but8, &QPushButton::clicked, this, &MainWindow::drawPath);
     connect(but9, &QPushButton::clicked, this, &MainWindow::addWidget);
+    connect(but10, &QPushButton::clicked, this, &MainWindow::drawPoints);
     connect(but_clear, &QPushButton::clicked, this, &MainWindow::clear);
 }
 
@@ -112,7 +106,7 @@ void MainWindow::drawLine()
     QLineF line(0, 0, 300, 0);
     QPen pen(Qt::red, 5);
 
-#if 0              // 方式一，使用复杂一些，但更加灵活
+#if 1              // 方式一，使用复杂一些，但更加灵活
     QGraphicsLineItem* item = new QGraphicsLineItem();
     item->setLine(line);
     item->setPen(pen);
@@ -282,6 +276,21 @@ void MainWindow::addWidget()
 #else
     m_scene.addWidget(but);
 #endif
+}
+
+/**
+ * @brief 添加自定义散点图元
+ */
+void MainWindow::drawPoints()
+{
+    QPen pen(Qt::red, 15);
+    QPolygonF polygonf;
+    polygonf << QPointF(10,0) << QPointF(50,80) << QPointF(100,100) << QPointF(100,50) << QPointF(10, 200);
+    QGraphicsPointsItem* item = new QGraphicsPointsItem();
+    item->setPoints(polygonf);
+    item->setPen(pen);
+
+    m_scene.addItem(item);
 }
 
 /**

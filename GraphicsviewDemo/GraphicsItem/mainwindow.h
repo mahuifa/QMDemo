@@ -28,6 +28,7 @@ private:
     void drawPixmap();
     void drawPath();
     void addWidget();
+    void drawPoints();
     void clear();
 
 private:
