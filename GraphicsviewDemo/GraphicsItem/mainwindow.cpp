@@ -112,8 +112,10 @@ void MainWindow::drawLine()
     item->setPen(pen);
     m_scene.addItem(item);
 #else              // 方式二  这种方式将创建QGraphicsLineItem的步骤封装到函数内部了，使用简单
-    m_scene.addLine(line, pen);
+    QGraphicsLineItem* item = m_scene.addLine(line, pen);
 #endif
+
+    item->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);      // 设置可选可移动
 }
 
 /**
@@ -131,8 +133,10 @@ void MainWindow::drawRect()
     item->setBrush(brush);
     m_scene.addItem(item);
 #else       // 方式二
-    m_scene.addRect(rectf, pen, brush);
+    QGraphicsRectItem* item = m_scene.addRect(rectf, pen, brush);
 #endif
+
+    item->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);      // 设置可选可移动
 }
 
 /**
@@ -150,8 +154,9 @@ void MainWindow::drawEllipse()
     item->setBrush(brush);
     m_scene.addItem(item);
 #else       // 方式二
-    m_scene.addEllipse(rectf, pen, brush);
+    QGraphicsEllipseItem* item = m_scene.addEllipse(rectf, pen, brush);
 #endif
+    item->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);      // 设置可选可移动
 }
 
 /**
@@ -170,8 +175,9 @@ void MainWindow::drawPolygon()
     item->setBrush(brush);
     m_scene.addItem(item);
 #else       // 方式二
-    m_scene.addPolygon(polygonF, pen, brush);
+    QGraphicsPolygonItem* item = m_scene.addPolygon(polygonF, pen, brush);
 #endif
+    item->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);      // 设置可选可移动
 }
 
 /**
@@ -186,8 +192,9 @@ void MainWindow::drawSimpleText()
     item->setFont(font);
     m_scene.addItem(item);
 #else          // 方式二
-    m_scene.addSimpleText("简单文本", font);
+    QGraphicsSimpleTextItem *item = m_scene.addSimpleText("简单文本", font);
 #endif
+    item->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);      // 设置可选可移动
 }
 
 /**
@@ -218,8 +225,9 @@ void MainWindow::drawText()
     item3->setPos(0, 200);
     m_scene.addItem(item3);
 #else          // 方式二
-    m_scene.addText("文本", font);
+    QGraphicsTextItem *item1 = m_scene.addText("文本", font);
 #endif
+    item1->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);      // 设置可选可移动
 }
 
 /**
@@ -233,8 +241,9 @@ void MainWindow::drawPixmap()
     item->setPixmap(pixmap);
     m_scene.addItem(item);
 #else
-    m_scene.addPixmap(pixmap);
+    QGraphicsPixmapItem* item = m_scene.addPixmap(pixmap);
 #endif
+    item->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);      // 设置可选可移动
 }
 
 /**
@@ -259,8 +268,9 @@ void MainWindow::drawPath()
     item->setPath(path);
     m_scene.addItem(item);
 #else           // 方式二
-    m_scene.addPath(path, pen, brush);
+    QGraphicsPathItem* item = m_scene.addPath(path, pen, brush);
 #endif
+    item->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);      // 设置可选可移动
 }
 
 /**
@@ -274,8 +284,14 @@ void MainWindow::addWidget()
     proxy->setWidget(but);
     m_scene.addItem(proxy);
 #else
-    m_scene.addWidget(but);
+    QGraphicsProxyWidget *proxy = m_scene.addWidget(but);                  // QGraphicsProxyWidget添加窗口部件后【不支持鼠标选中移动】
 #endif
+    // 这里通过添加一个矩形图元来实现鼠标移动
+    QGraphicsRectItem* item = new QGraphicsRectItem(0, 0, 20, 20);         // 注意矩形长宽不能为负数，否则不能选中移动
+    proxy->setPos(0, 20);                                                  // 将窗口部件下移，露出矩形图元
+    proxy->setParentItem(item);                                            // 指定父项为矩形图元
+    m_scene.addItem(item);
+    item->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);      // 设置可选可移动
 }
 
 /**
@@ -283,12 +299,13 @@ void MainWindow::addWidget()
  */
 void MainWindow::drawPoints()
 {
-    QPen pen(Qt::red, 15);
+    QPen pen(Qt::red, 20);
     QPolygonF polygonf;
-    polygonf << QPointF(10,0) << QPointF(50,80) << QPointF(100,100) << QPointF(100,50) << QPointF(10, 200);
+    polygonf << QPointF(0,0) << QPointF(50,80) << QPointF(100,100) << QPointF(100,50) << QPointF(10, 200);
     QGraphicsPointsItem* item = new QGraphicsPointsItem();
     item->setPoints(polygonf);
     item->setPen(pen);
+    item->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);      // 设置可选可移动
 
     m_scene.addItem(item);
 }
