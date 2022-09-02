@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->setWindowTitle("QGraphicsItem基本图元演示");
+
     initToolBar();
 
     ui->graphicsView->setScene(&m_scene);          // 添加绘图场景
@@ -38,7 +40,7 @@ void MainWindow::initToolBar()
     QPushButton* but3 = new QPushButton("椭圆");
     QPushButton* but4 = new QPushButton("多边形");
     QPushButton* but5 = new QPushButton("简单文本");
-    QPushButton* but6 = new QPushButton("文本");
+    QPushButton* but6 = new QPushButton("富文本");
     QPushButton* but7 = new QPushButton("图片");
     QPushButton* but8 = new QPushButton("路径");
     QPushButton* but9 = new QPushButton("窗口");

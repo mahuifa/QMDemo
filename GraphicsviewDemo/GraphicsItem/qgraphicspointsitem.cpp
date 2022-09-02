@@ -14,25 +14,41 @@ QGraphicsPointsItem::~QGraphicsPointsItem()
 
 }
 
+/**
+ * @brief  返回绘制的画笔对象
+ * @return
+ */
 QPen QGraphicsPointsItem::pen() const
 {
     return m_pen;
 }
 
+/**
+ * @brief       设置画笔对象
+ * @param pen
+ */
 void QGraphicsPointsItem::setPen(const QPen &pen)
 {
     if (m_pen == pen)
         return;
-    prepareGeometryChange();
+    prepareGeometryChange();          // 准备几何图形更改,以使QGraphicsScene的索引保持最新
     m_pen = pen;
     update();
 }
 
+/**
+ * @brief   返回用于绘制的点数据
+ * @return
+ */
 QPolygonF QGraphicsPointsItem::points() const
 {
     return m_points;
 }
 
+/**
+ * @brief         设置用于绘制的散点数据
+ * @param points
+ */
 void QGraphicsPointsItem::setPoints(const QPolygonF &points)
 {
     if (m_points == points)
@@ -53,10 +69,25 @@ QRectF QGraphicsPointsItem::boundingRect() const
     return m_points.boundingRect().adjusted(-pad, -pad, pad, pad);
 }
 
-
+/**
+ * @brief        判断是否包含传入的点
+ * @param point  传入数据点
+ * @return       包含返回true，否则返回false
+ */
 bool QGraphicsPointsItem::contains(const QPointF &point) const
 {
+#if 1      // 用这种方法只有QPolygonF中有的点才返回true
+    for(auto pointf : m_points)
+    {
+        if(pointf == point)
+        {
+            return true;
+        }
+    }
+    return false;
+#else      // 用这种方法只要包含在当前图元边框矩形内的点都返回true
     return QGraphicsItem::contains(point);
+#endif
 }
 
 /**
@@ -90,6 +121,12 @@ static void qt_graphicsItem_highlightSelected(
     painter->drawRect(item->boundingRect().adjusted(pad, pad, -pad, -pad));
 }
 
+/**
+ * @brief            重写这个函数进行自定义图案绘制
+ * @param painter    用于绘制的画家对象
+ * @param option     QStyleOptionsGraphicsItem类用于描述绘制QGraphicsItem所需的参数。
+ * @param widget
+ */
 void QGraphicsPointsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget)

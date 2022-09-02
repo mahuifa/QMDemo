@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS += GraphicsItem          # 图元项Demo
+SUBDIRS += GraphicsItem          # QGraphicsItem基本图元演示
