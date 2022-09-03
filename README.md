@@ -18,6 +18,7 @@
 | QSqlDemo         | [QSql学习Demo](./QSqlDemo/QSql.md)                           |
 | QStyleDemo       | [Qt样式美化设置Demo说明及演示](./QStyleDemo/QStyleDemo.md)   |
 | PaintingDemo     | [Qt绘图Demo](./PaintingDemo/PaintingDemo.md)                 |
+| GraphicsviewDemo | [GraphicsView 图形视图框架Demo](./GraphicsviewDemo/GraphicsviewDemo.md) |
 |                  |                                                              |
 |                  | **使用到第三方库**                                           |
 | XlsxDemo         | [Qt使用QXlsx操作Excel Demo](./XlsxDemo/XlsxDemo.md)          |
