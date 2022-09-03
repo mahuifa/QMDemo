@@ -1,6 +1,6 @@
 <img src="README.assets/Qt-5.12.12-green.png">[![个人主页-CSDN-orange](README.assets/%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5-CSDN-orange.png)](https://blog.csdn.net/qq_43627907?type=blog)[![国内站点-gitee-orange](README.assets/%E5%9B%BD%E5%86%85%E7%AB%99%E7%82%B9-gitee-orange.png)](https://gitee.com/mahuifa/QMDemo)[![国外站点-github-brightgreen](README.assets/%E5%9B%BD%E5%A4%96%E7%AB%99%E7%82%B9-github-brightgreen.png)](https://github.com/mahuifa/QMDemo)
 
-<img src="README.assets/%E6%9C%AA%E6%A0%87%E9%A2%98-761_%E7%94%BB%E6%9D%BF%201.png" alt="未标题-761_画板 1" style="zoom: 33%;" />
+![image-20220827211417219](README.assets/image-20220827211417219.png)
 
 在这个仓库中收录了一些自己练习Qt用的Demo和日常开发中经常用到的功能模块。
 
@@ -18,6 +18,7 @@
 | QSqlDemo         | [QSql学习Demo](./QSqlDemo/QSql.md)                           |
 | QStyleDemo       | [Qt样式美化设置Demo说明及演示](./QStyleDemo/QStyleDemo.md)   |
 | PaintingDemo     | [Qt绘图Demo](./PaintingDemo/PaintingDemo.md)                 |
+| GraphicsviewDemo | [GraphicsView 图形视图框架Demo](./GraphicsviewDemo/GraphicsviewDemo.md) |
 |                  |                                                              |
 |                  | **使用到第三方库**                                           |
 | XlsxDemo         | [Qt使用QXlsx操作Excel Demo](./XlsxDemo/XlsxDemo.md)          |

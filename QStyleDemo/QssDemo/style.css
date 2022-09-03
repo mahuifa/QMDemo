@@ -35,24 +35,24 @@ QCheckBox::indicator:unchecked {
    image: url(:/image/正方形-未选中.png);    /* 设置未选中状态矩形部分图片*/
 }
 
-QCheckBox::indicator::checked {
+QCheckBox::indicator:checked {
     image: url(:/image/复选框-选中.png);     /*设置选中状态*/
 }
 
-QCheckBox::indicator::indeterminate{
+QCheckBox::indicator:indeterminate{
     image: url(:/image/复选框-未全选.png);    /*设置不确定状态*/
 }
 
 QCheckBox::indicator:unchecked:hover,
-QCheckBox::indicator::checked:hover,
-QCheckBox::indicator::indeterminate:hover{
+QCheckBox::indicator:checked:hover,
+QCheckBox::indicator:indeterminate:hover{
     width: 16px;
     height: 16px;                           /*设置矩形部分鼠标悬停状态*/
 }
 
 QCheckBox::indicator:unchecked:pressed,
-QCheckBox::indicator::checked:pressed,
-QCheckBox::indicator::indeterminate:pressed{
+QCheckBox::indicator:checked:pressed,
+QCheckBox::indicator:indeterminate:pressed{
     background-color: rgb(8, 202, 255);     /*设置矩形部分鼠标按下背景色*/
 }
 
