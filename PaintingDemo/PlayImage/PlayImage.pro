@@ -42,6 +42,10 @@ RESOURCES += \
     image.qrc
 
 
+#  定义程序版本号
+VERSION = 1.0.1
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+
 contains(QT_ARCH, i386){        # 使用32位编译器
 DESTDIR = $$PWD/../bin          # 程序输出路径
 }else{

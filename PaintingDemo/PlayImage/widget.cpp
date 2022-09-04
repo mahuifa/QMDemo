@@ -9,7 +9,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("Qt使用QPainter绘制图片Demo");
+    this->setWindowTitle(QString("Qt使用QPainter绘制图片Demo - V%1").arg(APP_VERSION));
 
     m_pixmap[0] = QPixmap::fromImage(QImage(":/0.jpg"));
     m_pixmap[1] = QPixmap::fromImage(QImage(":/1.jpg"));
