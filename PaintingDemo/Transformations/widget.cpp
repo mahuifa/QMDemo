@@ -7,7 +7,7 @@
 
 Widget::Widget(QWidget *parent): QWidget(parent)
 {
-    this->setWindowTitle("QPainter偏移原点、旋转、缩放功能Demo");
+    this->setWindowTitle(QString("QPainter偏移原点、旋转、缩放功能Demo - V%1").arg(APP_VERSION));
     initUI();
     setupShapes();         // 设置形状
 }

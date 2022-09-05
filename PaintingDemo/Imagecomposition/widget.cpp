@@ -10,6 +10,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    this->setWindowTitle(QString("QPainter图像合成Demo - V%1").arg(APP_VERSION));
 
     addOp(QPainter::CompositionMode_SourceOver,       "SourceOver");
     addOp(QPainter::CompositionMode_DestinationOver,  "DestinationOver");

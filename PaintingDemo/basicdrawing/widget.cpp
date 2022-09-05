@@ -10,7 +10,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->setWindowTitle("QPainter基本绘图Demo");
+    this->setWindowTitle(QString("QPainter基本绘图Demo - V%1").arg(APP_VERSION));
 
     init();
     connectSlots();
