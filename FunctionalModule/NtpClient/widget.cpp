@@ -8,7 +8,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->setWindowTitle("NTP时间同步客户端");
+    this->setWindowTitle(QString("NTP时间同步客户端 - V%1").arg(APP_VERSION));
 
     connect(&m_ntpClient, &NtpClient::updateData, ui->textEdit, &QTextEdit::append);
 

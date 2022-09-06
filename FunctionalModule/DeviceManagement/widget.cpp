@@ -9,7 +9,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("串口、鼠标、键盘热插拔监测demo");
+    this->setWindowTitle(QString("串口、鼠标、键盘热插拔监测demo - V%1").arg(APP_VERSION));
     m_port = new PortTest();
     m_mouseKey = new MouseKeyTest();
 }

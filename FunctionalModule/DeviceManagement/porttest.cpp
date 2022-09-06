@@ -4,8 +4,8 @@
 #include "comchange.h"
 
 #ifdef Q_OS_WIN
-#include <windows.h>
-#include "dbt.h"
+#include <Windows.h>
+#include "Dbt.h"
 #pragma comment(lib, "user32.lib")
 #endif
 
@@ -32,6 +32,7 @@ PortTest::~PortTest()
     delete ui;
 }
 
+
 void PortTest::on_comStatus(QString name, bool flag)
 {
     if(flag)              // 串口插入时自动添加串口名
@@ -51,6 +52,7 @@ void PortTest::on_comStatus(QString name, bool flag)
         if(ui->comboBox_4->findText(name) < 0)
         {
             ui->comboBox_4->addItem(name);
+        }
     }
     else                  // 串口拔出时自动移除串口名
     {
@@ -62,7 +64,7 @@ void PortTest::on_comStatus(QString name, bool flag)
 }
 
 /**
- * @brief               第一种方法
+ * @brief            第一种方法
  * @param eventType
  * @param message
  * @param result

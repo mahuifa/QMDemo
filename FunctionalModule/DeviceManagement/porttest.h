@@ -24,7 +24,7 @@ public:
     ~PortTest();
 
 protected:
-    bool nativeEvent(const QByteArray &eventType, void *message, long *result);
+    bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;
 
 private:
     void on_comStatus(QString name, bool flag);

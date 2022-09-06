@@ -35,7 +35,7 @@ void MWidgetBase::init()
     this->installEventFilter(this);
 
 #ifdef Q_OS_WIN
-    HWND hwnd = (HWND)this->winId();
+    HWND hwnd = reinterpret_cast<HWND>(this->winId());
     // 设置窗口属性（winMouseEvent中实现标题栏功能需要）
     ::SetWindowLong(hwnd,                               // 当前窗口句柄
                     GWL_STYLE,                          // 设置窗口属性
@@ -78,6 +78,7 @@ void MWidgetBase::thisEvent(QObject *watched, QEvent *event)
  */
 void MWidgetBase::titleBarEvent(QObject *watched, QEvent *event)
 {
+    Q_UNUSED(event)
     if(watched != m_titleBar)
     {
         return;

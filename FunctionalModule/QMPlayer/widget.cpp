@@ -24,7 +24,7 @@ Widget::~Widget()
 void Widget::init()
 {
     loadStyle();
-    this->setWindowTitle(QString("QMPlayer V%1").arg(APP_VERSION));
+    this->setWindowTitle(QString("QMPlayer - V%1").arg(APP_VERSION));
     this->setTitleBar(ui->titleBar->getBackground());   // 设置标题栏
     ui->videoWidget->setMouseTracking(true);                       // 激活鼠标移动事件
 
