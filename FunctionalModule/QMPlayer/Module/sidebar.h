@@ -13,7 +13,6 @@
 
 #include <QWidget>
 
-class QPropertyAnimation;
 
 namespace Ui {
 class Sidebar;
@@ -27,16 +26,12 @@ public:
     explicit Sidebar(QWidget *parent = nullptr);
     ~Sidebar();
 
-    void show();
-    void hide();
-
 protected:
     void on_finished();
 
 private:
     Ui::Sidebar *ui;
 
-    QPropertyAnimation* m_paShow = nullptr;          // 动画对象，负责打开关闭侧边栏窗口动画
 };
 
 #endif // SIDEBAR_H
