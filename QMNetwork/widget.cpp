@@ -10,7 +10,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("Qt网络编程Demo");
+    this->setWindowTitle(QString("Qt网络编程Demo - V%1").arg(APP_VERSION));
 }
 
 Widget::~Widget()

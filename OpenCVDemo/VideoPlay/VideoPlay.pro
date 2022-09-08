@@ -41,6 +41,10 @@ else:win32:CONFIG(debug, debug|release): LIBS += -LE:/lib/opencv_MSVC2/build/x64
 INCLUDEPATH += E:/lib/opencv_MSVC2/build/include
 DEPENDPATH += E:/lib/opencv_MSVC2/build/include
 
+#  定义程序版本号
+VERSION = 1.0.0
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+
 contains(QT_ARCH, i386){        # 使用32位编译器
 DESTDIR = $$PWD/../bin          # 程序输出路径
 }else{

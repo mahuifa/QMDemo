@@ -8,8 +8,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-
-    this->setWindowTitle("Qt多通信接口适配器程序Demo");
+    this->setWindowTitle(QString("Qt多通信接口适配器程序Demo - V%1").arg(APP_VERSION));
 }
 
 Widget::~Widget()
