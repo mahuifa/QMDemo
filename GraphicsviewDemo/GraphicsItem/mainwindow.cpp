@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("QGraphicsItem基本图元演示");
+    this->setWindowTitle(QString("QGraphicsItem基本图元演示 - V%1").arg(APP_VERSION));
 
     initToolBar();
 
