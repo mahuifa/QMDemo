@@ -15,7 +15,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("QSql-使用QDataWidgetMapper将数据库内容映射到控件上");
+    this->setWindowTitle(QString("QSql-使用QDataWidgetMapper将数据库内容映射到控件上 - V%1").arg(APP_VERSION));
     setupModel();
 
     QSqlTableModel* relModel = m_model->relationModel(m_index);        // 返回一个用于访问列是外键的表

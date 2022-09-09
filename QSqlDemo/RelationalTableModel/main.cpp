@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 
     QTableView* view = new QTableView;         // 创建一个表格视图，用于显示数据库数据
     view->resize(500, 300);
-    view->setWindowTitle("QSql-通过QSqlRelationalTableModel类使用外键Demo");
+    view->setWindowTitle(QString("QSql-通过QSqlRelationalTableModel类使用外键Demo - V%1").arg(APP_VERSION));
     view->setModel(&model);
     view->setItemDelegate(new QSqlRelationalDelegate(view));  // 与默认委托不同，QSqlRelationalDelegate 为其他表的外键字段提供了一个组合框
     view->show();
