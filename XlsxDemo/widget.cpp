@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("QXlsx操作Excel 示例程序");
+    this->setWindowTitle(QString("QXlsx操作Excel 示例程序 - V%1").arg(APP_VERSION));
 }
 
 Widget::~Widget()
