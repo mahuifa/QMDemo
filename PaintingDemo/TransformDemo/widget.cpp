@@ -8,7 +8,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("QTransform偏移原点、旋转、缩放功能Demo");
+    this->setWindowTitle(QString("QTransform偏移原点、旋转、缩放功能Demo - V%1").arg(APP_VERSION));
 
     ui->renderArea->installEventFilter(this);
 }

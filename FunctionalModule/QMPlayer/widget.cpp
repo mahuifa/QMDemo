@@ -24,11 +24,18 @@ Widget::~Widget()
 void Widget::init()
 {
     loadStyle();
-    this->setWindowTitle(QString("QMPlayer V%1").arg(APP_VERSION));
-    this->setTitleBar(ui->titleBar->getBackground());   // 设置标题栏
+    this->setWindowTitle(QString("QMPlayer - V%1").arg(APP_VERSION));
+    this->setTitleBar(ui->titleBar->getBackground());              // 设置标题栏
     ui->videoWidget->setMouseTracking(true);                       // 激活鼠标移动事件
 
     ui->videoWidget->installEventFilter(this);
+
+    m_paSlider = new QPropertyAnimation(ui->slider_video, "size");
+    m_paControlBar = new QPropertyAnimation(ui->controlBar, "size");
+    m_paSidebar = new QPropertyAnimation(ui->sidebar, "pos");
+    m_paSlider->setDuration(500);
+    m_paControlBar->setDuration(500);
+    m_paSidebar->setDuration(500);
 }
 
 void Widget::connectSlot()
@@ -79,9 +86,9 @@ void Widget::windowLayout()
     int l_widget = ui->videoWidget->width() * 3 / 5;
     QSize size = ui->controlBar->size();
     size.setWidth(l_widget);
-    ui->controlBar->resize(size);
+    ui->controlBar->resize(size);                        // 设置控制栏大小
     size.setHeight(ui->slider_video->height());
-    ui->slider_video->resize(size);
+    ui->slider_video->resize(size);                      // 设置进度条大小
 
     // 设置组件位置
     int x = (ui->videoWidget->width() - ui->controlBar->width()) / 2;
@@ -95,31 +102,76 @@ void Widget::windowLayout()
     size.setHeight(sliderY - 20);
     ui->sidebar->resize(size);
     ui->sidebar->move(0, 0);
+    m_visible = true;
 }
 
-/**
- * @brief  全屏显示
- */
-void Widget::showFullScreen()
+void Widget::dynamicShowNormal()
 {
-    ui->titleBar->hide();
-    MWidgetBase::showFullScreen();
-    ui->slider_video->hide();
-    ui->sidebar->hide();
-    ui->controlBar->hide();
+    if(ui->controlBar->width() > 0)
+    {
+        dynamicHide();
+    }
+    else
+    {
+        dynamicShow();
+    }
 }
 
-/**
- * @brief 全屏显示还原
- */
-void Widget::showNormal()
+
+void Widget::dynamicHide()
 {
-    ui->titleBar->show();
-    MWidgetBase::showNormal();
-    ui->slider_video->show();
-    ui->sidebar->show();
-    ui->controlBar->show();          // 依赖于父窗口大小，必须放在全屏显示还原后面
+    if(!m_visible)
+    {
+        return;
+    }
+
+    // 隐藏进度条
+    m_paSlider->setStartValue(ui->slider_video->size());
+    m_paSlider->setEndValue(QSize(0, ui->slider_video->height()));
+    m_paSlider->setEasingCurve(QEasingCurve::OutQuad);
+    m_paSlider->start();
+
+    // 隐藏控制栏
+    m_paControlBar->setStartValue(ui->controlBar->size());
+    m_paControlBar->setEndValue(QSize(0, ui->controlBar->height()));
+    m_paControlBar->setEasingCurve(QEasingCurve::OutQuad);
+    m_paControlBar->start();
+
+    // 隐藏侧边栏
+    m_paSidebar->setStartValue(QPoint(0, 0));
+    m_paSidebar->setEndValue(QPoint(-ui->sidebar->width(), 0));
+    m_paSidebar->setEasingCurve(QEasingCurve::OutQuad);
+    m_paSidebar->start();
+
+    m_visible = false;
 }
+
+void Widget::dynamicShow()
+{
+    if(m_visible)
+    {
+        return;
+    }
+
+    int l_widget = ui->videoWidget->width() * 3 / 5;
+    m_paSlider->setStartValue(QSize(0, ui->slider_video->height()));
+    m_paSlider->setEndValue(QSize(l_widget, ui->slider_video->height()));
+    m_paSlider->setEasingCurve(QEasingCurve::OutQuad);
+    m_paSlider->start();
+
+    m_paControlBar->setStartValue(QSize(0, ui->controlBar->height()));
+    m_paControlBar->setEndValue(QSize(l_widget, ui->controlBar->height()));
+    m_paControlBar->setEasingCurve(QEasingCurve::OutQuad);
+    m_paControlBar->start();
+
+    m_paSidebar->setStartValue(QPoint(-ui->sidebar->width(), 0));
+    m_paSidebar->setEndValue(QPoint(0, 0));
+    m_paSidebar->setEasingCurve(QEasingCurve::OutQuad);
+    m_paSidebar->start();
+
+    m_visible = true;
+}
+
 
 /**
  * @brief         窗口显示事件
@@ -174,28 +226,21 @@ void Widget::videoWidgetEvent(QEvent *event)
         {
             if(this->isFullScreen())
             {
+                ui->titleBar->show();
                 this->showNormal();
+                dynamicShow();
             }
             else
             {
+                ui->titleBar->hide();
                 this->showFullScreen();
+                dynamicHide();
             }
             break;
         }
         case Qt::RightButton:         // 右键双击显示隐藏控制栏、侧边栏、进度条
         {
-            if(!ui->controlBar->isVisible())
-            {
-                ui->slider_video->show();
-                ui->controlBar->show();
-                ui->sidebar->show();
-            }
-            else
-            {
-                ui->slider_video->hide();
-                ui->controlBar->hide();
-                ui->sidebar->hide();
-            }
+            dynamicShowNormal();
             break;
         }
         default:break;

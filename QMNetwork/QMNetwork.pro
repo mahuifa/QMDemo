@@ -39,6 +39,10 @@ INCLUDEPATH += $$PWD/NetWidget
 include($$PWD/NetInterface/NetInterface.pri)          # 网络接口管理模块（查询所有网卡信息和IP地址信息）
 INCLUDEPATH += $$PWD/NetInterface
 
+#  定义程序版本号
+VERSION = 1.0.0
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+
 contains(QT_ARCH, i386){        # 使用32位编译器
 DESTDIR = $$PWD/../bin          # 程序输出路径
 }else{

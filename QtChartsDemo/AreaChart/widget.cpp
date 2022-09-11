@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("QtCharts绘图-面积图Demo");
+    this->setWindowTitle(QString("QtCharts绘图-面积图Demo - V%1").arg(APP_VERSION));
     initChart();
 }
 

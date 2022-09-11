@@ -7,7 +7,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("QPainterPath使用示例");
+    this->setWindowTitle(QString("QPainterPath使用示例 - V%1").arg(APP_VERSION));
     ui->widget_2->setFill(true);
 }
 

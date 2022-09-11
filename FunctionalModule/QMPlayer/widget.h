@@ -3,6 +3,7 @@
 
 #include <QTimer>
 #include <QWidget>
+#include <qpropertyanimation.h>
 #include "mwidgetbase.h"
 
 QT_BEGIN_NAMESPACE
@@ -23,10 +24,11 @@ private:
     void loadStyle();          // 加载样式表
     void setWindowTitle(const QString& title);
     void windowLayout();       // 界面布局
+    void dynamicShowNormal();
+    void dynamicShow();
+    void dynamicHide();
 
 protected:
-    void showFullScreen();                // 覆盖全屏显示功能
-    void showNormal();                    // 覆盖全屏显示还原功能
     void showEvent(QShowEvent *event)     override;
     void resizeEvent(QResizeEvent *event) override;
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -35,5 +37,10 @@ protected:
 
 private:
     Ui::Widget *ui;
+
+    QPropertyAnimation* m_paSlider = nullptr;              // 动画对象，负责打开关闭进度条窗口动画
+    QPropertyAnimation* m_paControlBar = nullptr;          // 动画对象，负责打开关闭控制栏窗口动画
+    QPropertyAnimation* m_paSidebar = nullptr;             // 动画对象，负责打开关闭侧边栏窗口动画
+    bool m_visible = true;
 };
 #endif // WIDGET_H

@@ -29,6 +29,10 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+#  定义程序版本号
+VERSION = 1.0.0
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+
 contains(QT_ARCH, i386){        # 使用32位编译器
 DESTDIR = $$PWD/../bin          # 程序输出路径
 }else{

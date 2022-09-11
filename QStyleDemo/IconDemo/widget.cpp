@@ -10,7 +10,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("Qt内置图标演示Demo");
+    this->setWindowTitle(QString("Qt内置图标演示Demo - V%1").arg(APP_VERSION));
     // 将枚举的名称和数值添加进下拉列表中
     QMetaEnum m = QMetaEnum::fromType<QStyle::StandardPixmap>();
     for(int i=0; i < m.keyCount(); ++i)

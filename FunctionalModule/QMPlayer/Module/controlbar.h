@@ -12,8 +12,6 @@
 
 #include <QWidget>
 
-class QPropertyAnimation;
-
 namespace Ui {
 class ControlBar;
 }
@@ -26,11 +24,6 @@ public:
     explicit ControlBar(QWidget *parent = nullptr);
     ~ControlBar();
 
-    void show();
-    void hide();
-
-protected:
-    void on_finished();
 
 private slots:
     void on_but_play_clicked();
@@ -40,7 +33,6 @@ private slots:
 private:
     Ui::ControlBar *ui;
 
-    QPropertyAnimation* m_paShow = nullptr;          // 动画对象，负责打开关闭侧边栏窗口动画
     bool m_play = false;                             // 播放状态
     bool m_volume = true;                            // 音量状态
 };

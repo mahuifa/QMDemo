@@ -12,24 +12,18 @@
 
 #include <QSlider>
 
-class QPropertyAnimation;
 class SliderVideo : public QSlider
 {
     Q_OBJECT
 public:
     explicit SliderVideo(QWidget *parent = nullptr);
 
-    void show();
-    void hide();
-
 signals:
 
 protected:
-    void on_finished();
     void mousePressEvent(QMouseEvent *event) override;
 
 private:
-    QPropertyAnimation* m_paShow = nullptr;          // 动画对象，负责打开关闭侧边栏窗口动画
 };
 
 #endif // SLIDERVIDEO_H

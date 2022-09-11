@@ -9,7 +9,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("Qt崩溃定位Demo");
+    this->setWindowTitle(QString("Qt崩溃定位Demo - V%1").arg(APP_VERSION));
 }
 
 Widget::~Widget()

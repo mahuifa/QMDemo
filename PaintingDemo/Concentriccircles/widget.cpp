@@ -7,7 +7,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("QPainter绘制时【数据类型】和【抗锯齿】对效果的影响");
+    this->setWindowTitle(QString("QPainter绘制时【数据类型】和【抗锯齿】对效果的影响 - V%1").arg(APP_VERSION));
 
     ui->widget_2->setAntialiased(true);   // 开启抗锯齿
     ui->widget_4->setAntialiased(true);
