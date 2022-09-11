@@ -32,6 +32,12 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+
+include($$PWD/QXlsx/QXlsx.pri)             # QXlsx源代码，版本V1.4.3  https://github.com/QtExcel/QXlsx/releases
+INCLUDEPATH += $$PWD/QXlsx
+include($$PWD/TestXlsx/TestXlsx.pri)       # QXlsx使用Demo
+INCLUDEPATH += $$PWD/TestXlsx
+
 #  定义程序版本号
 VERSION = 1.0.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
@@ -41,11 +47,6 @@ DESTDIR = $$PWD/../bin          # 程序输出路径
 }else{
 DESTDIR = $$PWD/../bin64        # 使用64位编译器
 }
-
-include($$PWD/QXlsx/QXlsx.pri)             # QXlsx源代码，版本V1.4.3  https://github.com/QtExcel/QXlsx/releases
-INCLUDEPATH += $$PWD/QXlsx
-include($$PWD/TestXlsx/TestXlsx.pri)       # QXlsx使用Demo
-INCLUDEPATH += $$PWD/TestXlsx
 
 # 使用utf-8编码，这种用法好像只在msvc2017以后才有效
 msvc {

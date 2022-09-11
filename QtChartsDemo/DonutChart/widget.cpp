@@ -9,7 +9,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle("QtCharts绘图-圆环图Demo");
+    this->setWindowTitle(QString("QtCharts绘图-圆环图Demo - V%1").arg(APP_VERSION));
     initChart();
 }
 
