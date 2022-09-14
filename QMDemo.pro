@@ -11,6 +11,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += FunctionalModule               # 常用功能模块，开发时直接复用
+SUBDIRS += FFmpegDemo                     # ffmpeg库使用Demo
 SUBDIRS += GraphicsviewDemo               #
 SUBDIRS += OpenCVDemo                     # opencv常用功能Demo
 SUBDIRS += ProgramFramework               # 简单的一些程序架构
