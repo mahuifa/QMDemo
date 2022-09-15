@@ -16,10 +16,12 @@ CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
+    ../../PaintingDemo/PlayImage/playimage.cpp \
     main.cpp \
     widget.cpp
 
 HEADERS += \
+    ../../PaintingDemo/PlayImage/playimage.h \
     widget.h
 
 FORMS += \
@@ -29,6 +31,13 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+# ffmpeg读取视频图像模块
+include(./VideoPlay/VideoPlay.pri)
+INCLUDEPATH += ./VideoPlay
+
+# 自定义图片显示模块(QPainter)
+INCLUDEPATH += ../../PaintingDemo/PlayImage/       # 包括头文件路径
 
 #  定义程序版本号
 VERSION = 1.0.0
