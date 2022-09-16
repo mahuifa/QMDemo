@@ -15,3 +15,23 @@ Widget::~Widget()
     delete ui;
 }
 
+
+void Widget::on_but_file_clicked()
+{
+
+}
+
+void Widget::on_but_open_clicked()
+{
+
+}
+
+void Widget::on_but_pause_clicked()
+{
+
+}
+
+void Widget::on_playState(ReadThread::PlayState state)
+{
+
+}
