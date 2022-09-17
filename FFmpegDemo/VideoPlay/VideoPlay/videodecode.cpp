@@ -1,8 +1,27 @@
 #include "videodecode.h"
+#include <QDebug>
+#include <QImage>
+#include <QMutex>
+#include <qdatetime.h>
+
+
+extern "C" {        // 用C规则编译指定的代码
+#include "libavcodec/avcodec.h"
+#include "libavformat/avformat.h"
+#include "libavutil/avutil.h"
+#include "libswscale/swscale.h"
+#include "libavutil/imgutils.h"
+
+}
+
+#define ERROR_LEN 1024  // 异常信息数组长度
+#define PRINT_LOG 1
 
 VideoDecode::VideoDecode()
 {
+//    initFFmpeg();      // 5.1.2版本不需要调用了
 
+    m_error = new char[ERROR_LEN];
 }
 
 VideoDecode::~VideoDecode()
@@ -10,14 +29,245 @@ VideoDecode::~VideoDecode()
 
 }
 
-bool VideoDecode::open(const QString &url)
+/**
+ * @brief 初始化ffmpeg库（整个程序中只需加载一次）
+ *        旧版本的ffmpeg需要注册各种文件格式、解复用器、对网络库进行全局初始化。
+ *        在新版本的ffmpeg中纷纷弃用了，不需要注册了
+ */
+void VideoDecode::initFFmpeg()
 {
-
+    static bool isFirst = true;
+    static QMutex mutex;
+    QMutexLocker locker(&mutex);
+    if(isFirst)
+    {
+        //        av_register_all();         // 已经从源码中删除
+        /**
+         * 初始化网络库,用于打开网络流媒体，此函数仅用于解决旧GnuTLS或OpenSSL库的线程安全问题。
+         * 一旦删除对旧GnuTLS和OpenSSL库的支持，此函数将被弃用，并且此函数不再有任何用途。
+         */
+        avformat_network_init();
+        isFirst = false;
+    }
 }
 
+/**
+ * @brief      打开媒体文件，或者流媒体，例如rtmp、strp、http
+ * @param url  视频地址
+ * @return     true：成功  false：失败
+ */
+bool VideoDecode::open(const QString &url)
+{
+    if(url.isNull()) return false;
+
+    AVDictionary* dict = nullptr;
+    av_dict_set(&dict, "rtsp_transport", "tcp", 0);     // 设置rtsp流使用tcp打开
+    av_dict_set(&dict, "maxdelay", "3", 0);             // 设置网络延时时间 【muxdelay】以【秒】为单位设置延迟，而【max_delay】以【微秒】为单位设置延迟。
+
+    // 打开输入流并返回解封装上下文
+    int ret = avformat_open_input(&m_formatContext,          // 返回解封装上下文
+                                  url.toStdString().data(),  // 打开视频地址
+                                  nullptr,                   // 如果非null，此参数强制使用特定的输入格式。自动选择解封装器（文件格式）
+                                  &dict);                    // 参数设置
+    // 释放参数字典
+    if(dict)
+    {
+        av_dict_free(&dict);
+    }
+    // 打开视频失败
+    if(ret < 0)
+    {
+        showError(ret);
+        free();
+        return false;
+    }
+
+    // 读取媒体文件的数据包以获取流信息。
+    ret = avformat_find_stream_info(m_formatContext, nullptr);
+    if(ret < 0)
+    {
+        showError(ret);
+        free();
+        return false;
+    }
+    m_totalTime = m_formatContext->duration / (AV_TIME_BASE / 1000); // 计算视频总时长（毫秒）
+#if PRINT_LOG
+    qDebug() << QString("视频总时长：%1 ms，[%2]").arg(m_totalTime).arg(QTime::fromMSecsSinceStartOfDay(int(m_totalTime)).toString("HH:mm:ss zzz"));
+#endif
+
+    // 通过AVMediaType枚举查询视频流ID（也可以通过遍历查找），最后一个参数无用
+    m_videoIndex = av_find_best_stream(m_formatContext, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+    if(m_videoIndex < 0)
+    {
+        showError(m_videoIndex);
+        free();
+        return false;
+    }
+
+    AVStream* videoStream = m_formatContext->streams[m_videoIndex];  // 通过查询到的索引获取视频流
+
+    // 获取视频图像分辨率（AVStream中的AVCodecContext在新版本中弃用，改为使用AVCodecParameters）
+    m_size.setWidth(videoStream->codecpar->width);
+    m_size.setHeight(videoStream->codecpar->height);
+    m_frameRate = rationalToDouble(&videoStream->avg_frame_rate);  // 视频帧率
+
+    // 通过解码器ID获取视频解码器（新版本返回值必须使用const）
+    const AVCodec* codec = avcodec_find_decoder(videoStream->codecpar->codec_id);
+    m_totalFrames = videoStream->nb_frames;
+
+#if PRINT_LOG
+    qDebug() << QString("分辨率：[w:%1,h:%2] 帧率：%3  总帧数：%4  解码器：%5")
+                .arg(m_size.width()).arg(m_size.height()).arg(m_frameRate).arg(m_totalFrames).arg(codec->name);
+#endif
+
+    // 分配AVCodecContext并将其字段设置为默认值。
+    m_codecContext = avcodec_alloc_context3(codec);
+    if(!m_codecContext)
+    {
+#if PRINT_LOG
+        qWarning() << "创建视频解码器上下文失败！";
+#endif
+        free();
+        return false;
+    }
+
+    // 使用视频流的codecpar为解码器上下文赋值
+    ret = avcodec_parameters_to_context(m_codecContext, videoStream->codecpar);
+    if(ret < 0)
+    {
+        showError(ret);
+        free();
+        return false;
+    }
+
+    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
+    m_codecContext->thread_count = 8;                 // 使用8线程解码
+
+    // 初始化解码器上下文，如果之前avcodec_alloc_context3传入了解码器，这里设置NULL就可以
+    ret = avcodec_open2(m_codecContext, nullptr, nullptr);
+    if(ret < 0)
+    {
+        showError(ret);
+        free();
+        return false;
+    }
+
+    // 分配AVPacket并将其字段设置为默认值。
+    m_packet = av_packet_alloc();
+    if(!m_packet)
+    {
+#if PRINT_LOG
+        qWarning() << "av_packet_alloc() Error！";
+#endif
+        free();
+        return false;
+    }
+    // 分配AVFrame并将其字段设置为默认值。
+    m_frame = av_frame_alloc();
+    if(!m_frame)
+    {
+#if PRINT_LOG
+        qWarning() << "av_frame_alloc() Error！";
+#endif
+        free();
+        return false;
+    }
+
+    m_image = new QImage(m_size, QImage::Format_RGBA8888);
+    m_end = false;
+    return true;
+}
+
+/**
+ * @brief
+ * @return
+ */
 QImage *VideoDecode::read()
 {
+    // 如果没有打开则返回
+    if(!m_formatContext)
+    {
+        return nullptr;
+    }
 
+    // 读取下一帧数据
+    int readRet = av_read_frame(m_formatContext, m_packet);
+    if(readRet < 0)
+    {
+        avcodec_send_packet(m_codecContext, m_packet); // 读取完成后向解码器中传如空AVPacket，否则无法读取出最后几帧
+    }
+    else
+    {
+        if(m_packet->stream_index == m_videoIndex)     // 如果是图像数据则进行解码
+        {
+            // 计算当前帧时间（毫秒）
+#if 1       // 方法一：适用于所有场景，但是存在一定误差
+            m_packet->pts = qRound64(m_packet->pts * (1000 * rationalToDouble(&m_formatContext->streams[m_videoIndex]->time_base)));
+            m_packet->dts = qRound64(m_packet->dts * (1000 * rationalToDouble(&m_formatContext->streams[m_videoIndex]->time_base)));
+#else       // 方法二：适用于播放本地视频文件，计算每一帧时间较准，但是由于网络视频流无法获取总帧数，所以无法适用
+            m_obtainFrames++;
+            m_packet->pts = qRound64(m_obtainFrames * (qreal(m_totalTime) / m_totalFrames));
+#endif
+            // 将读取到的原始数据包传入解码器
+            int ret = avcodec_send_packet(m_codecContext, m_packet);
+            if(ret < 0)
+            {
+                showError(ret);
+            }
+        }
+    }
+    av_packet_unref(m_packet);  // 释放数据包，引用计数-1，为0时释放空间
+
+    int ret = avcodec_receive_frame(m_codecContext, m_frame);
+    if(ret < 0)
+    {
+        av_frame_unref(m_frame);
+        if(readRet < 0)
+        {
+            m_end = true;     // 当无法读取到AVPacket并且解码器中也没有数据时表示读取完成
+        }
+        return nullptr;
+    }
+
+    m_pts = m_frame->pts;
+
+    // 为什么图像转换上下文要放在这里初始化呢，是因为m_frame->format，如果使用硬件解码，解码出来的图像格式和m_codecContext->pix_fmt的图像格式不一样，就会导致无法转换为QImage
+    if(!m_swsContext)
+    {
+        // 获取缓存的图像转换上下文。首先校验参数是否一致，如果校验不通过就释放资源；然后判断上下文是否存在，如果存在直接复用，如不存在进行分配、初始化操作
+        m_swsContext = sws_getCachedContext(m_swsContext,
+                                            m_frame->width,                     // 输入图像的宽度
+                                            m_frame->height,                    // 输入图像的高度
+                                            (AVPixelFormat)m_frame->format,     // 输入图像的像素格式
+                                            m_size.width(),                     // 输出图像的宽度
+                                            m_size.height(),                    // 输出图像的高度
+                                            AV_PIX_FMT_RGBA,                    // 输出图像的像素格式
+                                            SWS_BILINEAR,                       // 选择缩放算法(只有当输入输出图像大小不同时有效),一般选择SWS_FAST_BILINEAR
+                                            nullptr,                            // 输入图像的滤波器信息, 若不需要传NULL
+                                            nullptr,                            // 输出图像的滤波器信息, 若不需要传NULL
+                                            nullptr);                          // 特定缩放算法需要的参数(?)，默认为NULL
+        if(!m_swsContext)
+        {
+#if PRINT_LOG
+            qWarning() << "sws_getCachedContext() Error！";
+#endif
+            free();
+            return nullptr;
+        }
+    }
+
+    uchar* data[]  = {m_image->bits()};
+    int    lines[] = {m_size.width() * 4};
+    ret = sws_scale(m_swsContext,             // 缩放上下文
+                    m_frame->data,            // 原图像数组
+                    m_frame->linesize,        // 包含源图像每个平面步幅的数组
+                    0,                        // 开始位置
+                    m_frame->height,          // 行数
+                    data,                     // 目标图像数组
+                    lines);                   // 包含目标图像每个平面的步幅的数组
+    av_frame_unref(m_frame);
+
+    return m_image;
 }
 
 void VideoDecode::close()
@@ -27,27 +277,32 @@ void VideoDecode::close()
 
 bool VideoDecode::isEnd()
 {
-
+    return false;
 }
 
 const qint64 &VideoDecode::pts()
 {
-
+    return 0;
 }
 
-void VideoDecode::initFFmpeg()
-{
-
-}
-
+/**
+ * @brief        显示ffmpeg函数调用异常信息
+ * @param err
+ */
 void VideoDecode::showError(int err)
 {
-
+#if PRINT_LOG
+    memset(m_error, 0, ERROR_LEN);        // 将数组置零
+    av_strerror(err, m_error, ERROR_LEN);
+    qWarning() << "DecodeVideo Error：" << m_error;
+#else
+    Q_UNUSED(err)
+#endif
 }
 
-qreal VideoDecode::rationalToDouble(AVRational rational)
+qreal VideoDecode::rationalToDouble(AVRational* rational)
 {
-
+    return 0;
 }
 
 void VideoDecode::clear()
@@ -57,5 +312,9 @@ void VideoDecode::clear()
 
 void VideoDecode::free()
 {
-
+    // 关闭并失败m_formatContext，并将指针置为null
+    if(m_formatContext)
+    {
+        avformat_close_input(&m_formatContext);
+    }
 }
