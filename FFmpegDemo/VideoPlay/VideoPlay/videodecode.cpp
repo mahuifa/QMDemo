@@ -26,7 +26,7 @@ VideoDecode::VideoDecode()
 
 VideoDecode::~VideoDecode()
 {
-
+    close();
 }
 
 /**
@@ -270,19 +270,39 @@ QImage *VideoDecode::read()
     return m_image;
 }
 
+/**
+ * @brief 关闭视频播放并释放内存
+ */
 void VideoDecode::close()
 {
+    clear();
+    free();
 
+    m_totalTime     = 0;
+    m_videoIndex    = 0;
+    m_totalFrames   = 0;
+    m_obtainFrames  = 0;
+    m_pts           = 0;
+    m_frameRate     = 0;
+    m_size          = QSize(0, 0);
 }
 
+/**
+ * @brief  视频是否读取完成
+ * @return
+ */
 bool VideoDecode::isEnd()
 {
-    return false;
+    return m_end;
 }
 
+/**
+ * @brief    返回当前帧图像播放时间
+ * @return
+ */
 const qint64 &VideoDecode::pts()
 {
-    return 0;
+    return m_pts;
 }
 
 /**
@@ -300,21 +320,61 @@ void VideoDecode::showError(int err)
 #endif
 }
 
+/**
+ * @brief          将AVRational转换为double，用于计算帧率
+ * @param rational
+ * @return
+ */
 qreal VideoDecode::rationalToDouble(AVRational* rational)
 {
-    return 0;
+    qreal frameRate = (rational->den == 0) ? 0 : (qreal(rational->num) / rational->den);
+    return frameRate;
 }
 
+/**
+ * @brief 清空读取缓冲
+ */
 void VideoDecode::clear()
 {
-
+    // 因为avformat_flush不会刷新AVIOContext (s->pb)。如果有必要，在调用此函数之前调用avio_flush(s->pb)。
+    if(m_formatContext && m_formatContext->pb)
+    {
+        avio_flush(m_formatContext->pb);
+    }
+    if(m_formatContext)
+    {
+        avformat_flush(m_formatContext);   // 清理读取缓冲
+    }
 }
 
 void VideoDecode::free()
 {
+    // 释放上下文swsContext。
+    if(m_swsContext)
+    {
+        sws_freeContext(m_swsContext);
+    }
+    // 释放编解码器上下文和与之相关的所有内容，并将NULL写入提供的指针
+    if(m_codecContext)
+    {
+        avcodec_free_context(&m_codecContext);
+    }
     // 关闭并失败m_formatContext，并将指针置为null
     if(m_formatContext)
     {
         avformat_close_input(&m_formatContext);
+    }
+    if(m_packet)
+    {
+        av_packet_free(&m_packet);
+    }
+    if(m_frame)
+    {
+        av_frame_free(&m_frame);
+    }
+    if(m_image)
+    {
+        delete m_image;
+        m_image = nullptr;
     }
 }
