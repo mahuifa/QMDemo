@@ -29,7 +29,7 @@ public:
     ~VideoDecode();
 
     bool open(const QString& url = QString());    // 打开媒体文件，或者流媒体rtmp、strp、http
-    QImage *read();                               // 读取视频图像
+    QImage read();                               // 读取视频图像
     void close();                                 // 关闭
     bool isEnd();                                 // 是否读取完成
     const qint64& pts();                          // 获取当前帧显示时间

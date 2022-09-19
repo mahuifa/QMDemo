@@ -2,7 +2,6 @@
 #define PLAYIMAGE_H
 
 #include <QWidget>
-
 class PlayImage : public QWidget
 {
     Q_OBJECT

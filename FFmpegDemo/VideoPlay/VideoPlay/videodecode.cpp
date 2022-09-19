@@ -63,6 +63,7 @@ bool VideoDecode::open(const QString &url)
     AVDictionary* dict = nullptr;
     av_dict_set(&dict, "rtsp_transport", "tcp", 0);     // 设置rtsp流使用tcp打开
     av_dict_set(&dict, "maxdelay", "3", 0);             // 设置网络延时时间 【muxdelay】以【秒】为单位设置延迟，而【max_delay】以【微秒】为单位设置延迟。
+    av_dict_set(&dict, "timeout", "1000000", 0);        // 以微秒为单位设置套接字 TCP I/O 超时。
 
     // 打开输入流并返回解封装上下文
     int ret = avformat_open_input(&m_formatContext,          // 返回解封装上下文
@@ -140,8 +141,8 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
-    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
-    m_codecContext->thread_count = 8;                 // 使用8线程解码
+//    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
+//    m_codecContext->thread_count = 8;                 // 使用8线程解码
 
     // 初始化解码器上下文，如果之前avcodec_alloc_context3传入了解码器，这里设置NULL就可以
     ret = avcodec_open2(m_codecContext, nullptr, nullptr);
@@ -182,12 +183,12 @@ bool VideoDecode::open(const QString &url)
  * @brief
  * @return
  */
-QImage *VideoDecode::read()
+QImage VideoDecode::read()
 {
     // 如果没有打开则返回
     if(!m_formatContext)
     {
-        return nullptr;
+        return QImage();
     }
 
     // 读取下一帧数据
@@ -226,7 +227,7 @@ QImage *VideoDecode::read()
         {
             m_end = true;     // 当无法读取到AVPacket并且解码器中也没有数据时表示读取完成
         }
-        return nullptr;
+        return QImage();
     }
 
     m_pts = m_frame->pts;
@@ -252,12 +253,14 @@ QImage *VideoDecode::read()
             qWarning() << "sws_getCachedContext() Error！";
 #endif
             free();
-            return nullptr;
+            return QImage();
         }
     }
 
+    // AVFrame转QImage
     uchar* data[]  = {m_image->bits()};
-    int    lines[] = {m_size.width() * 4};
+    int    lines[4];
+    av_image_fill_linesizes(lines, AV_PIX_FMT_RGBA, m_frame->width);  // 使用像素格式pix_fmt和宽度填充图像的平面线条大小。
     ret = sws_scale(m_swsContext,             // 缩放上下文
                     m_frame->data,            // 原图像数组
                     m_frame->linesize,        // 包含源图像每个平面步幅的数组
@@ -267,7 +270,7 @@ QImage *VideoDecode::read()
                     lines);                   // 包含目标图像每个平面的步幅的数组
     av_frame_unref(m_frame);
 
-    return m_image;
+    return *m_image;
 }
 
 /**
@@ -353,6 +356,7 @@ void VideoDecode::free()
     if(m_swsContext)
     {
         sws_freeContext(m_swsContext);
+        m_swsContext = nullptr;             // sws_freeContext不会把上下文置NULL
     }
     // 释放编解码器上下文和与之相关的所有内容，并将NULL写入提供的指针
     if(m_codecContext)
@@ -374,7 +378,7 @@ void VideoDecode::free()
     }
     if(m_image)
     {
-        delete m_image;
+        delete  m_image;     // 使用msvc debug模式时会偶尔报错，特别是这个视频流http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4
         m_image = nullptr;
     }
 }

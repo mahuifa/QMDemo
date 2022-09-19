@@ -11,7 +11,7 @@ Widget::Widget(QWidget *parent)
     this->setWindowTitle(QString("Qt+ffmpeg视频播放Demo V%1").arg(APP_VERSION));
 
     m_readThread = new ReadThread();
-    connect(m_readThread, &ReadThread::updateImage, ui->playImage, &PlayImage::updateImage);
+    connect(m_readThread, &ReadThread::updateImage, ui->playImage, &PlayImage::updateImage, Qt::DirectConnection);
     connect(m_readThread, &ReadThread::playState, this, &Widget::on_playState);
 }
 

@@ -27,7 +27,6 @@ void PlayImage::updateImage(const QImage& image)
 void PlayImage::updatePixmap(const QPixmap &pixmap)
 {
     m_pixmap = pixmap;
-    update();
 }
 
 /**
