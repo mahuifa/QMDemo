@@ -2,6 +2,8 @@
 #define PLAYIMAGE_H
 
 #include <QWidget>
+#include <qmutex.h>
+
 class PlayImage : public QWidget
 {
     Q_OBJECT
@@ -18,6 +20,7 @@ protected:
 
 private:
     QPixmap m_pixmap;
+    QMutex m_mutex;
 };
 
 #endif // PLAYIMAGE_H

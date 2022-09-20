@@ -75,7 +75,7 @@ void  sleepMsec(int msec)
 
 void ReadThread::run()
 {
-    bool ret = m_videoDecode->open(m_url);
+    bool ret = m_videoDecode->open(m_url);         // 打开网络流时会比较慢，如果放到Ui线程会卡
     if(ret)
     {
         m_play = true;
