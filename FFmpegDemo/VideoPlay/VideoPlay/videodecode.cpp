@@ -174,7 +174,15 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
-    m_image = new QImage(m_size, QImage::Format_RGBA8888);
+    // 分配图像空间
+    int size = av_image_get_buffer_size(AV_PIX_FMT_RGBA, m_size.width(), m_size.height(), 4);
+    /**
+     * 【注意：】这里可以多分配一些，否则如果只是安装size分配，大部分视频图像数据拷贝没有问题，
+     *         但是少部分视频图像在使用sws_scale()拷贝时会超出数组长度，在使用使用msvc debug模式时delete[] m_buffer会报错（HEAP CORRUPTION DETECTED: after Normal block(#32215) at 0x000001AC442830370.CRT delected that the application wrote to memory after end of heap buffer）
+     *         特别是这个视频流http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4
+     */
+    m_buffer = new uchar[size + 1000];    // 这里多分配1000个字节就基本不会出现拷贝超出的情况了，反正不缺这点内存
+//    m_image = new QImage(m_buffer, m_size.width(), m_size.height(), QImage::Format_RGBA8888);  // 这种方式分配内存大部分情况下也可以，但是因为存在拷贝超出数组的情况，delete时也会报错
     m_end = false;
     return true;
 }
@@ -258,7 +266,7 @@ QImage VideoDecode::read()
     }
 
     // AVFrame转QImage
-    uchar* data[]  = {m_image->bits()};
+    uchar* data[]  = {m_buffer};
     int    lines[4];
     av_image_fill_linesizes(lines, AV_PIX_FMT_RGBA, m_frame->width);  // 使用像素格式pix_fmt和宽度填充图像的平面线条大小。
     ret = sws_scale(m_swsContext,             // 缩放上下文
@@ -268,9 +276,10 @@ QImage VideoDecode::read()
                     m_frame->height,          // 行数
                     data,                     // 目标图像数组
                     lines);                   // 包含目标图像每个平面的步幅的数组
+    QImage image(m_buffer, m_frame->width, m_frame->height, QImage::Format_RGBA8888);
     av_frame_unref(m_frame);
 
-    return *m_image;
+    return image;
 }
 
 /**
@@ -376,9 +385,9 @@ void VideoDecode::free()
     {
         av_frame_free(&m_frame);
     }
-    if(m_image)
+    if(m_buffer)
     {
-        delete  m_image;     // 使用msvc debug模式时会偶尔报错，特别是这个视频流http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4
-        m_image = nullptr;
+        delete [] m_buffer;
+        m_buffer = nullptr;
     }
 }

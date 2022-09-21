@@ -47,7 +47,6 @@ private:
     SwsContext*      m_swsContext    = nullptr;   // 图像转换上下文
     AVPacket* m_packet = nullptr;                 // 数据包
     AVFrame*  m_frame  = nullptr;                 // 解码后的视频帧
-    QImage*   m_image  = nullptr;                 // 可用于显示的图像
     int    m_videoIndex   = 0;                    // 视频流索引
     qint64 m_totalTime    = 0;                    // 视频总时长
     qint64 m_totalFrames  = 0;                    // 视频总帧数
@@ -57,6 +56,7 @@ private:
     QSize  m_size;                                // 视频分辨率大小
     char*  m_error = nullptr;                     // 保存异常信息
     bool   m_end = false;                         // 视频读取完成
+    uchar* m_buffer = nullptr;
 };
 
 #endif // VIDEODECODE_H
