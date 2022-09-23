@@ -1,12 +1,12 @@
 #---------------------------------------------------------------------------------------
-# @功能：       使用ffmpeg音视频库【软解码】实现的视频播放器；
+# @功能：       使用ffmpeg音视频库【硬解码】实现的视频播放器；
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit 32bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
 # @开发者     mhf
 # @邮箱       1603291350@qq.com
 # @时间       2022-09-14 14:13:52
-# @备注       1、使用ffmpeg音视频库【软解码】实现的视频播放器；
+# @备注       1、使用ffmpeg音视频库【硬解码】实现的视频播放器，采用GPU解码， 大幅降低对CPU的暂用率；
 #             2、支持打开本地视频文件（如mp4、mov、avi等）、网络视频流（rtsp、rtmp、http等）；
 #             3、支持视频匀速播放；
 #             4、采用QPainter进行显示，支持自适应窗口缩放；
@@ -47,7 +47,7 @@ INCLUDEPATH += ../../PaintingDemo/PlayImage/       # 包括头文件路径
 #  定义程序版本号
 VERSION = 1.0.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
-TARGET  = VideoPlay
+TARGET  = VideoPlayHW
 
 contains(QT_ARCH, i386){        # 使用32位编译器
 DESTDIR = $$PWD/../bin          # 程序输出路径

@@ -8,7 +8,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->setWindowTitle(QString("Qt+ffmpeg视频播放（软解码）Demo V%1").arg(APP_VERSION));
+    this->setWindowTitle(QString("Qt+ffmpeg视频播放（硬解码）Demo V%1").arg(APP_VERSION));
 
     m_readThread = new ReadThread();
     connect(m_readThread, &ReadThread::updateImage, ui->playImage, &PlayImage::updateImage, Qt::DirectConnection);
