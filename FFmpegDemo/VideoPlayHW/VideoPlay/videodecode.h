@@ -12,12 +12,14 @@
 
 #include <QString>
 #include <QSize>
+#include <qlist.h>
 
 struct AVFormatContext;
 struct AVCodecContext;
 struct AVRational;
 struct AVPacket;
 struct AVFrame;
+struct AVCodec;
 struct SwsContext;
 struct AVBufferRef;
 class QImage;
@@ -36,6 +38,8 @@ public:
 
 private:
     void initFFmpeg();                            // 初始化ffmpeg库（整个程序中只需加载一次）
+    void initHWDecoder(const AVCodec* codec);     // 初始化硬件解码器
+    bool dataCopy();                              // 硬件解码完成需要将数据从GPU复制到CPU
     void showError(int err);                      // 显示ffmpeg执行错误时的错误信息
     qreal rationalToDouble(AVRational* rational); // 将AVRational转换为double
     void clear();                                 // 清空读取缓冲
@@ -47,6 +51,7 @@ private:
     SwsContext*      m_swsContext    = nullptr;   // 图像转换上下文
     AVPacket* m_packet = nullptr;                 // 数据包
     AVFrame*  m_frame  = nullptr;                 // 解码后的视频帧
+    AVFrame*  m_frameHW = nullptr;                // 硬件解码后的视频帧
     int    m_videoIndex   = 0;                    // 视频流索引
     qint64 m_totalTime    = 0;                    // 视频总时长
     qint64 m_totalFrames  = 0;                    // 视频总帧数
@@ -57,6 +62,9 @@ private:
     char*  m_error = nullptr;                     // 保存异常信息
     bool   m_end = false;                         // 视频读取完成
     uchar* m_buffer = nullptr;
+
+    QList<int> m_HWDeviceTypes;                   // 保存当前环境支持的硬件解码器
+    AVBufferRef* hw_device_ctx = nullptr;         // 对数据缓冲区的引用
 };
 
 #endif // VIDEODECODE_H

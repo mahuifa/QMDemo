@@ -22,6 +22,21 @@ VideoDecode::VideoDecode()
 //    initFFmpeg();      // 5.1.2版本不需要调用了
 
     m_error = new char[ERROR_LEN];
+
+    /*************************************** 获取当前环境支持的硬件解码器 *********************************************/
+    AVHWDeviceType type = AV_HWDEVICE_TYPE_NONE;      // ffmpeg支持的硬件解码器
+    QStringList strTypes;
+    while ((type = av_hwdevice_iterate_types(type)) != AV_HWDEVICE_TYPE_NONE)       // 遍历支持的设备类型。
+    {
+        m_HWDeviceTypes.append(type);
+        const char* ctype = av_hwdevice_get_type_name(type);  // 获取AVHWDeviceType的字符串名称。
+        if(ctype)
+        {
+            strTypes.append(QString(ctype));
+        }
+    }
+    qDebug() << "支持的硬件解码器：" << strTypes;
+    /************************************************ END ******************************************************/
 }
 
 VideoDecode::~VideoDecode()
@@ -50,6 +65,76 @@ void VideoDecode::initFFmpeg()
         isFirst = false;
     }
 }
+
+/*********************************** FFmpeg获取GPU硬件解码帧格式的回调函数 *****************************************/
+static enum AVPixelFormat g_pixelFormat;
+/**
+ * @brief      回调函数，获取GPU硬件解码帧的格式
+ * @param s
+ * @param fmt
+ * @return
+ */
+AVPixelFormat get_hw_format(AVCodecContext* s, const enum AVPixelFormat* fmt)
+{
+    Q_UNUSED(s)
+    const enum AVPixelFormat* p;
+
+    for (p = fmt; *p != -1; p++)
+    {
+        if(*p == g_pixelFormat)
+        {
+            return *p;
+        }
+    }
+
+    qDebug() << "无法获取硬件表面格式.";         // 当同时打开太多路视频时，如果超过了GPU的能力，可能会返回找不到解码帧格式
+    return AV_PIX_FMT_NONE;
+}
+/************************************************ END ******************************************************/
+
+/**************************************** FFmpeg初始化硬件解码器 **********************************************/
+/**
+ * @brief         初始化硬件解码器
+ * @param codec
+ */
+void VideoDecode::initHWDecoder(const AVCodec *codec)
+{
+    if(!codec) return;
+
+    for(int i = 0; ; i++)
+    {
+        const AVCodecHWConfig* config = avcodec_get_hw_config(codec, i);    // 检索编解码器支持的硬件配置。
+        if(!config)
+        {
+            return;          // 没有找到支持的硬件配置
+        }
+
+        if (config->methods & AV_CODEC_HW_CONFIG_METHOD_HW_DEVICE_CTX)       // 判断是否是设备类型
+        {
+            for(auto i : m_HWDeviceTypes)
+            {
+                if(config->device_type == AVHWDeviceType(i))                 // 判断设备类型是否是支持的硬件解码器
+                {
+                    g_pixelFormat = config->pix_fmt;
+
+                    // 打开指定类型的设备，并为其创建AVHWDeviceContext。
+                    int ret = av_hwdevice_ctx_create(&hw_device_ctx, config->device_type, nullptr, nullptr, 0);
+                    if(ret < 0)
+                    {
+                        showError(ret);
+                        free();
+                        return ;
+                    }
+                    m_codecContext->hw_device_ctx = av_buffer_ref(hw_device_ctx);  // 创建一个对AVBuffer的新引用。
+                    m_codecContext->get_format = get_hw_format;                    // 由一些解码器调用，以选择将用于输出帧的像素格式
+                    return;
+                }
+            }
+        }
+    }
+}
+
+/************************************************ END ******************************************************/
 
 /**
  * @brief      打开媒体文件，或者流媒体，例如rtmp、strp、http
@@ -141,8 +226,10 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
-//    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
-//    m_codecContext->thread_count = 8;                 // 使用8线程解码
+    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
+    m_codecContext->thread_count = 8;                 // 使用8线程解码
+
+    initHWDecoder(codec);     // 初始化硬件解码器（在avcodec_open2前调用）
 
     // 初始化解码器上下文，如果之前avcodec_alloc_context3传入了解码器，这里设置NULL就可以
     ret = avcodec_open2(m_codecContext, nullptr, nullptr);
@@ -166,6 +253,15 @@ bool VideoDecode::open(const QString &url)
     // 分配AVFrame并将其字段设置为默认值。
     m_frame = av_frame_alloc();
     if(!m_frame)
+    {
+#if PRINT_LOG
+        qWarning() << "av_frame_alloc() Error！";
+#endif
+        free();
+        return false;
+    }
+    m_frameHW = av_frame_alloc();
+    if(!m_frameHW)
     {
 #if PRINT_LOG
         qWarning() << "av_frame_alloc() Error！";
@@ -238,23 +334,30 @@ QImage VideoDecode::read()
         return QImage();
     }
 
-    m_pts = m_frame->pts;
+
+    // 将解码后的数据从GPU拷贝到CPU
+    if(!dataCopy())
+    {
+        return QImage();
+    }
+
+    m_pts = m_frameHW->pts;
 
     // 为什么图像转换上下文要放在这里初始化呢，是因为m_frame->format，如果使用硬件解码，解码出来的图像格式和m_codecContext->pix_fmt的图像格式不一样，就会导致无法转换为QImage
     if(!m_swsContext)
     {
         // 获取缓存的图像转换上下文。首先校验参数是否一致，如果校验不通过就释放资源；然后判断上下文是否存在，如果存在直接复用，如不存在进行分配、初始化操作
         m_swsContext = sws_getCachedContext(m_swsContext,
-                                            m_frame->width,                     // 输入图像的宽度
-                                            m_frame->height,                    // 输入图像的高度
-                                            (AVPixelFormat)m_frame->format,     // 输入图像的像素格式
+                                            m_frameHW->width,                   // 输入图像的宽度
+                                            m_frameHW->height,                  // 输入图像的高度
+                                            (AVPixelFormat)m_frameHW->format,   // 输入图像的像素格式
                                             m_size.width(),                     // 输出图像的宽度
                                             m_size.height(),                    // 输出图像的高度
                                             AV_PIX_FMT_RGBA,                    // 输出图像的像素格式
                                             SWS_BILINEAR,                       // 选择缩放算法(只有当输入输出图像大小不同时有效),一般选择SWS_FAST_BILINEAR
                                             nullptr,                            // 输入图像的滤波器信息, 若不需要传NULL
                                             nullptr,                            // 输出图像的滤波器信息, 若不需要传NULL
-                                            nullptr);                          // 特定缩放算法需要的参数(?)，默认为NULL
+                                            nullptr);                           // 特定缩放算法需要的参数(?)，默认为NULL
         if(!m_swsContext)
         {
 #if PRINT_LOG
@@ -265,21 +368,45 @@ QImage VideoDecode::read()
         }
     }
 
+
     // AVFrame转QImage
     uchar* data[]  = {m_buffer};
     int    lines[4];
     av_image_fill_linesizes(lines, AV_PIX_FMT_RGBA, m_frame->width);  // 使用像素格式pix_fmt和宽度填充图像的平面线条大小。
     ret = sws_scale(m_swsContext,             // 缩放上下文
-                    m_frame->data,            // 原图像数组
-                    m_frame->linesize,        // 包含源图像每个平面步幅的数组
+                    m_frameHW->data,            // 原图像数组
+                    m_frameHW->linesize,        // 包含源图像每个平面步幅的数组
                     0,                        // 开始位置
-                    m_frame->height,          // 行数
+                    m_frameHW->height,          // 行数
                     data,                     // 目标图像数组
                     lines);                   // 包含目标图像每个平面的步幅的数组
-    QImage image(m_buffer, m_frame->width, m_frame->height, QImage::Format_RGBA8888);
+    QImage image(m_buffer, m_frameHW->width, m_frameHW->height, QImage::Format_RGBA8888);
     av_frame_unref(m_frame);
+    av_frame_unref(m_frameHW);
 
     return image;
+}
+
+/**
+ * @brief   硬件解码完成需要将数据从GPU复制到CPU
+ * @return
+ */
+bool VideoDecode::dataCopy()
+{
+    if(m_frame->format != g_pixelFormat)
+    {
+        av_frame_unref(m_frame);
+        return false;
+    }
+    int ret = av_hwframe_transfer_data(m_frameHW, m_frame, 0);       // 将解码后的数据从GPU复制到CPU(m_frameHW) 这一步比较耗时，在这一步之前硬解码速度比软解码快很多
+    if(ret < 0)
+    {
+        showError(ret);
+        av_frame_unref(m_frame);
+        return false;
+    }
+    av_frame_copy_props(m_frameHW, m_frame);   // 仅将“metadata”字段从src复制到dst。
+    return true;
 }
 
 /**

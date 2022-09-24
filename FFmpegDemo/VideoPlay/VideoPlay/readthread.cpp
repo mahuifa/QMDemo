@@ -105,7 +105,7 @@ void ReadThread::run()
 #else
             sleepMsec(int(m_videoDecode->pts() - m_etime2.elapsed()));         // 支持后退
 #endif
-            emit updateImage(image);
+//            emit updateImage(image);
         }
         else
         {

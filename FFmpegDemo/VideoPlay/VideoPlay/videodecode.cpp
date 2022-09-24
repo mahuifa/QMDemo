@@ -141,8 +141,8 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
-//    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
-//    m_codecContext->thread_count = 8;                 // 使用8线程解码
+    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
+    m_codecContext->thread_count = 8;                 // 使用8线程解码
 
     // 初始化解码器上下文，如果之前avcodec_alloc_context3传入了解码器，这里设置NULL就可以
     ret = avcodec_open2(m_codecContext, nullptr, nullptr);
