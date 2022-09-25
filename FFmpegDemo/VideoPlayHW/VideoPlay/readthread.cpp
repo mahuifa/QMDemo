@@ -62,6 +62,15 @@ const QString &ReadThread::url()
 }
 
 /**
+ * @brief       设置使用硬件解码
+ * @param flag
+ */
+void ReadThread::setHWDecoder(bool flag)
+{
+    m_videoDecode->setHWDecoder(flag);
+}
+
+/**
  * @brief      非阻塞延时
  * @param msec 延时毫秒
  */

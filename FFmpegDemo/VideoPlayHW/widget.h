@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "readthread.h"
+#include "playimage.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -29,5 +30,7 @@ private:
     Ui::Widget *ui;
 
     ReadThread* m_readThread = nullptr;
+    QList<ReadThread*> m_readThreads;
+    QList<PlayImage*>  m_playImages;
 };
 #endif // WIDGET_H

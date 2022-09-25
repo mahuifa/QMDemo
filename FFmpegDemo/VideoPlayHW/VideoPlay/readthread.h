@@ -33,6 +33,7 @@ public:
     void pause(bool flag);                      // 暂停视频
     void close();                               // 关闭视频
     const QString& url();                       // 获取打开的视频地址
+    void setHWDecoder(bool flag);                 // 是否使用硬件解码器
 
 protected:
     void run() override;

@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>972</width>
+    <height>712</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <widget class="QComboBox" name="com_url">
      <property name="editable">
@@ -76,6 +76,19 @@
     </widget>
    </item>
    <item row="0" column="1">
+    <widget class="QCheckBox" name="check_HW">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>硬解码</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
     <widget class="QPushButton" name="but_file">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -88,7 +101,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2">
+   <item row="0" column="3">
     <widget class="QPushButton" name="but_open">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -101,7 +114,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="3">
+   <item row="0" column="4">
     <widget class="QPushButton" name="but_pause">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -114,8 +127,36 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="4">
-    <widget class="PlayImage" name="playImage" native="true"/>
+   <item row="1" column="0" colspan="5">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="2">
+      <widget class="PlayImage" name="playImage_3" native="true"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="PlayImage" name="playImage_4" native="true"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="PlayImage" name="playImage_1" native="true"/>
+     </item>
+     <item row="2" column="2">
+      <widget class="PlayImage" name="playImage_9" native="true"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="PlayImage" name="playImage_7" native="true"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="PlayImage" name="playImage_5" native="true"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="PlayImage" name="playImage_8" native="true"/>
+     </item>
+     <item row="0" column="1">
+      <widget class="PlayImage" name="playImage_2" native="true"/>
+     </item>
+     <item row="1" column="2">
+      <widget class="PlayImage" name="playImage_6" native="true"/>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

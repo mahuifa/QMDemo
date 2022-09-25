@@ -106,6 +106,7 @@ void VideoDecode::initHWDecoder(const AVCodec *codec)
         const AVCodecHWConfig* config = avcodec_get_hw_config(codec, i);    // 检索编解码器支持的硬件配置。
         if(!config)
         {
+            qDebug() << "打开硬件解码器失败！";
             return;          // 没有找到支持的硬件配置
         }
 
@@ -125,6 +126,7 @@ void VideoDecode::initHWDecoder(const AVCodec *codec)
                         free();
                         return ;
                     }
+                    qDebug() << "打开硬件解码器：" << av_hwdevice_get_type_name(config->device_type);
                     m_codecContext->hw_device_ctx = av_buffer_ref(hw_device_ctx);  // 创建一个对AVBuffer的新引用。
                     m_codecContext->get_format = get_hw_format;                    // 由一些解码器调用，以选择将用于输出帧的像素格式
                     return;
@@ -229,7 +231,10 @@ bool VideoDecode::open(const QString &url)
     m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
     m_codecContext->thread_count = 8;                 // 使用8线程解码
 
-    initHWDecoder(codec);     // 初始化硬件解码器（在avcodec_open2前调用）
+    if(m_HWDecoder)
+    {
+        initHWDecoder(codec);     // 初始化硬件解码器（在avcodec_open2前调用）
+    }
 
     // 初始化解码器上下文，如果之前avcodec_alloc_context3传入了解码器，这里设置NULL就可以
     ret = avcodec_open2(m_codecContext, nullptr, nullptr);
@@ -240,6 +245,15 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
+    return initObject();
+}
+
+/**
+ * @brief   初始化需要用到的对象
+ * @return
+ */
+bool VideoDecode::initObject()
+{
     // 分配AVPacket并将其字段设置为默认值。
     m_packet = av_packet_alloc();
     if(!m_packet)
@@ -270,6 +284,13 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
+
+    // 由于传递时是浅拷贝，可能显示类还没处理完成，所以如果播放完成就释放可能会崩溃；
+    if(m_buffer)
+    {
+        delete [] m_buffer;
+        m_buffer = nullptr;
+    }
     // 分配图像空间
     int size = av_image_get_buffer_size(AV_PIX_FMT_RGBA, m_size.width(), m_size.height(), 4);
     /**
@@ -280,11 +301,13 @@ bool VideoDecode::open(const QString &url)
     m_buffer = new uchar[size + 1000];    // 这里多分配1000个字节就基本不会出现拷贝超出的情况了，反正不缺这点内存
 //    m_image = new QImage(m_buffer, m_size.width(), m_size.height(), QImage::Format_RGBA8888);  // 这种方式分配内存大部分情况下也可以，但是因为存在拷贝超出数组的情况，delete时也会报错
     m_end = false;
+
     return true;
 }
 
+
 /**
- * @brief
+ * @brief    读取并返回视频图像
  * @return
  */
 QImage VideoDecode::read()
@@ -334,23 +357,28 @@ QImage VideoDecode::read()
         return QImage();
     }
 
-
-    // 将解码后的数据从GPU拷贝到CPU
-    if(!dataCopy())
+    // 这样写是为了兼容软解码或者硬件解码打开失败情况
+    AVFrame*  m_frameTemp = m_frame;
+    if(!m_frame->data[0])               // 如果是硬件解码就进入
     {
-        return QImage();
+        m_frameTemp = m_frameHW;
+        // 将解码后的数据从GPU拷贝到CPU
+        if(!dataCopy())
+        {
+            return QImage();
+        }
     }
 
-    m_pts = m_frameHW->pts;
+    m_pts = m_frameTemp->pts;
 
     // 为什么图像转换上下文要放在这里初始化呢，是因为m_frame->format，如果使用硬件解码，解码出来的图像格式和m_codecContext->pix_fmt的图像格式不一样，就会导致无法转换为QImage
     if(!m_swsContext)
     {
         // 获取缓存的图像转换上下文。首先校验参数是否一致，如果校验不通过就释放资源；然后判断上下文是否存在，如果存在直接复用，如不存在进行分配、初始化操作
         m_swsContext = sws_getCachedContext(m_swsContext,
-                                            m_frameHW->width,                   // 输入图像的宽度
-                                            m_frameHW->height,                  // 输入图像的高度
-                                            (AVPixelFormat)m_frameHW->format,   // 输入图像的像素格式
+                                            m_frameTemp->width,                   // 输入图像的宽度
+                                            m_frameTemp->height,                  // 输入图像的高度
+                                            (AVPixelFormat)m_frameTemp->format,   // 输入图像的像素格式
                                             m_size.width(),                     // 输出图像的宽度
                                             m_size.height(),                    // 输出图像的高度
                                             AV_PIX_FMT_RGBA,                    // 输出图像的像素格式
@@ -374,19 +402,20 @@ QImage VideoDecode::read()
     int    lines[4];
     av_image_fill_linesizes(lines, AV_PIX_FMT_RGBA, m_frame->width);  // 使用像素格式pix_fmt和宽度填充图像的平面线条大小。
     ret = sws_scale(m_swsContext,             // 缩放上下文
-                    m_frameHW->data,            // 原图像数组
-                    m_frameHW->linesize,        // 包含源图像每个平面步幅的数组
+                    m_frameTemp->data,            // 原图像数组
+                    m_frameTemp->linesize,        // 包含源图像每个平面步幅的数组
                     0,                        // 开始位置
-                    m_frameHW->height,          // 行数
+                    m_frameTemp->height,          // 行数
                     data,                     // 目标图像数组
                     lines);                   // 包含目标图像每个平面的步幅的数组
-    QImage image(m_buffer, m_frameHW->width, m_frameHW->height, QImage::Format_RGBA8888);
+    QImage image(m_buffer, m_frameTemp->width, m_frameTemp->height, QImage::Format_RGBA8888);
     av_frame_unref(m_frame);
     av_frame_unref(m_frameHW);
 
     return image;
 }
 
+/********************************* FFmpeg初始化硬件后将图像数据从GPU拷贝到CPU *************************************/
 /**
  * @brief   硬件解码完成需要将数据从GPU复制到CPU
  * @return
@@ -408,6 +437,8 @@ bool VideoDecode::dataCopy()
     av_frame_copy_props(m_frameHW, m_frame);   // 仅将“metadata”字段从src复制到dst。
     return true;
 }
+
+/************************************************ END ******************************************************/
 
 /**
  * @brief 关闭视频播放并释放内存
@@ -442,6 +473,24 @@ bool VideoDecode::isEnd()
 const qint64 &VideoDecode::pts()
 {
     return m_pts;
+}
+
+/**
+ * @brief         设置是否使用硬件解码
+ * @param flag    true：使用 false：不使用
+ */
+void VideoDecode::setHWDecoder(bool flag)
+{
+    m_HWDecoder = flag;
+}
+
+/**
+ * @brief   返回当前是否使用硬件解码
+ * @return
+ */
+bool VideoDecode::isHWDecoder()
+{
+    return m_HWDecoder;
 }
 
 /**
@@ -504,6 +553,10 @@ void VideoDecode::free()
     {
         avformat_close_input(&m_formatContext);
     }
+    if(hw_device_ctx)
+    {
+        av_buffer_unref(&hw_device_ctx);
+    }
     if(m_packet)
     {
         av_packet_free(&m_packet);
@@ -512,9 +565,8 @@ void VideoDecode::free()
     {
         av_frame_free(&m_frame);
     }
-    if(m_buffer)
+    if(m_frameHW)
     {
-        delete [] m_buffer;
-        m_buffer = nullptr;
+        av_frame_free(&m_frameHW);
     }
 }
