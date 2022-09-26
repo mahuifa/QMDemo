@@ -62,6 +62,15 @@ const QString &ReadThread::url()
 }
 
 /**
+ * @brief       设置使用硬件解码
+ * @param flag
+ */
+void ReadThread::setHWDecoder(bool flag)
+{
+    m_videoDecode->setHWDecoder(flag);
+}
+
+/**
  * @brief      非阻塞延时
  * @param msec 延时毫秒
  */
@@ -105,7 +114,7 @@ void ReadThread::run()
 #else
             sleepMsec(int(m_videoDecode->pts() - m_etime2.elapsed()));         // 支持后退
 #endif
-//            emit updateImage(image);
+            emit updateImage(image);
         }
         else
         {
