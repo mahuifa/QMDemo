@@ -23,4 +23,5 @@
 |                  | **使用到第三方库**                                           |
 | XlsxDemo         | [Qt使用QXlsx操作Excel Demo](./XlsxDemo/XlsxDemo.md)          |
 | OpenCVDemo       | [Qt使用OpenCV进行视频、图像操作Demo](./OpenCVDemo/OpenCVDemo.md) |
+| FFmpegDemo       | [Qt+FFmpeg多媒体框架开发Demo](./FFmpegDemo/FFmpegDemo.md)    |
 
