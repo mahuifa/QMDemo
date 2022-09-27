@@ -129,6 +129,9 @@
    </item>
    <item row="1" column="0" colspan="5">
     <layout class="QGridLayout" name="gridLayout">
+     <property name="spacing">
+      <number>1</number>
+     </property>
      <item row="0" column="2">
       <widget class="PlayImage" name="playImage_3" native="true"/>
      </item>
