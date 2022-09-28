@@ -56,7 +56,7 @@ private:
     QSize  m_size;                                // 视频分辨率大小
     char*  m_error = nullptr;                     // 保存异常信息
     bool   m_end = false;                         // 视频读取完成
-    uchar* m_buffer = nullptr;
+    uchar* m_buffer = nullptr;                    // YUV图像需要转换位RGBA图像，这里保存转换后的图形数据
 };
 
 #endif // VIDEODECODE_H
