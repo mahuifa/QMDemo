@@ -56,3 +56,10 @@ msvc {
 QMAKE_CFLAGS += /utf-8
 QMAKE_CXXFLAGS += /utf-8
 }
+
+DISTFILES += \
+    fragmentShader.fsh \
+    vertexShader.vsh
+
+RESOURCES += \
+    Shader.qrc

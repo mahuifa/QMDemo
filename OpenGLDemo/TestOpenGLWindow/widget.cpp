@@ -21,5 +21,5 @@ Widget::~Widget()
 
 void Widget::on_but_widget_clicked()
 {
-
+    m_openglWidget->start();
 }
