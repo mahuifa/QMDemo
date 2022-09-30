@@ -8,7 +8,7 @@
 # @时间       2022-09-28 17:20:12
 # @备注
 #---------------------------------------------------------------------------------------
-QT       += core gui
+QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,10 +28,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     openglwidget.cpp \
+    openglwindow.cpp \
     widget.cpp
 
 HEADERS += \
     openglwidget.h \
+    openglwindow.h \
     widget.h
 
 FORMS += \

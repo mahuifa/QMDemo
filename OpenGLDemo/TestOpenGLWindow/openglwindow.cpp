@@ -1,44 +1,25 @@
-#include "openglwidget.h"
+#include "openglwindow.h"
 #include <QDebug>
-#include <qopenglshaderprogram.h>
+#include <QOpenGLShaderProgram>
 
-OpenGLWidget::OpenGLWidget(QWidget *parent) : QOpenGLWidget(parent)
+OpenGLWindow::OpenGLWindow(QOpenGLWindow::UpdateBehavior updateBehavior, QWindow *parent)
+ : QOpenGLWindow(updateBehavior, parent)
 {
-    setSingleBuffer(true);
     m_angle = 0;
 }
 
-void OpenGLWidget::setSingleBuffer(bool flag)
+void OpenGLWindow::initializeGL()
 {
-    QSurfaceFormat format;
-    format.setRenderableType(QSurfaceFormat::OpenGL);       // 设置所需的可渲染类型。
-//    format.setSwapInterval(0);                              // 设置首选交换间隔，如果设置成0则刷新速度会很快，但是GPU消耗很大
-    // 设置交换行为
-    if(flag)
-    {
-        format.setSwapBehavior(QSurfaceFormat::SingleBuffer);   // 使用单缓冲，OpenGL直接渲染到屏幕上，并且可能会闪烁
-    }
-    else
-    {
-        format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);   // 使用双缓冲（默认），在后缓冲渲染，再复制到前缓冲进行显示，GPU消耗低于单缓冲，不会闪烁，速度慢
-    }
-    QSurfaceFormat::setDefaultFormat(format);
-}
-
-
-void OpenGLWidget::initializeGL()
-{
-    initializeOpenGLFunctions();               // 在QOpenGLFunctions中
+    initializeOpenGLFunctions();
     glClearColor(0.0, 0.0, 0.0, 0.0);          // 提前设置背景色，需要使用glClear
     glClearDepth(1.0);                         // 设置清除深度，1.0是最大深度([0.0,1.0])
-#if OUT_FUN_WIDGET
-#else
+#if OUT_FUN_WINDOW == 0
     // 加载shader脚本(顶点和片元)
     m_program = new QOpenGLShaderProgram(this);
     // 直接通过文件加载Shader脚本，如果加载返回false则加载失败，如果提示ERROR: error(#60) Unknown char: "???"，
     // 可以使用Notepad++打开vsh/fsh文件看一下文件编码是不是utf-8，如果不是或者时utf-8 DOM就不行
-    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/vertexShader.vsh");
-    m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/fragmentShader.fsh");
+    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/vertexShader.vsh");         // 加载顶点着色器
+    m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/fragmentShader.fsh");     // 加载片段着色器
     m_program->link();   // 编译链接着色器
 
     // 返回属性名称在此着色器程序的参数列表中的位置。如果名称不是此着色器程序的有效属性，则返回-1。
@@ -49,13 +30,13 @@ void OpenGLWidget::initializeGL()
 #endif
 }
 
-void OpenGLWidget::resizeGL(int w, int h)
+void OpenGLWindow::resizeGL(int w, int h)
 {
     Q_UNUSED(w)
     Q_UNUSED(h)
 }
 
-#if OUT_FUN_WIDGET == 0
+#if OUT_FUN_WINDOW == 0
 // 需要绘制的顶点坐标（x, y），范围[-1, 1]
 const GLfloat vertices[] = {
     0.0f,  0.7f,
@@ -70,11 +51,11 @@ const GLfloat colors[] = {
 };
 #endif
 
-void OpenGLWidget::paintGL()
+void OpenGLWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);   // 清除缓冲区并使用glClearColor的颜色设置背景, GL_COLOR_BUFFER_BIT:指示当前为颜色写入启用的缓冲区;GL_DEPTH_BUFFER_BIT：指示深度缓冲区
 
-#if OUT_FUN_WIDGET
+#if OUT_FUN_WINDOW
     glLoadIdentity();                                     // 重置当前指定的矩阵为单位矩阵
     glRotatef(m_angle,0.0,1.0,0.0);                       // 旋转，四个参数，旋转角度，旋转轴 x y z
 
@@ -101,8 +82,8 @@ void OpenGLWidget::paintGL()
                        this->width() / this->height(),      // 纵横比(由视口的宽除以高所得)
                        0.1f,                                // 设置近平面的距离(一般设置为0.1)
                        100.0f);                             // 设置远平面的距离(一般设置为100)
-    matrix.translate(0, 0, -2);                             // 坐标沿Z轴偏移
-    matrix.rotate(m_angle, 0, 1, 0);                        // 绕着Y轴旋转
+    matrix.translate(0, 0, -2);       // 坐标沿Z轴偏移
+    matrix.rotate(m_angle, 0, 1, 0);    // 绕着Y轴旋转
 
     m_program->setUniformValue(m_matrixUniform, matrix);   // 将当前上下文中位置处的统一变量设置为value。
 
@@ -133,7 +114,7 @@ void OpenGLWidget::paintGL()
 #endif
 }
 
-void OpenGLWidget::rotate()
+void OpenGLWindow::rotate()
 {
     m_angle++;
     this->update();
