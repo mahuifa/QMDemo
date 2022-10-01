@@ -53,6 +53,7 @@ void OpenGLWidget::resizeGL(int w, int h)
 {
     Q_UNUSED(w)
     Q_UNUSED(h)
+    update();
 }
 
 #if OUT_FUN_WIDGET == 0

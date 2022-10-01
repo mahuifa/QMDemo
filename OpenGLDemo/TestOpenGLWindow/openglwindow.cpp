@@ -34,6 +34,7 @@ void OpenGLWindow::resizeGL(int w, int h)
 {
     Q_UNUSED(w)
     Q_UNUSED(h)
+    update();
 }
 
 #if OUT_FUN_WINDOW == 0

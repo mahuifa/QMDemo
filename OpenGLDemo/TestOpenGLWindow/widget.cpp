@@ -8,6 +8,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->setWindowTitle(QString("Qt+OpenGL绘制三角形-QOpenGLWidget和QOpenGLWindow性能比较 V%1").arg(APP_VERSION));
 
     // 使用QOpenGLWidget绘制
     m_openglWidget = new OpenGLWidget;

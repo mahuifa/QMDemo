@@ -10,5 +10,4 @@
 #---------------------------------------------------------------------------------------
 TEMPLATE = subdirs
 
-SUBDIRS += \
-    TestOpenGLWindow
+SUBDIRS += TestOpenGLWindow      # Qt+OpenGL绘制三角形-QOpenGLWidget和QOpenGLWindow性能比较
