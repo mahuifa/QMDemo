@@ -25,6 +25,7 @@ Widget::Widget(QWidget *parent)
 
 Widget::~Widget()
 {
+    m_start = false;
     delete ui;
 }
 

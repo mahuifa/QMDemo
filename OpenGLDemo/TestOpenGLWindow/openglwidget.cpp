@@ -138,4 +138,9 @@ void OpenGLWidget::rotate()
 {
     m_angle++;
     this->update();
+    if(m_angle % 360 == 0)
+    {
+        qDebug() << "QOpenGLWidget：" << m_timer.elapsed();
+        m_timer.start();
+    }
 }

@@ -12,6 +12,7 @@
 
 #include <qopenglwidget.h>
 //#include <QOpenGLFunctions>                            // 网上很多示例使用的是这个类，这是Qt5.0添加的，编译时需要在pro文件中链接opengl库LIBS +=-lopengl32 -lglu32
+#include <QElapsedTimer>
 #include <QOpenGLFunctions_4_5_Compatibility>            // 由于使用到的glBegin等函数属于opengl1.0的API，在新版本中已经被删除了，所以这里需要使用Compatibility
 #include <qtimer.h>
 
@@ -41,7 +42,7 @@ private:
     int  m_colAttr;                             // 顶点颜色属性位置
     int  m_matrixUniform;                       // 变换矩阵属性位置
 #endif
-    QTimer m_timer;                             // 刷新定时器
+    QElapsedTimer m_timer;                             // 刷新定时器
 };
 
 #endif // OPENGLWIDGET_H
