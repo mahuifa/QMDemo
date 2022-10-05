@@ -14,6 +14,11 @@ LogSaveTxt::~LogSaveTxt()
 
 }
 
+void LogSaveTxt::initLog()
+{
+    LogSaveTxt::getInstance();
+}
+
 LogSaveBase *LogSaveTxt::getInstance()
 {
     if(nullptr == m_logSave)

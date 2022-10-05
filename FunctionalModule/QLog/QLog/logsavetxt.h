@@ -28,6 +28,7 @@ public:
 
 
 public:
+    static void initLog();                       // 初始化日志保存功能
     static LogSaveBase* getInstance();           // 获取单例对象
     void setFileType(FileType type);
     FileType fileType(){return m_type;}
