@@ -44,6 +44,7 @@
 
   * 单独使用子线程刷新QOpenGLWidget可以看出CPU占用率为10.3%，GPU占用率为：30.3%；
   * 单独使用子线程刷新QOpenGLWindow可以看出CPU占用率为：7.9%，GPU占用率为：24.4%。
+  * 并且因为QOpenGLWidget使用子线程刷新速度过快，可能出现残缺的情况。
 
   ![TestOpenGLWindow2-tuya](OpenGLDemo.assets/TestOpenGLWindow2-tuya.gif)
 
