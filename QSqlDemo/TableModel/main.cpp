@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
     QTableView *view = new QTableView;                      // 创建一个用于显示表的视图实现（由于是基于QWidget的，所以可以直接显示）
     view->resize(400, 300);                                 // 设置窗口大小
     view->setWindowTitle("");
-    view->setWindowTitle(QString("QSql-使用QSqlTableModel显示数据库内容Demo - V%1").arg(APP_VERSION));
+    view->setWindowTitle(QString("QSql-使用QSqlTableModel显示数据库内容Demo1 - V%1").arg(APP_VERSION));
     view->setModel(&model);                                 // 设置需要显示的表model
     view->show();
 
