@@ -54,7 +54,9 @@ void NetProperty::on_com_Interface_activated(int index)
         return;
     }
     ui->tableWidget->item(0, 1)->setText(QString::number(interface.index()));                     // 获取网卡索引
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))        // qt5.11以后版本才有
     ui->tableWidget->item(1, 1)->setText(QString::number(interface.maximumTransmissionUnit()));   // 获取网卡最大传输数据单元
+#endif
     ui->tableWidget->item(2, 1)->setText(interface.name());                                       // 获取网卡名称
 
 #if 0    // 直接显示标志枚举
@@ -64,7 +66,9 @@ void NetProperty::on_com_Interface_activated(int index)
 #else
     ui->tableWidget->item(3, 1)->setText(FlagsToQString(interface.flags()));
 #endif
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))        // qt5.11以后版本才有
     ui->tableWidget->item(4, 1)->setText(TypeToQString(interface.type()));                        // 获取网络类型说明
+#endif
     ui->tableWidget->item(5, 1)->setText(interface.hardwareAddress());                            // // 获取MAC地址
 
     ui->textEdit_ip->clear();
@@ -144,6 +148,7 @@ QString NetProperty::FlagsToQString(int flags)
  */
 QString NetProperty::TypeToQString(int type)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5,11,0))        // qt5.11以后版本才有
     switch (type)
     {
     case QNetworkInterface::Loopback: return "虚拟环回接口，分配了环回 IP 地址 (127.0.0.1, ::1)";
@@ -162,5 +167,8 @@ QString NetProperty::TypeToQString(int type)
     case QNetworkInterface::Unknown:    return "接口类型无法确定或不是其他列出的类型之一";
     default:return "未知";
     }
+#else
+    Q_UNUSED(type)
+#endif
 }
 
