@@ -40,7 +40,7 @@ include($$PWD/NetInterface/NetInterface.pri)          # 网络接口管理模块
 INCLUDEPATH += $$PWD/NetInterface
 
 #  定义程序版本号
-VERSION = 1.0.0
+VERSION = 1.0.1
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器

@@ -99,8 +99,8 @@ void OpenGLWindow::paintGL()
     glVertexAttribPointer(GLuint(m_colAttr), 3, GL_FLOAT, GL_FALSE, 0, colors);
 
     // 启用顶点数组
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(GLuint(m_posAttr));    // 属性索引是从调用glGetAttribLocation接收的，或者传递给glBindAttribLocation，在Qt里就是通过attributeLocation()获取的索引
+    glEnableVertexAttribArray(GLuint(m_colAttr));
 
     // 提供绘制功能，从数组数据中提取数据渲染基本图元
     glDrawArrays(GL_TRIANGLES,     // 图元类型
@@ -108,8 +108,8 @@ void OpenGLWindow::paintGL()
                  3);               // 数组中顶点的数量
 
     // 禁用顶点属性数组
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(GLuint(m_posAttr));
+    glDisableVertexAttribArray(GLuint(m_colAttr));
 
     m_program->release();         // 从当前QOpenGLContext中释放活动着色器程序。
 #endif
