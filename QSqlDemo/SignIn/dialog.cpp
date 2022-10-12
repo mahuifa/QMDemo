@@ -20,7 +20,7 @@ Dialog::Dialog(QWidget *parent) :
     this->setWindowTitle("登录");
 
     m_db = QSqlDatabase::addDatabase("QSQLITE");  // 使用数据库驱动（Qsqlite）和默认连接名称（qt_sql_default_connection）添加一个数据库
-    m_db.setDatabaseName("test.db");        // 使用文件数据库（可生成数据库文件，数据一直有效）
+    m_db.setDatabaseName("SignIn.db");        // 使用文件数据库（可生成数据库文件，数据一直有效）
 
     if(!m_db.open())             // 打开数据库
     {
