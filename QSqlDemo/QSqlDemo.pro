@@ -6,4 +6,4 @@ SUBDIRS += \
     SqlWidgetMapper \        # 通过QDataWidgetMapper将数据库数据映射到小部件
     TableModel \             # 这个Demo中展示了如何使用具有表视图的专用 SQL 表模型（QSqlTableModel）来编辑数据库中的信息。
     TableModel2\             # 这个Demo中展示了如何使用具有表视图的专用 SQL 表模型（QSqlTableModel）来编辑数据库中的信息，实现创建空白数据行、自增key
-    SignIn
+    SignIn                   # 使用QSqlite数据库实现用户登录、后台管理用户功能
