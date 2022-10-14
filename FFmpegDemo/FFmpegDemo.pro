@@ -11,4 +11,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += VideoPlay     # 使用软解码实现的视频播放器
+SUBDIRS += VideoPlayGL1  # 使用软解码实现的视频播放器 使用OpenGL显示RGB图像
 SUBDIRS += VideoPlayHW   # 使用硬件解码实现的视频播放器
