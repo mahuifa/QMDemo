@@ -12,6 +12,24 @@ PlayImage::PlayImage(QWidget *parent, Qt::WindowFlags f): QOpenGLWidget(parent, 
 }
 #endif
 
+
+PlayImage::~PlayImage()
+{
+    if(!isValid()) return;        // 如果控件和OpenGL资源（如上下文）已成功初始化，则返回true。
+    this->makeCurrent(); // 通过将相应的上下文设置为当前上下文并在该上下文中绑定帧缓冲区对象，为呈现此小部件的OpenGL内容做准备。
+    // 释放纹理
+    if(m_texture)
+    {
+        m_texture->destroy();
+        delete m_texture;
+    }
+    this->doneCurrent();    // 释放上下文
+    // 释放
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+    glDeleteVertexArrays(1, &VAO);
+}
+
 /**
  * @brief        传入Qimage图片显示
  * @param image
@@ -34,7 +52,7 @@ void PlayImage::updateImage(const QImage& image)
     this->update();
 }
 // 三个顶点坐标XYZ，VAO、VBO数据播放，范围时[-1 ~ 1]直接
-static GLfloat vertices[] = {  // 前三列点坐标，中三列颜色值，后两列为纹理坐标
+static GLfloat vertices[] = {  // 前三列点坐标，后两列为纹理坐标
      1.0f,  1.0f, 0.0f, 1.0f, 1.0f,      // 右上角
      1.0f, -1.0f, 0.0f, 1.0f, 0.0f,      // 右下
     -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,      // 左下
@@ -117,15 +135,15 @@ void PlayImage::resizeGL(int w, int h)
 void PlayImage::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT);     // 将窗口的位平面区域（背景）设置为先前由glClearColor、glClearDepth和选择的值
-    glViewport(m_pos.x(), m_pos.y(), m_zoomSize.width(), m_zoomSize.height());  // 设置视图大小
+    glViewport(m_pos.x(), m_pos.y(), m_zoomSize.width(), m_zoomSize.height());  // 设置视图大小实现图片自适应
 
-    m_program->bind();
+    m_program->bind();               // 绑定着色器
     if(m_texture)
     {
         m_texture->bind();
     }
 
-    glBindVertexArray(VAO);
+    glBindVertexArray(VAO);           // 绑定VAO
 
     glDrawElements(GL_TRIANGLES,      // 绘制的图元类型
                    6,                 // 指定要渲染的元素数(点数)

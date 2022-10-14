@@ -1,18 +1,27 @@
+/******************************************************************************
+ * @文件名     playimage.h
+ * @功能       使用OpenGL实现RGB图像的绘制，可通过USE_WINDOW宏切换使用QOpenGLWindow还是QOpenGLWidget
+ *
+ * @开发者     mhf
+ * @邮箱       1603291350@qq.com
+ * @时间       2022/10/14
+ * @备注
+ *****************************************************************************/
 #ifndef PLAYIMAGE_H
 #define PLAYIMAGE_H
 
 #include <QWidget>
-#include <QOpenGLWindow>
 #include <QOpenGLFunctions_3_3_Core>
 #include <qopenglshaderprogram.h>
 #include <QOpenGLTexture>
-#include <QOpenGLWidget>
 
 #define USE_WINDOW 0    // 1:使用QOpenGLWindow显示, 0：使用QOpenGLWidget显示
 
 #if USE_WINDOW
+#include <QOpenGLWindow>
 class PlayImage : public QOpenGLWindow, public  QOpenGLFunctions_3_3_Core
 #else
+#include <QOpenGLWidget>
 class PlayImage : public QOpenGLWidget, public  QOpenGLFunctions_3_3_Core
 #endif
 {
@@ -23,6 +32,7 @@ public:
 #else
     explicit PlayImage(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
 #endif
+     ~PlayImage() override;
 
     void updateImage(const QImage& image);
 
