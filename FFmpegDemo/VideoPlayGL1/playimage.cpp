@@ -150,5 +150,9 @@ void PlayImage::paintGL()
                    GL_UNSIGNED_INT,   // 指定索引中值的类型(indices)
                    nullptr);          // 指定当前绑定到GL_ELEMENT_array_buffer目标的缓冲区的数据存储中数组中第一个索引的偏移量。
     glBindVertexArray(0);
+    if(m_texture)
+    {
+        m_texture->release();
+    }
     m_program->release();
 }

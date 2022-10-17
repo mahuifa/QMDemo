@@ -10,6 +10,7 @@
 | ------------ | ------------------------------------------------------------ |
 | VideoPlay    | 使用ffmpeg音视频库【软解码】实现的视频播放器；               |
 | VideoPlayGL1 | 使用ffmpeg音视频库【软解码 + OpenGL显示RGB图像】实现的视频播放器； |
+| VideoPlayGL2 | 使用ffmpeg音视频库【软解码 + OpenGL显示YUV图像】实现的视频播放器； |
 | VideoPlayHW  | 使用ffmpeg音视频库【硬解码】实现的视频播放器；               |
 
 
@@ -48,13 +49,31 @@
 > 7.   采用最新的5.1.2版本ffmpeg库进行开发，超详细注释信息，将所有踩过的坑、解决办法、注意事项都得很写清楚。    
 > 
 
-* 下图中使用OpenGL显示RGB图像CPU占用率是使用QPainter显示的一半，由于我使用的是非常老的笔记本的集显测试，所以GPU占用率比较高。
+* 下图中使用OpenGL显示RGB图像CPU占用率是使用QPainter显示的<mark>一半</mark>，由于我使用的是非常老的笔记本的集显测试，所以GPU占用率比较高。
 
 ![image-20221015204308041](FFmpegDemo.assets/image-20221015204308041.png)
 
 
 
-### 1.3 VideoPlayHW
+### 1.3 VideoPlayGL2
+
+> 1. 使用ffmpeg音视频库【软解码】实现的视频播放器；                                
+> 2. 支持打开本地视频文件（如mp4、mov、avi等）、网络视频流（rtsp、rtmp、http等）；       
+> 3. 支持视频匀速播放；                                               
+> 4. 采用【OpenGL显示YUV】图像，支持自适应窗口缩放，支持使用QOpenGLWidget、QOpenGLWindow显示；
+> 5. 将YUV转RGB的步骤由CPU转换改为使用GPU转换，降低CPU占用率；
+> 6. 视频播放支持实时开始/关闭、暂停/继续播放；                                  
+> 7. 视频解码、线程控制、显示各部分功能分离，低耦合度。                               
+> 8. 采用最新的5.1.2版本ffmpeg库进行开发，超详细注释信息，将所有踩过的坑、解决办法、注意事项都得很写清楚。
+> 
+
+* 下图中使用OpenGL显示YUV图像CPU占用率是使用QPainter显示的<mark>1/3左右</mark>，由于我使用的是非常老的笔记本的集显测试，所以GPU占用率比较高。
+
+![image-20221017232820037](FFmpegDemo.assets/image-20221017232820037.png)
+
+
+
+### 1.4 VideoPlayHW
 
 > 1. 使用ffmpeg音视频库【硬解码】实现的视频播放器，采用GPU解码， 大幅降低对CPU的暂用率；
 > 2. 支持打开本地视频文件（如mp4、mov、avi等）、网络视频流（rtsp、rtmp、http等）；

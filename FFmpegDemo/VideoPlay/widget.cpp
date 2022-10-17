@@ -87,6 +87,6 @@ void Widget::on_playState(ReadThread::PlayState state)
     {
         ui->but_open->setText("开始播放");
         ui->but_pause->setText("暂停");
-        this->setWindowTitle(QString("Qt+ffmpeg视频播放Demo V%1").arg(APP_VERSION));
+        this->setWindowTitle(QString("Qt+ffmpeg视频播放（软解码）Demo V%1").arg(APP_VERSION));
     }
 }

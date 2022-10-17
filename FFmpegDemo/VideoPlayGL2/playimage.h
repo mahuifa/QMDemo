@@ -18,7 +18,7 @@
 
 struct AVFrame;
 
-#define USE_WINDOW 1    // 1:使用QOpenGLWindow显示, 0：使用QOpenGLWidget显示
+#define USE_WINDOW 0    // 1:使用QOpenGLWindow显示, 0：使用QOpenGLWidget显示
 
 #if USE_WINDOW
 #include <QOpenGLWindow>

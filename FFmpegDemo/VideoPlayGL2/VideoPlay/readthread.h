@@ -40,7 +40,7 @@ protected:
     void run() override;
 
 signals:
-    void repaint(AVFrame* frame);             // 重绘
+    void repaint(AVFrame* frame);               // 重绘
     void playState(PlayState state);            // 视频播放状态发送改变时触发
 
 private:
