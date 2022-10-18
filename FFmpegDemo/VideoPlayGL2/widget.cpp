@@ -3,15 +3,29 @@
 
 #include <QFileDialog>
 
+extern "C" {        // 用C规则编译指定的代码
+#include "libavcodec/avcodec.h"
+}
+Q_DECLARE_METATYPE(AVFrame)  //注册结构体，否则无法通过信号传递AVFrame
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->setWindowTitle(QString("Qt+ffmpeg视频播放（软解码）Demo V%1").arg(APP_VERSION));
+    this->setWindowTitle(QString("Qt+ffmpeg视频播放（软解码 + OpenGL显示YUV）Demo V%1").arg(APP_VERSION));
+
+
+    // 使用QOpenGLWindow绘制
+    playImage = new PlayImage;
+#if USE_WINDOW
+    ui->verticalLayout->addWidget(QWidget::createWindowContainer(playImage));   // 这一步加载速度要比OpenGLWidget慢一点
+#else
+    ui->verticalLayout->addWidget(playImage);
+#endif
 
     m_readThread = new ReadThread();
-    connect(m_readThread, &ReadThread::updateImage, ui->playImage, &PlayImage::updateImage, Qt::DirectConnection);
+    connect(m_readThread, &ReadThread::repaint, playImage, &PlayImage::repaint, Qt::BlockingQueuedConnection);
     connect(m_readThread, &ReadThread::playState, this, &Widget::on_playState);
 }
 
@@ -87,6 +101,6 @@ void Widget::on_playState(ReadThread::PlayState state)
     {
         ui->but_open->setText("开始播放");
         ui->but_pause->setText("暂停");
-        this->setWindowTitle(QString("Qt+ffmpeg视频播放（软解码）Demo V%1").arg(APP_VERSION));
+        this->setWindowTitle(QString("Qt+ffmpeg视频播放（软解码 + OpenGL显示YUV）Demo V%1").arg(APP_VERSION));
     }
 }
