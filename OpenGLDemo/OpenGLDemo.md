@@ -20,7 +20,7 @@
 
 ## 3、实现效果
 
-### 1.1 VideoPlay
+### 1.1 TestOpenGLWindow
 
 > 1. 使用OpenGl 1.0 API绘制三角形（实现简单，已经淘汰的API）;
 > 2. 使用自定义Shader脚本绘制三角形（实现较为复杂）；
