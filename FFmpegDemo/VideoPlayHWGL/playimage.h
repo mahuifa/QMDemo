@@ -37,7 +37,7 @@ public:
 #endif
      ~PlayImage() override;
 
-    void repaint(AVFrame* frame);             // 重绘
+    void repaint(AVFrame* frame);             // 设置需要绘制的图像帧
 
 
 protected:
@@ -46,10 +46,21 @@ protected:
     void paintGL() override;                    // 刷新显示
 
 private:
+    // YUV420图像数据更新
+    void repaintTexYUV420P(AVFrame* frame);
+    void initTexYUV420P(AVFrame* frame);
+    void freeTexYUV420P();
+    // NV12图像数据更新
+    void repaintTexNV12(AVFrame* frame);
+    void initTexNV12(AVFrame* frame);
+    void freeTexNV12();
+
+private:
     QOpenGLShaderProgram* m_program = nullptr;
-    QOpenGLTexture* m_texY = nullptr;           // 存储YUV图像中的Y数据
-    QOpenGLTexture* m_texU = nullptr;           // 存储YUV图像中的U数据
-    QOpenGLTexture* m_texV = nullptr;           // 存储YUV图像中的V数据
+    QOpenGLTexture* m_texY = nullptr;
+    QOpenGLTexture* m_texU = nullptr;
+    QOpenGLTexture* m_texV = nullptr;
+    QOpenGLTexture* m_texUV = nullptr;
     QOpenGLPixelTransferOptions m_options;
 
     GLuint VBO = 0;       // 顶点缓冲对象,负责将数据从内存放到缓存，一个VBO可以用于多个VAO
@@ -58,6 +69,7 @@ private:
     QSize  m_size;
     QSizeF  m_zoomSize;
     QPointF m_pos;
+    int m_format;         // 像素格式
 };
 
 #endif // PLAYIMAGE_H
