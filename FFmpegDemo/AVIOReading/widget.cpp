@@ -86,8 +86,8 @@ void msleep(int ms)
  */
 int Widget::read_packet(void *opaque, uint8_t *buf, int buf_size)
 {
-    BufferData *bd = static_cast<BufferData *>(opaque);
-    buf_size = FFMIN(buf_size, int(bd->size));
+    BufferData *bd = static_cast<BufferData *>(opaque);    // bd指针指向了读取文件的所有数据
+    buf_size = FFMIN(buf_size, int(bd->size));             // 获取最小值
 
     if (!buf_size)
     {
@@ -97,8 +97,8 @@ int Widget::read_packet(void *opaque, uint8_t *buf, int buf_size)
 
     /* 将内部缓冲区数据复制到buf */
     memcpy(buf, bd->ptr, quint64(buf_size));
-    bd->ptr  += buf_size;
-    bd->size -= quint64(buf_size);
+    bd->ptr  += buf_size;                     // 通过指针向后移动读取数据
+    bd->size -= quint64(buf_size);            // 每读取一次则剩余长度减4096
 
     msleep(1);   // 加上延时，否则回调函数执行很快，不能用QThread延时
 

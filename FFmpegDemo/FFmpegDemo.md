@@ -13,6 +13,7 @@
 | VideoPlayGL2  | 使用ffmpeg音视频库【软解码 + OpenGL显示YUV图像】实现的视频播放器； |
 | VideoPlayHW   | 使用ffmpeg音视频库【硬解码】实现的视频播放器；               |
 | VideoPlayHWGL | 使用ffmpeg音视频库【软/硬解码 + OpenGL显示YUV/NV12】实现的视频播放器； |
+| AVIOReading   | API示例程序，演示如何从通过AVIOContext访问的自定义缓冲区读取数据。 |
 
 
 
@@ -106,3 +107,18 @@
 * 使用GPU解码 + OpenGL绘制大大降低了CPU占用率
 
 ![image-20221020192642223](FFmpegDemo.assets/image-20221020192642223.png)
+
+
+
+### 1.6 AVIOReading
+
+> 1. 将一个视频文件中说有数据读取到buf中；
+> 2. 为AVIOContext创建一个回调函数；
+> 3. 创建一个长度为4096内存avio_buf用于从buf中读取数据；
+> 4. 使用回调函数完成数据的读取。
+
+* 数据读取示例如下
+
+![AVIOReading-tuya](FFmpegDemo.assets/AVIOReading-tuya.gif)
+
+![image-20221024094954935](FFmpegDemo.assets/image-20221024094954935.png)
