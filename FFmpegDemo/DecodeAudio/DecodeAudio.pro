@@ -1,10 +1,6 @@
 #---------------------------------------------------------------------------------------
-# @功能：      libavformat AVIOContext API示例。
-#             使libavformat解复用器通过自定义AVIOContext读取回调访问媒体内容。
-#             1. 将一个视频文件中说有数据读取到buf中；
-#             2. 为AVIOContext创建一个回调函数；
-#             3. 创建一个长度为4096内存用于从buf中读取数据；
-#             4. 使用回调函数完成数据的读取。
+# @功能：      使用libavcodec API的音频解码示例
+#             1.将.mp3文件解码转换为.pcm文件；（PCM数据时最原始的音频数据）
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
@@ -37,7 +33,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 #  定义程序版本号
 VERSION = 1.0.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
-TARGET  = AVIOReading
+TARGET  = DecodeAudio
 
 contains(QT_ARCH, i386){        # 使用32位编译器
 DESTDIR = $$PWD/../bin          # 程序输出路径

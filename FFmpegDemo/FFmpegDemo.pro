@@ -15,4 +15,6 @@ SUBDIRS += VideoPlayGL1    # 使用软解码实现的视频播放器 使用OpenG
 SUBDIRS += VideoPlayGL2    # 使用软解码实现的视频播放器 使用OpenGL显示YUV图像
 SUBDIRS += VideoPlayHW     # 使用硬件解码实现的视频播放器
 SUBDIRS += VideoPlayHWGL   # 使用硬件解码实现的视频播放器 使用OpenGL显示YUV/NV12图像
-SUBDIRS += AVIOReading     # 演示如何从通过AVIOContext访问的自定义缓冲区读取数据。
+
+SUBDIRS += AVIOReading     # 使用libavformat解复用器通过自定义AVIOContext读取回调访问媒体内容。
+SUBDIRS += DecodeAudio     # 使用libavcodec API的音频解码示例
