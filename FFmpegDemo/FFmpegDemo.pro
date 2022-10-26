@@ -17,4 +17,4 @@ SUBDIRS += VideoPlayHW     # 使用硬件解码实现的视频播放器
 SUBDIRS += VideoPlayHWGL   # 使用硬件解码实现的视频播放器 使用OpenGL显示YUV/NV12图像
 
 SUBDIRS += AVIOReading     # 使用libavformat解复用器通过自定义AVIOContext读取回调访问媒体内容。
-SUBDIRS += DecodeAudio     # 使用libavcodec API的音频解码示例
+SUBDIRS += DecodeAudio     # 使用libavcodec API的音频解码示例（MP3转pcm）

@@ -14,6 +14,7 @@
 | VideoPlayHW   | 使用ffmpeg音视频库【硬解码】实现的视频播放器；               |
 | VideoPlayHWGL | 使用ffmpeg音视频库【软/硬解码 + OpenGL显示YUV/NV12】实现的视频播放器； |
 | AVIOReading   | API示例程序，演示如何从通过AVIOContext访问的自定义缓冲区读取数据。 |
+| DecodeAudio   | 使用libavcodec API的音频解码示例（MP3转pcm）                 |
 
 
 
@@ -122,3 +123,13 @@
 ![AVIOReading-tuya](FFmpegDemo.assets/AVIOReading-tuya.gif)
 
 ![image-20221024094954935](FFmpegDemo.assets/image-20221024094954935.png)
+
+
+
+### 1.7 DecodeAudio
+
+> 1. 使用FFmpeg将mp3音频文件解码，并保存为原始音频文件pcm；
+> 2. 使用Qt的方式重写了Demo；
+> 3. 解决了官方Demo中的部分Bug。
+
+![DecodeAudio](C:/Users/mhf/Desktop/DecodeAudio.gif)
