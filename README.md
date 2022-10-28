@@ -2,9 +2,9 @@
 
 ![image-20220827211417219](README.assets/image-20220827211417219.png)
 
-在这个仓库中收录了一些自己练习Qt用的Demo和日常开发中经常用到的功能模块。
 
-<table><tr><td bgcolor=#FFFF00>所有内容为我学习、工作过程中产生，并算不上优秀，仅作参考</td></tr></table>
+
+<table><tr><td bgcolor=#FFFF00>在这个仓库中收录了一些自己练习Qt用的Demo和日常开发中经常用到的功能模块。</td></tr></table>
 
 # 一、说明
 
