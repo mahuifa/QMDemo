@@ -25,7 +25,7 @@ Widget::Widget(QWidget *parent)
 #endif
 
     m_readThread = new ReadThread();
-    connect(m_readThread, &ReadThread::repaint, playImage, &PlayImage::repaint);
+    connect(m_readThread, &ReadThread::repaint, playImage, &PlayImage::repaint, Qt::BlockingQueuedConnection);
     connect(m_readThread, &ReadThread::playState, this, &Widget::on_playState);
 
     // 获取可用摄像头列表
@@ -41,6 +41,8 @@ Widget::~Widget()
     // 释放视频读取线程
     if(m_readThread)
     {
+        // 由于使用了BlockingQueuedConnection，所以在退出时如果信号得不到处理就会卡死，所以需要取消绑定
+        disconnect(m_readThread, &ReadThread::repaint, playImage, &PlayImage::repaint);
         m_readThread->close();
         m_readThread->wait();
         delete m_readThread;
