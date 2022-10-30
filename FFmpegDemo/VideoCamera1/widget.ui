@@ -45,19 +45,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="but_file">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>选择</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="but_open">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -67,19 +54,6 @@
        </property>
        <property name="text">
         <string>开始播放</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="but_pause">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>暂停</string>
        </property>
       </widget>
      </item>

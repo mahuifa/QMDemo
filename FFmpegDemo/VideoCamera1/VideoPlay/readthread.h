@@ -47,7 +47,6 @@ private:
     VideoDecode* m_videoDecode = nullptr;       // 视频解码类
     QString m_url;                              // 打开的视频地址
     bool m_play   = false;                      // 播放控制
-    bool m_pause  = false;                      // 暂停控制
 };
 
 #endif // READTHREAD_H

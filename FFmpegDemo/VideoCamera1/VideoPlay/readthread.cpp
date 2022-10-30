@@ -46,14 +46,6 @@ void ReadThread::open(const QString &url)
     }
 }
 
-/**
- * @brief       控制暂停、继续
- * @param flag  true：暂停  fasle：继续
- */
-void ReadThread::pause(bool flag)
-{
-    m_pause = flag;
-}
 
 /**
  * @brief 关闭播放
@@ -61,7 +53,6 @@ void ReadThread::pause(bool flag)
 void ReadThread::close()
 {
     m_play = false;
-    m_pause = false;
 }
 
 /**
@@ -100,12 +91,6 @@ void ReadThread::run()
     // 循环读取视频图像
     while (m_play)
     {
-        // 暂停
-        while (m_pause)
-        {
-            sleepMsec(200);
-        }
-
         AVFrame* frame = m_videoDecode->read();  // 读取视频图像
         if(frame)
         {

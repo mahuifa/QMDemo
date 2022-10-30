@@ -18,11 +18,7 @@ public:
     ~Widget();
 
 private slots:
-    void on_but_file_clicked();
-
     void on_but_open_clicked();
-
-    void on_but_pause_clicked();
 
     void on_playState(ReadThread::PlayState state);
 
