@@ -13,6 +13,9 @@
 | VideoPlayGL2  | 使用ffmpeg音视频库【软解码 + OpenGL显示YUV图像】实现的视频播放器； |
 | VideoPlayHW   | 使用ffmpeg音视频库【硬解码】实现的视频播放器；               |
 | VideoPlayHWGL | 使用ffmpeg音视频库【软/硬解码 + OpenGL显示YUV/NV12】实现的视频播放器； |
+| VideoCamera1  | FFmpeg打开本地摄像头简单示例（软解码+OpenGL）                |
+| AVIOReading   | API示例程序，演示如何从通过AVIOContext访问的自定义缓冲区读取数据。 |
+| DecodeAudio   | 使用libavcodec API的音频解码示例（MP3转pcm）                 |
 
 
 
@@ -106,3 +109,43 @@
 * 使用GPU解码 + OpenGL绘制大大降低了CPU占用率
 
 ![image-20221020192642223](FFmpegDemo.assets/image-20221020192642223.png)
+
+
+
+### 1.6 AVIOReading
+
+> 1. 将一个视频文件中说有数据读取到buf中；
+> 2. 为AVIOContext创建一个回调函数；
+> 3. 创建一个长度为4096内存avio_buf用于从buf中读取数据；
+> 4. 使用回调函数完成数据的读取。
+
+* 数据读取示例如下
+
+![AVIOReading-tuya](FFmpegDemo.assets/AVIOReading-tuya.gif)
+
+![image-20221024094954935](FFmpegDemo.assets/image-20221024094954935.png)
+
+
+
+### 1.7 DecodeAudio
+
+> 1. 使用FFmpeg将mp3音频文件解码，并保存为原始音频文件pcm；
+> 2. 使用Qt的方式重写了Demo；
+> 3. 解决了官方Demo中的部分Bug。
+
+![DecodeAudio](FFmpegDemo.assets/DecodeAudio.gif)
+
+
+
+### 1.8 VideoCamera1
+
+> 1. 使用ffmpeg音视频库【软解码】打开【本地摄像头】；                                       
+> 2. 采用【OpenGL显示YUV】图像，支持自适应窗口缩放，支持使用QOpenGLWidget、QOpenGLWindow显示；
+> 3. 将YUV转RGB的步骤由CPU转换改为使用GPU转换，降低CPU占用率；                          
+> 4. 视频播放支持实时开始/关闭、暂停/继续播放；                                        
+> 5. 视频解码、线程控制、显示各部分功能分离，低耦合度。                                     
+> 6. 采用最新的5.1.2版本ffmpeg库进行开发，超详细注释信息，将所有踩过的坑、解决办法、注意事项都得很写清楚。      
+
+![VideoCamera1](FFmpegDemo.assets/VideoCamera1.gif)
+
+![image-20221027235118681](FFmpegDemo.assets/image-20221027235118681.png)

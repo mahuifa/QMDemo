@@ -77,10 +77,10 @@ void PlayImage::repaint(AVFrame *frame)
         m_texU = new QOpenGLTexture(QOpenGLTexture::Target2D);
         m_texV = new QOpenGLTexture(QOpenGLTexture::Target2D);
 
-        // 设置纹理大小
-        m_texY->setSize(frame->width, frame->height);
-        m_texU->setSize(frame->width / 2, frame->height / 2);
-        m_texV->setSize(frame->width / 2, frame->height / 2);
+        // 设置纹理大小                                                //  YUV444    YUV422    YUV422
+        m_texY->setSize(frame->width, frame->height);                //   w,h      w,h       w,h
+        m_texU->setSize(frame->width / 2, frame->height);            //   w,h      w/2,h      w/2,h/2
+        m_texV->setSize(frame->width / 2, frame->height);            //   w,h      w/2,h      w/2,h/2
 
         // 设置放大、缩小过滤器
         m_texY->setMinMagFilters(QOpenGLTexture::LinearMipMapLinear,QOpenGLTexture::Linear);

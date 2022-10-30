@@ -37,7 +37,8 @@ PlayImage::~PlayImage()
 
 void PlayImage::repaint(AVFrame *frame)
 {
-    if(!frame) return;
+    // 如果帧长宽为0则不需要绘制
+    if(!frame || frame->width == 0 || frame->height == 0) return;
 
     m_format = frame->format;
     switch (m_format)
