@@ -32,7 +32,12 @@ Widget::Widget(QWidget *parent)
     QList<QCameraInfo> cameras = QCameraInfo::availableCameras();
     for(auto camera : cameras)
     {
-        ui->com_url->addItem("video=" + camera.description());
+#if defined(Q_OS_WIN)
+        ui->com_url->addItem("video=" + camera.description());    // ffmpeg在Window下要使用video=description()
+#elif defined(Q_OS_LINUX)
+        ui->com_url->addItem(camera.deviceName());                // ffmpeg在linux下要使用deviceName()
+#elif defined(Q_OS_MAC)
+#endif
     }
 }
 

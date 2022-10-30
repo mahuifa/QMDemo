@@ -26,8 +26,20 @@ VideoDecode::VideoDecode()
     /**
      * dshow：  Windows 媒体输入设备。目前仅支持音频和视频设备。
      * gdigrab：基于 Win32 GDI 的屏幕捕获设备
+     * video4linux2：Linux输入视频设备
      */
+#if defined(Q_OS_WIN)
     m_inputFormat = av_find_input_format("dshow");
+#elif defined(Q_OS_LINUX)
+    m_inputFormat = av_find_input_format("video4linux2");       // 也可以不需要
+#elif defined(Q_OS_MAC)
+    m_inputFormat = av_find_input_format("avfoundation");
+#endif
+
+    if(!m_inputFormat)
+    {
+        qWarning() << "查询AVInputFormat失败！";
+    }
 }
 
 VideoDecode::~VideoDecode()
@@ -69,10 +81,14 @@ bool VideoDecode::open(const QString &url)
     if(url.isNull()) return false;
 
     AVDictionary* dict = nullptr;
-    // 可使用【ffmpeg -list_options true -f dshow -i video="Lenovo EasyCamera"】命令查看
-//    av_dict_set(&dict, "input_format", "mjpeg", 0);       // 设置编码器
+    /**
+     * Windows：可使用【ffmpeg -list_options true -f dshow -i video="Lenovo EasyCamera"】命令查看摄像头支持的编码器、帧率、分辨率等信息
+     * Linux：可使用【ffmpeg -list_formats all -i /dev/video0】或【ffplay -f video4linux2 -list_formats all /dev/video0】命令查看摄像头支持的支持的像素格式、编解码器和帧大小
+     */
+    // 设置解码器（Linux下打开本地摄像头默认为rawvideo解码器，输入图像为YUYV420，不方便显示，有两种解决办法，1：使用sws_scale把YUYV422转为YUVJ422P；2：指定mjpeg解码器输出YUVJ422P图像）
+    av_dict_set(&dict, "input_format", "mjpeg", 0);
 //    av_dict_set(&dict, "framerate", "30", 0);             // 设置帧率
-//    av_dict_set(&dict, "pixel_format", "yuyv422", 0);   // 设置像素格式
+//    av_dict_set(&dict, "pixel_format", "yuvj422p", 0);   // 设置像素格式
     av_dict_set(&dict, "video_size", "800x600", 0);       // 设置视频分辨率（如果该分辨率摄像头不支持则会报错）
 
     // 打开输入流并返回解封装上下文
