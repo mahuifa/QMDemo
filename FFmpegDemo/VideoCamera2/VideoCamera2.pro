@@ -1,12 +1,12 @@
 #---------------------------------------------------------------------------------------
-# @功能：       使用ffmpeg音视频库【软解码】打开本地摄像头；
+# @功能：       使用ffmpeg音视频库【软解码】打开本地摄像头【录制视频】保存到本地示例；
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit 32bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
 # @开发者     mhf
 # @邮箱       1603291350@qq.com
 # @时间       2022-09-14 14:13:52
-# @备注       1、使用ffmpeg音视频库【软解码】打开本地摄像头；
+# @备注       1、使用ffmpeg音视频库【软解码】打开本地摄像头【录制视频】保存到本地；
 #             2、采用【OpenGL显示YUV】图像，支持自适应窗口缩放，支持使用QOpenGLWidget、QOpenGLWindow显示；
 #             3、将YUV转RGB的步骤由CPU转换改为使用GPU转换，降低CPU占用率；
 #             4、支持Windows、Linux打开本地摄像头；
@@ -41,9 +41,9 @@ include(./VideoPlay/VideoPlay.pri)
 INCLUDEPATH += ./VideoPlay
 
 #  定义程序版本号
-VERSION = 1.2.0
+VERSION = 1.0.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
-TARGET  = VideoCamera1
+TARGET  = VideoCamera2
 
 contains(QT_ARCH, i386){        # 使用32位编译器
 DESTDIR = $$PWD/../bin          # 程序输出路径

@@ -16,6 +16,7 @@ SUBDIRS += VideoPlayGL2    # 使用软解码实现的视频播放器 使用OpenG
 SUBDIRS += VideoPlayHW     # 使用硬件解码实现的视频播放器
 SUBDIRS += VideoPlayHWGL   # 使用硬件解码实现的视频播放器 使用OpenGL显示YUV/NV12图像
 SUBDIRS += VideoCamera1    # FFmpeg打开本地摄像头简单示例（软解码+OpenGL）
+SUBDIRS += VideoCamera2    # FFmpeg打开本地摄像头【录制视频】保存到本地示例（软解码+OpenGL）
 
 SUBDIRS += AVIOReading     # 使用libavformat解复用器通过自定义AVIOContext读取回调访问媒体内容。
 SUBDIRS += DecodeAudio     # 使用libavcodec API的音频解码示例（MP3转pcm）
