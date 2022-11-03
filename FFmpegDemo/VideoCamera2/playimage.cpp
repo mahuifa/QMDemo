@@ -52,7 +52,11 @@ PlayImage::~PlayImage()
 void PlayImage::repaint(AVFrame *frame)
 {
     // 如果帧长宽为0则不需要绘制
-    if(!frame || frame->width == 0 || frame->height == 0) return;
+    if(!frame || frame->width == 0 || frame->height == 0)
+    {
+        av_frame_unref(frame);  //  取消引用帧引用的所有缓冲区并重置帧字段。
+        return;
+    }
 
     // 当切换显示的视频后，如果分辨率不同则需要重新创建纹理，否则会崩溃
     if(frame->width != m_size.width() || frame->height != m_size.height())

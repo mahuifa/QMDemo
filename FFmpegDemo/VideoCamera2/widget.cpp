@@ -87,3 +87,20 @@ void Widget::on_playState(ReadThread::PlayState state)
         this->setWindowTitle(QString("Qt+ffmpeg视频播放（软解码 + OpenGL显示YUV）Demo V%1").arg(APP_VERSION));
     }
 }
+
+/**
+ * @brief 录制视频保存到本地
+ */
+void Widget::on_but_save_clicked()
+{
+    if(ui->but_save->text() == "开始录制")
+    {
+        m_readThread->savaVideo(QString("%1.mp4").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm-ss")));
+        ui->but_save->setText("停止");
+    }
+    else
+    {
+        m_readThread->stop();
+        ui->but_save->setText("开始录制");
+    }
+}

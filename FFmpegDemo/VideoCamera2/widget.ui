@@ -57,6 +57,19 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="but_save">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>开始录制</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>

@@ -1,5 +1,6 @@
 #include "readthread.h"
 #include "videodecode.h"
+#include "videosave.h"
 
 #include<QVariant>
 
@@ -20,6 +21,7 @@ extern "C" {        // 用C规则编译指定的代码
 ReadThread::ReadThread(QObject *parent) : QThread(parent)
 {
     m_videoDecode = new VideoDecode();
+    m_videoSave   = new VideoSave();
 
     // 注册自定义枚举类型，否则信号槽无法发送
     qRegisterMetaType<PlayState>("PlayState");
@@ -27,6 +29,10 @@ ReadThread::ReadThread(QObject *parent) : QThread(parent)
 
 ReadThread::~ReadThread()
 {
+    if(m_videoSave)
+    {
+        delete m_videoSave;
+    }
     if(m_videoDecode)
     {
         delete m_videoDecode;
@@ -64,6 +70,16 @@ const QString &ReadThread::url()
     return m_url;
 }
 
+void ReadThread::savaVideo(const QString &fileName)
+{
+    m_videoSave->open(m_videoDecode->getVideoStream(), fileName);
+}
+
+void ReadThread::stop()
+{
+    m_videoSave->close();
+}
+
 /**
  * @brief      非阻塞延时
  * @param msec 延时毫秒
@@ -88,12 +104,14 @@ void ReadThread::run()
     {
         qWarning() << "打开失败！";
     }
+
     // 循环读取视频图像
     while (m_play)
     {
         AVFrame* frame = m_videoDecode->read();  // 读取视频图像
         if(frame)
         {
+            m_videoSave->write(frame);
             emit repaint(frame);
         }
         else
@@ -107,7 +125,7 @@ void ReadThread::run()
         }
     }
 
-    qDebug() << "播放结束！";
+    qDebug() << "关闭摄像头！" ;
     m_videoDecode->close();
     emit playState(end);
 }

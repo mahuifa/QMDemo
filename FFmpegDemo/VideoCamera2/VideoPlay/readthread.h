@@ -15,6 +15,7 @@
 #include <QTime>
 
 class VideoDecode;
+class VideoSave;
 class PlayImage;
 struct AVFrame;
 
@@ -35,6 +36,8 @@ public:
     void pause(bool flag);                      // 暂停视频
     void close();                               // 关闭视频
     const QString& url();                       // 获取打开的视频地址
+    void savaVideo(const QString& fileName);    // 录制视频
+    void stop();                                // 停止录制
 
 protected:
     void run() override;
@@ -45,6 +48,7 @@ signals:
 
 private:
     VideoDecode* m_videoDecode = nullptr;       // 视频解码类
+    VideoSave*   m_videoSave   = nullptr;       // 视频编码保存类
     QString m_url;                              // 打开的视频地址
     bool m_play   = false;                      // 播放控制
 };

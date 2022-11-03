@@ -22,6 +22,8 @@ private slots:
 
     void on_playState(ReadThread::PlayState state);
 
+    void on_but_save_clicked();
+
 private:
     Ui::Widget *ui;
 

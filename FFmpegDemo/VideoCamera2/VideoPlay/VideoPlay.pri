@@ -14,6 +14,9 @@ win32{
 LIBS += -LE:/lib/ffmpeg5-1-2/lib/ -lavcodec -lavfilter -lavformat -lswscale -lavutil -lswresample -lavdevice
 INCLUDEPATH += E:/lib/ffmpeg5-1-2/include
 DEPENDPATH += E:/lib/ffmpeg5-1-2/include
+
+#INCLUDEPATH += E:/lib/ffmpeg4/include
+#LIBS += -LE:/lib/ffmpeg4/lib/win64/ -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
 }
 
 unix:!macx{
@@ -24,8 +27,10 @@ DEPENDPATH += /home/mhf/lib/ffmpeg/ffmpeg-5-1-2/include
 
 HEADERS += \
     $$PWD/readthread.h \
-    $$PWD/videodecode.h
+    $$PWD/videodecode.h \
+    $$PWD/videosave.h
 
 SOURCES += \
     $$PWD/readthread.cpp \
-    $$PWD/videodecode.cpp
+    $$PWD/videodecode.cpp \
+    $$PWD/videosave.cpp

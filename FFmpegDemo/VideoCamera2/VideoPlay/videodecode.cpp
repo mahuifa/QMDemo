@@ -3,6 +3,7 @@
 #include <QImage>
 #include <QMutex>
 #include <qdatetime.h>
+#include <qelapsedtimer.h>
 
 
 extern "C" {        // 用C规则编译指定的代码
@@ -86,10 +87,10 @@ bool VideoDecode::open(const QString &url)
      * Linux：可使用【ffmpeg -list_formats all -i /dev/video0】或【ffplay -f video4linux2 -list_formats all /dev/video0】命令查看摄像头支持的支持的像素格式、编解码器和帧大小
      */
     // 设置解码器（Linux下打开本地摄像头默认为rawvideo解码器，输入图像为YUYV420，不方便显示，有两种解决办法，1：使用sws_scale把YUYV422转为YUVJ422P；2：指定mjpeg解码器输出YUVJ422P图像）
-    av_dict_set(&dict, "input_format", "mjpeg", 0);
-//    av_dict_set(&dict, "framerate", "30", 0);             // 设置帧率
+    av_dict_set(&dict, "input_format", "mjpeg", AV_OPT_SEARCH_CHILDREN);
+    av_dict_set(&dict, "framerate", "30", 0);             // 设置帧率
 //    av_dict_set(&dict, "pixel_format", "yuvj422p", 0);   // 设置像素格式
-    av_dict_set(&dict, "video_size", "800x600", 0);       // 设置视频分辨率（如果该分辨率摄像头不支持则会报错）
+//    av_dict_set(&dict, "video_size", "1280x720", 0);       // 设置视频分辨率（如果该分辨率摄像头不支持则会报错）
 
     // 打开输入流并返回解封装上下文
     int ret = avformat_open_input(&m_formatContext,          // 返回解封装上下文
@@ -132,16 +133,16 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
-    AVStream* videoStream = m_formatContext->streams[m_videoIndex];  // 通过查询到的索引获取视频流
+    AVStream* m_outStream = m_formatContext->streams[m_videoIndex];  // 通过查询到的索引获取视频流
 
     // 获取视频图像分辨率（AVStream中的AVCodecContext在新版本中弃用，改为使用AVCodecParameters）
-    m_size.setWidth(videoStream->codecpar->width);
-    m_size.setHeight(videoStream->codecpar->height);
-    m_frameRate = rationalToDouble(&videoStream->avg_frame_rate);  // 视频帧率
+    m_size.setWidth(m_outStream->codecpar->width);
+    m_size.setHeight(m_outStream->codecpar->height);
+    m_frameRate = rationalToDouble(&m_outStream->avg_frame_rate);  // 视频帧率
 
     // 通过解码器ID获取视频解码器（新版本返回值必须使用const）
-    const AVCodec* codec = avcodec_find_decoder(videoStream->codecpar->codec_id);
-    m_totalFrames = videoStream->nb_frames;
+    const AVCodec* codec = avcodec_find_decoder(m_outStream->codecpar->codec_id);
+    m_totalFrames = m_outStream->nb_frames;
 
 #if PRINT_LOG
     qDebug() << QString("分辨率：[w:%1,h:%2] 帧率：%3  总帧数：%4  解码器：%5")
@@ -160,7 +161,7 @@ bool VideoDecode::open(const QString &url)
     }
 
     // 使用视频流的codecpar为解码器上下文赋值
-    ret = avcodec_parameters_to_context(m_codecContext, videoStream->codecpar);
+    ret = avcodec_parameters_to_context(m_codecContext, m_outStream->codecpar);
     if(ret < 0)
     {
         showError(ret);
@@ -168,8 +169,8 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
-    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
-    m_codecContext->thread_count = 8;                 // 使用8线程解码
+//    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
+//    m_codecContext->thread_count = 8;                 // 使用8线程解码
 
     // 初始化解码器上下文，如果之前avcodec_alloc_context3传入了解码器，这里设置NULL就可以
     ret = avcodec_open2(m_codecContext, nullptr, nullptr);
@@ -211,6 +212,7 @@ bool VideoDecode::open(const QString &url)
     m_buffer = new uchar[size + 1000];    // 这里多分配1000个字节就基本不会出现拷贝超出的情况了，反正不缺这点内存
 //    m_image = new QImage(m_buffer, m_size.width(), m_size.height(), QImage::Format_RGBA8888);  // 这种方式分配内存大部分情况下也可以，但是因为存在拷贝超出数组的情况，delete时也会报错
     m_end = false;
+
     return true;
 }
 
@@ -225,7 +227,6 @@ AVFrame* VideoDecode::read()
     {
         return nullptr;
     }
-
     // 读取下一帧数据
     int readRet = av_read_frame(m_formatContext, m_packet);
     if(readRet < 0)
@@ -252,6 +253,8 @@ AVFrame* VideoDecode::read()
             }
         }
     }
+
+
     av_packet_unref(m_packet);  // 释放数据包，引用计数-1，为0时释放空间
 
     av_frame_unref(m_frame);
@@ -265,9 +268,6 @@ AVFrame* VideoDecode::read()
         }
         return nullptr;
     }
-
-    m_pts = m_frame->pts;
-
     return m_frame;
 }
 
@@ -283,7 +283,6 @@ void VideoDecode::close()
     m_videoIndex    = 0;
     m_totalFrames   = 0;
     m_obtainFrames  = 0;
-    m_pts           = 0;
     m_frameRate     = 0;
     m_size          = QSize(0, 0);
 }
@@ -297,13 +296,9 @@ bool VideoDecode::isEnd()
     return m_end;
 }
 
-/**
- * @brief    返回当前帧图像播放时间
- * @return
- */
-const qint64 &VideoDecode::pts()
+AVStream *VideoDecode::getVideoStream() const
 {
-    return m_pts;
+    return m_formatContext->streams[m_videoIndex];
 }
 
 /**
