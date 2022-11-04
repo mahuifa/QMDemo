@@ -161,13 +161,13 @@ bool VideoDecode::open(const QString &url)
     }
 
     // 使用视频流的codecpar为解码器上下文赋值
-    ret = avcodec_parameters_to_context(m_codecContext, m_outStream->codecpar);
-    if(ret < 0)
-    {
-        showError(ret);
-        free();
-        return false;
-    }
+//    ret = avcodec_parameters_to_context(m_codecContext, m_outStream->codecpar);
+//    if(ret < 0)
+//    {
+//        showError(ret);
+//        free();
+//        return false;
+//    }
 
 //    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
 //    m_codecContext->thread_count = 8;                 // 使用8线程解码
@@ -298,6 +298,10 @@ bool VideoDecode::isEnd()
 
 AVStream *VideoDecode::getVideoStream() const
 {
+    if(!m_formatContext)
+    {
+        return nullptr;
+    }
     return m_formatContext->streams[m_videoIndex];
 }
 

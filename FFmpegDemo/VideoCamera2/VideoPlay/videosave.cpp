@@ -12,6 +12,7 @@ extern "C" {        // 用C规则编译指定的代码
 
 #define ERROR_LEN 1024  // 异常信息数组长度
 #define PRINT_LOG 1
+#define USE_H264 0      // 使用H264编码器
 
 VideoSave::VideoSave()
 {
@@ -43,14 +44,17 @@ bool VideoSave::open(AVStream *inStream, const QString &fileName)
     if(!inStream || fileName.isEmpty()) return false;
 
     // 通过输出文件名为输出格式分配AVFormatContext。
+#if USE_H264
+    int ret = avformat_alloc_output_context2(&m_formatContext, nullptr, "h264", fileName.toStdString().data());
+#else
     int ret = avformat_alloc_output_context2(&m_formatContext, nullptr, nullptr, fileName.toStdString().data());
+#endif
     if(ret < 0)
     {
         close();
         showError(ret);
         return false;
     }
-
     // 创建并初始化AVIOContext以访问url所指示的资源。
     ret = avio_open(&m_formatContext->pb, fileName.toStdString().data(), AVIO_FLAG_WRITE);
     if(ret < 0)
@@ -59,6 +63,7 @@ bool VideoSave::open(AVStream *inStream, const QString &fileName)
         showError(ret);
         return false;
     }
+
 
     // 查询编码器
     const AVCodec* codec = avcodec_find_encoder(m_formatContext->oformat->video_codec);
@@ -73,20 +78,27 @@ bool VideoSave::open(AVStream *inStream, const QString &fileName)
     m_codecContext = avcodec_alloc_context3(codec);
     if(!m_codecContext)
     {
+        close();
         showError(AVERROR(ENOMEM));
         return false;
     }
     // 设置编码器上下文参数
+//    m_codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
     m_codecContext->width = inStream->codecpar->width;     // 图片宽度/高度
     m_codecContext->height = inStream->codecpar->height;
-    m_codecContext->pix_fmt = codec->pix_fmts[0];          // 像素格式
+    m_codecContext->pix_fmt = AV_PIX_FMT_YUV420P;          // 像素格式，也可以使用codec->pix_fmts[0]
     m_codecContext->time_base = {1, 20};                   //设置时间基，20为分母，1为分子，表示以1/20秒时间间隔播放一帧图像
     m_codecContext->framerate = {20, 1};
-    m_codecContext->codec_type = codec->type;              // 编码器类型
-    m_codecContext->bit_rate = 400000;                     //目标的码率，即采样的码率；显然，采样码率越大，视频大小越大
+    m_codecContext->bit_rate = 4000000;                    // 目标的码率，即采样的码率；显然，采样码率越大，视频大小越大，画质越高
+    m_codecContext->gop_size = 12;                         // I帧间隔
+    m_codecContext->qmin = 2;
+    m_codecContext->qmax = 31;
 
     // 打开编码器
-    avcodec_open2(m_codecContext, codec, nullptr);
+    ret = avcodec_open2(m_codecContext, nullptr, nullptr);
+#if USE_H264
+    ret = avcodec_open2(m_codecContext, codec, nullptr);      // 使用h264时第一次打不开，第二次可以打卡，不知道什么原因
+#endif
     if(ret < 0)
     {
         close();
@@ -120,6 +132,7 @@ bool VideoSave::open(AVStream *inStream, const QString &fileName)
         showError(ret);
         return false;
     }
+    m_writeHeader = true;
 
     // 分配一个AVPacket
     m_packet = av_packet_alloc();
@@ -163,6 +176,7 @@ void VideoSave::write(AVFrame *frame)
             break;
         }
 
+        qDebug() << m_index;
         // 将数据包中的有效时间字段（时间戳/持续时间）从一个时基转换为 输出流的时间
         av_packet_rescale_ts(m_packet, m_codecContext->time_base, m_videoStream->time_base);
         av_write_frame(m_formatContext, m_packet);   // 将数据包写入输出媒体文件
@@ -179,13 +193,17 @@ void VideoSave::close()
     if(m_formatContext)
     {
         // 写入文件尾
-        int ret = av_write_trailer(m_formatContext);
-        if(ret < 0)
+        if(m_writeHeader)
         {
-            showError(ret);
-            return;
+            m_writeHeader = false;
+            int ret = av_write_trailer(m_formatContext);
+            if(ret < 0)
+            {
+                showError(ret);
+                return;
+            }
         }
-        ret = avio_close(m_formatContext->pb);
+        int ret = avio_close(m_formatContext->pb);
         if(ret < 0)
         {
             showError(ret);

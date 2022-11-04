@@ -40,6 +40,7 @@ private:
     AVStream       * m_videoStream   = nullptr;
     AVPacket       * m_packet        = nullptr;    // 数据包
     int m_index = 0;
+    bool             m_writeHeader   = false;      // 是否写入头
 };
 
 #endif // VIDEOSAVE_H
