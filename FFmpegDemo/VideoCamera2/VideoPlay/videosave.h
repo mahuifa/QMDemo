@@ -11,6 +11,7 @@
 #define VIDEOSAVE_H
 
 #include <QString>
+#include <qmutex.h>
 
 
 struct AVCodecParameters;
@@ -41,6 +42,7 @@ private:
     AVPacket       * m_packet        = nullptr;    // 数据包
     int m_index = 0;
     bool             m_writeHeader   = false;      // 是否写入头
+    QMutex           m_mutex;
 };
 
 #endif // VIDEOSAVE_H

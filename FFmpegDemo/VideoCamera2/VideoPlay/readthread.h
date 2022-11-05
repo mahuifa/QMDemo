@@ -49,8 +49,8 @@ signals:
 private:
     VideoDecode* m_videoDecode = nullptr;       // 视频解码类
     VideoSave*   m_videoSave   = nullptr;       // 视频编码保存类
-    QString m_url;                              // 打开的视频地址
-    bool m_play   = false;                      // 播放控制
+    QString      m_url;                         // 打开的视频地址
+    bool         m_play        = false;         // 播放控制
 };
 
 #endif // READTHREAD_H

@@ -13,7 +13,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->setWindowTitle(QString("Qt+ffmpeg打开本地摄像头Demo V%1").arg(APP_VERSION));
+    this->setWindowTitle(QString("Qt+ffmpeg打开本地摄像头录像Demo V%1").arg(APP_VERSION));
 
 
     // 使用QOpenGLWindow绘制
@@ -84,7 +84,7 @@ void Widget::on_playState(ReadThread::PlayState state)
     else
     {
         ui->but_open->setText("开始播放");
-        this->setWindowTitle(QString("Qt+ffmpeg视频播放（软解码 + OpenGL显示YUV）Demo V%1").arg(APP_VERSION));
+        this->setWindowTitle(QString("Qt+ffmpeg打开本地摄像头录像Demo V%1").arg(APP_VERSION));
     }
 }
 

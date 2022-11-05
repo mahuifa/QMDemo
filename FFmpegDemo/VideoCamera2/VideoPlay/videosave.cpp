@@ -83,14 +83,14 @@ bool VideoSave::open(AVStream *inStream, const QString &fileName)
         return false;
     }
     // 设置编码器上下文参数
-//    m_codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
     m_codecContext->width = inStream->codecpar->width;     // 图片宽度/高度
     m_codecContext->height = inStream->codecpar->height;
     m_codecContext->pix_fmt = AV_PIX_FMT_YUV420P;          // 像素格式，也可以使用codec->pix_fmts[0]
     m_codecContext->time_base = {1, 20};                   //设置时间基，20为分母，1为分子，表示以1/20秒时间间隔播放一帧图像
     m_codecContext->framerate = {20, 1};
     m_codecContext->bit_rate = 4000000;                    // 目标的码率，即采样的码率；显然，采样码率越大，视频大小越大，画质越高
-    m_codecContext->gop_size = 12;                         // I帧间隔
+    m_codecContext->gop_size = 10;                         // I帧间隔
+    m_codecContext->max_b_frames = 1;                      // 非B帧之间的最大B帧数
     m_codecContext->qmin = 2;
     m_codecContext->qmax = 31;
 
@@ -152,6 +152,7 @@ bool VideoSave::open(AVStream *inStream, const QString &fileName)
  */
 void VideoSave::write(AVFrame *frame)
 {
+    QMutexLocker locker(&m_mutex);
     if(!m_packet)
     {
         return;
@@ -176,7 +177,6 @@ void VideoSave::write(AVFrame *frame)
             break;
         }
 
-        qDebug() << m_index;
         // 将数据包中的有效时间字段（时间戳/持续时间）从一个时基转换为 输出流的时间
         av_packet_rescale_ts(m_packet, m_codecContext->time_base, m_videoStream->time_base);
         av_write_frame(m_formatContext, m_packet);   // 将数据包写入输出媒体文件
@@ -190,6 +190,7 @@ void VideoSave::write(AVFrame *frame)
 void VideoSave::close()
 {
     write(nullptr);   // 传入空帧，读取所有编码数据
+    QMutexLocker locker(&m_mutex);    // 如果不加锁可能在点击关闭时，write函数正在写入数据，导致崩溃
     if(m_formatContext)
     {
         // 写入文件尾
