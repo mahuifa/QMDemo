@@ -47,7 +47,7 @@ bool VideoSave::open(AVStream *inStream, const QString &fileName)
 #if USE_H264
     int ret = avformat_alloc_output_context2(&m_formatContext, nullptr, "h264", fileName.toStdString().data());
 #else
-    int ret = avformat_alloc_output_context2(&m_formatContext, nullptr, nullptr, fileName.toStdString().data());
+    int ret = avformat_alloc_output_context2(&m_formatContext, nullptr, "mjpeg", fileName.toStdString().data());  // 这里使用和解码一样的编码器，防止保存的图像颜色出问题
 #endif
     if(ret < 0)
     {
@@ -85,14 +85,21 @@ bool VideoSave::open(AVStream *inStream, const QString &fileName)
     // 设置编码器上下文参数
     m_codecContext->width = inStream->codecpar->width;     // 图片宽度/高度
     m_codecContext->height = inStream->codecpar->height;
-    m_codecContext->pix_fmt = AV_PIX_FMT_YUV420P;          // 像素格式，也可以使用codec->pix_fmts[0]
+    m_codecContext->pix_fmt = AV_PIX_FMT_YUVJ422P;         // 像素格式，也可以使用codec->pix_fmts[0]或AV_PIX_FMT_YUVJ422P(【注意】摄像头解码的图像格式为yuvj422p，如果这里不一样可能保存会出问题，或者后面进行格式转换)
     m_codecContext->time_base = {1, 20};                   //设置时间基，20为分母，1为分子，表示以1/20秒时间间隔播放一帧图像
     m_codecContext->framerate = {20, 1};
     m_codecContext->bit_rate = 4000000;                    // 目标的码率，即采样的码率；显然，采样码率越大，视频大小越大，画质越高
     m_codecContext->gop_size = 10;                         // I帧间隔
-    m_codecContext->max_b_frames = 1;                      // 非B帧之间的最大B帧数
-    m_codecContext->qmin = 2;
-    m_codecContext->qmax = 31;
+//    m_codecContext->max_b_frames = 1;                      // 非B帧之间的最大B帧数(有些格式不支持)
+//    m_codecContext->qmin = 1;
+//    m_codecContext->qmax = 5;
+//    m_codecContext->colorspace = AVCOL_SPC_BT470BG;
+//    m_codecContext->color_range = AVCOL_RANGE_JPEG;
+//    m_codecContext->color_primaries = AVCOL_PRI_BT709;
+//    m_codecContext->bits_per_coded_sample = 24;
+//    m_codecContext->bits_per_raw_sample = 8;
+//    av_opt_set(m_codecContext->priv_data, "preset", "placebo", 0);
+//    qDebug() << m_codecContext->pix_fmt;
 
     // 打开编码器
     ret = avcodec_open2(m_codecContext, nullptr, nullptr);
@@ -162,6 +169,7 @@ void VideoSave::write(AVFrame *frame)
     {
         frame->pts = m_index;
         m_index++;
+            qDebug() << frame->format;
     }
 
     // 将图像传入编码器
