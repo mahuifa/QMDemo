@@ -1,5 +1,10 @@
 #---------------------------------------------------------------------------------------
 # @功能：       需要opencv是包含ffmpeg的，如果不包含则打开本地视频功能和网络视频功能无法使用
+#              1、支持打开本地摄像头；
+#              2、支持打开网络视频流，如rtsp、rtmp、http等；
+#              3、支持打开本地视频文件；
+#              4、支持显示图像自适应大小；
+#              5、支持将读取到的视频保存到本地；
 # @编译器：     MSVC2017-64（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
@@ -42,7 +47,7 @@ INCLUDEPATH += E:/lib/opencv_MSVC2/build/include
 DEPENDPATH += E:/lib/opencv_MSVC2/build/include
 
 #  定义程序版本号
-VERSION = 1.0.0
+VERSION = 1.1.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器

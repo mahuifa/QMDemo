@@ -26,9 +26,9 @@ DEPENDPATH += /home/mhf/lib/ffmpeg/ffmpeg-5-1-2/include
 }
 
 HEADERS += \
-    $$PWD/readthread.h \
-    $$PWD/videodecode.h \
-    $$PWD/videosave.h
+    $$PWD/readthread.h \        # 视频读取线程类
+    $$PWD/videodecode.h \       # ffmpeg解码类
+    $$PWD/videosave.h           # ffmpeg编码保存视频类
 
 SOURCES += \
     $$PWD/readthread.cpp \

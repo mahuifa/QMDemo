@@ -10,7 +10,6 @@
 #ifndef READTHREAD_H
 #define READTHREAD_H
 
-#include <QElapsedTimer>
 #include <QThread>
 #include <QTime>
 

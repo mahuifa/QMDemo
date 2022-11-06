@@ -111,16 +111,34 @@ void VideoDisplay::quitThread()
  */
 void VideoDisplay::readImage()
 {
+    //获取当前摄像头的视频长宽信息
+    Size s = Size(int(m_cap->get(CAP_PROP_FRAME_WIDTH)), int(m_cap->get(CAP_PROP_FRAME_HEIGHT)));
+    VideoWriter   writer;
+    double fps = m_cap->get(CAP_PROP_FPS);   // 获取帧率，有时候获取不到帧率，如摄像头，就使用默认帧率25
+    if(fps < 1)
+    {
+        fps = 25;
+    }
+    writer.open("./1.avi", VideoWriter::fourcc('M','J','P','G'), fps, s, true);   // 打开保存视频文件，帧率25
+
     while (m_play && m_cap->isOpened())
     {
         bool ret = m_cap->read(mat);
         if(ret)
         {
+            if(writer.isOpened())
+            {
+                writer.write(mat);   // 保存视频
+            }
             emit this->updateImage(MatToQImage(mat));   // 将mat转换为Qimage并发送给显示界面
         }
+        else
+        {
+            QThread::msleep(1);           // 防止频繁读取或者读取不到
+        }
 
-        QThread::msleep(1);           // 防止频繁读取或者读取不到
     }
+    writer.release();
     m_play = true;
 }
 
