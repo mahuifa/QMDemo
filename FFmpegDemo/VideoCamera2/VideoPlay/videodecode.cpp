@@ -88,9 +88,9 @@ bool VideoDecode::open(const QString &url)
      */
     // 设置解码器（Linux下打开本地摄像头默认为rawvideo解码器，输入图像为YUYV420，不方便显示，有两种解决办法，1：使用sws_scale把YUYV422转为YUVJ422P；2：指定mjpeg解码器输出YUVJ422P图像）
     av_dict_set(&dict, "input_format", "mjpeg", AV_OPT_SEARCH_CHILDREN);
-    av_dict_set(&dict, "framerate", "30", 0);             // 设置帧率
-//    av_dict_set(&dict, "pixel_format", "yuvj422p", 0);   // 设置像素格式
-//    av_dict_set(&dict, "video_size", "1280x720", 0);       // 设置视频分辨率（如果该分辨率摄像头不支持则会报错）
+    av_dict_set(&dict, "framerate", "30", 0);                // 设置帧率
+//    av_dict_set(&dict, "pixel_format", "yuvj422p", 0);     // 设置像素格式
+    av_dict_set(&dict, "video_size", "1280x720", 0);       // 设置视频分辨率（如果该分辨率摄像头不支持则会报错）
 
     // 打开输入流并返回解封装上下文
     int ret = avformat_open_input(&m_formatContext,          // 返回解封装上下文

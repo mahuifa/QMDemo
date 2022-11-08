@@ -10,7 +10,7 @@
 #             2、采用【OpenGL显示YUV】图像，支持自适应窗口缩放，支持使用QOpenGLWidget、QOpenGLWindow显示；
 #             3、将YUV转RGB的步骤由CPU转换改为使用GPU转换，降低CPU占用率；
 #             4、支持Windows、Linux打开本地摄像头；
-#             5、支持使用静态帧率录制视频；
+#             5、支持使用【静态帧率】、【动态帧率】录制视频；
 #             6、视频解码、线程控制、显示各部分功能分离，低耦合度。
 #             7、采用最新的5.1.2版本ffmpeg库进行开发，超详细注释信息，将所有踩过的坑、解决办法、注意事项都得很写清楚。
 #---------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ include(./VideoPlay/VideoPlay.pri)
 INCLUDEPATH += ./VideoPlay
 
 #  定义程序版本号
-VERSION = 1.1.2
+VERSION = 1.2.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 TARGET  = VideoCamera2
 

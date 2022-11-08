@@ -47,7 +47,13 @@ bool VideoSave::open(AVStream *inStream, const QString &fileName)
 #if USE_H264
     int ret = avformat_alloc_output_context2(&m_formatContext, nullptr, "h264", fileName.toStdString().data());
 #else
-    int ret = avformat_alloc_output_context2(&m_formatContext, nullptr, "mjpeg", fileName.toStdString().data());  // 这里使用和解码一样的编码器，防止保存的图像颜色出问题
+    /**
+     * 摄像头打开使用的是mjpeg编码器；
+     * MJPEG压缩技术可以获取清晰度很高的视频图像，可以【动态调整帧率】适合保存摄像头视频、分辨率。但由于没有考虑到帧间变化，造成大量冗余信息被重复存储，因此单帧视频的占用空间较大；
+     * 如果采用其它编码器，由于摄像头曝光时间长度不一定，所以录像时帧率一直在变，编码器指定固定帧率会导致视频一会快一会慢，效果很不好，适用于录制固定帧率的视频（当然其它编码器应该是有处理办法，不过我还不清楚）；
+     */
+    QString strName = avcodec_find_encoder(inStream->codecpar->codec_id)->name;    // 获取编码器名称
+    int ret = avformat_alloc_output_context2(&m_formatContext, nullptr, strName.toStdString().data(), fileName.toStdString().data());  // 这里使用和解码一样的编码器，防止保存的图像颜色出问题
 #endif
     if(ret < 0)
     {
@@ -83,13 +89,18 @@ bool VideoSave::open(AVStream *inStream, const QString &fileName)
         return false;
     }
     // 设置编码器上下文参数
-    m_codecContext->width = inStream->codecpar->width;     // 图片宽度/高度
+    m_codecContext->width = inStream->codecpar->width;                          // 图片宽度/高度
     m_codecContext->height = inStream->codecpar->height;
-    m_codecContext->pix_fmt = AV_PIX_FMT_YUVJ422P;         // 像素格式，也可以使用codec->pix_fmts[0]或AV_PIX_FMT_YUVJ422P(【注意】摄像头解码的图像格式为yuvj422p，如果这里不一样可能保存会出问题，或者后面进行格式转换)
-    m_codecContext->time_base = {1, 20};                   //设置时间基，20为分母，1为分子，表示以1/20秒时间间隔播放一帧图像
-    m_codecContext->framerate = {20, 1};
+#if USE_H264
+    m_codecContext->pix_fmt = AV_PIX_FMT_YUV420P;
+#else
+    m_codecContext->pix_fmt = AVPixelFormat(inStream->codecpar->format);        // 像素格式，也可以使用codec->pix_fmts[0]或AV_PIX_FMT_YUVJ422P(【注意】摄像头解码的图像格式为yuvj422p，如果这里不一样可能保存会出问题，或者后面进行格式转换)
+#endif
+    m_codecContext->time_base = {1, 10};                   //设置时间基，20为分母，1为分子，表示以1/20秒时间间隔播放一帧图像
+    m_codecContext->framerate = {10, 1};
     m_codecContext->bit_rate = 4000000;                    // 目标的码率，即采样的码率；显然，采样码率越大，视频大小越大，画质越高
     m_codecContext->gop_size = 10;                         // I帧间隔
+    m_codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 //    m_codecContext->max_b_frames = 1;                      // 非B帧之间的最大B帧数(有些格式不支持)
 //    m_codecContext->qmin = 1;
 //    m_codecContext->qmax = 5;
@@ -169,7 +180,6 @@ void VideoSave::write(AVFrame *frame)
     {
         frame->pts = m_index;
         m_index++;
-            qDebug() << frame->format;
     }
 
     // 将图像传入编码器
