@@ -13,9 +13,10 @@
 | VideoPlayGL2  | 使用ffmpeg音视频库【软解码 + OpenGL显示YUV图像】实现的视频播放器； |
 | VideoPlayHW   | 使用ffmpeg音视频库【硬解码】实现的视频播放器；               |
 | VideoPlayHWGL | 使用ffmpeg音视频库【软/硬解码 + OpenGL显示YUV/NV12】实现的视频播放器； |
-| VideoCamera1  | FFmpeg打开本地摄像头简单示例（软解码+OpenGL）                |
-| AVIOReading   | API示例程序，演示如何从通过AVIOContext访问的自定义缓冲区读取数据。 |
-| DecodeAudio   | 使用libavcodec API的音频解码示例（MP3转pcm）                 |
+| VideoCamera1  | FFmpeg打开本地摄像头简单示例（软解码+OpenGL）；              |
+| VideoCamera2  | 使用ffmpeg音视频库【软解码】打开本地摄像头【录制视频】保存到本地示例； |
+| AVIOReading   | API示例程序，演示如何从通过AVIOContext访问的自定义缓冲区读取数据； |
+| DecodeAudio   | 使用libavcodec API的音频解码示例（MP3转pcm）；               |
 
 
 
@@ -142,10 +143,24 @@
 > 1. 使用ffmpeg音视频库【软解码】打开【本地摄像头】；                                       
 > 2. 采用【OpenGL显示YUV】图像，支持自适应窗口缩放，支持使用QOpenGLWidget、QOpenGLWindow显示；
 > 3. 将YUV转RGB的步骤由CPU转换改为使用GPU转换，降低CPU占用率；                          
-> 4. 视频播放支持实时开始/关闭、暂停/继续播放；                                        
+> 4. 支持Windows、Linux打开本地摄像头；                                        
 > 5. 视频解码、线程控制、显示各部分功能分离，低耦合度。                                     
 > 6. 采用最新的5.1.2版本ffmpeg库进行开发，超详细注释信息，将所有踩过的坑、解决办法、注意事项都得很写清楚。      
 
 ![VideoCamera1](FFmpegDemo.assets/VideoCamera1.gif)
 
 ![image-20221027235118681](FFmpegDemo.assets/image-20221027235118681.png)
+
+
+
+### 1.9 VideoCamera2
+
+> 1. 使用ffmpeg音视频库【软解码】打开本地摄像头【录制视频】保存到本地；                             
+> 2. 采用【OpenGL显示YUV】图像，支持自适应窗口缩放，支持使用QOpenGLWidget、QOpenGLWindow显示； 
+> 3. 将YUV转RGB的步骤由CPU转换改为使用GPU转换，降低CPU占用率；                           
+> 4. 支持Windows、Linux打开本地摄像头；                                        
+> 5. 支持使用【静态帧率】、【动态帧率】录制视频；                                         
+> 6. 视频解码、线程控制、显示各部分功能分离，低耦合度。                                      
+> 7. 采用最新的5.1.2版本ffmpeg库进行开发，超详细注释信息，将所有踩过的坑、解决办法、注意事项都得很写清楚。       
+
+![VideoCamera2-tuya](FFmpegDemo.assets/VideoCamera2-tuya.gif)
