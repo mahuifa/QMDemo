@@ -6,14 +6,15 @@
 
 ## 1、说明
 
-| 类名             | 功能                               | 支持系统       |
-| ---------------- | ---------------------------------- | -------------- |
-| QMWidget         | 基于QWidget实现的自定义窗口模块    | windows        |
-| DeviceManagement | 串口、鼠标、键盘热插拔监测功能模块 | windows        |
-| QLog             | Qt日志系统                         |                |
-| QMPlayer         | Qt实现的视频播放器界面Demo         | windows        |
-| TestCrashHandler | windows下程序崩溃定位Demo          | windows        |
-| NtpClient        | NTP时间同步客户端                  | Windows、Linux |
+| 类名             | 功能                                     | 支持系统       |
+| ---------------- | ---------------------------------------- | -------------- |
+| QMWidget         | 基于QWidget实现的自定义窗口模块          | windows        |
+| DeviceManagement | 串口、鼠标、键盘热插拔监测功能模块       | windows        |
+| QLog             | Qt日志系统                               |                |
+| QMPlayer         | Qt实现的视频播放器界面Demo               | windows        |
+| TestCrashHandler | windows下程序崩溃定位Demo                | windows        |
+| NtpClient        | NTP时间同步客户端                        | Windows、Linux |
+| WindowRect       | 框选鼠标当前位置窗口范围（类似窗口截图） | Windows、Linux |
 
 
 
@@ -115,3 +116,19 @@
 > 2. Linux下编译后使用【sudo ./NtpClient】 运行程序。
 
 ![NtpClient](FunctionalModule.assets/NtpClient.gif)
+
+
+
+### 1.7 WindowRect
+
+> 1. 框选鼠标当前位置窗口范围（类似窗口截图）
+> 2. 使用WindowsAPI实现windows下功能；     
+> 3. 使用x11 API实现linux（ubuntu）下功能。  
+
+* windows
+
+![windowRect1-tuya](FunctionalModule.assets/windowRect1-tuya.gif)
+
+* linux
+
+![windowRect2-tuya](FunctionalModule.assets/windowRect2-tuya.gif)
