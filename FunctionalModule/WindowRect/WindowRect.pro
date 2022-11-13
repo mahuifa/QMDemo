@@ -1,7 +1,8 @@
 #---------------------------------------------------------------------------------------
 # @功能：       框选鼠标当前位置窗口范围（类似窗口截图）
 #              1.使用WindowsAPI实现windows下功能；
-#              2.使用x11 API实现linux（ubuntu）下功能。
+#              2.使用x11 API实现linux（ubuntu）下功能；
+#              3.windows下使用鼠标钩子解决鼠标穿透后无法获取鼠标点击事件问题。
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
@@ -28,7 +29,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 #  定义程序版本号
-VERSION = 1.1.0
+VERSION = 1.2.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
