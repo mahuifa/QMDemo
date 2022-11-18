@@ -1,5 +1,9 @@
 #---------------------------------------------------------------------------------------
 # @功能：       Qt实现截图工具
+#              1、实现Windows、linux系统下截图功能；
+#              2、实现全屏截图、矩形截图、窗口截图功能；
+#              3、实现保存截图、取消截图功能；
+#              4、实时显示截取的图片。
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
@@ -20,13 +24,15 @@ FORMS += \
 HEADERS += \
     mainwindow.h \
     playimage.h \
-    screenrect.h
+    screenrect.h \
+    windowrect.h
 
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
     playimage.cpp \
-    screenrect.cpp
+    screenrect.cpp \
+    windowrect.cpp
 
 
 # Default rules for deployment.

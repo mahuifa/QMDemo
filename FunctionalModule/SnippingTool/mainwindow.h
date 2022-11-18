@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <qtoolbutton.h>
 #include "screenrect.h"
+#include "windowrect.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,5 +31,6 @@ private:
     QToolButton* m_butModel = nullptr;
     QPixmap m_pixmap;                    // 保存截取的图像
     ScreenRect m_screenRect;
+    WindowRect m_windowRect;
 };
 #endif // MAINWINDOW_H

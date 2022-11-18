@@ -9,12 +9,15 @@
 #include <QToolBar>
 #include <QDebug>
 #include <QFileDialog>
+#include <QDateTime>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle(QString("Qt-截图工具 - V%1").arg(APP_VERSION));
 
     // 设置工具栏
     QAction* acNew   = new QAction("新建截图");
@@ -39,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(acSave, &QAction::triggered, this, &MainWindow::on_saveImage);
     connect(acClear, &QAction::triggered, this, &MainWindow::on_clearImage);
     connect(&m_screenRect, &ScreenRect::selectRect, this, &MainWindow::on_selectRect);
-
+    connect(&m_windowRect, &WindowRect::selectRect, this, &MainWindow::on_selectRect);
 
 }
 
@@ -72,7 +75,8 @@ void MainWindow::on_newGrab(bool checked)
     }
     else if(strModel == "窗口")
     {
-
+        this->hide();
+        m_windowRect.show();
     }
     else
     {
@@ -85,15 +89,23 @@ void MainWindow::on_newGrab(bool checked)
  */
 void MainWindow::grabPixmap(QRect rect)
 {
-//    this->hide();            // 截图之前将当前窗口隐藏，避免截取的图像中包含当前窗口，这种方法很慢，需要延时等待几百毫秒，否则还是会有当前窗口
-
+#if defined(Q_OS_WIN)
     setWindowOpacity(0);       // 最好的方法是将当前窗口设置成完全透明
     QDesktopWidget *desk = QApplication::desktop();         // 获取桌面根窗口
     QScreen * screen = QGuiApplication::primaryScreen();    // 获取默认屏幕
     m_pixmap = screen->grabWindow(desk->winId(), rect.x(), rect.y(), rect.width(), rect.height());          // 抓取屏幕图像
     ui->centralwidget->updatePixmap(m_pixmap);                     // 显示捕获的图像
-//    this->show();            // 截图完成后显示窗口
     setWindowOpacity(1);
+#elif defined(Q_OS_LINUX)
+    // linux下setWindowOpacity设置透明后截图还可以看到一个透明的边框，效果不是很好，所以使用hide
+    this->hide();            // 截图之前将当前窗口隐藏，避免截取的图像中包含当前窗口，这种方法很慢，需要延时等待几百毫秒，否则还是会有当前窗口
+    QThread::msleep(300);
+    QDesktopWidget *desk = QApplication::desktop();         // 获取桌面根窗口
+    QScreen * screen = QGuiApplication::primaryScreen();    // 获取默认屏幕
+    m_pixmap = screen->grabWindow(desk->winId(), rect.x(), rect.y(), rect.width(), rect.height());          // 抓取屏幕图像
+    ui->centralwidget->updatePixmap(m_pixmap);                     // 显示捕获的图像
+    this->show();            // 截图完成后显示窗口
+#endif
 }
 
 /**
@@ -105,7 +117,9 @@ void MainWindow::on_saveImage(bool checked)
     Q_UNUSED(checked)
     if(m_pixmap.isNull()) return;
 
-    QString strName = QFileDialog::getSaveFileName(this, "保存到", "./", "便携式网络图形(*.png);;JPEG文件(*.jpg)");
+    // linux下getSaveFileName不会返回默认文件后缀，所以需要在文件名中添加后缀，否则QImage::save无法通过后缀推测出文件类型，就会保存失败
+    QString name = QString("%1.png").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss"));
+    QString strName = QFileDialog::getSaveFileName(this, "保存到", name, "便携式网络图形(*.png);;JPEG文件(*.jpg)");
     if(strName.isEmpty()) return;
 
     QImage image = m_pixmap.toImage();
@@ -115,7 +129,7 @@ void MainWindow::on_saveImage(bool checked)
     }
     else
     {
-        qDebug() << "保存失败！";
+        QMessageBox::warning(this, "注意！", "文件保存失败，请检查有没有输入文件后缀名。");
     }
 }
 
