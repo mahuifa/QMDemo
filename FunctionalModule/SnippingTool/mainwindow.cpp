@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(acNew, &QAction::triggered, this, &MainWindow::on_newGrab);
     connect(acSave, &QAction::triggered, this, &MainWindow::on_saveImage);
     connect(acClear, &QAction::triggered, this, &MainWindow::on_clearImage);
+    connect(&m_screenRect, &ScreenRect::selectRect, this, &MainWindow::on_selectRect);
 
 
 }
@@ -66,7 +67,8 @@ void MainWindow::on_newGrab(bool checked)
     }
     else if(strModel == "矩形")
     {
-
+        this->hide();
+        m_screenRect.show();
     }
     else if(strModel == "窗口")
     {
@@ -127,4 +129,14 @@ void MainWindow::on_clearImage(bool checked)
     if(m_pixmap.isNull()) return;
     m_pixmap = QPixmap();
     ui->centralwidget->updatePixmap(m_pixmap);
+}
+
+/**
+ * @brief        矩形选择截图
+ * @param rect
+ */
+void MainWindow::on_selectRect(QRect rect)
+{
+    this->show();
+    grabPixmap(rect);
 }

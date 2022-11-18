@@ -19,12 +19,14 @@ FORMS += \
 
 HEADERS += \
     mainwindow.h \
-    playimage.h
+    playimage.h \
+    screenrect.h
 
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    playimage.cpp
+    playimage.cpp \
+    screenrect.cpp
 
 
 # Default rules for deployment.
