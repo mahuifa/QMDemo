@@ -20,22 +20,21 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle(QString("Qt-截图工具 - V%1").arg(APP_VERSION));
 
     // 设置工具栏
-    QAction* acNew   = new QAction("新建截图");
-    QAction* acSave  = new QAction("保存截图");
-    QAction* acClear  = new QAction("取消截图");
+    QAction* acNew    = new QAction(QIcon(":/img/剪切.ico"), "新建截图");
+    QAction* acSave   = new QAction(QIcon(":/img/保存.ico"), "保存截图");
+    QAction* acClear  = new QAction(QIcon(":/img/取消.ico"), "取消截图");
+    m_acModel         = new QAction(QIcon(":/img/选区.ico"), "截图模式");
     QMenu* menu = new QMenu(this);
     menu->addAction(new QAction("全屏", this));
     menu->addAction(new QAction("矩形", this));
     menu->addAction(new QAction("窗口", this));
-    m_butModel = new QToolButton();
-    m_butModel->setPopupMode(QToolButton::InstantPopup);
-    m_butModel->setMenu(menu);
-    m_butModel->setText("模式");
     QToolBar* toolbar = new QToolBar(this);
+    m_acModel->setMenu(menu);
     toolbar->addAction(acNew);
-    toolbar->addWidget(m_butModel);
+    toolbar->addAction(m_acModel);
     toolbar->addAction(acSave);
     toolbar->addAction(acClear);
+    toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     this->addToolBar(Qt::TopToolBarArea, toolbar);   // 添加工具栏
     connect(menu, &QMenu::triggered, this, &MainWindow::on_triggered);
     connect(acNew, &QAction::triggered, this, &MainWindow::on_newGrab);
@@ -57,13 +56,13 @@ MainWindow::~MainWindow()
  */
 void MainWindow::on_triggered(QAction *action)
 {
-    m_butModel->setText(action->text());
+    m_acModel->setText(action->text());
 }
 
 void MainWindow::on_newGrab(bool checked)
 {
     Q_UNUSED(checked)
-    QString strModel = m_butModel->text();
+    QString strModel = m_acModel->text();
     if(strModel == "全屏")
     {
         grabPixmap(QRect(0, 0, -1, -1));

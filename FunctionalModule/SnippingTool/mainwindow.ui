@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">/********************QToolBar样式**********************/
 QToolButton {
-	width: 80px;
+	width: 100px;
 	height: 30px;
 }
 </string>

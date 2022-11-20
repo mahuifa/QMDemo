@@ -28,7 +28,7 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    QToolButton* m_butModel = nullptr;
+    QAction* m_acModel = nullptr;
     QPixmap m_pixmap;                    // 保存截取的图像
     ScreenRect m_screenRect;
     WindowRect m_windowRect;
