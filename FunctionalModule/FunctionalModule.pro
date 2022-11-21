@@ -10,8 +10,9 @@
 #---------------------------------------------------------------------------------------
 TEMPLATE = subdirs
 
-SUBDIRS += QMWidget \                       # qt自定义窗口
-    WindowRect
+SUBDIRS += QMWidget                       # qt自定义窗口
+SUBDIRS += WindowRect                     # 使用透明窗口框选鼠标所在窗口范围
+SUBDIRS += SnippingTool                   # Qt实现截图工具
 SUBDIRS += DeviceManagement               # 串口、鼠标、键盘热插拔检测模块
 SUBDIRS += QLog                           # 自定义日志系统
 SUBDIRS += QMPlayer                       # 视频播放器界面

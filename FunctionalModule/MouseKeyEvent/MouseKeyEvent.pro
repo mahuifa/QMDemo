@@ -1,14 +1,13 @@
 #---------------------------------------------------------------------------------------
-# @功能：       框选鼠标当前位置窗口范围（类似窗口截图）
-#              1.使用WindowsAPI实现windows下功能；
-#              2.使用x11 API实现linux（ubuntu）下功能；
-#              3.windows下使用鼠标钩子解决鼠标穿透后无法获取鼠标点击事件问题。
+# @功能：      全局鼠标、键盘事件示例
+#             1、windows下使用鼠标钩子实现全局鼠标监听功能；
+#             2、通过封装将Windows鼠标信号转换成Qt鼠标信号；
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
 # @开发者     mhf
 # @邮箱       1603291350@qq.com
-# @时间       2022-11-10 20:32:00
+# @时间       2022-11-13 22:23:08
 # @备注
 #---------------------------------------------------------------------------------------
 QT       += core gui
@@ -23,13 +22,16 @@ SOURCES += \
 HEADERS += \
     widget.h
 
+FORMS += \
+    widget.ui
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 #  定义程序版本号
-VERSION = 1.2.0
+VERSION = 1.0.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
@@ -45,8 +47,5 @@ QMAKE_CXXFLAGS += /utf-8
 
 win32 {
 LIBS+= -luser32    # 使用WindowsAPI需要链接库
-}
-unix:!macx{
-LIBS += -lX11      # linux获取窗口信息需要用到xlib
 }
 

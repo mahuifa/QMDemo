@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/保存.ico</file>
+        <file>img/剪切.ico</file>
+        <file>img/取消.ico</file>
+        <file>img/选区.ico</file>
+    </qresource>
+</RCC>

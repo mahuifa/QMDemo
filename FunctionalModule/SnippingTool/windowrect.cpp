@@ -1,9 +1,10 @@
-#include "widget.h"
+#include "windowrect.h"
 #include <QDebug>
-#include <qgridlayout.h>
+#include <QGridLayout>
+#include <QEvent>
+#include <QMouseEvent>
 
 #if defined(Q_OS_WIN)
-#include <QPushButton>
 #include <Windows.h>
 #include <windef.h>
 #elif defined(Q_OS_LINUX)
@@ -27,13 +28,7 @@ LRESULT CALLBACK CallBackProc(int nCode, WPARAM wParam, LPARAM lParam)
     {
     case WM_LBUTTONDOWN:   // 鼠标左键按下
     {
-        POINT pos;
-        bool ret = GetCursorPos(&pos);
-        if(ret)
-        {
-            qDebug() << pos.x <<" " << pos.y;
-        }
-        qDebug() << "鼠标左键按下";
+        emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
         break;
     }
     default:
@@ -43,11 +38,8 @@ LRESULT CALLBACK CallBackProc(int nCode, WPARAM wParam, LPARAM lParam)
 }
 #endif
 
-
-Widget::Widget(QWidget *parent)
-    : QWidget(parent)
+WindowRect::WindowRect(QWidget *parent) : QWidget(parent)
 {
-    this->setWindowTitle(QString("Qt-框选鼠标当前位置窗口范围 - V%1").arg(APP_VERSION));
 #if defined(Q_OS_WIN)
     // linux下鼠标穿透要放在后面两行代码的全前面，否则无效(但是鼠标穿透了会导致一些奇怪的问题，如窗口显示不全，所以这里不使用)
     // windows下如果不设置鼠标穿透则只能捕获到当前窗口
@@ -57,20 +49,6 @@ Widget::Widget(QWidget *parent)
     this->setAttribute(Qt::WA_TranslucentBackground);                         // 背景透明
     this->setWindowFlags(this->windowFlags() | Qt::WindowStaysOnTopHint);     // 设置顶级窗口，防止遮挡
 
-#if defined(Q_OS_WIN)
-    // 由于windows不透明的窗体如果不设置设置鼠标穿透WindowFromPoint只能捕捉到当前窗体，而设置鼠标穿透后想要获取鼠标事件只能通过鼠标钩子
-    g_hook = SetWindowsHookExW(WH_MOUSE_LL, CallBackProc, GetModuleHandleW(nullptr), 0);  // 挂载全局鼠标钩子
-    if (g_hook)
-    {
-        qDebug() << "鼠标钩子挂接成功,线程ID:" << GetCurrentThreadId();
-
-    }
-    else
-    {
-        qDebug() << "鼠标钩子挂接失败:" << GetLastError();
-    }
-#endif
-
     // 在当前窗口上增加一层QWidget，否则不会显示边框
     QGridLayout* gridLayout = new QGridLayout(this);
     gridLayout->setSpacing(0);
@@ -79,13 +57,13 @@ Widget::Widget(QWidget *parent)
 
     this->setStyleSheet(" background-color: rgba(58, 196, 255, 40); border: 2px solid rgba(58, 196, 255, 200);"); // 设置窗口边框样式 dashed虚线，solid 实线
 
+    connect(MouseEvent::getInstance(), &MouseEvent::mouseSignal, this, &WindowRect::on_mouseSignal);
     // 使用定时器定时获取当前鼠标位置的窗口位置信息
-    connect(&m_timer, &QTimer::timeout, this, &Widget::on_timeout);
+    connect(&m_timer, &QTimer::timeout, this, &WindowRect::on_timeout);
     m_timer.start(200);
-
 }
 
-Widget::~Widget()
+WindowRect::~WindowRect()
 {
 #if defined(Q_OS_WIN)
     if(g_hook)
@@ -99,7 +77,74 @@ Widget::~Widget()
 #endif
 }
 
-void Widget::on_timeout()
+/**
+ * @brief         通过截图全局鼠标事件将当前窗口大小发生出去
+ * @param event
+ */
+void WindowRect::on_mouseSignal(QEvent *event)
+{
+    delete event;
+    this->hide();
+    emit this->selectRect(QRect(this->pos(), this->size()));
+}
+
+/**
+ * @brief        Windows使用全局鼠标钩子，显示窗口时挂载鼠标钩子
+ * @param event
+ */
+void WindowRect::showEvent(QShowEvent *event)
+{
+#if defined(Q_OS_WIN)
+    // 由于windows不透明的窗体如果不设置设置鼠标穿透WindowFromPoint只能捕捉到当前窗体，而设置鼠标穿透后想要获取鼠标事件只能通过鼠标钩子
+    g_hook = SetWindowsHookExW(WH_MOUSE_LL, CallBackProc, GetModuleHandleW(nullptr), 0);  // 挂载全局鼠标钩子
+    if (g_hook)
+    {
+        qDebug() << "鼠标钩子挂接成功,线程ID:" << GetCurrentThreadId();
+
+    }
+    else
+    {
+        qDebug() << "鼠标钩子挂接失败:" << GetLastError();
+    }
+#endif
+    QWidget::showEvent(event);
+}
+
+/**
+ * @brief       隐藏窗口时卸载鼠标钩子
+ * @param event
+ */
+void WindowRect::hideEvent(QHideEvent *event)
+{
+#if defined(Q_OS_WIN)
+    if(g_hook)
+    {
+        bool ret = UnhookWindowsHookEx(g_hook);
+        if(ret)
+        {
+            qDebug() << "卸载鼠标钩子。";
+            g_hook = nullptr;
+        }
+    }
+#endif
+    QWidget::hideEvent(event);
+}
+
+/**
+ * @brief        linux下使用自带的鼠标点击事件就可以
+ * @param event
+ */
+void WindowRect::mousePressEvent(QMouseEvent *event)
+{
+#if defined(Q_OS_LINUX)
+    this->hide();
+    emit this->selectRect(QRect(this->pos(), this->size()));
+#endif
+    QWidget::mousePressEvent(event);
+}
+
+
+void WindowRect::on_timeout()
 {
     QPoint point = QCursor::pos();  // 获取鼠标当前位置
 #if defined(Q_OS_WIN)
