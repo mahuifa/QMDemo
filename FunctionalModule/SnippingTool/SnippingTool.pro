@@ -3,7 +3,7 @@
 #              1、实现Windows、linux系统下截图功能；
 #              2、实现全屏截图、矩形截图、窗口截图功能；
 #              3、实现保存截图、取消截图功能；
-#              4、实时显示截取的图片。
+#              4、使用QPainter实时显示截取的图片。
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
@@ -40,7 +40,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 #  定义程序版本号
-VERSION = 1.0.0
+VERSION = 1.1.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 RC_ICONS = icon.ico             # 设置程序图标
 

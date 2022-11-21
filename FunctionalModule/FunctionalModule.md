@@ -16,6 +16,7 @@
 | NtpClient        | NTP时间同步客户端                        | Windows、Linux |
 | WindowRect       | 框选鼠标当前位置窗口范围（类似窗口截图） | Windows、Linux |
 | MouseKeyEvent    | Qt实现自定义全局鼠标键盘事件监听器Demo   | Windows        |
+| SnippingTool     | Qt实现截图工具                           | Windows、Linux |
 
 
 
@@ -147,3 +148,18 @@ Qt自身的鼠标事件、事件过滤器一般当鼠标移出窗口或者遇见
 * 全局鼠标监听
 
 ![mouseEvent-tuya](FunctionalModule.assets/mouseEvent-tuya.gif)
+
+
+
+### 1.9 SnippingTool
+
+* 使用Qt编写的一个截图工具软件，支持Windows、linux系统，无第三方依赖，均使用Qt库或者系统库实现。
+
+> 1. 实现Windows、linux系统下截图功能；  
+> 2. 实现全屏截图、矩形截图、窗口截图功能；      
+> 3. 实现保存截图、取消截图功能；           
+> 4. 使用QPainter实时显示截取的图片；
+> 5. 使用自定义全局 鼠标事件监听器解决截图时窗口透明导致的鼠标穿透而无法捕捉到鼠标事件问题。
+> 6. Windows下使用user32获取鼠标所在位置窗口大小，Linux下使用x11获取鼠标所在位置窗口大小。
+
+![image-20221121125725058](FunctionalModule.assets/image-20221121125725058.png)
