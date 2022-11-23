@@ -20,4 +20,5 @@ SUBDIRS += NtpClient                      # NTP时间同步客户端（需要管
 
 win32 {
 SUBDIRS += TestCrashHandler               # windows下Qt程序崩溃问题定位Demo（只在msvc编译下有效）
+SUBDIRS += MouseKeyEvent                  # 自定义全局鼠标键盘事件监听器
 }

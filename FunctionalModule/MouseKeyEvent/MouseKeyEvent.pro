@@ -17,9 +17,11 @@ CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
+    mouseevent.cpp \
     widget.cpp
 
 HEADERS += \
+    mouseevent.h \            # 全局鼠标事件监听类
     widget.h
 
 FORMS += \
@@ -31,7 +33,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 #  定义程序版本号
-VERSION = 1.0.0
+VERSION = 1.1.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
