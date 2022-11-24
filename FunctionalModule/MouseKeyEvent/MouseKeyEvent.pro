@@ -2,6 +2,8 @@
 # @功能：      全局鼠标、键盘事件示例
 #             1、windows下使用鼠标钩子实现全局鼠标监听功能；
 #             2、通过封装将Windows鼠标信号转换成Qt鼠标信号；
+#             3、Linux下使用X11实现全局鼠标事件监听功能；
+#             4、通过封装将X11鼠标信号转换为Qt鼠标信号（功能比Windows鼠标钩子强）；
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
@@ -10,18 +12,19 @@
 # @时间       2022-11-13 22:23:08
 # @备注
 #---------------------------------------------------------------------------------------
-QT       += core gui
+QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
-    mouseevent.cpp \
+    mouseevent_win.cpp \      # windows全局鼠标事件监听器
+    mouseevent_x11.cpp \      # linux全局鼠标事件监听器
     widget.cpp
 
 HEADERS += \
-    mouseevent.h \            # 全局鼠标事件监听类
+    mouseevent.h \            # 全局鼠标事件监听类头文件
     widget.h
 
 FORMS += \
@@ -33,7 +36,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 #  定义程序版本号
-VERSION = 1.1.0
+VERSION = 1.2.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
@@ -49,5 +52,8 @@ QMAKE_CXXFLAGS += /utf-8
 
 win32 {
 LIBS+= -luser32    # 使用WindowsAPI需要链接库
+}
+unix:!macx{
+LIBS += -lX11 -lXtst      # linux获取窗口信息需要用到xlib -lXext
 }
 

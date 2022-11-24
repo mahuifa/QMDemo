@@ -43,6 +43,11 @@ void Widget::on_mouseSignal(QEvent* event)
             but = "右键";
             break;
         }
+        case Qt::MiddleButton:
+        {
+            but = "中键";
+            break;
+        }
         default:
         {
             but = "未知";
@@ -72,6 +77,11 @@ void Widget::on_mouseSignal(QEvent* event)
         case Qt::RightButton:
         {
             but = "右键";
+            break;
+        }
+        case Qt::MiddleButton:
+        {
+            but = "中键";
             break;
         }
         default:
