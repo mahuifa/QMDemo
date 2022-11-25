@@ -15,13 +15,13 @@
 /**
  *  全局鼠标事件单例信号类
  */
-class MouseEvent : public QObject
+class GlobalMouseEvent : public QObject
 {
     Q_OBJECT
 public:
-    static MouseEvent* getInstance()
+    static GlobalMouseEvent* getInstance()
     {
-        static MouseEvent mouseEvent;
+        static GlobalMouseEvent mouseEvent;
         return &mouseEvent;
     }
 
@@ -32,6 +32,6 @@ signals:
     void mouseSignal(QEvent* event);
 
 private:
-    MouseEvent(){}
+    GlobalMouseEvent(){}
 };
 #endif // MOUSEEVENT_H

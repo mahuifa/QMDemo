@@ -19,16 +19,16 @@ CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
-    mouseevent_win.cpp \      # windows全局鼠标事件监听器
-    mouseevent_x11.cpp \      # linux全局鼠标事件监听器
     widget.cpp
 
 HEADERS += \
-    mouseevent.h \            # 全局鼠标事件监听类头文件
     widget.h
 
 FORMS += \
     widget.ui
+
+include($$PWD/GlobalMouseKey/GlobalMouseKey.pri)
+INCLUDEPATH += $$PWD/GlobalMouseKey
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -36,7 +36,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 #  定义程序版本号
-VERSION = 1.2.0
+VERSION = 1.3.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
@@ -50,10 +50,4 @@ QMAKE_CFLAGS += /utf-8
 QMAKE_CXXFLAGS += /utf-8
 }
 
-win32 {
-LIBS+= -luser32    # 使用WindowsAPI需要链接库
-}
-unix:!macx{
-LIBS += -lX11 -lXtst      # linux获取窗口信息需要用到xlib -lXext
-}
 

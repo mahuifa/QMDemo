@@ -1,7 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include <QDebug>
-#include "mouseevent.h"
+#include "globalmouseevent.h"
 
 
 Widget::Widget(QWidget *parent)
@@ -11,7 +11,7 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
 
     this->setWindowTitle(QString("Qt-自定义全局鼠标监听Demo - V%1").arg(APP_VERSION));
-    connect(MouseEvent::getInstance(), &MouseEvent::mouseSignal, this, &Widget::on_mouseSignal);
+    connect(GlobalMouseEvent::getInstance(), &GlobalMouseEvent::mouseSignal, this, &Widget::on_mouseSignal);
 }
 
 Widget::~Widget()
@@ -113,7 +113,7 @@ void Widget::on_mouseSignal(QEvent* event)
  */
 void Widget::on_but_mouseI_clicked()
 {
-    bool ret = MouseEvent::installMouseEvent();
+    bool ret = GlobalMouseEvent::installMouseEvent();
     ui->textEdit->append(QString("<<<<<<<<<< 全局鼠标事件监听器安装%1 >>>>>>>>>>").arg(ret ? "成功" : "失败"));
 }
 
@@ -122,6 +122,6 @@ void Widget::on_but_mouseI_clicked()
  */
 void Widget::on_but_mouser_clicked()
 {
-    bool ret = MouseEvent::removeMouseEvent();
+    bool ret = GlobalMouseEvent::removeMouseEvent();
     ui->textEdit->append(QString("<<<<<<<<<< 全局鼠标事件监听器卸载%1 >>>>>>>>>>").arg(ret ? "成功" : "失败"));
 }

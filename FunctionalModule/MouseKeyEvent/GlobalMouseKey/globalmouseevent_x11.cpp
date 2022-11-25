@@ -1,4 +1,4 @@
-#include "mouseevent.h"
+#include "globalmouseevent.h"
 #if defined(Q_OS_LINUX)
 #include <QDebug>
 #include <QCursor>
@@ -7,7 +7,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
-#include <X11/extensions/record.h>
+#include <X11/extensions/record.h>     //  如果找不到可以安装sudo apt-get install xorg-dev
 #include <X11/Xlibint.h>
 
 
@@ -165,27 +165,27 @@ void callback(XPointer ptr, XRecordInterceptData* data)
             {
             case Button1:     // 左键按下
             {
-                emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
                 break;
             }
             case Button2:     // 中键按下
             {
-                emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             case Button3:     // 右键按下
             {
-                emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
                 break;
             }
             case Button4:     // 向前滚动
             {
-                emit MouseEvent::getInstance()->mouseSignal(new QWheelEvent(point, 120, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseSignal(new QWheelEvent(point, 120, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             case Button5:     // 向后滚动
             {
-                emit MouseEvent::getInstance()->mouseSignal(new QWheelEvent(point, -120, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseSignal(new QWheelEvent(point, -120, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             default:
@@ -198,7 +198,7 @@ void callback(XPointer ptr, XRecordInterceptData* data)
         }
         case MotionNotify:                              // 鼠标移动
         {
-            emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseMove, QCursor::pos(), Qt::NoButton, Qt::NoButton, Qt::NoModifier));
+            emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseMove, QCursor::pos(), Qt::NoButton, Qt::NoButton, Qt::NoModifier));
         }
         case ButtonRelease:                             // 鼠标释放
         {
@@ -207,17 +207,17 @@ void callback(XPointer ptr, XRecordInterceptData* data)
             {
             case Button1:   // 左键释放
             {
-                emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
                 break;
             }
             case Button2:   // 中键释放
             {
-                emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             case Button3:   // 右键释放
             {
-                emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
                 break;
             }
             case Button4:   // 向前滚动
@@ -261,7 +261,7 @@ void enableContext()
  * @brief  安装全局鼠标事件监听器
  * @return true：安装成功 false：失败
  */
-bool MouseEvent::installMouseEvent()
+bool GlobalMouseEvent::installMouseEvent()
 {
     bool ret = init();
     if(!ret) return false;
@@ -273,7 +273,7 @@ bool MouseEvent::installMouseEvent()
  * @brief   卸载全局鼠标事件监听器，注意：如果不卸载事件监听则导致子线程会一直存在，程序无法正常退出
  * @return  true：卸载成功 false：失败
  */
-bool MouseEvent::removeMouseEvent()
+bool GlobalMouseEvent::removeMouseEvent()
 {
     if(g_context == 0) return false;
 

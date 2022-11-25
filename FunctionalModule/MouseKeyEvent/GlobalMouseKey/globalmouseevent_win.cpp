@@ -1,4 +1,4 @@
-#include "mouseevent.h"
+#include "globalmouseevent.h"
 #if defined(Q_OS_WIN)
 #include <QDebug>
 #include <QCursor>
@@ -23,26 +23,26 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam)
     switch (wParam)
     {
     case WM_LBUTTONDOWN:   // 鼠标左键按下
-        emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+        emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
         break;
     case WM_MOUSEMOVE:     // 鼠标移动
-        emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseMove, point, Qt::NoButton, Qt::NoButton, Qt::NoModifier));
+        emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseMove, point, Qt::NoButton, Qt::NoButton, Qt::NoModifier));
         break;
     case WM_RBUTTONDOWN:   // 鼠标右键按下
-        emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
+        emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
         break;
     case WM_RBUTTONUP:     // 鼠标右键抬起
-        emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+        emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
         break;
     case WM_LBUTTONUP:     // 鼠标左键抬起
-        emit MouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
+        emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
         break;
     case WM_MOUSEWHEEL:    // 鼠标滚轮
     {
         MSLLHOOKSTRUCT * msll = reinterpret_cast<MSLLHOOKSTRUCT*>(lParam);
 //        qDebug() << QString("坐标：(%1, %2)").arg(msll->pt.x).arg(msll->pt.y);     // 获取鼠标坐标
         int delta = GET_WHEEL_DELTA_WPARAM(msll->mouseData);                     // 获取滚轮状态，向前：120，向后-120
-        emit MouseEvent::getInstance()->mouseSignal(new QWheelEvent(point, delta, Qt::MiddleButton, Qt::NoModifier));
+        emit GlobalMouseEvent::getInstance()->mouseSignal(new QWheelEvent(point, delta, Qt::MiddleButton, Qt::NoModifier));
         break;
     }
     default:
@@ -57,7 +57,7 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam)
  * @brief  安装全局鼠标事件监听器
  * @return
  */
-bool MouseEvent::installMouseEvent()
+bool GlobalMouseEvent::installMouseEvent()
 {
     if(g_hook) return true;     // 避免重复安装
     /**
@@ -72,7 +72,7 @@ bool MouseEvent::installMouseEvent()
  * @brief   卸载全局鼠标事件监听器
  * @return
  */
-bool MouseEvent::removeMouseEvent()
+bool GlobalMouseEvent::removeMouseEvent()
 {
     if(!g_hook) return true;   // 避免重复卸载
     bool ret = UnhookWindowsHookEx(g_hook);
