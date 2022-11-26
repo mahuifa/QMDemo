@@ -25,24 +25,6 @@ private:
     Ui::Widget *ui;
 };
 
-/**
- *  全局鼠标事件单例信号类
- */
-class MouseEvent : public QObject
-{
-    Q_OBJECT
-public:
-    static MouseEvent* getInstance()
-    {
-        static MouseEvent mouseEvent;
-        return &mouseEvent;
-    }
 
-signals:
-    void mouseSignal(QEvent* event);
-
-private:
-    MouseEvent(){}
-};
 
 #endif // WIDGET_H

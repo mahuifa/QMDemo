@@ -6,21 +6,26 @@
 
 ## 1、说明
 
-| 类名              | 功能                                               |
-| ----------------- | -------------------------------------------------- |
-| basicdrawing      | QPainter基本绘图Demo                               |
-| Transformations   | QPainter偏移原点、旋转、缩放功能Demo               |
+|       类名        | 功能                                               |
+| :---------------: | -------------------------------------------------- |
+|   basicdrawing    | QPainter基本绘图Demo                               |
+|  Transformations  | QPainter偏移原点、旋转、缩放功能Demo               |
 | Concentriccircles | QPainter绘制时【数据类型】和【抗锯齿】对效果的影响 |
-| PainterPaths      | QPainterPath使用示例                               |
-| PlayImage         | Qt使用QPainter绘制方式显示图片                     |
-| TransformDemo     | QTransform偏移原点、旋转、缩放功能Demo             |
+|   PainterPaths    | QPainterPath使用示例                               |
+|     PlayImage     | Qt使用QPainter绘制方式显示图片                     |
+|   TransformDemo   | QTransform偏移原点、旋转、缩放功能Demo             |
 
 
 
 
 ## 2、相关博客
 
-* [CSDN](https://blog.csdn.net/qq_43627907/category_11970609.html)
+|                           相关博客                           |
+| :----------------------------------------------------------: |
+| 👉[CSDN](https://blog.csdn.net/qq_43627907/category_11970609.html)👈 |
+
+
+
 
 ## 3、实现效果
 
