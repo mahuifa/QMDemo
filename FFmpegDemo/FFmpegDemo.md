@@ -6,24 +6,29 @@
 
 ## 1、说明
 
-| 类名          | 功能                                                         |
-| ------------- | ------------------------------------------------------------ |
-| VideoPlay     | 使用ffmpeg音视频库【软解码】实现的视频播放器；               |
+|     类名      | 功能                                                         |
+| :-----------: | ------------------------------------------------------------ |
+|   VideoPlay   | 使用ffmpeg音视频库【软解码】实现的视频播放器；               |
 | VideoPlayGL1  | 使用ffmpeg音视频库【软解码 + OpenGL显示RGB图像】实现的视频播放器； |
 | VideoPlayGL2  | 使用ffmpeg音视频库【软解码 + OpenGL显示YUV图像】实现的视频播放器； |
-| VideoPlayHW   | 使用ffmpeg音视频库【硬解码】实现的视频播放器；               |
+|  VideoPlayHW  | 使用ffmpeg音视频库【硬解码】实现的视频播放器；               |
 | VideoPlayHWGL | 使用ffmpeg音视频库【软/硬解码 + OpenGL显示YUV/NV12】实现的视频播放器； |
 | VideoCamera1  | FFmpeg打开本地摄像头简单示例（软解码+OpenGL）；              |
 | VideoCamera2  | 使用ffmpeg音视频库【软解码】打开本地摄像头【录制视频】保存到本地示例； |
-| AVIOReading   | API示例程序，演示如何从通过AVIOContext访问的自定义缓冲区读取数据； |
-| DecodeAudio   | 使用libavcodec API的音频解码示例（MP3转pcm）；               |
+|  AVIOReading  | API示例程序，演示如何从通过AVIOContext访问的自定义缓冲区读取数据； |
+|  DecodeAudio  | 使用libavcodec API的音频解码示例（MP3转pcm）；               |
 
 
 
 
 ## 2、相关博客
 
-* [CSDN](https://blog.csdn.net/qq_43627907/category_11660518.html?spm=1001.2014.3001.5482)
+|                           相关博客                           |
+| :----------------------------------------------------------: |
+| 👉[CSDN](https://blog.csdn.net/qq_43627907/category_11660518.html)👈 |
+
+
+
 
 ## 3、实现效果
 
