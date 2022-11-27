@@ -14,7 +14,7 @@ bool createConnection()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");  // 使用数据库驱动（Qsqlite）和默认连接名称（qt_sql_default_connection）添加一个数据库
 //    qDebug() << QSqlDatabase::defaultConnection;           // 打印默认数据库连接名称
-#if 0
+#if 1
     db.setDatabaseName("test.db");        // 使用文件数据库（可生成数据库文件，数据一直有效）
 #else
     db.setDatabaseName(":memory:");       // 使用内存数据库（不会生成数据库文件，所有数据都在内存中进行操作，性能强，程序退出后数据丢失）

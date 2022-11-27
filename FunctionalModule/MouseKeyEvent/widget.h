@@ -17,9 +17,14 @@ public:
 
 private slots:
     void on_mouseSignal(QEvent* event);
+    void on_keyEvent(QKeyEvent* event);
     void on_but_mouseI_clicked();
 
     void on_but_mouser_clicked();
+
+    void on_but_keyI_clicked();
+
+    void on_but_KeyR_clicked();
 
 private:
     Ui::Widget *ui;

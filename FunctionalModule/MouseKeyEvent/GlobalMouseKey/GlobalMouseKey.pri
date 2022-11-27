@@ -1,9 +1,11 @@
 QT       += concurrent
 
 HEADERS += \
+    $$PWD/globalkeyevent.h \
     $$PWD/globalmouseevent.h           # 全局鼠标事件监听类头文件
 
 SOURCES += \
+    $$PWD/globalkeyevent_win.cpp \
     $$PWD/globalmouseevent_win.cpp \   # windows全局鼠标事件监听器
     $$PWD/globalmouseevent_x11.cpp     # linux全局鼠标事件监听器
 

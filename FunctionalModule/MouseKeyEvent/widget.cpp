@@ -2,7 +2,7 @@
 #include "ui_widget.h"
 #include <QDebug>
 #include "globalmouseevent.h"
-
+#include "globalkeyevent.h"
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -12,6 +12,7 @@ Widget::Widget(QWidget *parent)
 
     this->setWindowTitle(QString("Qt-自定义全局鼠标监听Demo - V%1").arg(APP_VERSION));
     connect(GlobalMouseEvent::getInstance(), &GlobalMouseEvent::mouseSignal, this, &Widget::on_mouseSignal);
+    connect(GlobalKeyEvent::getInstance(), &GlobalKeyEvent::keyEvent, this, &Widget::on_keyEvent);
 }
 
 Widget::~Widget()
@@ -109,7 +110,7 @@ void Widget::on_mouseSignal(QEvent* event)
 }
 
 /**
- * @brief 安装全局鼠标钩子
+ * @brief 安装全局鼠标事件监听器
  */
 void Widget::on_but_mouseI_clicked()
 {
@@ -118,10 +119,38 @@ void Widget::on_but_mouseI_clicked()
 }
 
 /**
- * @brief 卸载鼠标钩子
+ * @brief 卸载全局鼠标事件监听器
  */
 void Widget::on_but_mouser_clicked()
 {
     bool ret = GlobalMouseEvent::removeMouseEvent();
     ui->textEdit->append(QString("<<<<<<<<<< 全局鼠标事件监听器卸载%1 >>>>>>>>>>").arg(ret ? "成功" : "失败"));
+}
+
+/**
+ * @brief        全局键盘事件
+ * @param event
+ */
+void Widget::on_keyEvent(QKeyEvent *event)
+{
+    qDebug() << Qt::Key(event->key()) << event->modifiers() << event->text();
+    delete event;
+}
+
+/**
+ * @brief 安装全局键盘事件监听器
+ */
+void Widget::on_but_keyI_clicked()
+{
+    bool ret = GlobalKeyEvent::installKeyEvent();
+    ui->textEdit->append(QString("<<<<<<<<<< 全局键盘事件监听器安装%1 >>>>>>>>>>").arg(ret ? "成功" : "失败"));
+}
+
+/**
+ * @brief 卸载全局键盘事件监听器
+ */
+void Widget::on_but_KeyR_clicked()
+{
+    bool ret = GlobalKeyEvent::removeKeyEvent();
+    ui->textEdit->append(QString("<<<<<<<<<< 全局键盘事件监听器卸载%1 >>>>>>>>>>").arg(ret ? "成功" : "失败"));
 }
