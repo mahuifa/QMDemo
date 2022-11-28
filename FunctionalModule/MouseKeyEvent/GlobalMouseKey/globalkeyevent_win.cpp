@@ -365,7 +365,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
     case WM_KEYDOWN:      // 按下非系统键， 非系统键是未按下 ALT 键时按下的键
     {
         quint32 key = toKeyOrUnicode(kbdll->vkCode, kbdll->scanCode, &isDeadKey);
-        emit GlobalKeyEvent::getInstance()->keyEvent(new QKeyEvent(QEvent::KeyPress, key, modifiers));
+        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyPress, key, modifiers));
         break;
     }
     case WM_KEYUP:        // 当释放非系统键

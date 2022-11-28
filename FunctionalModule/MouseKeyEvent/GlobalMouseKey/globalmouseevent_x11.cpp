@@ -165,27 +165,27 @@ void callback(XPointer ptr, XRecordInterceptData* data)
             {
             case Button1:     // 左键按下
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(QMouseEvent(QEvent::MouseButtonPress, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
                 break;
             }
             case Button2:     // 中键按下
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(QMouseEvent(QEvent::MouseButtonPress, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             case Button3:     // 右键按下
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(QMouseEvent(QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
                 break;
             }
             case Button4:     // 向前滚动
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QWheelEvent(point, 120, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->wheelEvent(QWheelEvent(point, 120, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             case Button5:     // 向后滚动
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QWheelEvent(point, -120, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->wheelEvent(QWheelEvent(point, -120, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             default:
@@ -198,7 +198,7 @@ void callback(XPointer ptr, XRecordInterceptData* data)
         }
         case MotionNotify:                              // 鼠标移动
         {
-            emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseMove, QCursor::pos(), Qt::NoButton, Qt::NoButton, Qt::NoModifier));
+            emit GlobalMouseEvent::getInstance()->mouseEvent(QMouseEvent(QEvent::MouseMove, QCursor::pos(), Qt::NoButton, Qt::NoButton, Qt::NoModifier));
         }
         case ButtonRelease:                             // 鼠标释放
         {
@@ -207,17 +207,17 @@ void callback(XPointer ptr, XRecordInterceptData* data)
             {
             case Button1:   // 左键释放
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(QMouseEvent(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
                 break;
             }
             case Button2:   // 中键释放
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(QMouseEvent(QEvent::MouseButtonRelease, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             case Button3:   // 右键释放
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(QMouseEvent(QEvent::MouseButtonRelease, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
                 break;
             }
             case Button4:   // 向前滚动

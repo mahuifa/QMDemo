@@ -11,7 +11,7 @@
 #define MOUSEEVENT_H
 
 #include <QObject>
-
+#include <QMouseEvent>
 /**
  *  全局鼠标事件单例信号类
  */
@@ -29,7 +29,8 @@ public:
     static bool removeMouseEvent();       // 卸载全局鼠标事件监听器
 
 signals:
-    void mouseSignal(QEvent* event);
+    void mouseEvent(QMouseEvent event);
+    void wheelEvent(QWheelEvent event);
 
 private:
     GlobalMouseEvent(){}

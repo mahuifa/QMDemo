@@ -16,8 +16,9 @@ public:
     ~Widget();
 
 private slots:
-    void on_mouseSignal(QEvent* event);
-    void on_keyEvent(QKeyEvent* event);
+    void on_mouseEvent(QMouseEvent event);
+    void on_wheelEvent(QWheelEvent event);
+    void on_keyEvent(QKeyEvent event);
     void on_but_mouseI_clicked();
 
     void on_but_mouser_clicked();

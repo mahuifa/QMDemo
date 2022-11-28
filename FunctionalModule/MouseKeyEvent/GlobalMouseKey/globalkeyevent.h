@@ -2,8 +2,8 @@
 #define GLOBALKEYEVENT_H
 
 #include <QObject>
+#include <QKeyEvent>
 
-class QKeyEvent;
 /**
  *  全局鼠标事件单例信号类
  */
@@ -21,7 +21,7 @@ public:
     static bool removeKeyEvent();       // 卸载全局键盘事件监听器
 
 signals:
-    void keyEvent(QKeyEvent* event);
+    void keyEvent(QKeyEvent event);
 
 private:
     GlobalKeyEvent(){}

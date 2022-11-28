@@ -11,7 +11,8 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
 
     this->setWindowTitle(QString("Qt-自定义全局鼠标监听Demo - V%1").arg(APP_VERSION));
-    connect(GlobalMouseEvent::getInstance(), &GlobalMouseEvent::mouseSignal, this, &Widget::on_mouseSignal);
+    connect(GlobalMouseEvent::getInstance(), &GlobalMouseEvent::mouseEvent, this, &Widget::on_mouseEvent);
+    connect(GlobalMouseEvent::getInstance(), &GlobalMouseEvent::wheelEvent, this, &Widget::on_wheelEvent);
     connect(GlobalKeyEvent::getInstance(), &GlobalKeyEvent::keyEvent, this, &Widget::on_keyEvent);
 }
 
@@ -21,18 +22,17 @@ Widget::~Widget()
 }
 
 /**
- * @brief        获取全局鼠标事件
+ * @brief       全局鼠标事件
  * @param event
  */
-void Widget::on_mouseSignal(QEvent* event)
+void Widget::on_mouseEvent(QMouseEvent event)
 {
-    QMouseEvent* me = dynamic_cast<QMouseEvent*>(event);
-    switch (event->type())
+    switch (event.type())
     {
     case QEvent::MouseButtonPress:   // 鼠标按下
     {
         QString but;
-        switch (me->button())
+        switch (event.button())
         {
         case Qt::LeftButton:
         {
@@ -55,20 +55,20 @@ void Widget::on_mouseSignal(QEvent* event)
             break;
         }
         }
-        QString str = QString("鼠标%1按下：(x:%2, y:%3)").arg(but).arg(me->x()).arg(me->y());
+        QString str = QString("鼠标%1按下：(x:%2, y:%3)").arg(but).arg(event.x()).arg(event.y());
         ui->textEdit->append(str);
         break;
     }
     case QEvent::MouseMove:     // 鼠标移动
     {
-        QString str = QString("鼠标移动：(x:%1, y:%2)").arg(me->x()).arg(me->y());
+        QString str = QString("鼠标移动：(x:%1, y:%2)").arg(event.x()).arg(event.y());
         ui->textEdit->append(str);
         break;
     }
     case QEvent::MouseButtonRelease:     // 鼠标右键抬起
     {
         QString but;
-        switch (me->button())
+        switch (event.button())
         {
         case Qt::LeftButton:
         {
@@ -91,14 +91,7 @@ void Widget::on_mouseSignal(QEvent* event)
             break;
         }
         }
-        QString str = QString("鼠标%1释放：(x:%2, y:%3)").arg(but).arg(me->x()).arg(me->y());
-        ui->textEdit->append(str);
-        break;
-    }
-    case QEvent::Wheel:    // 鼠标滚轮
-    {
-        QWheelEvent* we = dynamic_cast<QWheelEvent*>(event);
-        QString str = QString("鼠标滚轮：%1，(x:%2, y:%3)").arg(we->delta() > 0 ? "向前" : "向后").arg(we->x()).arg(we->y());
+        QString str = QString("鼠标%1释放：(x:%2, y:%3)").arg(but).arg(event.x()).arg(event.y());
         ui->textEdit->append(str);
         break;
     }
@@ -106,7 +99,16 @@ void Widget::on_mouseSignal(QEvent* event)
         break;
     }
 
-    delete event;
+}
+
+/**
+ * @brief       全局鼠标滚轮事件
+ * @param event
+ */
+void Widget::on_wheelEvent(QWheelEvent event)
+{
+    QString str = QString("鼠标滚轮：%1，(x:%2, y:%3)").arg(event.delta() > 0 ? "向前" : "向后").arg(event.x()).arg(event.y());
+    ui->textEdit->append(str);
 }
 
 /**
@@ -131,10 +133,9 @@ void Widget::on_but_mouser_clicked()
  * @brief        全局键盘事件
  * @param event
  */
-void Widget::on_keyEvent(QKeyEvent *event)
+void Widget::on_keyEvent(QKeyEvent event)
 {
-    qDebug() << Qt::Key(event->key()) << event->modifiers() << event->text();
-    delete event;
+    qDebug() << Qt::Key(event.key()) << event.modifiers() << event.text();
 }
 
 /**
