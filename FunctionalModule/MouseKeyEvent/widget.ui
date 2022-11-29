@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>581</width>
-    <height>505</height>
+    <width>742</width>
+    <height>530</height>
    </rect>
   </property>
   <property name="font">
@@ -20,6 +20,18 @@
    <string>Widget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>1</number>
+   </property>
+   <property name="topMargin">
+    <number>1</number>
+   </property>
+   <property name="rightMargin">
+    <number>1</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item row="0" column="0">
     <widget class="QTextEdit" name="textEdit"/>
    </item>
@@ -29,6 +41,13 @@
       <widget class="QPushButton" name="but_mouseI">
        <property name="text">
         <string>安装全局鼠标监听器</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="but_mouser">
+       <property name="text">
+        <string>卸载全局鼠标监听器</string>
        </property>
       </widget>
      </item>
@@ -46,35 +65,11 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="but_mouser">
-       <property name="text">
-        <string>卸载全局鼠标监听器</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
       <widget class="QPushButton" name="but_keyI">
        <property name="text">
         <string>安装全局键盘监听器</string>
        </property>
       </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
      <item>
       <widget class="QPushButton" name="but_KeyR">

@@ -1,6 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include <QDebug>
+#include <QMetaEnum>
 #include "globalmouseevent.h"
 #include "globalkeyevent.h"
 
@@ -135,7 +136,14 @@ void Widget::on_but_mouser_clicked()
  */
 void Widget::on_keyEvent(QKeyEvent event)
 {
-    qDebug() << Qt::Key(event.key()) << event.modifiers() << event.text();
+    QMetaEnum type = QMetaEnum::fromType<QEvent::Type>();
+    QMetaEnum key = QMetaEnum::fromType<Qt::Key>();
+    QMetaEnum keyboard = QMetaEnum::fromType<Qt::KeyboardModifiers>();
+    QString str = QString("状态：[%1]\t按键：[%2]\t修饰：[%3]\t字符：[%4]").arg(type.valueToKey(event.type()))
+                                           .arg(key.valueToKey(event.key()))
+                                           .arg(QString(keyboard.valueToKeys(int(event.modifiers()))))
+                                           .arg(event.text());
+    ui->textEdit->append(str);
 }
 
 /**

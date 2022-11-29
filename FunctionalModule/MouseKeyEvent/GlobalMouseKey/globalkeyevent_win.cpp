@@ -279,7 +279,7 @@ inline quint32 winceKeyBend(quint32 keyCode)
  * @brief  获取是否按下键盘修饰键，例如Ctrl、shirt等
  * @return
  */
-Qt::KeyboardModifiers queryKeyboardModifiers()
+inline Qt::KeyboardModifiers queryKeyboardModifiers()
 {
     Qt::KeyboardModifiers modifiers = Qt::NoModifier;
     if (GetKeyState(VK_SHIFT) < 0)
@@ -294,31 +294,31 @@ Qt::KeyboardModifiers queryKeyboardModifiers()
 }
 
 
-unsigned char g_buffer[256];
+static uchar g_buffer[256];
 /**
- * @brief
+ * @brief            将VK转换为Qt键代码或unicode字符
  * @param vk
  * @param scancode
  * @param g_buffer
  * @param isDeadkey
  * @return
  */
-quint32 toKeyOrUnicode(quint32 vk, quint32 scancode, bool *isDeadkey = nullptr)
+inline quint32 toKeyOrUnicode(quint32 vk, quint32 scancode, bool *isDeadkey = nullptr)
 {
     Q_ASSERT(vk > 0 && vk < 256);
 
 
     GetKeyboardState(g_buffer);
-    // Always 0, as Windows doesn't treat these as modifiers;
-    g_buffer[VK_LWIN    ] = 0;
-    g_buffer[VK_RWIN    ] = 0;
-    g_buffer[VK_CAPITAL ] = 0;
-    g_buffer[VK_NUMLOCK ] = 0;
-    g_buffer[VK_SCROLL  ] = 0;
-    // Always 0, since we'll only change the other versions
-    g_buffer[VK_RSHIFT  ] = 0;
-    g_buffer[VK_RCONTROL] = 0;
-    g_buffer[VK_LMENU   ] = 0; // Use right Alt, since left Ctrl + right Alt is considered AltGraph
+    // 始终为0，因为Windows不会将其视为修改器；
+//    g_buffer[VK_LWIN    ] = 0;
+//    g_buffer[VK_RWIN    ] = 0;
+//    g_buffer[VK_CAPITAL ] = 0;
+//    g_buffer[VK_NUMLOCK ] = 0;
+//    g_buffer[VK_SCROLL  ] = 0;
+//    // Always 0, since we'll only change the other versions
+//    g_buffer[VK_RSHIFT  ] = 0;
+//    g_buffer[VK_RCONTROL] = 0;
+//    g_buffer[VK_LMENU   ] = 0; // Use right Alt, since left Ctrl + right Alt is considered AltGraph
 
     quint32 code = 0;
     QChar unicodeBuffer[5];
@@ -345,6 +345,38 @@ quint32 toKeyOrUnicode(quint32 vk, quint32 scancode, bool *isDeadkey = nullptr)
     return code == Qt::Key_unknown ? 0 : code;
 }
 
+
+static uchar g_keyState[256];
+/**
+ * @brief           获取当前按下键的字符
+ * @param vk        要转换的虚拟密钥代码
+ * @param scancode  要转换的密钥的硬件扫描代码
+ * @return
+ */
+inline QString getKeyText(quint32 vk, quint32 scancode)
+{
+    GetKeyboardState(g_keyState);                                     // 将 256 个虚拟密钥的状态复制到指定的缓冲区。
+    wchar_t newKey[3] = {0};
+    // 将指定的虚拟键代码和键盘状态转换为相应的一个或多个 Unicode 字符。
+    int ret = ToUnicode(vk,           // 要转换的虚拟密钥代码
+                        scancode,     // 要转换的密钥的硬件扫描代码
+                        g_keyState,   // 指向包含当前键盘状态的 256 字节数组的指针。数组中的每个元素（字节）都包含一个键的状态。
+                        newKey,       // 接收转换后的一个或多个 Unicode 字符的缓冲区
+                        3,            // 参数指向的缓冲区的大小（以字符为单位）
+                        0);           // 函数的行为。0：则菜单处于活动状态； 2，则不会更改键盘状态（Windows 10 版本 1607 及更高版本）
+
+    if (ret == 1)      // 1：一个字符被写入 newKey
+    {
+        QChar uch = QChar(newKey[0]);
+        return  uch;
+    }
+    else        // 无法获取到字符
+    {
+        return QString();
+    }
+}
+
+
 static HHOOK g_hook = nullptr;
 /**
  * @brief           处理鼠标事件的回调函数，由于这不是一个成员函数，所以需要通过中间单例类mouseEvent将鼠标信号传递出来
@@ -360,25 +392,26 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 
     bool isDeadKey = false;
     Qt::KeyboardModifiers modifiers = queryKeyboardModifiers();
+    int key = int(toKeyOrUnicode(kbdll->vkCode, kbdll->scanCode, &isDeadKey));
+    QString text = getKeyText(kbdll->vkCode, kbdll->scanCode);
+
     switch (wParam)
     {
     case WM_KEYDOWN:      // 按下非系统键， 非系统键是未按下 ALT 键时按下的键
     {
-        quint32 key = toKeyOrUnicode(kbdll->vkCode, kbdll->scanCode, &isDeadKey);
-        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyPress, key, modifiers));
+        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyPress, key, modifiers, text));
         break;
     }
     case WM_KEYUP:        // 当释放非系统键
-//        qDebug() << "释放非系统键";
-//        emit GlobalKeyEvent::getInstance()->keyEvent(new QMouseEvent(QEvent::MouseMove, point, Qt::NoButton, Qt::NoButton, Qt::NoModifier));
+        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyRelease, key, modifiers, text));
         break;
     case WM_SYSKEYDOWN:   // 当用户按下 F10 键 (激活菜单栏) 或按住 Alt 键，然后按另一个键时，发布到具有键盘焦点的窗口
         qDebug() << "按下系统键 Alt";
-//        emit GlobalKeyEvent::getInstance()->keyEvent(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
+        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyPress, key, modifiers, text));
         break;
     case WM_SYSKEYUP:     // 当用户释放按下 Alt 键时按下的键
         qDebug() << "释放系统键 Alt";
-//        emit GlobalKeyEvent::getInstance()->keyEvent(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyRelease, key, modifiers, text));
         break;
     default:
         break;
