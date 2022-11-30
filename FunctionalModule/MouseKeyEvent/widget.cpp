@@ -139,10 +139,13 @@ void Widget::on_keyEvent(QKeyEvent event)
     QMetaEnum type = QMetaEnum::fromType<QEvent::Type>();
     QMetaEnum key = QMetaEnum::fromType<Qt::Key>();
     QMetaEnum keyboard = QMetaEnum::fromType<Qt::KeyboardModifiers>();
-    QString str = QString("状态：[%1]\t按键：[%2]\t修饰：[%3]\t字符：[%4]").arg(type.valueToKey(event.type()))
+    QString str = QString("状态：[%1]\t按键：[%2]\t修饰：[%3]]").arg(type.valueToKey(event.type()))
                                            .arg(key.valueToKey(event.key()))
-                                           .arg(QString(keyboard.valueToKeys(int(event.modifiers()))))
-                                           .arg(event.text());
+                                           .arg(QString(keyboard.valueToKeys(int(event.modifiers()))));
+    if(!event.text().isEmpty())
+    {
+        str += QString("\t字符：[%1]").arg(event.text());
+    }
     ui->textEdit->append(str);
 }
 

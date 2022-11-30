@@ -4,6 +4,28 @@
 #include <QDebug>
 #include <QKeyEvent>
 
+enum WindowsNativeModifiers {
+    ShiftLeft            = 0x00000001,
+    ControlLeft          = 0x00000002,
+    AltLeft              = 0x00000004,
+    MetaLeft             = 0x00000008,
+    ShiftRight           = 0x00000010,
+    ControlRight         = 0x00000020,
+    AltRight             = 0x00000040,
+    MetaRight            = 0x00000080,
+    CapsLock             = 0x00000100,
+    NumLock              = 0x00000200,
+    ScrollLock           = 0x00000400,
+    ExtendedKey          = 0x01000000,
+
+    // Convenience mappings
+    ShiftAny             = 0x00000011,
+    ControlAny           = 0x00000022,
+    AltAny               = 0x00000044,
+    MetaAny              = 0x00000088,
+    LockAny              = 0x00000700
+};
+
 // 值的含义:
 // 0           = 字符输出键，需要键盘驱动程序映射
 // Key_unknown = 未知虚拟密钥，无法转换，忽略
@@ -307,40 +329,45 @@ inline quint32 toKeyOrUnicode(quint32 vk, quint32 scancode, bool *isDeadkey = nu
 {
     Q_ASSERT(vk > 0 && vk < 256);
 
-
-    GetKeyboardState(g_buffer);
-    // 始终为0，因为Windows不会将其视为修改器；
-//    g_buffer[VK_LWIN    ] = 0;
-//    g_buffer[VK_RWIN    ] = 0;
-//    g_buffer[VK_CAPITAL ] = 0;
-//    g_buffer[VK_NUMLOCK ] = 0;
-//    g_buffer[VK_SCROLL  ] = 0;
-//    // Always 0, since we'll only change the other versions
-//    g_buffer[VK_RSHIFT  ] = 0;
-//    g_buffer[VK_RCONTROL] = 0;
-//    g_buffer[VK_LMENU   ] = 0; // Use right Alt, since left Ctrl + right Alt is considered AltGraph
+    GetKeyboardState(g_buffer);   // // 将 256 个虚拟密钥的状态复制到指定的缓冲区。
+//    qDebug() <<"vk " << (g_buffer[vk] & 0x80);
+    g_buffer[VK_LWIN    ] = 0;
+    g_buffer[VK_RWIN    ] = 0;
+    g_buffer[VK_CAPITAL ] = 0;
+    g_buffer[VK_NUMLOCK ] = 0;
+    g_buffer[VK_SCROLL  ] = 0;
+    // 始终为0，因为我们只会更改其他版本
+    g_buffer[VK_RSHIFT  ] = 0;
+    g_buffer[VK_RCONTROL] = 0;
+    g_buffer[VK_LMENU   ] = 0;   // 使用右Alt，因为左Ctrl+右Alt被视为AltGraph
+    g_buffer[VK_CONTROL ] = 0;   // 需要将ctrl键清空，否则按住Ctrl + 字母键会出现无法返回正确值的情况
 
     quint32 code = 0;
     QChar unicodeBuffer[5];
     int res = ToUnicode(vk, scancode, g_buffer, reinterpret_cast<LPWSTR>(unicodeBuffer), 5, 0);
-    // When Ctrl modifier is used ToUnicode does not return correct values. In order to assign the
-    // right key the control modifier is removed for just that function if the previous call failed.
-    if (res == 0 && g_buffer[VK_CONTROL]) {
+    // 使用Ctrl修饰符时，ToUnicode不会返回正确的值。为了分配右键，如果上一次调用失败，则仅删除该函数的控制修饰符。
+    if (res == 0 && g_buffer[VK_CONTROL])
+    {
         const unsigned char controlState = g_buffer[VK_CONTROL];
         g_buffer[VK_CONTROL] = 0;
         res = ToUnicode(vk, scancode, g_buffer, reinterpret_cast<LPWSTR>(unicodeBuffer), 5, 0);
         g_buffer[VK_CONTROL] = controlState;
     }
     if (res)
-        code = unicodeBuffer[0].toUpper().unicode();
+    {
+        code = unicodeBuffer[0].toUpper().unicode();   // 将字符转换位Qt::Key值
+    }
 
-    // Qt::Key_*'s are not encoded below 0x20, so try again, and DEL keys (0x7f) is encoded with a
-    // proper Qt::Key_ code
+    // Qt:：Key_*的编码不低于0x20，因此请重试，DEL键（0x7f）使用正确的Qt::Key_ code
     if (code < 0x20 || code == 0x7f) // Handles res==0 too
+    {
         code = winceKeyBend(vk);
+    }
 
     if (isDeadkey)
+    {
         *isDeadkey = (res == -1);
+    }
 
     return code == Qt::Key_unknown ? 0 : code;
 }
@@ -376,6 +403,37 @@ inline QString getKeyText(quint32 vk, quint32 scancode)
     }
 }
 
+/**
+ * @brief        获取本机修改器值
+ * @param flags
+ * @return
+ */
+quint32 getNativeModifiers(quint32 flags)
+{
+    quint32 nModifiers = 0;
+
+
+    // 将本机修改器映射到某些位表示
+    nModifiers |= (GetKeyState(VK_LSHIFT  ) & 0x80 ? ShiftLeft : 0);
+    nModifiers |= (GetKeyState(VK_RSHIFT  ) & 0x80 ? ShiftRight : 0);
+    nModifiers |= (GetKeyState(VK_LCONTROL) & 0x80 ? ControlLeft : 0);
+    nModifiers |= (GetKeyState(VK_RCONTROL) & 0x80 ? ControlRight : 0);
+    nModifiers |= (GetKeyState(VK_LMENU   ) & 0x80 ? AltLeft : 0);
+    nModifiers |= (GetKeyState(VK_RMENU   ) & 0x80 ? AltRight : 0);
+    nModifiers |= (GetKeyState(VK_LWIN    ) & 0x80 ? MetaLeft : 0);
+    nModifiers |= (GetKeyState(VK_RWIN    ) & 0x80 ? MetaRight : 0);
+    // 将锁定键添加到相同的位
+    nModifiers |= (GetKeyState(VK_CAPITAL ) & 0x01 ? CapsLock : 0);
+    nModifiers |= (GetKeyState(VK_NUMLOCK ) & 0x01 ? NumLock : 0);
+    nModifiers |= (GetKeyState(VK_SCROLL  ) & 0x01 ? ScrollLock : 0);
+
+    if (flags & LLKHF_EXTENDED)   // 使用扩展键，例如：Home End pgUP pgDn
+    {
+        nModifiers |= ExtendedKey;
+    }
+
+    return nModifiers;
+}
 
 static HHOOK g_hook = nullptr;
 /**
@@ -390,28 +448,30 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
     KBDLLHOOKSTRUCT * kbdll = reinterpret_cast<KBDLLHOOKSTRUCT*>(lParam);
 
-    bool isDeadKey = false;
+    bool isDeadKey                  = false;
     Qt::KeyboardModifiers modifiers = queryKeyboardModifiers();
-    int key = int(toKeyOrUnicode(kbdll->vkCode, kbdll->scanCode, &isDeadKey));
-    QString text = getKeyText(kbdll->vkCode, kbdll->scanCode);
+    int                   key       = int(toKeyOrUnicode(kbdll->vkCode, kbdll->scanCode, &isDeadKey));
+    QString               text      = getKeyText(kbdll->vkCode, kbdll->scanCode);
+    quint32         nativeModifiers = getNativeModifiers(kbdll->flags);
+    bool                  autorep   = (g_buffer[kbdll->vkCode] & 0x80);
 
     switch (wParam)
     {
     case WM_KEYDOWN:      // 按下非系统键， 非系统键是未按下 ALT 键时按下的键
     {
-        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyPress, key, modifiers, text));
+        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyPress, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, autorep));
         break;
     }
     case WM_KEYUP:        // 当释放非系统键
-        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyRelease, key, modifiers, text));
+        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyRelease, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, !autorep));
         break;
     case WM_SYSKEYDOWN:   // 当用户按下 F10 键 (激活菜单栏) 或按住 Alt 键，然后按另一个键时，发布到具有键盘焦点的窗口
         qDebug() << "按下系统键 Alt";
-        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyPress, key, modifiers, text));
+        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyPress, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, autorep));
         break;
     case WM_SYSKEYUP:     // 当用户释放按下 Alt 键时按下的键
         qDebug() << "释放系统键 Alt";
-        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyRelease, key, modifiers, text));
+        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyRelease, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, !autorep));
         break;
     default:
         break;
