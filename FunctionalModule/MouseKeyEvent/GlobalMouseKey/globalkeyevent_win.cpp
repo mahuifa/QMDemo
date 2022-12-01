@@ -292,7 +292,8 @@ static const uint KeyTbl[] = { // Keyboard mapping table
     Qt::Key_Clear,      // 254   0xFE   VK_OEM_CLEAR        | Clear key
     0
 };
-inline quint32 winceKeyBend(quint32 keyCode)
+
+static inline quint32 winceKeyBend(quint32 keyCode)
 {
     return KeyTbl[keyCode];
 }
@@ -301,7 +302,7 @@ inline quint32 winceKeyBend(quint32 keyCode)
  * @brief  获取是否按下键盘修饰键，例如Ctrl、shirt等
  * @return
  */
-inline Qt::KeyboardModifiers queryKeyboardModifiers()
+static inline Qt::KeyboardModifiers queryKeyboardModifiers()
 {
     Qt::KeyboardModifiers modifiers = Qt::NoModifier;
     if (GetKeyState(VK_SHIFT) < 0)
@@ -325,7 +326,7 @@ static uchar g_buffer[256];
  * @param isDeadkey
  * @return
  */
-inline quint32 toKeyOrUnicode(quint32 vk, quint32 scancode, bool *isDeadkey = nullptr)
+static inline quint32 toKeyOrUnicode(quint32 vk, quint32 scancode, bool *isDeadkey = nullptr)
 {
     Q_ASSERT(vk > 0 && vk < 256);
 
@@ -380,7 +381,7 @@ static uchar g_keyState[256];
  * @param scancode  要转换的密钥的硬件扫描代码
  * @return
  */
-inline QString getKeyText(quint32 vk, quint32 scancode)
+static inline QString getKeyText(quint32 vk, quint32 scancode)
 {
     GetKeyboardState(g_keyState);                                     // 将 256 个虚拟密钥的状态复制到指定的缓冲区。
     wchar_t newKey[3] = {0};
@@ -408,7 +409,7 @@ inline QString getKeyText(quint32 vk, quint32 scancode)
  * @param flags
  * @return
  */
-quint32 getNativeModifiers(quint32 flags)
+static quint32 getNativeModifiers(quint32 flags)
 {
     quint32 nModifiers = 0;
 
@@ -459,19 +460,19 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
     {
     case WM_KEYDOWN:      // 按下非系统键， 非系统键是未按下 ALT 键时按下的键
     {
-        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyPress, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, autorep));
+        emit GlobalKeyEvent::getInstance()->keyEvent(new QKeyEvent(QEvent::KeyPress, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, autorep));
         break;
     }
     case WM_KEYUP:        // 当释放非系统键
-        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyRelease, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, !autorep));
+        emit GlobalKeyEvent::getInstance()->keyEvent(new QKeyEvent(QEvent::KeyRelease, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, !autorep));
         break;
     case WM_SYSKEYDOWN:   // 当用户按下 F10 键 (激活菜单栏) 或按住 Alt 键，然后按另一个键时，发布到具有键盘焦点的窗口
         qDebug() << "按下系统键 Alt";
-        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyPress, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, autorep));
+        emit GlobalKeyEvent::getInstance()->keyEvent(new QKeyEvent(QEvent::KeyPress, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, autorep));
         break;
     case WM_SYSKEYUP:     // 当用户释放按下 Alt 键时按下的键
         qDebug() << "释放系统键 Alt";
-        emit GlobalKeyEvent::getInstance()->keyEvent(QKeyEvent(QEvent::KeyRelease, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, !autorep));
+        emit GlobalKeyEvent::getInstance()->keyEvent(new QKeyEvent(QEvent::KeyRelease, key, modifiers, kbdll->scanCode, kbdll->vkCode, nativeModifiers, text, !autorep));
         break;
     default:
         break;

@@ -6,6 +6,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/globalkeyevent_win.cpp \
+    $$PWD/globalkeyevent_x11.cpp \
     $$PWD/globalmouseevent_win.cpp \   # windows全局鼠标事件监听器
     $$PWD/globalmouseevent_x11.cpp     # linux全局鼠标事件监听器
 
