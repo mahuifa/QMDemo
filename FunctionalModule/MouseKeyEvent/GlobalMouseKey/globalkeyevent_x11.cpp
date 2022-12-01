@@ -6,6 +6,13 @@
 #include <X11/keysym.h>
 #include <X11/extensions/record.h>     //  如果找不到可以安装sudo apt-get install xorg-dev
 #include <X11/Xlibint.h>
+#if 0
+//#include <xcb/xcb_keysyms.h>           // sudo apt install libxcb-keysyms1-dev
+//#include <xcb/xinput.h>                // sudo apt install libxcb-xinput-dev
+
+#include <xkbcommon/xkbcommon.h>         // sudo apt install libxkbcommon-dev
+#include <xkbcommon/xkbcommon-keysyms.h>
+#endif
 
 static XRecordContext g_context = 0;
 static Display* g_display = nullptr;

@@ -4,6 +4,8 @@
 #             2、通过封装将Windows鼠标信号转换成Qt鼠标信号；
 #             3、Linux下使用X11实现全局鼠标事件监听功能；
 #             4、通过封装将X11鼠标信号转换为Qt鼠标信号（功能比Windows鼠标钩子强）；
+#             5、Windows下实现全局键盘事件监听器功能；
+#             6、Linux下通过x11 API获取到全局键盘事件，但是无法将x11键盘事件映射为QKeyEvent。
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
@@ -12,7 +14,7 @@
 # @时间       2022-11-13 22:23:08
 # @备注
 #---------------------------------------------------------------------------------------
-QT       += core gui concurrent
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++11
