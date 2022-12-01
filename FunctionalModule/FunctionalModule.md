@@ -17,6 +17,7 @@
 |    WindowRect    | 框选鼠标当前位置窗口范围（类似窗口截图） | Windows、Linux |
 |  MouseKeyEvent   | Qt实现自定义全局鼠标键盘事件监听器Demo   | Windows        |
 |   SnippingTool   | Qt实现截图工具                           | Windows、Linux |
+|  MouseKeyEvent   | Qt全局鼠标、键盘事件监听器               | Windows、Linux |
 
  
 
@@ -167,3 +168,16 @@ Qt自身的鼠标事件、事件过滤器一般当鼠标移出窗口或者遇见
 > 6. Windows下使用user32获取鼠标所在位置窗口大小，Linux下使用x11获取鼠标所在位置窗口大小。
 
 ![image-20221121125725058](FunctionalModule.assets/image-20221121125725058.png)
+
+
+
+### 1.10 MouseKeyEvent
+
+> 1. windows下使用鼠标钩子实现全局鼠标监听功能；                          
+> 2. 通过封装将Windows鼠标信号转换成Qt鼠标信号；                         
+> 3. Linux下使用X11实现全局鼠标事件监听功能；                           
+> 4. 通过封装将X11鼠标信号转换为Qt鼠标信号（功能比Windows鼠标钩子强）；            
+> 5. Windows下实现全局键盘事件监听器功能；                             
+> 6. Linux下通过x11 API获取到全局键盘事件，但是无法将x11键盘事件映射为QKeyEvent。 
+
+![MouseKeyEvent](FunctionalModule.assets/MouseKeyEvent.gif)

@@ -106,10 +106,11 @@ void MouseEventX11()
 }
 #else
 
-XRecordContext g_context = 0;
-Display* g_display = nullptr;
+// 使用static修饰全局函数和全局变量：只能在本源文件使用
+static XRecordContext g_context = 0;
+static Display* g_display = nullptr;
 
-bool init()
+static bool init()
 {
     g_display =XOpenDisplay(nullptr);           // 打开与控制显示器的X服务器的连接，详细说明看【https://tronche.com/gui/x/xlib/display/opening.html】
     if(!g_display)
@@ -148,7 +149,7 @@ bool init()
  * @param ptr
  * @param data
  */
-void callback(XPointer ptr, XRecordInterceptData* data)
+static void callback(XPointer ptr, XRecordInterceptData* data)
 {
     Q_UNUSED(ptr)
 
@@ -165,27 +166,27 @@ void callback(XPointer ptr, XRecordInterceptData* data)
             {
             case Button1:     // 左键按下
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
                 break;
             }
             case Button2:     // 中键按下
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             case Button3:     // 右键按下
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
                 break;
             }
             case Button4:     // 向前滚动
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QWheelEvent(point, 120, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->wheelEvent(new QWheelEvent(point, 120, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             case Button5:     // 向后滚动
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QWheelEvent(point, -120, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->wheelEvent(new QWheelEvent(point, -120, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             default:
@@ -198,7 +199,7 @@ void callback(XPointer ptr, XRecordInterceptData* data)
         }
         case MotionNotify:                              // 鼠标移动
         {
-            emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseMove, QCursor::pos(), Qt::NoButton, Qt::NoButton, Qt::NoModifier));
+            emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseMove, QCursor::pos(), Qt::NoButton, Qt::NoButton, Qt::NoModifier));
         }
         case ButtonRelease:                             // 鼠标释放
         {
@@ -207,17 +208,17 @@ void callback(XPointer ptr, XRecordInterceptData* data)
             {
             case Button1:   // 左键释放
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier));
                 break;
             }
             case Button2:   // 中键释放
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
                 break;
             }
             case Button3:   // 右键释放
             {
-                emit GlobalMouseEvent::getInstance()->mouseSignal(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
+                emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier));
                 break;
             }
             case Button4:   // 向前滚动
@@ -248,7 +249,7 @@ void callback(XPointer ptr, XRecordInterceptData* data)
  * X Server 事件一旦发生就传递给事件处理回调函数
  * XRecordEnableContext 函数一旦调用就开始进入堵塞时的事件循环，直到线程或所属进程结束
  */
-void enableContext()
+static void enableContext()
 {
     Status ret = XRecordEnableContext(g_display, g_context,  callback, nullptr);
     XCloseDisplay(g_display);    // 关闭连接

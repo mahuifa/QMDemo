@@ -12,6 +12,9 @@
 
 #include <QObject>
 
+class QMouseEvent;
+class QWheelEvent;
+
 /**
  *  全局鼠标事件单例信号类
  */
@@ -29,7 +32,12 @@ public:
     static bool removeMouseEvent();       // 卸载全局鼠标事件监听器
 
 signals:
-    void mouseSignal(QEvent* event);
+    /**
+     * @brief 由于传递的是指针，为了保证不会出现内存泄露，需要在槽函数中delete。
+     *        建议此信号只绑定一次，因为如果绑定多次可能会出现一个槽函数里把信号delete了，另外一个槽函数还在使用，出现野指针，或者多个槽函数多次delete
+     */
+    void mouseEvent(QMouseEvent* event);
+    void wheelEvent(QWheelEvent* event);
 
 private:
     GlobalMouseEvent(){}
