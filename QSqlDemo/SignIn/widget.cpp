@@ -56,7 +56,7 @@ void Widget::on_but_connect_clicked()
     {
 
         m_db = QSqlDatabase::addDatabase("QSQLITE");  // 使用数据库驱动（Qsqlite）和默认连接名称（qt_sql_default_connection）添加一个数据库
-        qDebug() << QSqlDatabase::defaultConnection;           // 打印默认数据库连接名称
+//        qDebug() << QSqlDatabase::defaultConnection;           // 打印默认数据库连接名称
         m_db.setDatabaseName("SignIn.db");        // 使用文件数据库（可生成数据库文件，数据一直有效）
 
         if(!m_db.open())             // 打开数据库
