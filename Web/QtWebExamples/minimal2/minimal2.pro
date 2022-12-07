@@ -1,7 +1,7 @@
 #---------------------------------------------------------------------------------------
-# @功能：       使用QWebEngineView加载显示Web页面的最小示例
+# @功能：       使用QWebEngineView加载显示Web页面的最小示例2
 #             1、保留最简单功能，去掉不易于理解的功能；
-#             2、分别演示了加载网络地址、资源文件中的Html文件，本地html的方式；
+#             2、分别演示了【QWebEngineView::setHtml】【QWebEngineView::setContent】的使用方法；
 #             3、详细的注释，对初学者更友好。
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
@@ -39,4 +39,3 @@ QMAKE_CFLAGS += /utf-8
 QMAKE_CXXFLAGS += /utf-8
 }
 
-RESOURCES += rc.qrc
