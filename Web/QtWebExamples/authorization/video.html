@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>打开摄像头</title>
+	<style>
+		video {
+			width: 50%;
+			height: 50%;
+			margin: 50px auto; /*则表示上下边界为50，左右则根据宽度自适应相同值（即水平居中）*/
+			background-color: #484848 ;
+			display: block;   /*将元素显示为块级元素。*/
+		}
+		.button {
+		  background-color: #4CAF50; /* Green */
+		  border: none;
+		  color: white;
+		  padding: 15px 32px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 16px;
+		  margin: 4px 2px;
+		  cursor: pointer;
+		  -webkit-transition-duration: 0.4s; /* Safari */
+		  transition-duration: 0.4s;
+		  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+		}
+		.button:hover {
+		  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+		}
+	</style>
+	<script>
+	// 打开摄像头,最新的标准API
+	function openVideo() {
+		var video = document.getElementById("video");
+		navigator.mediaDevices.getUserMedia({video : {width: 800, height: 600}}).then(success).catch(error);
+	}
+	// 视频播放回调函数
+	function success(stream) {
+		video.srcObject = stream;  //将视频流设置为video元素的源
+		video.play();              //播放视频
+	}
+	// 异常的回调函数
+	function error(error) {
+		console.log("访问用户媒体设备失败：",error.name,error.message);
+    }
+	</script>
+</head>
+<body>
+	<video id="video"></video>
+	<div align="center">
+		<button id="open" class="button" onclick="openVideo()">打开摄像头</button>
+	</div>
+</body>
+</html>
