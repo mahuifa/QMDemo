@@ -5,7 +5,9 @@ qtHaveModule(webenginewidgets) {
     SUBDIRS += minimal           # 使用QWebEngineView加载显示Web页面的最小示例1
     SUBDIRS += minimal2          # 使用QWebEngineView加载显示Web页面的最小示例2
     SUBDIRS += authorization     # 使用QWebEnginePage打开摄像头演示权限管理
+    SUBDIRS += channelDemo       # 使用QtWebChannel实现Qt与Web通信交互
 }
+
 
 
 
