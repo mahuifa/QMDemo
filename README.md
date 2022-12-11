@@ -20,10 +20,11 @@
 |    QStyleDemo    | [Qt样式美化设置Demo说明及演示](./QStyleDemo/QStyleDemo.md)   |
 |   PaintingDemo   | [Qt绘图Demo](./PaintingDemo/PaintingDemo.md)                 |
 | GraphicsviewDemo | [GraphicsView 图形视图框架Demo](./GraphicsviewDemo/GraphicsviewDemo.md) |
-|     QOpenGL      | [Qt OpenGL开发](./OpenGLDemo/OpenGLDemo.md)                  |
+|     QOpenGL      | [Qt - OpenGL开发](./OpenGLDemo/OpenGLDemo.md)                |
+|       Web        | [Qt - Web混合开发](./Web/Web.md)                             |
 |                  |                                                              |
 |                  | **使用到第三方库**                                           |
 |     XlsxDemo     | [Qt使用QXlsx操作Excel Demo](./XlsxDemo/XlsxDemo.md)          |
 |    OpenCVDemo    | [Qt使用OpenCV进行视频、图像操作Demo](./OpenCVDemo/OpenCVDemo.md) |
-|    FFmpegDemo    | [Qt+FFmpeg多媒体框架开发Demo](./FFmpegDemo/FFmpegDemo.md)    |
+|    FFmpegDemo    | [Qt - FFmpeg多媒体框架开发Demo](./FFmpegDemo/FFmpegDemo.md)  |
 

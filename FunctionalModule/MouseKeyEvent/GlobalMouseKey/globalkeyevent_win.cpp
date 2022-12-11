@@ -438,11 +438,11 @@ static quint32 getNativeModifiers(quint32 flags)
 
 static HHOOK g_hook = nullptr;
 /**
- * @brief           处理鼠标事件的回调函数，由于这不是一个成员函数，所以需要通过中间单例类mouseEvent将鼠标信号传递出来
- *                  具体内容看https://learn.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms644986(v=vs.85)
+ * @brief           处理键盘事件的回调函数，由于这不是一个成员函数，所以需要通过中间单例类GlobalKeyEvent将键盘信号传递出来
+ *                  具体内容看https://learn.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms644985(v=vs.85)
  * @param nCode     挂钩过程用于确定如何处理消息的代码。如果nCode小于零，则挂钩过程必须将消息传递给 CallNextHookEx 函数而不进行进一步处理，并且应返回CallNextHookEx返回的值
  * @param wParam    信号类型：WM_KEYDOWN、WM_KEYUP、WM_SYSKEYDOWN或WM_SYSKEYUP
- * @param lParam    MSLLHOOKSTRUCT结构体指针
+ * @param lParam    KBDLLHOOKSTRUCT结构体指针
  * @return
  */
 LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
