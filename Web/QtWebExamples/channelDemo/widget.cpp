@@ -9,6 +9,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    this->setWindowTitle(QString("使用QtWebChannel实现Qt与Web通信交互 - V%1").arg(APP_VERSION));  // 设置窗口标题
 
     connect(Core::getInstance(), &Core::webButClicked, this, &Widget::on_webButClicked);
 

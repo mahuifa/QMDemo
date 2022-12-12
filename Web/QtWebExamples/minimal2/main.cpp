@@ -16,11 +16,13 @@ int main(int argc, char *argv[])
 #if DEMO == 0
     QString  html("<h1 align='center' style='font-size:80px; color:red;'>hello </h1>");
     view.setHtml(html);    // 直接在QWebEngineView中显示Html代码
+
 #elif DEMO == 1
     // 百度搜索界面的图标地址 https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png
     // setHtml使用参数2 (baseUrl)后，可以在html代码中使用【相对路径】引用baseUrl中的资源
     QString html("<img src='/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png'/>");   // 注意：字符串html不能超过2MB
     view.setHtml(html, QUrl("https://www.baidu.com"));
+
 #elif DEMO == 2
     QString  html("<h1 align='center' style='font-size:80px; color:red;'>hello </h1>");
     view.setContent(html.toUtf8(), "text/html; charset=UTF-8");

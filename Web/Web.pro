@@ -1,3 +1,4 @@
 TEMPLATE = subdirs
 
-SUBDIRS += QtWebExamples
+SUBDIRS += QtWebExamples \
+    JsonExamples
