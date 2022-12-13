@@ -6,29 +6,61 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>472</width>
-    <height>366</height>
+    <width>568</width>
+    <height>514</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="1">
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="text">
-      <string>解析Json</string>
-     </property>
-    </widget>
-   </item>
+   <property name="leftMargin">
+    <number>1</number>
+   </property>
+   <property name="topMargin">
+    <number>1</number>
+   </property>
+   <property name="rightMargin">
+    <number>1</number>
+   </property>
+   <property name="bottomMargin">
+    <number>1</number>
+   </property>
    <item row="1" column="0">
-    <widget class="QPushButton" name="pushButton">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>156</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="but_create">
      <property name="text">
       <string>生成Json</string>
      </property>
     </widget>
    </item>
    <item row="1" column="2">
+    <widget class="QPushButton" name="but_save">
+     <property name="text">
+      <string>保存到文件</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QPushButton" name="but_parse">
+     <property name="text">
+      <string>解析Json</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -41,7 +73,7 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="0" colspan="3">
+   <item row="0" column="0" colspan="5">
     <widget class="QTextEdit" name="textEdit"/>
    </item>
   </layout>
