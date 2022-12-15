@@ -103,6 +103,7 @@ void Widget::on_but_parse_clicked()
         qWarning() << err.errorString();
     }
 
+    ui->textEdit->append("<------------- 解析json ------------->");
     if(doc.isArray())        // 如果json数据为数组类型
     {
         jsonParse(QJsonValue(doc.array()));

@@ -11,6 +11,8 @@
 |    minimal    | 使用QWebEngineView加载显示Web页面的最小示例1 |
 |   minimal2    | 使用QWebEngineView加载显示Web页面的最小示例2 |
 | authorization | 使用QWebEnginePage打开摄像头演示权限管理     |
+|  channelDemo  | 使用QtWebChannel实现Qt与Web通信交互简单示例  |
+|    QtJson     | 使用Qt内置json库读写json示例                 |
 
  
 
@@ -60,3 +62,24 @@
 > 3. 分别展示了打开【网络地址授权】和打开【本地html授权】。          
 
 ![image-20221215174224272](Web.assets/image-20221215174224272.png)
+
+
+
+### 1.4 channelDemo
+
+> 1. 使用QtWebChannel实现Qt与Web双向交互；       
+> 2. 构建后将html、css、js文件自动拷贝到可执行程序路径下；
+> 3. web界面和qt界面实现双向通信。             
+
+![channelDemo-tuya](Web.assets/channelDemo-tuya.gif)
+
+
+
+### 1.5 QtJso
+
+> 1. 使用Qt内置json库读写json示例                             
+> 2. 实现生成json数据，插入json数组、json对象以及各种json支持的数据类型；
+> 3. 将json数据保存到json文件中；                        
+> 4. 从json文件中读取json数据，并使用【递归】的方式解析json数据。      
+
+![image-20221215175419479](Web.assets/image-20221215175419479.png)
