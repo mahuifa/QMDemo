@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     QWebEnginePage* page = m_view->page();
     connect(page, &QWebEnginePage::featurePermissionRequested, this, &MainWindow::on_featurePermissionRequested);
 
-#if 0
+#if 1
     page->load(QUrl(QStringLiteral("https://app.xunjieshipin.com/luping/")));
 #else
     page->load(QUrl(QStringLiteral("qrc:/video.html")));
