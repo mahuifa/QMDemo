@@ -6,13 +6,14 @@
 
 ## 1、说明
 
-|     类名      | 功能                                         |
-| :-----------: | -------------------------------------------- |
-|    minimal    | 使用QWebEngineView加载显示Web页面的最小示例1 |
-|   minimal2    | 使用QWebEngineView加载显示Web页面的最小示例2 |
-| authorization | 使用QWebEnginePage打开摄像头演示权限管理     |
-|  channelDemo  | 使用QtWebChannel实现Qt与Web通信交互简单示例  |
-|    QtJson     | 使用Qt内置json库读写json示例                 |
+|     类名      | 功能                                            |
+| :-----------: | ----------------------------------------------- |
+|    minimal    | 使用QWebEngineView加载显示Web页面的最小示例1    |
+|   minimal2    | 使用QWebEngineView加载显示Web页面的最小示例2    |
+| authorization | 使用QWebEnginePage打开摄像头演示权限管理        |
+|  channelDemo  | 使用QtWebChannel实现Qt与Web通信交互（简单示例） |
+| channelDemo2  | 使用QtWebChannel实现Qt与Web通信交互（进阶功能） |
+|    QtJson     | 使用Qt内置json库读写json示例                    |
 
  
 
@@ -83,3 +84,19 @@
 > 4. 从json文件中读取json数据，并使用【递归】的方式解析json数据。      
 
 ![image-20221215175419479](Web.assets/image-20221215175419479.png)
+
+
+
+### 1.6 channelDemo2
+
+用QtWebChannel实现Qt与Web双向交互（2），进阶功能 ；
+
+> 1. 
+>    构建后将html、css、js文件自动拷贝到可执行程序路径下；                 
+> 2. web界面和qt界面实现双向通信；                               
+> 3. 由于QWebChannel传递数据只有可以转换为【JSON的数据类型】才可以传递，其它类型无法传递，例如QByteArray这些JSON不支持的数据类型，这里演示了可以传递的所有数据类型的使用方式；                         
+> 4. Web界面中javascript直接读取Qt中注册对象使用Q_PROPERTY定义的【属性值】；
+> 5. Web界面中javascript直接读取Qt中注册对象使用使用Q_ENUM标记的【枚举】；   
+> 6. 定义一个带有返回值的槽函数，javascript调用该函数后可以获取【返回值】；        
+
+![image-20221216124021490](Web.assets/image-20221216124021490.png)
