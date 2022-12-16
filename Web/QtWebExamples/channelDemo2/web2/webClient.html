@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Web客户端</title>
+<!--  qwebchannel.js文件一般在Qt安装路径下 D:\Qt\Qt5.12.5\Examples\Qt-5.12.5\webchannel\shared\qwebchannel.js-->
+    <script src="qwebchannel.js"></script>
+    <script src="main.js"></script>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+    <h1 align="center">Web客户端程序 </h1>
+    <div align="center">
+        <textarea id="textAreaId" name="textArea"></textarea> </br>
+
+        <button id="but_bool" class="button" onclick="butClick_bool()">bool类型</button>
+        <button id="but_double" class="button" onclick="butClick_double()">double类型</button>
+        <button id="but_str" class="button" onclick="butClick_str()">string类型</button>
+        <button id="but_arr" class="button" onclick="butClick_arr()">array类型</button>
+        <button id="but_obj" class="button" onclick="butClick_obj()">object类型</button> </br>
+        
+        <button id="but_Property" class="button" onclick="butClick_Property()">读取并修改Qt对象中的属性</button>
+        <button id="but_enum" class="button" onclick="butClick_enum()">读取Q_ENUM标记的枚举</button>
+        <button id="but_return" class="button" onclick="butClick_return()">调用带返回值的Qt函数</button>
+    </div>
+</body>
+</html>
