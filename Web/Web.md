@@ -14,6 +14,8 @@
 |  channelDemo  | 使用QtWebChannel实现Qt与Web通信交互（简单示例） |
 | channelDemo2  | 使用QtWebChannel实现Qt与Web通信交互（进阶功能） |
 |    QtJson     | 使用Qt内置json库读写json示例                    |
+|  ChatClient   | 使用QWebSocket实现的简单客户端程序              |
+|  ChatServer   | 使用QWebSocketServer实现的简单服务端程序        |
 
  
 
@@ -100,3 +102,27 @@
 > 6. 定义一个带有返回值的槽函数，javascript调用该函数后可以获取【返回值】；        
 
 ![image-20221216124021490](Web.assets/image-20221216124021490.png)
+
+
+
+### 1.7 ChatClient
+
+QWebSocket客户端简单示例   
+
+> 1. 
+>    实现连接、断开连接、数据发送、数据接收显示功能；
+
+![image-20221217210219249](Web.assets/image-20221217210219249.png)
+
+
+
+### 1.8 ChatServer
+
+QWebSocketServer服务端简单示例
+
+> 1. 使用QWebSocketServer创建一个服务端，使用【非安全模式】;  
+> 2. 将所有连接的客户端加入列表，实现服务端同时向所有客户端发送信息；      
+> 3. 实现将客户端传递过来的信息转发给其它所有客户端；              
+> 4. 实现在关闭时释放所有客户端功能。                      
+
+![image-20221217210336065](Web.assets/image-20221217210336065.png)
