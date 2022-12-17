@@ -1,21 +1,28 @@
 #---------------------------------------------------------------------------------------
-# @功能：       使用QWebEngineView加载显示Web页面的最小示例
-#             1、保留最简单功能，去掉不易于理解的功能；
-#             2、分别演示了加载网络地址、资源文件中的Html文件，本地html的方式；
-#             3、详细的注释，对初学者更友好。
+# @功能：      QWebSocket客户端简单示例
+#             1、实现连接、断开连接、数据发送、数据接收显示功能；
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
 # @开发者     mhf
 # @邮箱       1603291350@qq.com
-# @时间       2022-12-10 20:22:53
+# @时间       2022-12-16 21:29:53
 # @备注
 #---------------------------------------------------------------------------------------
-TEMPLATE += app
-QT += webenginewidgets
+QT       += core gui websockets
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
-SOURCES += main.cpp
+SOURCES += \
+    main.cpp \
+    widget.cpp
+
+HEADERS += \
+    widget.h
+
+FORMS += \
+    widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -27,20 +34,12 @@ VERSION = 1.0.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
-path = $$PWD/../bin             # 程序输出路径
+DESTDIR = $$PWD/../bin          # 程序输出路径
 }else{
-path = $$PWD/../bin64           # 使用64位编译器
+DESTDIR = $$PWD/../bin64        # 使用64位编译器
 }
-DESTDIR = $$path                # 指定编译后的文件存放路径
-
-webFile.path = $$path
-webFile.files = $$PWD/hello.html
-INSTALLS += webFile      # 将hello.html文件拷贝到path路径下，需要配置Custom Process Step: nmake install才生效
-
 # msvc  编译器使用utf-8编码
 msvc {
 QMAKE_CFLAGS += /utf-8
 QMAKE_CXXFLAGS += /utf-8
 }
-
-RESOURCES += rc.qrc

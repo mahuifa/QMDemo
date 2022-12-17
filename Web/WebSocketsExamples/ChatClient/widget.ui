@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>520</width>
+    <height>459</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Widget</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" colspan="2">
+    <widget class="QTextEdit" name="textEdit"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLineEdit" name="lineEdit_url">
+     <property name="text">
+      <string>ws://localhost:1234</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="but_connect">
+     <property name="text">
+      <string>连接</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLineEdit" name="lineEdit_send"/>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="but_send">
+     <property name="text">
+      <string>发送数据</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
