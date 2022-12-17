@@ -8,7 +8,3 @@ qtHaveModule(webenginewidgets) {
     SUBDIRS += channelDemo       # 使用QtWebChannel实现Qt与Web通信交互（简单示例）
     SUBDIRS += channelDemo2      # 使用QtWebChannel实现Qt与Web通信交互（进阶功能）
 }
-
-
-
-
