@@ -16,7 +16,7 @@ Widget::Widget(QWidget *parent)
     m_channel.registerObject("CoreId", Core::getInstance());   // 向QWebChannel注册用于Qt和Web交互的对象。
     m_channel.listen(QHostAddress::AnyIPv4, 1234);             // 设置WebSocket服务端开始监听
 
-    ui->webEngineView->page()->setWebChannel(&m_channel);       // 将与webEngineView要使用的web通道实例设置为channel
+//    ui->webEngineView->page()->setWebChannel(&m_channel);       // 将与webEngineView要使用的web通道实例设置为channel（使用QWebSocket作为数据传输接口可以不需要这一步）
     ui->webEngineView->setUrl(QDir("./web3/channelClient.html").absolutePath());
 }
 

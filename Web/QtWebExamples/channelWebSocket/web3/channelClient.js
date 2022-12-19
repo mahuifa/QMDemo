@@ -3,7 +3,7 @@
 /**
  * 创建一个程序加载时自动执行的函数
  * 注意：由于该函数执行时WebSocket会连接Qt中的WebSocket服务端，WebChannel会获取Qt中注册的对象
- *      所以需要先启动Qt程序，再启动当前web程序，否则无法连接
+ *      所以需要先启动Qt程序，再启动当前web程序，否则无法连接(也可以写成手动调用)
  */
 window.onload = function() 
 {
