@@ -80,7 +80,7 @@
 
 
 
-### 1.5 QtJso
+### 1.5 QtJson
 
 > 1. 使用Qt内置json库读写json示例                             
 > 2. 实现生成json数据，插入json数组、json对象以及各种json支持的数据类型；

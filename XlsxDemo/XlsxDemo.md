@@ -51,7 +51,7 @@
 > 8. 删除指定名称的工作表（Sheet）。
 > 
 
-![sheet](XlsxDemo.assets/sheet.gif)
+![sheet](XlsxDemo.assets/shee.gif)
 
 ### 1.3 Test3
 
