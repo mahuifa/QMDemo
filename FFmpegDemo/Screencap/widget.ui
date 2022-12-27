@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>开始</string>
+    <string>开始录屏</string>
    </property>
   </widget>
  </widget>

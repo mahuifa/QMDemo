@@ -11,3 +11,13 @@ LIBS += -L/home/mhf/lib/ffmpeg/ffmpeg-5-1-2/lib -lavcodec -lavfilter -lavformat 
 INCLUDEPATH += /home/mhf/lib/ffmpeg/ffmpeg-5-1-2/include
 DEPENDPATH += /home/mhf/lib/ffmpeg/ffmpeg-5-1-2/include
 }
+
+HEADERS += \
+    $$PWD/readthread.h \
+    $$PWD/videocodec.h \
+    $$PWD/videodecode.h
+
+SOURCES += \
+    $$PWD/readthread.cpp \
+    $$PWD/videocodec.cpp \
+    $$PWD/videodecode.cpp
