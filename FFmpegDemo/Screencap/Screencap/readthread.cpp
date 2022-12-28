@@ -81,15 +81,14 @@ void ReadThread::run()
     bool ret = m_videoDecode->open(m_url);         // 打开网络流时会比较慢，如果放到Ui线程会卡
     if(ret)
     {
-        m_play = true;
-        m_etime1.start();
-        emit playState(play);
-
-        bool ret = m_videoCodec->open(m_videoDecode->getCodecContext(), m_videoDecode->avgFrameRate(), m_path);
-        if(!ret)
+        m_play = m_videoCodec->open(m_videoDecode->getCodecContext(), m_videoDecode->avgFrameRate(), m_path);
+        if(!m_play)
         {
             qDebug() << "打开输出文件失败！";
-            return;
+        }
+        else
+        {
+            emit playState(play);
         }
     }
     else
@@ -102,9 +101,7 @@ void ReadThread::run()
         AVFrame* frame = m_videoDecode->read();  // 读取视频图像
         if(frame)
         {
-//            qDebug() << m_etime1.elapsed();
-//            m_etime1.start();
-            m_videoCodec->write(frame);
+            m_videoCodec->write(frame);          // 将解码后的图像数据传递给编码保存类
         }
         else
         {
@@ -117,7 +114,7 @@ void ReadThread::run()
         }
     }
 
-    qDebug() << "播放结束！";
+    qDebug() << "录屏结束！";
     m_videoDecode->close();
     m_videoCodec->close();
     emit playState(end);

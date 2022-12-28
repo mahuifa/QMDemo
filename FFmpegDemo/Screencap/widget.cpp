@@ -1,6 +1,6 @@
 #include "widget.h"
 #include "ui_widget.h"
-
+#include <QDateTime>
 #include <qfiledialog.h>
 
 Widget::Widget(QWidget *parent)
@@ -12,6 +12,7 @@ Widget::Widget(QWidget *parent)
     this->setWindowTitle(QString("Qt+ffmpeg录屏Demo V%1").arg(APP_VERSION));
     m_readThread = new ReadThread();
     connect(m_readThread, &ReadThread::playState, this, &Widget::on_playState);
+    connect(&m_timer, &QTimer::timeout, this, &Widget::on_timeout);
 }
 
 Widget::~Widget()
@@ -33,7 +34,6 @@ void Widget::on_but_open_clicked()
     {
         setSavePath();
         m_readThread->open("desktop");
-//        m_readThread->open("C:/Users/mhf/Videos/1.mp4");
     }
     else
     {
@@ -51,11 +51,14 @@ void Widget::on_playState(ReadThread::PlayState state)
     {
         this->setWindowTitle(QString("正在录制：%1").arg(ui->line_path->text()));
         ui->but_open->setText("停止录制");
+        m_timer.start(1000);
+        ui->timeEdit->setTime(QTime(0, 0, 0, 0));     // 这里重置不要使用clear()
     }
     else
     {
         ui->but_open->setText("开始录屏");
         this->setWindowTitle(QString("Qt+ffmpeg录屏Demo V%1").arg(APP_VERSION));
+        m_timer.stop();
     }
 }
 
@@ -72,4 +75,12 @@ void Widget::setSavePath()
 
     ui->line_path->setText(strPath);
     m_readThread->setPath(strPath);
+}
+
+/**
+ * @brief 更新计时器时间
+ */
+void Widget::on_timeout()
+{
+    ui->timeEdit->setTime(ui->timeEdit->time().addSecs(1));
 }

@@ -12,7 +12,6 @@ extern "C" {        // 用C规则编译指定的代码
 
 #define ERROR_LEN 1024  // 异常信息数组长度
 #define PRINT_LOG 1
-#define USE_H264 1      // 使用H264编码器
 
 VideoCodec::VideoCodec()
 {
@@ -68,25 +67,12 @@ bool VideoCodec::open(AVCodecContext *codecContext, QPoint point, const QString 
     // 设置编码器上下文参数
     m_codecContext->width = codecContext->width;                          // 图片宽度/高度
     m_codecContext->height = codecContext->height;
-#if USE_H264
-    m_codecContext->pix_fmt = AV_PIX_FMT_YUV420P;
-#else
-    m_codecContext->pix_fmt = AVPixelFormat(inStream->codecpar->format);        // 像素格式，也可以使用codec->pix_fmts[0]或AV_PIX_FMT_YUVJ422P(【注意】摄像头解码的图像格式为yuvj422p，如果这里不一样可能保存会出问题，或者后面进行格式转换)
-#endif
+    m_codecContext->pix_fmt = codec->pix_fmts[0];                         // 像素格式（这里通过编码器赋值，不需要自己指定）
     m_codecContext->time_base = {point.y(), point.x()};                   //设置时间基，20为分母，1为分子，表示以1/20秒时间间隔播放一帧图像
     m_codecContext->framerate = {point.x(), point.y()};
-    m_codecContext->bit_rate = 4000000;                                   // 目标的码率，即采样的码率；显然，采样码率越大，视频大小越大，画质越高
-    m_codecContext->gop_size = 12;                                        // I帧间隔
+    m_codecContext->bit_rate = 1000000;                                   // 目标的码率，即采样的码率；显然，采样码率越大，视频大小越大，画质越高
+    m_codecContext->gop_size = 12;                                        // I帧间隔(值越大，视频文件越小，编解码延时越长)
     m_codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
-//    m_codecContext->max_b_frames = 1;                      // 非B帧之间的最大B帧数(有些格式不支持)
-//    m_codecContext->qmin = 1;
-//    m_codecContext->qmax = 5;
-//    m_codecContext->colorspace = AVCOL_SPC_BT470BG;
-//    m_codecContext->color_range = AVCOL_RANGE_JPEG;
-//    m_codecContext->color_primaries = AVCOL_PRI_BT709;
-//    m_codecContext->bits_per_coded_sample = 24;
-//    m_codecContext->bits_per_raw_sample = 8;
-//    av_opt_set(m_codecContext->priv_data, "preset", "placebo", 0);
 
     // 打开编码器
     ret = avcodec_open2(m_codecContext, nullptr, nullptr);
@@ -133,10 +119,24 @@ bool VideoCodec::open(AVCodecContext *codecContext, QPoint point, const QString 
         showError(AVERROR(ENOMEM));
         return false;
     }
+
+    m_frame = av_frame_alloc();
+    if(!m_frame)
+    {
+        close();
+        showError(AVERROR(ENOMEM));
+        return false;
+    }
+    m_frame->format = codec->pix_fmts[0];
+
     qDebug() << "开始录制视频！";
     return true;
 }
 
+/**
+ * @brief          将图像帧编码写入视频文件
+ * @param frame
+ */
 void VideoCodec::write(AVFrame *frame)
 {
     QMutexLocker locker(&m_mutex);
@@ -145,14 +145,18 @@ void VideoCodec::write(AVFrame *frame)
         return;
     }
 
-    if(frame)
+    if(!swsFormat(frame))              // 由于解码的图像格式和编码需要的图像格式不一定相同，所以需要转换一下格式
     {
-        frame->pts = m_index;
+        return;
+    }
+    if(m_frame)
+    {
+        m_frame->pts = m_index;         // pts从0开始增加，保存的视频才会时间从0开始增加
         m_index++;
     }
 
-    // 将图像传入编码器
-    avcodec_send_frame(m_codecContext, frame);
+
+    avcodec_send_frame(m_codecContext, m_frame); // 将图像传入编码器
 
     // 循环读取所有编码完的帧
     while (true)
@@ -196,6 +200,7 @@ void VideoCodec::close()
         }
         avformat_free_context(m_formatContext);
         m_formatContext = nullptr;
+        m_videoStream = nullptr;
     }
     // 释放编解码器上下文并置空
     if(m_codecContext)
@@ -205,8 +210,18 @@ void VideoCodec::close()
     if(m_packet)
     {
         av_packet_free(&m_packet);
-        qDebug() << "停止录制视频！";
     }
+    // 释放上下文swsContext。
+    if(m_swsContext)
+    {
+        sws_freeContext(m_swsContext);
+        m_swsContext = nullptr;             // sws_freeContext不会把上下文置NULL
+    }
+    if(m_frame)
+    {
+        av_frame_free(&m_frame);
+    }
+    m_index = 0;
 }
 
 void VideoCodec::showError(int err)
@@ -219,4 +234,67 @@ void VideoCodec::showError(int err)
 #else
     Q_UNUSED(err)
 #endif
+}
+
+/**
+ * @brief        将解码图像帧的像素格式转换未编码图像帧的像素格式
+ * @param frame
+ * @return       true：转换成功  false：转换失败
+ */
+bool VideoCodec::swsFormat(AVFrame *frame)
+{
+    if(!frame || frame->width <= 0 || frame->height <= 0)
+    {
+        return false;
+    }
+    // 为什么图像转换上下文要放在这里初始化呢，是因为m_frame->format，如果使用硬件解码，解码出来的图像格式和m_codecContext->pix_fmt的图像格式不一样，就会导致无法转换为QImage
+    // 由于解码后的图像格式不一定支持保存裸流，或者不支持直接编码为H264，所以需要转换格式
+    if(!m_swsContext)
+    {
+        // 获取缓存的图像转换上下文。首先校验参数是否一致，如果校验不通过就释放资源；然后判断上下文是否存在，如果存在直接复用，如不存在进行分配、初始化操作
+        m_swsContext = sws_getCachedContext(m_swsContext,
+                                            frame->width,                     // 输入图像的宽度
+                                            frame->height,                    // 输入图像的高度
+                                            (AVPixelFormat)frame->format,     // 输入图像的像素格式
+                                            frame->width,                     // 输出图像的宽度
+                                            frame->height,                    // 输出图像的高度
+                                            (AVPixelFormat)m_frame->format,   // 输出图像的像素格式
+                                            SWS_BILINEAR,                     // 选择缩放算法(只有当输入输出图像大小不同时有效),一般选择SWS_FAST_BILINEAR
+                                            nullptr,                          // 输入图像的滤波器信息, 若不需要传NULL
+                                            nullptr,                          // 输出图像的滤波器信息, 若不需要传NULL
+                                            nullptr);                         // 特定缩放算法需要的参数(?)，默认为NULL
+        if(!m_swsContext)
+        {
+#if PRINT_LOG
+            qWarning() << "sws_getCachedContext() Error！";
+#endif
+
+            av_frame_unref(frame);
+            return false;
+        }
+
+        if(m_frame)
+        {
+            // 创建一个图像帧用于保存YUV420P图像
+            m_frame->width = frame->width;
+            m_frame->height = frame->height;
+            av_frame_get_buffer(m_frame, 3 * 8);
+        }
+    }
+
+    if(m_frame->width <= 0 || m_frame->height <= 0)      // 如果m_frame没有分配空间则返回
+    {
+        return false;
+    }
+
+    // 开始转换格式
+    bool ret = sws_scale(m_swsContext,             // 缩放上下文
+                    frame->data,                   // 原图像数组
+                    frame->linesize,               // 包含源图像每个平面步幅的数组
+                    0,                             // 开始位置
+                    frame->height,                 // 行数
+                    m_frame->data,                 // 目标图像数组
+                    m_frame->linesize);            // 包含目标图像每个平面的步幅的数组
+    av_frame_unref(frame);
+    return ret;
 }

@@ -19,7 +19,7 @@ extern "C" {        // 用C规则编译指定的代码
 
 VideoDecode::VideoDecode()
 {
-    initFFmpeg();      // 5.1.2版本不需要调用了
+    initFFmpeg();
 
     m_error = new char[ERROR_LEN];
 
@@ -190,8 +190,7 @@ bool VideoDecode::open(const QString &url)
     }
     // 分配AVFrame并将其字段设置为默认值。
     m_frame = av_frame_alloc();
-    m_frameY = av_frame_alloc();
-    if(!m_frame || !m_frameY)
+    if(!m_frame)
     {
 #if PRINT_LOG
         qWarning() << "av_frame_alloc() Error！";
@@ -200,14 +199,7 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
-    // 创建一个图像帧用于保存YUV420P图像
-    m_frameY->width = m_size.width();
-    m_frameY->height = m_size.height();
-    m_frameY->format = AV_PIX_FMT_YUV420P;
-    av_frame_get_buffer(m_frameY, 3 * 8);
-
     m_end = false;
-
     return true;
 }
 
@@ -234,14 +226,6 @@ AVFrame* VideoDecode::read()
 
         if(m_packet->stream_index == m_videoIndex)     // 如果是图像数据则进行解码
         {
-            // 计算当前帧时间（毫秒）
-#if 1       // 方法一：适用于所有场景，但是存在一定误差
-            m_packet->pts = qRound64(m_packet->pts * (1000 * rationalToDouble(&m_formatContext->streams[m_videoIndex]->time_base)));
-            m_packet->dts = qRound64(m_packet->dts * (1000 * rationalToDouble(&m_formatContext->streams[m_videoIndex]->time_base)));
-#else       // 方法二：适用于播放本地视频文件，计算每一帧时间较准，但是由于网络视频流无法获取总帧数，所以无法适用
-            m_obtainFrames++;
-            m_packet->pts = qRound64(m_obtainFrames * (qreal(m_totalTime) / m_totalFrames));
-#endif
             // 将读取到的原始数据包传入解码器
             int ret = avcodec_send_packet(m_codecContext, m_packet);
             if(ret < 0)
@@ -264,46 +248,7 @@ AVFrame* VideoDecode::read()
         return nullptr;
     }
 
-    if(m_frame->format == AV_PIX_FMT_YUV420P)   // 如果图像格式为YUV420P则直接返回，不进行格式转换
-    {
-        return m_frame;
-    }
-
-    // 为什么图像转换上下文要放在这里初始化呢，是因为m_frame->format，如果使用硬件解码，解码出来的图像格式和m_codecContext->pix_fmt的图像格式不一样，就会导致无法转换为QImage
-    // 由于解码后的图像格式不一定支持保存裸流，或者不支持直接编码为H264，所以需要转换格式
-    if(!m_swsContext)
-    {
-        // 获取缓存的图像转换上下文。首先校验参数是否一致，如果校验不通过就释放资源；然后判断上下文是否存在，如果存在直接复用，如不存在进行分配、初始化操作
-        m_swsContext = sws_getCachedContext(m_swsContext,
-                                            m_frame->width,                     // 输入图像的宽度
-                                            m_frame->height,                    // 输入图像的高度
-                                            (AVPixelFormat)m_frame->format,     // 输入图像的像素格式
-                                            m_size.width(),                     // 输出图像的宽度
-                                            m_size.height(),                    // 输出图像的高度
-                                            AV_PIX_FMT_YUV420P,                    // 输出图像的像素格式
-                                            SWS_BILINEAR,                       // 选择缩放算法(只有当输入输出图像大小不同时有效),一般选择SWS_FAST_BILINEAR
-                                            nullptr,                            // 输入图像的滤波器信息, 若不需要传NULL
-                                            nullptr,                            // 输出图像的滤波器信息, 若不需要传NULL
-                                            nullptr);                          // 特定缩放算法需要的参数(?)，默认为NULL
-        if(!m_swsContext)
-        {
-#if PRINT_LOG
-            qWarning() << "sws_getCachedContext() Error！";
-#endif
-            free();
-            return nullptr;
-        }
-    }
-
-    ret = sws_scale(m_swsContext,             // 缩放上下文
-                    m_frame->data,            // 原图像数组
-                    m_frame->linesize,        // 包含源图像每个平面步幅的数组
-                    0,                        // 开始位置
-                    m_frame->height,          // 行数
-                    m_frameY->data,                     // 目标图像数组
-                    m_frameY->linesize);                   // 包含目标图像每个平面的步幅的数组
-    av_frame_unref(m_frame);
-    return m_frameY;
+    return m_frame;
 }
 
 /**
@@ -376,12 +321,6 @@ void VideoDecode::clear()
 
 void VideoDecode::free()
 {
-    // 释放上下文swsContext。
-    if(m_swsContext)
-    {
-        sws_freeContext(m_swsContext);
-        m_swsContext = nullptr;             // sws_freeContext不会把上下文置NULL
-    }
     // 释放编解码器上下文和与之相关的所有内容，并将NULL写入提供的指针
     if(m_codecContext)
     {
@@ -399,10 +338,5 @@ void VideoDecode::free()
     if(m_frame)
     {
         av_frame_free(&m_frame);
-    }
-    if(m_frameY)
-    {
-        av_frame_unref(m_frameY);
-        av_frame_free(&m_frameY);
     }
 }

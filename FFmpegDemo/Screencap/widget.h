@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <qtimer.h>
 #include "readthread.h"
 
 QT_BEGIN_NAMESPACE
@@ -21,9 +22,11 @@ private slots:
     void on_playState(ReadThread::PlayState state);
 
     void setSavePath();
+    void on_timeout();
 
 private:
     Ui::Widget *ui;
     ReadThread* m_readThread = nullptr;
+    QTimer m_timer;
 };
 #endif // WIDGET_H
