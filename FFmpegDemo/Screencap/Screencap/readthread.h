@@ -30,6 +30,7 @@ public:
     explicit ReadThread(QObject *parent = nullptr);
     ~ReadThread() override;
 
+    void setPath(const QString& path);
     void open(const QString& url = QString());  // 打开视频
     void close();                               // 关闭视频
     const QString& url();                       // 获取打开的视频地址
@@ -45,6 +46,7 @@ private:
     VideoDecode* m_videoDecode = nullptr;       // 视频解码类
     VideoCodec* m_videoCodec = nullptr;
     QString m_url;                              // 打开的视频地址
+    QString m_path;                             // 视频保存路径
     bool m_play   = false;                      // 播放控制
     QElapsedTimer m_etime1;                     // 控制视频播放速度（更精确，但不支持视频后退）
 };

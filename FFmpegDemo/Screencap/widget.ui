@@ -6,25 +6,34 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>635</width>
-    <height>519</height>
+    <width>512</width>
+    <height>427</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QPushButton" name="but_open">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>80</y>
-     <width>75</width>
-     <height>23</height>
+     <y>70</y>
+     <width>421</width>
+     <height>25</height>
     </rect>
    </property>
-   <property name="text">
-    <string>开始录屏</string>
-   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLineEdit" name="line_path"/>
+    </item>
+    <item>
+     <widget class="QPushButton" name="but_open">
+      <property name="text">
+       <string>开始录屏</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

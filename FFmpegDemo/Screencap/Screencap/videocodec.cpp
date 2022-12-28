@@ -28,18 +28,9 @@ bool VideoCodec::open(AVCodecContext *codecContext, QPoint point, const QString 
 {
     if(!codecContext || fileName.isEmpty()) return false;
 
-    // 通过输出文件名为输出格式分配AVFormatContext。
-#if USE_H264
-    int ret = avformat_alloc_output_context2(&m_formatContext, nullptr, "h264", fileName.toStdString().data());
-#else
-    /**
-     * 摄像头打开使用的是mjpeg编码器；
-     * MJPEG压缩技术可以获取清晰度很高的视频图像，可以【动态调整帧率】适合保存摄像头视频、分辨率。但由于没有考虑到帧间变化，造成大量冗余信息被重复存储，因此单帧视频的占用空间较大；
-     * 如果采用其它编码器，由于摄像头曝光时间长度不一定，所以录像时帧率一直在变，编码器指定固定帧率会导致视频一会快一会慢，效果很不好，适用于录制固定帧率的视频（当然其它编码器应该是有处理办法，不过我还不清楚）；
-     */
-    QString strName = avcodec_find_encoder(codecContext->codec_id)->name;    // 获取编码器名称
-    int ret = avformat_alloc_output_context2(&m_formatContext, nullptr, strName.toStdString().data(), fileName.toStdString().data());  // 这里使用和解码一样的编码器，防止保存的图像颜色出问题
-#endif
+    // 通过输出文件名为输出格式分配AVFormatContext。参数3编码器设置为空，由参数4文件名后缀推测合适的编码器
+    int ret = avformat_alloc_output_context2(&m_formatContext, nullptr, nullptr, fileName.toStdString().data());
+
     if(ret < 0)
     {
         close();
@@ -63,6 +54,7 @@ bool VideoCodec::open(AVCodecContext *codecContext, QPoint point, const QString 
         showError(AVERROR(ENOMEM));
         return false;
     }
+    qDebug() << codec->id <<" " << codec->name;
 
     // 分配AVCodecContext并将其字段设置为默认值。
     m_codecContext = avcodec_alloc_context3(codec);
@@ -83,8 +75,8 @@ bool VideoCodec::open(AVCodecContext *codecContext, QPoint point, const QString 
 #endif
     m_codecContext->time_base = {point.y(), point.x()};                   //设置时间基，20为分母，1为分子，表示以1/20秒时间间隔播放一帧图像
     m_codecContext->framerate = {point.x(), point.y()};
-    m_codecContext->bit_rate = codecContext->bit_rate;                    // 目标的码率，即采样的码率；显然，采样码率越大，视频大小越大，画质越高
-    m_codecContext->gop_size = codecContext->gop_size;                         // I帧间隔
+    m_codecContext->bit_rate = 4000000;                                   // 目标的码率，即采样的码率；显然，采样码率越大，视频大小越大，画质越高
+    m_codecContext->gop_size = 12;                                        // I帧间隔
     m_codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 //    m_codecContext->max_b_frames = 1;                      // 非B帧之间的最大B帧数(有些格式不支持)
 //    m_codecContext->qmin = 1;
@@ -95,22 +87,16 @@ bool VideoCodec::open(AVCodecContext *codecContext, QPoint point, const QString 
 //    m_codecContext->bits_per_coded_sample = 24;
 //    m_codecContext->bits_per_raw_sample = 8;
 //    av_opt_set(m_codecContext->priv_data, "preset", "placebo", 0);
-//    qDebug() << m_codecContext->pix_fmt;
 
-    qDebug() << 5 <<" " << m_codecContext->time_base.den<<" " << m_codecContext->time_base.num;
     // 打开编码器
     ret = avcodec_open2(m_codecContext, nullptr, nullptr);
-#if USE_H264
-//    ret = avcodec_open2(m_codecContext, codec, nullptr);      // 使用h264时第一次打不开，第二次可以打卡，不知道什么原因
-#endif
     if(ret < 0)
     {
-//        close();
+        close();
         showError(ret);
         return false;
     }
 
-    qDebug() << 6;
     // 向媒体文件添加新流
     m_videoStream = avformat_new_stream(m_formatContext, nullptr);
     if(!m_videoStream)
@@ -119,7 +105,6 @@ bool VideoCodec::open(AVCodecContext *codecContext, QPoint point, const QString 
         showError(AVERROR(ENOMEM));
         return false;
     }
-    qDebug() << 7;
 
     //拷贝一些参数，给codecpar赋值
     ret = avcodec_parameters_from_context(m_videoStream->codecpar,m_codecContext);
@@ -129,7 +114,6 @@ bool VideoCodec::open(AVCodecContext *codecContext, QPoint point, const QString 
         showError(ret);
         return false;
     }
-    qDebug() << 8;
 
     // 写入文件头
     ret = avformat_write_header(m_formatContext, nullptr);

@@ -24,6 +24,17 @@ ReadThread::~ReadThread()
 }
 
 /**
+ * @brief       设置视频保存地址
+ * @param path
+ */
+void ReadThread::setPath(const QString &path)
+{
+    if(path.isEmpty()) return;
+
+    m_path = path;
+}
+
+/**
  * @brief      传入播放的视频地址并开启线程
  * @param url
  */
@@ -74,7 +85,7 @@ void ReadThread::run()
         m_etime1.start();
         emit playState(play);
 
-        bool ret = m_videoCodec->open(m_videoDecode->getCodecContext(), m_videoDecode->avgFrameRate(), "./1.mp4");
+        bool ret = m_videoCodec->open(m_videoDecode->getCodecContext(), m_videoDecode->avgFrameRate(), m_path);
         if(!ret)
         {
             qDebug() << "打开输出文件失败！";

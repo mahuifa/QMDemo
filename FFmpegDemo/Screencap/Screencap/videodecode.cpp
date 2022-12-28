@@ -83,9 +83,9 @@ bool VideoDecode::open(const QString &url)
     AVDictionary* dict = nullptr;
     av_dict_set(&dict, "framerate", "20", 0);          // 设置帧率，默认的是30000/1001，但是实际可能达不到30的帧率，所以最好手动设置
     av_dict_set(&dict, "draw_mouse", "1", 0);          // 指定是否绘制鼠标指针。0：不包含鼠标，1：包含鼠标
-    av_dict_set(&dict, "video_size", "500x400", 0);    // 录制视频的大小（宽高），默认为全屏
-    av_dict_set(&dict, "offset_x", "100", 0);          // 录制视频的起点X坐标
-    av_dict_set(&dict, "offset_y", "500", 0);          // 录制视频的起点Y坐标
+//    av_dict_set(&dict, "video_size", "500x400", 0);    // 录制视频的大小（宽高），默认为全屏
+//    av_dict_set(&dict, "offset_x", "100", 0);          // 录制视频的起点X坐标
+//    av_dict_set(&dict, "offset_y", "500", 0);          // 录制视频的起点Y坐标
 
     // 打开输入流并返回解封装上下文
     int ret = avformat_open_input(&m_formatContext,          // 返回解封装上下文
@@ -264,7 +264,6 @@ AVFrame* VideoDecode::read()
         return nullptr;
     }
 
-    m_pts = m_frame->pts;
     if(m_frame->format == AV_PIX_FMT_YUV420P)   // 如果图像格式为YUV420P则直接返回，不进行格式转换
     {
         return m_frame;
@@ -319,7 +318,6 @@ void VideoDecode::close()
     m_videoIndex    = 0;
     m_totalFrames   = 0;
     m_obtainFrames  = 0;
-    m_pts           = 0;
     m_frameRate     = 0;
     m_size          = QSize(0, 0);
 }
@@ -331,15 +329,6 @@ void VideoDecode::close()
 bool VideoDecode::isEnd()
 {
     return m_end;
-}
-
-/**
- * @brief    返回当前帧图像播放时间
- * @return
- */
-const qint64 &VideoDecode::pts()
-{
-    return m_pts;
 }
 
 

@@ -36,7 +36,6 @@ public:
     AVFrame* read();                               // 读取视频图像
     void close();                                 // 关闭
     bool isEnd();                                 // 是否读取完成
-    const qint64& pts();                          // 获取当前帧显示时间
     AVCodecContext* getCodecContext(){return m_codecContext;}
     QPoint avgFrameRate(){return m_avgFrameRate;}
 
@@ -59,7 +58,6 @@ private:
     qint64 m_totalTime    = 0;                    // 视频总时长
     qint64 m_totalFrames  = 0;                    // 视频总帧数
     qint64 m_obtainFrames = 0;                    // 视频当前获取到的帧数
-    qint64 m_pts          = 0;                    // 图像帧的显示时间
     qreal  m_frameRate    = 0;                    // 视频帧率
     QSize  m_size;                                // 视频分辨率大小
     char*  m_error = nullptr;                     // 保存异常信息
