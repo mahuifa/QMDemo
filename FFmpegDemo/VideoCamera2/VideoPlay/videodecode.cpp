@@ -20,7 +20,7 @@ extern "C" {        // 用C规则编译指定的代码
 
 VideoDecode::VideoDecode()
 {
-    initFFmpeg();      // 5.1.2版本不需要调用了
+    initFFmpeg();
 
     m_error = new char[ERROR_LEN];
 
@@ -64,6 +64,7 @@ void VideoDecode::initFFmpeg()
         /**
          * 初始化网络库,用于打开网络流媒体，此函数仅用于解决旧GnuTLS或OpenSSL库的线程安全问题。
          * 一旦删除对旧GnuTLS和OpenSSL库的支持，此函数将被弃用，并且此函数不再有任何用途。
+         * 5.1.2版本不需要调用了
          */
         avformat_network_init();
         // 初始化libavdevice并注册所有输入和输出设备。
