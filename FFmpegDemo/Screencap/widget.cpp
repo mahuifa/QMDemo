@@ -33,7 +33,11 @@ void Widget::on_but_open_clicked()
     if(ui->but_open->text() == "开始录屏")
     {
         setSavePath();
+#if defined(Q_OS_WIN)
         m_readThread->open("desktop");
+#elif defined(Q_OS_LINUX)
+        m_readThread->open("");            // linux下设备名可以省略
+#endif
     }
     else
     {
@@ -67,10 +71,11 @@ void Widget::on_playState(ReadThread::PlayState state)
  */
 void Widget::setSavePath()
 {
-    QString strDefault = QString("%1/Videos/%2").arg(QDir::homePath()).arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss"));
+    QString strDefault = QString("%1/视频/%2.mp4").arg(QDir::homePath()).arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss"));
     QString strPath = QFileDialog::getSaveFileName(this, "视频保存到~",  strDefault,
                                                    "常用视频文件 (*.mp4 *.avi *.mov *.wmv *.flv *.h264 *.h265);;"
                                                    "其它文件格式 (*)");
+
     if(strPath.isEmpty()) return;
 
     ui->line_path->setText(strPath);

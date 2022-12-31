@@ -27,13 +27,14 @@ VideoDecode::VideoDecode()
      * dshow：  Windows 媒体输入设备。目前仅支持音频和视频设备。
      * gdigrab：基于 Win32 GDI 的屏幕捕获设备
      * video4linux2：Linux输入视频设备
+     * x11grab：x11屏幕捕获设备
      */
 #if defined(Q_OS_WIN)
-    m_inputFormat = av_find_input_format("gdigrab");            // Windows下如果没有则不能打开摄像头
+    m_inputFormat = av_find_input_format("gdigrab");            // Windows下如果没有则不能打开设备
 #elif defined(Q_OS_LINUX)
-    m_inputFormat = av_find_input_format("video4linux2");       // Linux也可以不需要就可以打开摄像头
+    m_inputFormat = av_find_input_format("x11grab");
 #elif defined(Q_OS_MAC)
-    m_inputFormat = av_find_input_format("avfoundation");
+//    m_inputFormat = av_find_input_format("avfoundation");
 #endif
 
     if(!m_inputFormat)
@@ -81,11 +82,21 @@ bool VideoDecode::open(const QString &url)
     if(url.isNull()) return false;
 
     AVDictionary* dict = nullptr;
+
+    // 所有参数：https://ffmpeg.org/ffmpeg-devices.html
     av_dict_set(&dict, "framerate", "20", 0);          // 设置帧率，默认的是30000/1001，但是实际可能达不到30的帧率，所以最好手动设置
     av_dict_set(&dict, "draw_mouse", "1", 0);          // 指定是否绘制鼠标指针。0：不包含鼠标，1：包含鼠标
 //    av_dict_set(&dict, "video_size", "500x400", 0);    // 录制视频的大小（宽高），默认为全屏
+#if defined(Q_OS_WIN)
 //    av_dict_set(&dict, "offset_x", "100", 0);          // 录制视频的起点X坐标
 //    av_dict_set(&dict, "offset_y", "500", 0);          // 录制视频的起点Y坐标
+#elif defined(Q_OS_LINUX)
+//    av_dict_set(&dict, "select_region", "1", 0);          // 1：指定是否使用指针以图形方式选择抓取区域 0：不使用
+
+    // 当video_size设置，并且video_size加上grab_x、grab_y后不超出桌面区域时，可以通过grab_x、grab_y设置录屏的起始坐标，如果超出桌面区域则会设置失败
+//       av_dict_set(&dict, "grab_x", "300", 0);          // 录制视频的起点X坐标
+//       av_dict_set(&dict, "grab_y", "500", 0);          // 录制视频的起点Y坐标
+#endif
 
     // 打开输入流并返回解封装上下文
     int ret = avformat_open_input(&m_formatContext,          // 返回解封装上下文
