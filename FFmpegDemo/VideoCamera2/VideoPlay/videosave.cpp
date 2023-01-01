@@ -230,6 +230,7 @@ void VideoSave::close()
         }
         avformat_free_context(m_formatContext);
         m_formatContext = nullptr;
+        m_videoStream = nullptr;
     }
     // 释放编解码器上下文并置空
     if(m_codecContext)
@@ -241,4 +242,6 @@ void VideoSave::close()
         av_packet_free(&m_packet);
         qDebug() << "停止录制视频！";
     }
+
+    m_index = 0;
 }

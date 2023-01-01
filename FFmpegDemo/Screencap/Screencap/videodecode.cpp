@@ -3,7 +3,6 @@
 #include <QImage>
 #include <QMutex>
 #include <qdatetime.h>
-#include <qelapsedtimer.h>
 
 
 extern "C" {        // 用C规则编译指定的代码
@@ -28,13 +27,14 @@ VideoDecode::VideoDecode()
      * dshow：  Windows 媒体输入设备。目前仅支持音频和视频设备。
      * gdigrab：基于 Win32 GDI 的屏幕捕获设备
      * video4linux2：Linux输入视频设备
+     * x11grab：x11屏幕捕获设备
      */
 #if defined(Q_OS_WIN)
-    m_inputFormat = av_find_input_format("dshow");            // Windows下如果没有则不能打开摄像头
+    m_inputFormat = av_find_input_format("gdigrab");            // Windows下如果没有则不能打开设备
 #elif defined(Q_OS_LINUX)
-    m_inputFormat = av_find_input_format("video4linux2");       // Linux也可以不需要就可以打开摄像头
+    m_inputFormat = av_find_input_format("x11grab");
 #elif defined(Q_OS_MAC)
-    m_inputFormat = av_find_input_format("avfoundation");
+//    m_inputFormat = av_find_input_format("avfoundation");
 #endif
 
     if(!m_inputFormat)
@@ -64,7 +64,6 @@ void VideoDecode::initFFmpeg()
         /**
          * 初始化网络库,用于打开网络流媒体，此函数仅用于解决旧GnuTLS或OpenSSL库的线程安全问题。
          * 一旦删除对旧GnuTLS和OpenSSL库的支持，此函数将被弃用，并且此函数不再有任何用途。
-         * 5.1.2版本不需要调用了
          */
         avformat_network_init();
         // 初始化libavdevice并注册所有输入和输出设备。
@@ -83,15 +82,21 @@ bool VideoDecode::open(const QString &url)
     if(url.isNull()) return false;
 
     AVDictionary* dict = nullptr;
-    /**
-     * Windows：可使用【ffmpeg -list_options true -f dshow -i video="Lenovo EasyCamera"】命令查看摄像头支持的编码器、帧率、分辨率等信息
-     * Linux：可使用【ffmpeg -list_formats all -i /dev/video0】或【ffplay -f video4linux2 -list_formats all /dev/video0】命令查看摄像头支持的支持的像素格式、编解码器和帧大小
-     */
-    // 设置解码器（Linux下打开本地摄像头默认为rawvideo解码器，输入图像为YUYV420，不方便显示，有两种解决办法，1：使用sws_scale把YUYV422转为YUVJ422P；2：指定mjpeg解码器输出YUVJ422P图像）
-    av_dict_set(&dict, "input_format", "mjpeg", AV_OPT_SEARCH_CHILDREN);
-    av_dict_set(&dict, "framerate", "30", 0);                // 设置帧率
-//    av_dict_set(&dict, "pixel_format", "yuvj422p", 0);     // 设置像素格式
-    av_dict_set(&dict, "video_size", "1280x720", 0);       // 设置视频分辨率（如果该分辨率摄像头不支持则会报错）
+
+    // 所有参数：https://ffmpeg.org/ffmpeg-devices.html
+    av_dict_set(&dict, "framerate", "20", 0);          // 设置帧率，默认的是30000/1001，但是实际可能达不到30的帧率，所以最好手动设置
+    av_dict_set(&dict, "draw_mouse", "1", 0);          // 指定是否绘制鼠标指针。0：不包含鼠标，1：包含鼠标
+//    av_dict_set(&dict, "video_size", "500x400", 0);    // 录制视频的大小（宽高），默认为全屏
+#if defined(Q_OS_WIN)
+//    av_dict_set(&dict, "offset_x", "100", 0);          // 录制视频的起点X坐标
+//    av_dict_set(&dict, "offset_y", "500", 0);          // 录制视频的起点Y坐标
+#elif defined(Q_OS_LINUX)
+//    av_dict_set(&dict, "select_region", "1", 0);          // 1：指定是否使用指针以图形方式选择抓取区域 0：不使用
+
+    // 当video_size设置，并且video_size加上grab_x、grab_y后不超出桌面区域时，可以通过grab_x、grab_y设置录屏的起始坐标，如果超出桌面区域则会设置失败
+//       av_dict_set(&dict, "grab_x", "300", 0);          // 录制视频的起点X坐标
+//       av_dict_set(&dict, "grab_y", "500", 0);          // 录制视频的起点Y坐标
+#endif
 
     // 打开输入流并返回解封装上下文
     int ret = avformat_open_input(&m_formatContext,          // 返回解封装上下文
@@ -134,16 +139,18 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
-    AVStream* m_outStream = m_formatContext->streams[m_videoIndex];  // 通过查询到的索引获取视频流
+    AVStream* videoStream = m_formatContext->streams[m_videoIndex];  // 通过查询到的索引获取视频流
 
     // 获取视频图像分辨率（AVStream中的AVCodecContext在新版本中弃用，改为使用AVCodecParameters）
-    m_size.setWidth(m_outStream->codecpar->width);
-    m_size.setHeight(m_outStream->codecpar->height);
-    m_frameRate = rationalToDouble(&m_outStream->avg_frame_rate);  // 视频帧率
+    m_size.setWidth(videoStream->codecpar->width);
+    m_size.setHeight(videoStream->codecpar->height);
+    m_frameRate = rationalToDouble(&videoStream->avg_frame_rate);  // 视频帧率
+    m_avgFrameRate.setX(videoStream->avg_frame_rate.num);
+    m_avgFrameRate.setY(videoStream->avg_frame_rate.den);
 
     // 通过解码器ID获取视频解码器（新版本返回值必须使用const）
-    const AVCodec* codec = avcodec_find_decoder(m_outStream->codecpar->codec_id);
-    m_totalFrames = m_outStream->nb_frames;
+    const AVCodec* codec = avcodec_find_decoder(videoStream->codecpar->codec_id);
+    m_totalFrames = videoStream->nb_frames;
 
 #if PRINT_LOG
     qDebug() << QString("分辨率：[w:%1,h:%2] 帧率：%3  总帧数：%4  解码器：%5")
@@ -162,7 +169,7 @@ bool VideoDecode::open(const QString &url)
     }
 
     // 使用视频流的codecpar为解码器上下文赋值
-    ret = avcodec_parameters_to_context(m_codecContext, m_outStream->codecpar);
+    ret = avcodec_parameters_to_context(m_codecContext, videoStream->codecpar);
     if(ret < 0)
     {
         showError(ret);
@@ -170,8 +177,8 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
-//    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
-//    m_codecContext->thread_count = 8;                 // 使用8线程解码
+    m_codecContext->flags2 |= AV_CODEC_FLAG2_FAST;    // 允许不符合规范的加速技巧。
+    m_codecContext->thread_count = 8;                 // 使用8线程解码
 
     // 初始化解码器上下文，如果之前avcodec_alloc_context3传入了解码器，这里设置NULL就可以
     ret = avcodec_open2(m_codecContext, nullptr, nullptr);
@@ -203,22 +210,12 @@ bool VideoDecode::open(const QString &url)
         return false;
     }
 
-    // 分配图像空间
-    int size = av_image_get_buffer_size(AV_PIX_FMT_RGBA, m_size.width(), m_size.height(), 4);
-    /**
-     * 【注意：】这里可以多分配一些，否则如果只是安装size分配，大部分视频图像数据拷贝没有问题，
-     *         但是少部分视频图像在使用sws_scale()拷贝时会超出数组长度，在使用使用msvc debug模式时delete[] m_buffer会报错（HEAP CORRUPTION DETECTED: after Normal block(#32215) at 0x000001AC442830370.CRT delected that the application wrote to memory after end of heap buffer）
-     *         特别是这个视频流http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4
-     */
-    m_buffer = new uchar[size + 1000];    // 这里多分配1000个字节就基本不会出现拷贝超出的情况了，反正不缺这点内存
-//    m_image = new QImage(m_buffer, m_size.width(), m_size.height(), QImage::Format_RGBA8888);  // 这种方式分配内存大部分情况下也可以，但是因为存在拷贝超出数组的情况，delete时也会报错
     m_end = false;
-
     return true;
 }
 
 /**
- * @brief
+ * @brief   读取图像并将图像转换为YUV420P格式
  * @return
  */
 AVFrame* VideoDecode::read()
@@ -228,6 +225,7 @@ AVFrame* VideoDecode::read()
     {
         return nullptr;
     }
+
     // 读取下一帧数据
     int readRet = av_read_frame(m_formatContext, m_packet);
     if(readRet < 0)
@@ -236,16 +234,9 @@ AVFrame* VideoDecode::read()
     }
     else
     {
+
         if(m_packet->stream_index == m_videoIndex)     // 如果是图像数据则进行解码
         {
-            // 计算当前帧时间（毫秒）
-#if 1       // 方法一：适用于所有场景，但是存在一定误差
-            m_packet->pts = qRound64(m_packet->pts * (1000 * rationalToDouble(&m_formatContext->streams[m_videoIndex]->time_base)));
-            m_packet->dts = qRound64(m_packet->dts * (1000 * rationalToDouble(&m_formatContext->streams[m_videoIndex]->time_base)));
-#else       // 方法二：适用于播放本地视频文件，计算每一帧时间较准，但是由于网络视频流无法获取总帧数，所以无法适用
-            m_obtainFrames++;
-            m_packet->pts = qRound64(m_obtainFrames * (qreal(m_totalTime) / m_totalFrames));
-#endif
             // 将读取到的原始数据包传入解码器
             int ret = avcodec_send_packet(m_codecContext, m_packet);
             if(ret < 0)
@@ -254,8 +245,6 @@ AVFrame* VideoDecode::read()
             }
         }
     }
-
-
     av_packet_unref(m_packet);  // 释放数据包，引用计数-1，为0时释放空间
 
     av_frame_unref(m_frame);
@@ -269,6 +258,7 @@ AVFrame* VideoDecode::read()
         }
         return nullptr;
     }
+
     return m_frame;
 }
 
@@ -297,14 +287,6 @@ bool VideoDecode::isEnd()
     return m_end;
 }
 
-AVStream *VideoDecode::getVideoStream() const
-{
-    if(!m_formatContext)
-    {
-        return nullptr;
-    }
-    return m_formatContext->streams[m_videoIndex];
-}
 
 /**
  * @brief        显示ffmpeg函数调用异常信息
@@ -350,12 +332,6 @@ void VideoDecode::clear()
 
 void VideoDecode::free()
 {
-    // 释放上下文swsContext。
-    if(m_swsContext)
-    {
-        sws_freeContext(m_swsContext);
-        m_swsContext = nullptr;             // sws_freeContext不会把上下文置NULL
-    }
     // 释放编解码器上下文和与之相关的所有内容，并将NULL写入提供的指针
     if(m_codecContext)
     {
@@ -373,10 +349,5 @@ void VideoDecode::free()
     if(m_frame)
     {
         av_frame_free(&m_frame);
-    }
-    if(m_buffer)
-    {
-        delete [] m_buffer;
-        m_buffer = nullptr;
     }
 }
