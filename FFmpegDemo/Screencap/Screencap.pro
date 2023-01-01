@@ -3,6 +3,7 @@
 #              1、抓取桌面图像转码后保存到本地视频文件中；
 #              2、支持各种常见视频文件类型；
 #              3、支持Windows、Linux录屏功能；
+#              4、主要功能分为录屏线程、录屏解码、图像像素转换、编码保存4部分。
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #

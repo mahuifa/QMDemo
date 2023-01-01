@@ -17,6 +17,7 @@
 | VideoCamera2  | 使用ffmpeg音视频库【软解码】打开本地摄像头【录制视频】保存到本地示例； |
 |  AVIOReading  | API示例程序，演示如何从通过AVIOContext访问的自定义缓冲区读取数据； |
 |  DecodeAudio  | 使用libavcodec API的音频解码示例（MP3转pcm）；               |
+|   Screencap   | FFmpeg实现录屏功能                                           |
 
  
 
@@ -169,3 +170,14 @@
 > 7. 采用最新的5.1.2版本ffmpeg库进行开发，超详细注释信息，将所有踩过的坑、解决办法、注意事项都得很写清楚。       
 
 ![VideoCamera2-tuya](FFmpegDemo.assets/VideoCamera2-tuya.gif)
+
+
+
+### 1.10 Screencap
+
+> 1. 抓取桌面图像转码后保存到本地视频文件中；           
+> 2. 支持各种常见视频文件类型；                  
+> 3. 支持Windows、Linux录屏功能；           
+> 4. 主要功能分为录屏线程、录屏解码、图像像素转换、编码保存4部分。
+
+![image-20230101133211140](FFmpegDemo.assets/image-20230101133211140.png)
