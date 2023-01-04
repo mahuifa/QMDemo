@@ -18,6 +18,7 @@
 |  AVIOReading  | API示例程序，演示如何从通过AVIOContext访问的自定义缓冲区读取数据； |
 |  DecodeAudio  | 使用libavcodec API的音频解码示例（MP3转pcm）；               |
 |   Screencap   | FFmpeg实现录屏功能                                           |
+| VideoPlaySave | 使用软解码实现的视频播放器，并将H264裸流保存到视频文件中（无需编码） |
 
  
 
@@ -181,3 +182,13 @@
 > 4. 主要功能分为录屏线程、录屏解码、图像像素转换、编码保存4部分。
 
 ![image-20230101133211140](FFmpegDemo.assets/image-20230101133211140.png)
+
+
+
+### 1.11 VideoPlaySave
+
+> 1. 视频播放功能与【VideoPlay】相同；
+> 2. 在使用ffmpeg打开网络视频流时，如果是h264裸流可以直接保存为本地文件，不需要进行编码操作；
+> 3. 由于不需要进行编码，可以大大降低CPU占用率。
+
+![image-20230104155424623](FFmpegDemo.assets/image-20230104155424623.png)
