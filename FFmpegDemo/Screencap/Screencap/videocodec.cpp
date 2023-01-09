@@ -23,6 +23,13 @@ VideoCodec::~VideoCodec()
     close();
 }
 
+/**
+ * @brief               初始化打开编码保存文件
+ * @param codecContext
+ * @param point
+ * @param fileName
+ * @return
+ */
 bool VideoCodec::open(AVCodecContext *codecContext, QPoint point, const QString &fileName)
 {
     if(!codecContext || fileName.isEmpty()) return false;

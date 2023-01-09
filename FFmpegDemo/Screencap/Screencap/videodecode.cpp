@@ -86,7 +86,7 @@ bool VideoDecode::open(const QString &url)
     // 所有参数：https://ffmpeg.org/ffmpeg-devices.html
     av_dict_set(&dict, "framerate", "20", 0);          // 设置帧率，默认的是30000/1001，但是实际可能达不到30的帧率，所以最好手动设置
     av_dict_set(&dict, "draw_mouse", "1", 0);          // 指定是否绘制鼠标指针。0：不包含鼠标，1：包含鼠标
-//    av_dict_set(&dict, "video_size", "500x400", 0);    // 录制视频的大小（宽高），默认为全屏
+    av_dict_set(&dict, "video_size", "500x400", 0);    // 录制视频的大小（宽高），默认为全屏
 #if defined(Q_OS_WIN)
 //    av_dict_set(&dict, "offset_x", "100", 0);          // 录制视频的起点X坐标
 //    av_dict_set(&dict, "offset_y", "500", 0);          // 录制视频的起点Y坐标

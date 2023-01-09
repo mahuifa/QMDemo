@@ -10,10 +10,11 @@
 #---------------------------------------------------------------------------------------
 TEMPLATE = subdirs
 
-SUBDIRS += FunctionalModule \               # 常用功能模块，开发时直接复用
-    OpenGLDemo
+SUBDIRS += FunctionalModule               # 常用功能模块，开发时直接复用
+SUBDIRS += Experience                     # 日常开发经验示例出现
+SUBDIRS += OpenGLDemo                     # OpenGL开发Demo
 SUBDIRS += FFmpegDemo                     # ffmpeg库使用Demo
-SUBDIRS += GraphicsviewDemo               #
+SUBDIRS += GraphicsviewDemo               # 图形视图框架使用Demo
 SUBDIRS += OpenCVDemo                     # opencv常用功能Demo
 SUBDIRS += ProgramFramework               # 简单的一些程序架构
 SUBDIRS += QStyleDemo                     # Qt界面样式Demo

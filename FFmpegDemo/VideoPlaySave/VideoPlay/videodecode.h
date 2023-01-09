@@ -1,6 +1,6 @@
 /******************************************************************************
  * @文件名     videodecode.h
- * @功能       视频解码类，在这个类中调用ffmpeg打开视频进行解码
+ * @功能       视频解码类，在这个类中调用ffmpeg打开视频进行解码，并且打开输出文件，将h264裸流保存
  *
  * @开发者     mhf
  * @邮箱       1603291350@qq.com
@@ -41,7 +41,7 @@ private:
     qreal rationalToDouble(AVRational* rational); // 将AVRational转换为double
     void clear();                                 // 清空读取缓冲
     void free();                                  // 释放
-    bool openSave();
+    bool openSave();                              // 打开输出文件并初始化
 
 private:
     AVFormatContext* m_formatContext = nullptr;   // 解封装上下文
@@ -60,10 +60,11 @@ private:
     bool   m_end = false;                         // 视频读取完成
     uchar* m_buffer = nullptr;                    // YUV图像需要转换位RGBA图像，这里保存转换后的图形数据
 
-    AVFormatContext* m_formatContextSave = nullptr;
-    QString m_strCodecName;
-    AVStream* m_videoStream = nullptr;
-    bool m_writeHeader = false;
+    /********  保存裸流使用 ******************/
+    AVFormatContext* m_formatContextSave = nullptr;  // 封装上下文
+    QString m_strCodecName;                          // 编解码器名称
+    AVStream* m_videoStream = nullptr;               // 输出视频流
+    bool m_writeHeader = false;                      // 是否写入文件头
 };
 
 #endif // VIDEODECODE_H
