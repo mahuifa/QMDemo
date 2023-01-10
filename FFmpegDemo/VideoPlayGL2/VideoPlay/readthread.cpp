@@ -115,7 +115,7 @@ void ReadThread::run()
 #if 0
             sleepMsec(int(m_decodeVideo->pts() - m_etime1.elapsed()));         // 不支持后退
 #else
-            sleepMsec(int(m_videoDecode->pts() - m_etime2.elapsed()));         // 支持后退
+            sleepMsec(int(m_videoDecode->pts() - m_etime2.elapsed()));         // 支持后退（如果能读取到视频，但一直不显示可以把这一行代码注释试试）
 #endif
             emit repaint(frame);
         }
