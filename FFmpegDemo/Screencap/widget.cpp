@@ -2,6 +2,7 @@
 #include "ui_widget.h"
 #include <QDateTime>
 #include <qfiledialog.h>
+#include <qstandardpaths.h>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -71,11 +72,8 @@ void Widget::on_playState(ReadThread::PlayState state)
  */
 void Widget::setSavePath()
 {
-#if defined(Q_OS_WIN)
-    QString strDefault = QString("%1/Videos/%2").arg(QDir::homePath()).arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss"));
-#elif defined(Q_OS_LINUX)
-    QString strDefault = QString("%1/视频/%2.mp4").arg(QDir::homePath()).arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss"));
-#endif
+    QString strDefault = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation))
+                                                .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss"));
     QString strPath = QFileDialog::getSaveFileName(this, "视频保存到~",  strDefault,
                                                    "常用视频文件 (*.mp4 *.avi *.mov *.wmv *.flv *.h264 *.h265);;"
                                                    "其它文件格式 (*)");
