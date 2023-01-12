@@ -106,7 +106,9 @@ void ReadThread::run()
 #else
             sleepMsec(int(m_videoDecode->pts() - m_etime2.elapsed()));         // 支持后退（如果能读取到视频，但一直不显示可以把这一行代码注释试试）
 #endif
-            emit updateImage(image);
+            // 由于读取图像和显示图像是在两个线程，而QImage是使用共享内存，信号槽在两个线程传递是默认异步的，所以可能出现读取线程已经将QImage内存清空了，而显示线程还没显示完的情况
+            // 就会出现程序崩溃问题，解决办法可以使用QImage::copy()或者在updateImage信号连接的地方加上Qt::BlockingQueuedConnection
+            emit updateImage(image.copy());
         }
         else
         {
