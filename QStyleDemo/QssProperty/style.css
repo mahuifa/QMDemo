@@ -1,0 +1,15 @@
+/* 设置Q_PROPERTY定义的属性样式 */
+#Widget[checked = true] {
+    background-color: rgb(0, 255, 127);
+}
+
+/* 设置动态属性样式 */
+#Widget[property1 = true] {
+    background-color: rgb(255, 0, 127);
+}
+
+/* 通过Qss设置Q_PROPERTY定义的属性的值 */
+#Widget {
+    qproperty-BgColor: rgb(255, 0, 0);
+    qproperty-age: age3;                 /* 通过Q_ENUM注册的枚举修改自定义属性值*/
+}
