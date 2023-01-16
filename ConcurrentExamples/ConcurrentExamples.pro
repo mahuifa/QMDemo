@@ -11,3 +11,4 @@
 TEMPLATE = subdirs
 
 SUBDIRS += UseQThread1
+SUBDIRS += UseQThread2
