@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------
-# @功能：
-# @编译器：     Desktop Qt 5.12.5 MinGW 64-bit（也支持其它编译器）
+# @功能：      Qt通过实例化QThread，使用moveToThread将QObject子类槽函数在子线程中执行
+# @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
 # @开发者     mhf
