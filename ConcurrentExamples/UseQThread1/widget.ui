@@ -6,58 +6,78 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>645</width>
-    <height>430</height>
+    <width>567</width>
+    <height>380</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QLCDNumber" name="lcdNumber">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>90</y>
-     <width>321</width>
-     <height>131</height>
-    </rect>
-   </property>
-   <property name="segmentStyle">
-    <enum>QLCDNumber::Filled</enum>
-   </property>
-   <property name="value" stdset="0">
-    <double>0.000000000000000</double>
-   </property>
-   <property name="intValue" stdset="0">
-    <number>0</number>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>270</y>
-     <width>321</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>QThread实例化实现(内部封装线程)</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>340</y>
-     <width>321</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>QThread实例化实现（外部指定线程）</string>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLCDNumber" name="lcdNumber">
+     <property name="minimumSize">
+      <size>
+       <width>321</width>
+       <height>131</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>321</width>
+       <height>131</height>
+      </size>
+     </property>
+     <property name="segmentStyle">
+      <enum>QLCDNumber::Filled</enum>
+     </property>
+     <property name="value" stdset="0">
+      <double>0.000000000000000</double>
+     </property>
+     <property name="intValue" stdset="0">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QPushButton" name="pushButton">
+     <property name="minimumSize">
+      <size>
+       <width>321</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>321</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>QThread实例化实现(内部封装线程)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="minimumSize">
+      <size>
+       <width>321</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>321</width>
+       <height>61</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>QThread实例化实现（外部指定线程）</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

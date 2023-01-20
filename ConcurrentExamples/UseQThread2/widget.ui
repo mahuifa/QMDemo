@@ -22,6 +22,18 @@
      <height>61</height>
     </rect>
    </property>
+   <property name="minimumSize">
+    <size>
+     <width>321</width>
+     <height>61</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>321</width>
+     <height>61</height>
+    </size>
+   </property>
    <property name="text">
     <string>线程开始</string>
    </property>
@@ -34,6 +46,18 @@
      <width>321</width>
      <height>131</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>321</width>
+     <height>131</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>321</width>
+     <height>131</height>
+    </size>
    </property>
    <property name="segmentStyle">
     <enum>QLCDNumber::Filled</enum>
@@ -53,6 +77,18 @@
      <width>321</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>321</width>
+     <height>61</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>321</width>
+     <height>61</height>
+    </size>
    </property>
    <property name="text">
     <string>线程退出</string>
