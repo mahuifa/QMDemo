@@ -17,10 +17,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 
-# You can make your code fail to compile if it uses deprecated APIs.
-# In order to do so, uncomment the following line.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
-
 SOURCES += \
     abstractsensor.cpp \
     abstractthread.cpp \
@@ -54,8 +50,12 @@ DESTDIR = $$PWD/../bin          # 程序输出路径
 DESTDIR = $$PWD/../bin64        # 使用64位编译器
 }
 
-# msvc  编译器使用utf-8编码
+# msvc >= 2017  编译器使用utf-8编码
 msvc {
-QMAKE_CFLAGS += /utf-8
-QMAKE_CXXFLAGS += /utf-8
+    greaterThan(QMAKE_MSC_VER, 1900){       # msvc编译器版本大于2015
+        QMAKE_CFLAGS += /utf-8
+        QMAKE_CXXFLAGS += /utf-8
+    }else{
+        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
+    }
 }
