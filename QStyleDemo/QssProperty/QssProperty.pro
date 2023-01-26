@@ -50,8 +50,12 @@ qssFile.path = $$path
 qssFile.files = $$PWD/style.css
 INSTALLS += qssFile      # 将qss文件拷贝到path路径下，需要配置【项目】->【Build】->【添加Build步骤】->【Custom Process Step:】 D:\Qt\Qt5.12.5\Tools\QtCreator\bin\jom.exe install才生效
 
-# msvc  编译器使用utf-8编码
+# msvc >= 2017  编译器使用utf-8编码
 msvc {
-QMAKE_CFLAGS += /utf-8
-QMAKE_CXXFLAGS += /utf-8
+    greaterThan(QMAKE_MSC_VER, 1900){       # msvc编译器版本大于2015
+        QMAKE_CFLAGS += /utf-8
+        QMAKE_CXXFLAGS += /utf-8
+    }else{
+        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
+    }
 }

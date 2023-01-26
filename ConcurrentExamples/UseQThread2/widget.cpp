@@ -7,7 +7,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle(QString("Qt通过子类化，继承QThread，重写run实现子线程 V%1").arg(APP_VERSION));
+    this->setWindowTitle(QString("Qt通过子类化，继承QThread，重写run实现子线程--V%1").arg(APP_VERSION));
 
     m_workThread = new WorkThread(this);
     connect(m_workThread, &WorkThread::updateData, ui->lcdNumber, QOverload<int>::of(&QLCDNumber::display));

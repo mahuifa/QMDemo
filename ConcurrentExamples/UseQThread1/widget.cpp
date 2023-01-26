@@ -9,7 +9,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->setWindowTitle(QString("Qt通过实例化QThread实现子线程 V%1").arg(APP_VERSION));
+    this->setWindowTitle(QString("Qt通过实例化QThread实现子线程--V%1").arg(APP_VERSION));
 
     // 将创建子线程步骤封装到Work1中
     m_work1 = new Work1();
