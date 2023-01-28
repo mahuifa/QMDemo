@@ -23,5 +23,6 @@ SUBDIRS += XlsxDemo                       # Qt使用QXlsx读写Excel Demo
 SUBDIRS += QtChartsDemo                   # Qt使用QtCharts绘制图表 Demo
 SUBDIRS += QSqlDemo                       # Qt使用数据库Demo
 SUBDIRS += PaintingDemo                   # 使用 QPainter绘制图片
+SUBDIRS += Web                            # Qt并发编程示例
 SUBDIRS += ConcurrentExamples             # Qt并发编程示例
 

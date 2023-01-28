@@ -41,7 +41,7 @@ include(./VideoPlay/VideoPlay.pri)
 INCLUDEPATH += ./VideoPlay
 
 #  定义程序版本号
-VERSION = 1.2.0
+VERSION = 1.2.1
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 TARGET  = VideoCamera1
 

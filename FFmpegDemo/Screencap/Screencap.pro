@@ -37,7 +37,7 @@ include(./Screencap/Screencap.pri)
 INCLUDEPATH += ./Screencap
 
 #  定义程序版本号
-VERSION = 1.0.1
+VERSION = 1.0.2
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
