@@ -46,7 +46,7 @@ INCLUDEPATH += ./VideoPlay
 INCLUDEPATH += ../../PaintingDemo/PlayImage/       # 包括头文件路径
 
 #  定义程序版本号
-VERSION = 1.0.0
+VERSION = 1.0.1
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 TARGET  = VideoPlaySave
 

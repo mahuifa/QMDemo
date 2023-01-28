@@ -39,7 +39,7 @@ include($$PWD/TestXlsx/TestXlsx.pri)       # QXlsx使用Demo
 INCLUDEPATH += $$PWD/TestXlsx
 
 #  定义程序版本号
-VERSION = 1.0.0
+VERSION = 1.0.1
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器

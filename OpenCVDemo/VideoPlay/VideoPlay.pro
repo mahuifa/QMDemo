@@ -47,7 +47,7 @@ INCLUDEPATH += E:/lib/opencv_MSVC2/build/include
 DEPENDPATH += E:/lib/opencv_MSVC2/build/include
 
 #  定义程序版本号
-VERSION = 1.1.0
+VERSION = 1.1.1
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
