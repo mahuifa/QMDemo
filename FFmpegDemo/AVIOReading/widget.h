@@ -37,7 +37,7 @@ private:
     AVFormatContext* m_formatContext = nullptr;
     AVIOContext    * m_avioContext   = nullptr;
     uchar          * m_buffer        = nullptr;    // 保存打开的媒体文件的所有数据
-    quint64          m_bufSize       = 0;          // 打开的文件的总大小
+    size_t          m_bufSize       = 0;          // 打开的文件的总大小
     uchar          * m_avioBuffer    = nullptr;    // 从m_buffer中一次读取的数据
     int              m_avioBufSize   = 4096;       // 从m_buffer中一次读取的数据长度
 };
