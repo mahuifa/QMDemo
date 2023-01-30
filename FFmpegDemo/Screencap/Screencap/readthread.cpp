@@ -6,6 +6,8 @@
 #include <QTimer>
 #include <QDebug>
 #include <qimage.h>
+#include <QFileInfo>
+#include <QMessageBox>
 
 ReadThread::ReadThread(QObject *parent) : QThread(parent)
 {
@@ -31,6 +33,12 @@ void ReadThread::setPath(const QString &path)
 {
     if(path.isEmpty()) return;
 
+    if(QFileInfo(path).suffix().isEmpty())
+    {
+        QMessageBox::warning(nullptr, "注意~", "输入文件没有后缀名，无法使用");
+        m_path.clear();
+        return;
+    }
     m_path = path;
 }
 
@@ -78,6 +86,8 @@ void  sleepMsec(int msec)
 
 void ReadThread::run()
 {
+    if(m_path.isEmpty()) return;
+
     bool ret = m_videoDecode->open(m_url);         // 打开网络流时会比较慢，如果放到Ui线程会卡
     if(ret)
     {

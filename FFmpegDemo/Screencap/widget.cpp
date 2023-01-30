@@ -33,7 +33,7 @@ void Widget::on_but_open_clicked()
 {
     if(ui->but_open->text() == "开始录屏")
     {
-        setSavePath();
+        if(!setSavePath()) return;
 #if defined(Q_OS_WIN)
         m_readThread->open("desktop");
 #elif defined(Q_OS_LINUX)
@@ -70,18 +70,20 @@ void Widget::on_playState(ReadThread::PlayState state)
 /**
  * @brief 设置文件保存路径
  */
-void Widget::setSavePath()
+bool Widget::setSavePath()
 {
-    QString strDefault = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation))
+    // 如果不指定文件后缀则在linux下默认保存的视频文件没有后缀，就无法通过后缀名推测视频保存格式
+    QString strDefault = QString("%1/%2.mp4").arg(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation))
                                                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd HH-mm-ss"));
     QString strPath = QFileDialog::getSaveFileName(this, "视频保存到~",  strDefault,
                                                    "常用视频文件 (*.mp4 *.avi *.mov *.wmv *.flv *.h264 *.h265);;"
                                                    "其它文件格式 (*)");
 
-    if(strPath.isEmpty()) return;
+    if(strPath.isEmpty()) return false;
 
     ui->line_path->setText(strPath);
     m_readThread->setPath(strPath);
+    return true;
 }
 
 /**
