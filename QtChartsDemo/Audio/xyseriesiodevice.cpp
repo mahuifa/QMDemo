@@ -1,6 +1,5 @@
 ﻿#include "xyseriesiodevice.h"
 #include <QLineSeries>
-#include <QPointF>
 #include <qdebug.h>
 #include <qvalueaxis.h>
 
