@@ -202,7 +202,7 @@ void NtpClient::setDateTime(QDateTime& dateTime)
     struct timeval tv;
 
     tptr.tm_year = date.year() - 1900;            // 这里必须-1900，否则设置不成功
-    tptr.tm_mon = date.month();
+    tptr.tm_mon = date.month() - 1;               // 月份取值范围为[0-11]
     tptr.tm_mday = date.day();
     tptr.tm_hour = time.hour();
     tptr.tm_min = time.minute();
