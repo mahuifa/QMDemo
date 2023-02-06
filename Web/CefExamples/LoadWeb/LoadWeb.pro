@@ -6,7 +6,7 @@
 # @开发者     mhf
 # @邮箱       1603291350@qq.com
 # @时间       2023-02-05 12:08:27
-# @备注
+# @备注       在父工程中定义依赖库的路径CefPath，如果直接编译当前工程，则需要指定CefPath
 #---------------------------------------------------------------------------------------
 QT       += core gui
 
@@ -48,24 +48,6 @@ contains(QT_ARCH, i386){        # 使用32位编译器
     }
 }
 DESTDIR = $$path             # 指定编译后的文件存放路径
-# 程序编译后需要使用nmake install（msvc）或make install (linux)将web文件夹拷贝到当前路径下，或者自己手动拷贝
-
-# 加载库的路径
-win32{
-    CefPath = E:/lib/QCefView1
-}
-unix:!macx{
-}
-
-# 判断库文件是否存在，如果不存在则终止编译
-isEmpty($$CefPath){
-    !exists($$CefPath){
-        error(<<<<<<<<<<<<<<<< [CEF dll] The file path does not exist >>>>>>>>>>>>>>>>>>)
-    }
-}else{
-    error(<<<<<<<<<<<<<<<< [CEF dll] The file path is NULL >>>>>>>>>>>>>>>>>>)
-}
-
 
 # 导入库头文件的路径
 INCLUDEPATH += $$CefPath/include
@@ -85,7 +67,7 @@ cefDLL.path = $$path
 webFile.path = $$path
 webFile.files = $$PWD/hello.html
 
-# msvc需要配置【Custom Process Step: nmake install】或者【Custom Process Step: D:\Qt\Qt5.12.5\Tools\QtCreator\bin\jom.exe install】才生效
+# msvc需要配置【Custom Process Step: nmake install】或者【Custom Process Step: D:\Qt\Qt5.12.5\Tools\QtCreator\bin\jom.exe install】才生效，或者自己手动拷贝
 # Debug和Release需要分别配置
 INSTALLS += webFile     # 将hello.html拷贝到path路径下
 INSTALLS += cefDLL      # 将CEF库文件拷贝到path路径下

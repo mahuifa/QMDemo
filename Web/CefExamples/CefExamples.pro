@@ -10,4 +10,20 @@
 #---------------------------------------------------------------------------------------
 TEMPLATE = subdirs
 
-SUBDIRS += LoadWeb     # Qt使用cef加载网页简单示例
+# CEF 库的路径， 如果路径为空则不编译当前工程
+win32{
+    CefPath = E:/lib/QCefView
+}
+unix:!macx{
+}
+
+# 判断库文件是否存在，如果不存在则终止编译
+isEmpty($$CefPath){
+    exists($$CefPath){
+        SUBDIRS += LoadWeb     # Qt使用cef加载网页简单示例
+    }else{
+        message(<<<<<<<<<<<<<<<< [CEF dll] The file path does not exist >>>>>>>>>>>>>>>>>>)
+    }
+}else{
+    message(<<<<<<<<<<<<<<<< [CEF dll] The file path is NULL >>>>>>>>>>>>>>>>>>)
+}
