@@ -49,6 +49,13 @@ contains(QT_ARCH, i386){        # 使用32位编译器
 }
 DESTDIR = $$path             # 指定编译后的文件存放路径
 
+# CEF 库的路径， 如果路径为空则不编译当前工程
+win32{
+    CefPath = E:/lib/QCefView
+}
+unix:!macx{
+}
+
 # 导入库头文件的路径
 INCLUDEPATH += $$CefPath/include
 DEPENDPATH += $$CefPath/include
