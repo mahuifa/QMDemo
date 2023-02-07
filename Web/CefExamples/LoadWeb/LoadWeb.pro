@@ -76,8 +76,9 @@ webFile.files = $$PWD/hello.html
 
 # msvc需要配置【Custom Process Step: nmake install】或者【Custom Process Step: D:\Qt\Qt5.12.5\Tools\QtCreator\bin\jom.exe install】才生效，或者自己手动拷贝
 # Debug和Release需要分别配置
-INSTALLS += webFile     # 将hello.html拷贝到path路径下
-INSTALLS += cefDLL      # 将CEF库文件拷贝到path路径下
+# 执行之前先qmake，如果不想每次手动qmake，可以点击【工具】->【选项】->【构建和运行】->【qmake】->勾选【Run qmake every build】
+!exists($$webFile.path/hello.html): INSTALLS += webFile      # 将hello.html拷贝到path路径下
+!exists($$cefDLL.path/QCefView.dll): INSTALLS += cefDLL      # 将CEF库文件拷贝到path路径下
 
 # msvc >= 2017  编译器使用utf-8编码
 msvc {

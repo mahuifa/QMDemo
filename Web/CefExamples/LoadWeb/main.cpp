@@ -5,7 +5,6 @@
 
 void initCefConfig(QCefConfig& config)
 {
-//    QCefConfig config;
     config.setUserAgent("QCefViewTest");                        // 设置用户代理
     config.setLogLevel(QCefConfig::LOGSEVERITY_DEFAULT);        // 设置日志级别
     config.setBridgeObjectName("CallBridge");                   // 设置网桥对象名称
@@ -92,6 +91,7 @@ int main(int argc, char *argv[])
     QCefConfig config;
     initCefConfig(config);
     QCefContext cefContext(&a, argc, argv, &config);
+    // 获取可执行程序所在的路径，然后添加 bin 目录到库的搜索路径中
 
     Widget w;
     w.show();
