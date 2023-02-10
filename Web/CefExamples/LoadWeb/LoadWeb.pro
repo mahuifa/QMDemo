@@ -36,18 +36,17 @@ DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 # 程序输出路径
 contains(QT_ARCH, i386){        # 使用32位编译器
     CONFIG(release, debug|release){
-        path = $$PWD/../bin
+        DESTDIR = $$PWD/../bin
     }else:CONFIG(debug, debug|release){
-        path = $$PWD/../bind
+        DESTDIR = $$PWD/../bind
     }
 }else{
     CONFIG(release, debug|release){
-        path = $$PWD/../bin64
+        DESTDIR = $$PWD/../bin64
     }else:CONFIG(debug, debug|release){
-        path = $$PWD/../bin64d
+        DESTDIR = $$PWD/../bin64d
     }
 }
-DESTDIR = $$path             # 指定编译后的文件存放路径
 
 # CEF 库的路径， 如果路径为空则不编译当前工程
 win32{
@@ -70,8 +69,8 @@ CONFIG(release, debug|release){
 }
 
 # 自动安装依赖文件和库文件
-cefDLL.path = $$path
-webFile.path = $$path
+cefDLL.path = $$DESTDIR
+webFile.path = $$DESTDIR
 webFile.files = $$PWD/hello.html
 
 # msvc需要配置【Custom Process Step: nmake install】或者【Custom Process Step: D:\Qt\Qt5.12.5\Tools\QtCreator\bin\jom.exe install】才生效，或者自己手动拷贝
