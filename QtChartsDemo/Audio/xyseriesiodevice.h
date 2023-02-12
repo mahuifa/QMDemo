@@ -15,6 +15,7 @@
 #include <QChartGlobal>
 #include <QVector>
 #include <QElapsedTimer>
+#include <QPointF>
 
 QT_CHARTS_BEGIN_NAMESPACE
 class QXYSeries;

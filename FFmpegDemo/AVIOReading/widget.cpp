@@ -14,7 +14,7 @@ extern "C" {        // 用C规则编译指定的代码
 
 typedef struct BufferData {
     uchar*  ptr;
-    quint64 size;   // 缓冲区中剩余的大小
+    size_t  size;   // 缓冲区中剩余的大小
 }BufferData;
 
 Widget::Widget(QWidget *parent)

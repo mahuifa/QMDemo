@@ -21,7 +21,7 @@ private slots:
     void on_but_open_clicked();
     void on_playState(ReadThread::PlayState state);
 
-    void setSavePath();
+    bool setSavePath();
     void on_timeout();
 
 private:
