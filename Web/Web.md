@@ -18,6 +18,7 @@
 |    ChatClient    | 使用QWebSocket实现的简单客户端程序                         |
 |    ChatServer    | 使用QWebSocketServer实现的简单服务端程序                   |
 |  ChatClientHtml  | 前端网页版本WebSocket客户端程序（html+css+javascript实现） |
+|     LoadWeb      | 使用CEF加载网页的简单示例程序                              |
 
  
 
@@ -158,3 +159,31 @@ QWebSocketServer服务端简单示例
 > 7. 支持一个服务端与多个客户端Web界面进行通信交互，将WebSocket服务端封装在QWebChannel内部，一个WebChannel对应一个服务端、多个客户端。
 
 ![image-20221219154652982](Web.assets/image-20221219154652982.png)
+
+
+
+### 1.10 LoadWeb
+
+* 工程说明
+
+  > 将CEF库嵌入Qt中加载网页的简单示例程序；
+  >
+  > 使用的是封装过的QCefView库；
+
+* 编译说明
+
+  > 在主工程CefExamples.pro和各子工程中通过变量【CefPath】设置自己的CEF库文件路径，如果不设置则不会编译当前工程文件；
+  >
+  > 构建时会输出如图信息，为不同编译器的make路径；
+  >
+  > ![image-20230206155201961](Web.assets/image-20230206155201961.png)
+  >
+  > ![image-20230206155232023](Web.assets/image-20230206155232023.png)
+  >
+  > 选择编译Release模式->Build->添加Build步骤->Custom Process Stop，添加下列信息，MSVC编译器使用jom.exe；
+  >
+  > ![image-20230206155609104](Web.assets/image-20230206155609104.png)
+
+* 演示
+
+![image-20230206155736344](Web.assets/image-20230206155736344.png)
