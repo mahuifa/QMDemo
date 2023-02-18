@@ -6,12 +6,12 @@
 
 ## 1、说明
 
-|    类名     | 功能                                                         |
-| :---------: | ------------------------------------------------------------ |
-| UseQThread1 | Qt通过【实例化】QThread，使用moveToThread将QObject子类槽函数在子线程中执行 |
-| UseQThread2 | Qt通过子类化，继承QThread，重写run实现子线程                 |
-|             |                                                              |
-|             |                                                              |
+|      类名      | 功能                                                         |
+| :------------: | ------------------------------------------------------------ |
+|  UseQThread1   | Qt通过【实例化】QThread，使用moveToThread将QObject子类槽函数在子线程中执行 |
+|  UseQThread2   | Qt通过子类化，继承QThread，重写run实现子线程                 |
+| UseQThreadPool | Qt使用线程池QThreadPool示例                                  |
+|                |                                                              |
 
  
 
@@ -43,3 +43,19 @@
 > 2. 演示了线程的简单使用和正确退出的方式。
 
 ![UseQThread2-tuya](ConcurrentExamples.assets/UseQThread2-tuya.gif)
+
+
+
+### 1.3 UseQThreadPool
+
+> 1. QT使用QThreadPool、QRunnable的简单示例程序；
+> 2. 演示了使用全局线程池和局部线程池；               
+> 3. 演示了在添加任务后修改最大线程个人导致的内存泄漏问题和解决办法。
+
+* 正常使用线程池
+
+  ![image-20230218120351892](ConcurrentExamples.assets/image-20230218120351892.png)
+
+* 修改最大线程个数导致内存泄漏
+
+  ![image-20230218120716966](ConcurrentExamples.assets/image-20230218120716966.png)
