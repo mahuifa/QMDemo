@@ -91,8 +91,8 @@
 
 ### 1.5 TestCrashHandler
 
-> 1. 通过win api实现qt程序崩溃问题定位功能；
-> 2. 只支持**msvc编译器**；
+> 1. 通过Windows中的dbghelp api实现qt程序崩溃问题定位功能；
+> 2. 只支持**msvc编译器**，MinGW虽然也可以运行并生成Dump文件，但是不方便调试；
 >
 > 3. 低耦合模块，**一行代码**直接引用功能，无需添加第三方依赖库；
 >
@@ -102,7 +102,7 @@
 >
 > 6. 通过宏判断，在MinGW或其他系统环境编译时功能自动失效**不会编译失败**；
 >
-> 7. 支持release模块下生成dump文件。
+> 7. 支持release模式下关闭优化，生成调试详细，崩溃时生成dump文件。
 
 ![Dump](FunctionalModule.assets/Dump.gif)
 
