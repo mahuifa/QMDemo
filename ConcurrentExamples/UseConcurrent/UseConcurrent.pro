@@ -12,4 +12,4 @@ requires(qtHaveModule(concurrent))  # 如果条件为 false，qmake 在构建时
 
 TEMPLATE = subdirs
 
-SUBDIRS += RunFunction
+SUBDIRS += RunFunction       # QtConcurent::run使用示例，在另一个线程中运行一个函数。

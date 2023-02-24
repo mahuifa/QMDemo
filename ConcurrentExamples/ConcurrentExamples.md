@@ -11,7 +11,7 @@
 |  UseQThread1   | Qt通过【实例化】QThread，使用moveToThread将QObject子类槽函数在子线程中执行 |
 |  UseQThread2   | Qt通过子类化，继承QThread，重写run实现子线程                 |
 | UseQThreadPool | Qt使用线程池QThreadPool示例                                  |
-|                |                                                              |
+|  RunFunction   | QtConcurent::run使用示例，在另一个线程中运行一个函数。       |
 
  
 
@@ -59,3 +59,11 @@
 * 修改最大线程个数导致内存泄漏
 
   ![image-20230218120716966](ConcurrentExamples.assets/image-20230218120716966.png)
+
+
+
+### 1.5 RunFunction
+
+> QtConcurent::run使用示例，在另一个线程中运行一个函数。
+
+![image-20230224151913976](ConcurrentExamples.assets/image-20230224151913976.png)
