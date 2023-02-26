@@ -1,6 +1,5 @@
 #include "widget.h"
 #include "ui_widget.h"
-#include <QDebug>
 #include <QThread>
 #include <QtConcurrent>
 
