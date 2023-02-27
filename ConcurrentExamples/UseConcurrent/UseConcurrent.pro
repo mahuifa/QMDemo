@@ -13,4 +13,4 @@ requires(qtHaveModule(concurrent))  # 如果条件为 false，qmake 在构建时
 TEMPLATE = subdirs
 
 SUBDIRS += RunFunction      # QtConcurrent::run使用示例，在另一个线程中运行一个函数。
-SUBDIRS += Map              # QtConcurrent::map使用示例
+SUBDIRS += Map              # QtConcurrent::map使用示例，可以在多线程环境下高效地处理大量数据，并且可以返回一个QFuture对象，可以使用它来跟踪数据处理的进度。

@@ -12,6 +12,8 @@
 |  UseQThread2   | Qt通过子类化，继承QThread，重写run实现子线程                 |
 | UseQThreadPool | Qt使用线程池QThreadPool示例                                  |
 |  RunFunction   | QtConcurent::run使用示例，在另一个线程中运行一个函数。       |
+|      Map       | QtConcurrent::map使用示例，可以在多线程环境下高效地处理大量数据，<br>并且可以返回一个QFuture对象，可以使用它来跟踪数据处理的进度。 |
+|                |                                                              |
 
  
 
@@ -67,3 +69,12 @@
 > QtConcurent::run使用示例，在另一个线程中运行一个函数。
 
 ![image-20230224151913976](ConcurrentExamples.assets/image-20230224151913976.png)
+
+
+
+### 1.6 Map
+
+> 1. 使用QtConcurrent::map()在多线程环境下高效地处理大量数据;
+> 2. 使用QtConcurrent::map()在多线程环境下批量执行成员函数。
+
+![image-20230226215928039](ConcurrentExamples.assets/image-20230226215928039.png)
