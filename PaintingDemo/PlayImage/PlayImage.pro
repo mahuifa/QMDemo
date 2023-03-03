@@ -26,16 +26,9 @@ HEADERS += \
     playimage.h \
     widget.h
 
-FORMS += \
-    widget.ui
+FORMS += widget.ui
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
-RESOURCES += \
-    image.qrc
+RESOURCES += image.qrc
 
 
 #  定义程序版本号
