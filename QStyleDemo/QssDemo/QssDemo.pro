@@ -20,16 +20,9 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp
 
-HEADERS += \
-    mainwindow.h
-
-FORMS += \
-    mainwindow.ui
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+HEADERS   += mainwindow.h
+FORMS     += mainwindow.ui
+RESOURCES += style.qrc
 
 #  定义程序版本号
 VERSION = 1.0.1
@@ -50,5 +43,3 @@ msvc {
         message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
     }
 }
-RESOURCES += \
-    style.qrc

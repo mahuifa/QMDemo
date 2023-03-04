@@ -17,16 +17,8 @@ SOURCES += \
     main.cpp \
     widget.cpp
 
-HEADERS += \
-    widget.h
-
-FORMS += \
-    widget.ui
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+HEADERS += widget.h
+FORMS += widget.ui
 
 include($$PWD/SimpleNetWidget/SimpleNetWidget.pri)    # 较为简单的Qt网络通信学习Demo
 INCLUDEPATH += $$PWD/SimpleNetWidget
