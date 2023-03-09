@@ -13,7 +13,7 @@
 | UseQThreadPool | Qt使用线程池QThreadPool示例                                  |
 |  RunFunction   | QtConcurent::run使用示例，在另一个线程中运行一个函数。       |
 |      Map       | QtConcurrent::map使用示例，可以在多线程环境下高效地处理大量数据，<br>并且可以返回一个QFuture对象，可以使用它来跟踪数据处理的进度。 |
-|                |                                                              |
+|     Mapped     | QtConcurrent::mapped使用示例，与 map（） 类似，<br/>不同之处在于它返回了一个包含返回值的新容器。 |
 
  
 
@@ -78,3 +78,13 @@
 > 2. 使用QtConcurrent::map()在多线程环境下批量执行成员函数。
 
 ![image-20230226215928039](ConcurrentExamples.assets/image-20230226215928039.png)
+
+
+
+### 1.7 Mapped
+
+> QtConcurrent::mapped使用示例，与 map（） 类似，不同之处在于它返回了一个包含返回值的新容器。
+>
+> 在mapped中异步计算多个0~n的数的和，并通过返回值传递出来。
+
+![image-20230309210116047](ConcurrentExamples.assets/image-20230309210116047.png)
