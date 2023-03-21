@@ -14,3 +14,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += RunFunction      # QtConcurrent::run使用示例，在另一个线程中运行一个函数。
 SUBDIRS += Map              # QtConcurrent::map使用示例，可以在多线程环境下高效地处理大量数据，并且可以返回一个QFuture对象，可以使用它来跟踪数据处理的进度。
+SUBDIRS += Mapped           # QtConcurrent::mapped使用示例，与 map（） 类似，不同之处在于它返回了一个包含返回值的新容器。
+SUBDIRS += MappedReduced    # QtConcurrent::mappedReduced使用示例，与mapped()类型，相当于将mapped()的结果放入到一个单线程函数中进行计算

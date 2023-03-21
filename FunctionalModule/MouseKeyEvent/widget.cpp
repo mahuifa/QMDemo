@@ -54,6 +54,16 @@ void Widget::on_mouseEvent(QMouseEvent* event)
             but = "中键";
             break;
         }
+        case Qt::XButton1:
+        {
+            but = "功能键【后退】";
+            break;
+        }
+        case Qt::XButton2:
+        {
+            but = "功能键【前进】";
+            break;
+        }
         default:
         {
             but = "未知";
@@ -70,7 +80,7 @@ void Widget::on_mouseEvent(QMouseEvent* event)
         ui->textEdit->append(str);
         break;
     }
-    case QEvent::MouseButtonRelease:     // 鼠标右键抬起
+    case QEvent::MouseButtonRelease:     // 鼠标抬起
     {
         QString but;
         switch (event->button())
@@ -90,6 +100,16 @@ void Widget::on_mouseEvent(QMouseEvent* event)
             but = "中键";
             break;
         }
+        case Qt::XButton1:
+        {
+            but = "功能键【后退】";
+            break;
+        }
+        case Qt::XButton2:
+        {
+            but = "功能键【前进】";
+            break;
+        }
         default:
         {
             but = "未知";
@@ -105,6 +125,7 @@ void Widget::on_mouseEvent(QMouseEvent* event)
     }
     delete event;       // 使用完成后记得delete
 }
+
 
 /**
  * @brief       全局鼠标滚轮事件

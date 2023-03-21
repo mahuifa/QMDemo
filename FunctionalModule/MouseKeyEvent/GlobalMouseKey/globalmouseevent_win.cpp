@@ -9,10 +9,11 @@
 
 static HHOOK g_hook = nullptr;
 /**
- * @brief           处理鼠标事件的回调函数，由于这不是一个成员函数，所以需要通过中间单例类GlobalMouseEvent将鼠标信号传递出来
+ * @brief           处理鼠标事件的回调函数，由于这不是一个成员函数，所以需要通过中间单例类mouseEvent将鼠标信号传递出来
  *                  具体内容看https://learn.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms644986(v=vs.85)
  * @param nCode     挂钩过程用于确定如何处理消息的代码。如果nCode小于零，则挂钩过程必须将消息传递给 CallNextHookEx 函数而不进行进一步处理，并且应返回CallNextHookEx返回的值
- * @param wParam    信号类型：WM_LBUTTONDOWN、WM_LBUTTONUP、WM_MOUSEMOVE、WM_MOUSEWHEEL、WM_MOUSEHWHEEL、WM_RBUTTONDOWN 或WM_RBUTTONUP（鼠标中键点击和拓展按还没找到怎么弄）。
+ * @param wParam    信号类型：WM_LBUTTONDOWN、WM_LBUTTONUP、WM_MOUSEMOVE、WM_MOUSEWHEEL、WM_MOUSEHWHEEL、WM_RBUTTONDOWN 或WM_RBUTTONUP。
+ *                  其它扩展按键可以看https://learn.microsoft.com/en-us/windows/win32/inputdev/mouse-input
  * @param lParam    MSLLHOOKSTRUCT结构体指针
  * @return
  */
@@ -42,6 +43,42 @@ LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam)
 //        qDebug() << QString("坐标：(%1, %2)").arg(msll->pt.x).arg(msll->pt.y);     // 获取鼠标坐标
         int delta = GET_WHEEL_DELTA_WPARAM(msll->mouseData);                     // 获取滚轮状态，向前：120，向后-120
         emit GlobalMouseEvent::getInstance()->wheelEvent(new QWheelEvent(point, delta, Qt::MiddleButton, Qt::NoModifier));
+        break;
+    }
+    case WM_MBUTTONUP:     // 鼠标中键释放
+        emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
+        break;
+    case WM_MBUTTONDOWN:   // 鼠标中键按下
+        emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::MiddleButton, Qt::MiddleButton, Qt::NoModifier));
+        break;
+    case WM_XBUTTONDOWN:   // 鼠标功能键按下
+    {
+        MSLLHOOKSTRUCT * msll = reinterpret_cast<MSLLHOOKSTRUCT*>(lParam);
+        int Button = GET_XBUTTON_WPARAM (msll->mouseData);
+        switch (Button)
+        {
+        case XBUTTON1:   // 后退
+            emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::XButton1, Qt::XButton1, Qt::NoModifier));
+            break;
+        case XBUTTON2:   // 前进
+            emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonPress, point, Qt::XButton2, Qt::XButton2, Qt::NoModifier));
+            break;
+        }
+        break;
+    }
+    case WM_XBUTTONUP:   // 鼠标功能键释放
+    {
+        MSLLHOOKSTRUCT * msll = reinterpret_cast<MSLLHOOKSTRUCT*>(lParam);
+        int Button = GET_XBUTTON_WPARAM (msll->mouseData);
+        switch (Button)
+        {
+        case XBUTTON1:
+            emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::XButton1, Qt::XButton1, Qt::NoModifier));
+            break;
+        case XBUTTON2:
+            emit GlobalMouseEvent::getInstance()->mouseEvent(new QMouseEvent(QEvent::MouseButtonRelease, point, Qt::XButton2, Qt::XButton2, Qt::NoModifier));
+            break;
+        }
         break;
     }
     default:
