@@ -30,7 +30,7 @@ include($$PWD/GlobalMouseKey/GlobalMouseKey.pri)
 INCLUDEPATH += $$PWD/GlobalMouseKey
 
 #  定义程序版本号
-VERSION = 1.6.2
+VERSION = 1.8.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
