@@ -41,11 +41,6 @@ FORMS += \
     userbackstage.ui \
     widget.ui
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
 #  定义程序版本号
 VERSION = 1.0.1
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"

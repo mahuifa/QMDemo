@@ -26,7 +26,7 @@
 | ConcurrentExamples | [Qt线程和并发编程示例](./ConcurrentExamples/ConcurrentExamples.md) |
 |                    |                                                              |
 |                    | **使用到第三方库**                                           |
-|  Web/CefExamples   | [Qt - Web混合开发](./Web/Web.md)                             |
+|  Web/CefExamples   | [Qt - Web混合开发（使用CEF）](./Web/Web.md)                  |
 |      XlsxDemo      | [Qt使用QXlsx操作Excel Demo](./XlsxDemo/XlsxDemo.md)          |
 |     OpenCVDemo     | [Qt使用OpenCV进行视频、图像操作Demo](./OpenCVDemo/OpenCVDemo.md) |
 |     FFmpegDemo     | [Qt - FFmpeg多媒体框架开发Demo](./FFmpegDemo/FFmpegDemo.md)  |

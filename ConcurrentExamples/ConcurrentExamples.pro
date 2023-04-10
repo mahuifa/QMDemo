@@ -12,3 +12,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += UseQThread1        # Qt通过【实例化】QThread，使用moveToThread将QObject子类槽函数在子线程中执行
 SUBDIRS += UseQThread2        # Qt通过子类化，继承QThread，重写run实现子线程
+SUBDIRS += UseQThreadPool     # Qt使用线程池QThreadPool示例
+SUBDIRS += UseConcurrent      # Qt Concurent API使用示例

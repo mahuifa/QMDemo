@@ -17,14 +17,9 @@ SOURCES += \
     main.cpp \
     widget.cpp
 
-HEADERS += \
-    widget.h
-
-FORMS += \
-    widget.ui
-
-RESOURCES += \
-    res.qrc
+HEADERS += widget.h
+FORMS += widget.ui
+RESOURCES += res.qrc
 
 
 # 加载模块
@@ -33,11 +28,6 @@ include($$PWD/Module/Module.pri)               # 界面组件
 
 INCLUDEPATH += $$PWD/WidgetBase/
 INCLUDEPATH += $$PWD/Module/
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
 
 #  定义程序版本号
 VERSION = 1.0.1
