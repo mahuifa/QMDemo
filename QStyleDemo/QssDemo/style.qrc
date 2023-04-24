@@ -2,19 +2,19 @@
     <qresource prefix="/">
         <file>style.css</file>
         <file>image/bg.PNG</file>
-        <file>image/复选框-未全选.png</file>
-        <file>image/复选框-选中.png</file>
-        <file>image/正方形-未选中.png</file>
-        <file>image/单选框-未选中.png</file>
-        <file>image/单选框-选中.png</file>
-        <file>image/下.png</file>
+        <file>image/Checkbox_notAll.png</file>
+        <file>image/Checkbox_Select.png</file>
+        <file>image/CheckBox_unchecked.png</file>
+        <file>image/RadioBox_Unchecked.png</file>
+        <file>image/RadioBox_checked.png</file>
+        <file>image/down.png</file>
         <file>image/close.png</file>
         <file>image/undock.png</file>
-        <file>image/右.png</file>
-        <file>image/左.png</file>
-        <file>image/上.png</file>
-        <file>image/下d.png</file>
-        <file>image/加.png</file>
-        <file>image/减.png</file>
+        <file>image/laft.png</file>
+        <file>image/right.png</file>
+        <file>image/up.png</file>
+        <file>image/down_d.png</file>
+        <file>image/plus.png</file>
+        <file>image/reduce.png</file>
     </qresource>
 </RCC>
