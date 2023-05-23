@@ -11,16 +11,18 @@
 #            这是因为QIODevice依赖于Qt的信号和槽机制进行事件处理和数据通信，而这些机制本身不是线程安全的。
 #            但有时候实际场景中数据量很大，就需要在子线程中进行通信，这里就演示如何在子线程中使用QIODevice
 #---------------------------------------------------------------------------------------
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 SOURCES += \
+    iothread.cpp \
     main.cpp \
     widget.cpp
 
 HEADERS += \
+    iothread.h \
     widget.h
 
 FORMS += widget.ui
