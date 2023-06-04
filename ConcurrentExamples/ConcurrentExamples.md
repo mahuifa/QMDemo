@@ -15,6 +15,7 @@
 |      Map       | QtConcurrent::map使用示例，可以在多线程环境下高效地处理大量数据，<br>并且可以返回一个QFuture对象，可以使用它来跟踪数据处理的进度。 |
 |     Mapped     | QtConcurrent::mapped使用示例，与 map（） 类似，<br/>不同之处在于它返回了一个包含返回值的新容器。 |
 | MappedReduced  | QtConcurrent::mappedReduced使用示例，与mapped()类型，<br/>相当于将mapped()的结果放入到一个单线程函数中进行计算 |
+|    IOThread    | 在QT子线程中操作IO对象，包括QAbstractSocket、QFile、QSerialPort等 |
 
  
 
@@ -99,3 +100,14 @@
 > 将数组通过参数1传入，在参数2的函数中多线程并行计算，然后将参数2的函数的返回值传入参数3的函数中，在参数3的函数中单线程计算。
 
 ![image-20230312113522409](ConcurrentExamples.assets/image-20230312113522409.png)
+
+
+
+### 1.9 IOThread
+
+> 1. 在Qt框架中，QIODevice及其子类（如QSerialPort、QTcpSocket等）设计用于单线程内的操作。
+> 2. 如果尝试在创建QIODevice对象的线程之外的另一个线程中使用它，将会引发错误或不可预期的行为。     
+> 3. 这是因为QIODevice依赖于Qt的信号和槽机制进行事件处理和数据通信，而这些机制本身不是线程安全的。  
+> 4. 但有时候实际场景中数据量很大，就需要在子线程中进行通信，这里就演示如何在子线程中使用QIODevice     
+
+![ioThread-tuya](./ConcurrentExamples.assets/ioThread-tuya.gif)
