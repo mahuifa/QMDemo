@@ -10,6 +10,7 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
 
     this->setWindowTitle(QString("Qt崩溃定位Demo - V%1").arg(APP_VERSION));
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
 }
 
 Widget::~Widget()

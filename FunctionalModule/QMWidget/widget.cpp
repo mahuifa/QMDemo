@@ -26,6 +26,7 @@ void Widget::init()
     loadStyle();
     this->setWindowTitle(QString("自定义窗口 - V%1").arg(APP_VERSION));
     this->setTitleBar(ui->titleBar->getBackground());   // 设置标题栏
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
 }
 
 void Widget::connectSlot()

@@ -12,6 +12,8 @@ Widget::Widget(QWidget *parent)
     this->setWindowTitle(QString("串口、鼠标、键盘热插拔监测demo - V%1").arg(APP_VERSION));
     m_port = new PortTest();
     m_mouseKey = new MouseKeyTest();
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
+    this->resize(500, 300);
 }
 
 Widget::~Widget()
