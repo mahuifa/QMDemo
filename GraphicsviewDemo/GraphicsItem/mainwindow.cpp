@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     this->setWindowTitle(QString("QGraphicsItem基本图元演示 - V%1").arg(APP_VERSION));
+    this->resize(800, 700);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
 
     initToolBar();
 
