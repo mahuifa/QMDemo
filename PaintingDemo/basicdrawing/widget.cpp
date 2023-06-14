@@ -11,6 +11,8 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle(QString("QPainter基本绘图Demo - V%1").arg(APP_VERSION));
+    this->resize(800, 700);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
 
     init();
     connectSlots();

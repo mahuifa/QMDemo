@@ -9,6 +9,8 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->resize(800, 700);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
     this->setWindowTitle(QString("Qt使用QPainter绘制图片Demo - V%1").arg(APP_VERSION));
 
     m_pixmap[0] = QPixmap::fromImage(QImage(":/0.jpg"));

@@ -7,6 +7,8 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    this->resize(800, 700);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
 
     this->setWindowTitle(QString("Qt+OpenGL绘制三角形-QOpenGLWidget和QOpenGLWindow性能比较 V%1").arg(APP_VERSION));
 
