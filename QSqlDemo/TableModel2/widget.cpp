@@ -10,6 +10,8 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
+    this->resize(800, 700);
     this->setWindowTitle(QString("QSql-使用QSqlTableModel显示数据库内容Demo2 - V%1").arg(APP_VERSION));
 }
 

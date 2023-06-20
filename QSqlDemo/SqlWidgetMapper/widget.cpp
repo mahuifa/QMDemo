@@ -14,6 +14,8 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
+    this->resize(800, 700);
 
     this->setWindowTitle(QString("QSql-使用QDataWidgetMapper将数据库内容映射到控件上 - V%1").arg(APP_VERSION));
     setupModel();

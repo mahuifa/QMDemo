@@ -5,6 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
     // 打开登录界面
     Dialog signIn;
     signIn.exec();
