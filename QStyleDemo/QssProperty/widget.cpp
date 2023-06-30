@@ -11,6 +11,8 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    this->resize(600, 400);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
     this->setWindowTitle(QString("Qss属性功能 - V%1").arg(APP_VERSION));
 
     initStyle();

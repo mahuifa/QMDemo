@@ -3,7 +3,9 @@
 *:!enabled {                                     /*不可用状态*/
 background-color: rgb(214, 214, 214);
 }
-
+*{
+ font: 9pt '宋体';
+}
 /********************QAbstractScrollArea样式**********************/
 #tab QAbstractScrollArea{
 /*    background-color: rgba(255, 0, 0, 150);*/     /* 设置背景色*/
