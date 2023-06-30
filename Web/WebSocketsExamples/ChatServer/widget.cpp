@@ -6,6 +6,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
     this->setWindowTitle(QString("QWebSocketServer服务端简单示例 - V%1").arg(APP_VERSION));  // 设置窗口标题
 
     m_server = new QWebSocketServer("web服务端", QWebSocketServer::NonSecureMode, this);

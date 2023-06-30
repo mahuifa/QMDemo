@@ -2,11 +2,14 @@
 #include <QWebEngineView>
 #include <QMap>
 #include <QMessageBox>
+#include <QApplication>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_view(new QWebEngineView(this))
 {
     this->resize(1024, 750);          // 设置窗口大小
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
     this->setWindowTitle(QString("QWebEnginePage权限管理 - V%1").arg(APP_VERSION));  // 设置窗口标题
 
     this->setCentralWidget(m_view);          // 将m_view设置为主窗口的中心小部件

@@ -10,6 +10,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
     this->setWindowTitle(QString("使用QtWebChannel实现Qt与Web通信交互（2），进阶功能 - V%1").arg(APP_VERSION));  // 设置窗口标题
 
     QWebChannel* channel = new QWebChannel(this);

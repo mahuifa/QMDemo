@@ -9,6 +9,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
     this->setWindowTitle(QString("使用QWebSocket客户端作为QWebChannel通信数据传输接口 - V%1").arg(APP_VERSION));  // 设置窗口标题
 
     connect(Core::getInstance(), &Core::webButClicked, this, &Widget::on_webButClicked);
