@@ -12,6 +12,8 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    this->resize(800, 700);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
 
     this->setWindowTitle(QString("QXlsx操作Excel 示例程序 - V%1").arg(APP_VERSION));
 }
