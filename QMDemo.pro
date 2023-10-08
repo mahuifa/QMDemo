@@ -10,7 +10,8 @@
 #---------------------------------------------------------------------------------------
 TEMPLATE = subdirs
 
-SUBDIRS += FunctionalModule               # 常用功能模块，开发时直接复用
+SUBDIRS += FunctionalModule \               # 常用功能模块，开发时直接复用
+    MapExamples
 SUBDIRS += Experience                     # 日常开发经验示例出现
 SUBDIRS += OpenGLDemo                     # OpenGL开发Demo
 SUBDIRS += FFmpegDemo                     # ffmpeg库使用Demo
