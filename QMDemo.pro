@@ -10,8 +10,7 @@
 #---------------------------------------------------------------------------------------
 TEMPLATE = subdirs
 
-SUBDIRS += FunctionalModule \               # 常用功能模块，开发时直接复用
-    MapExamples
+SUBDIRS += FunctionalModule               # 常用功能模块，开发时直接复用
 SUBDIRS += Experience                     # 日常开发经验示例出现
 SUBDIRS += OpenGLDemo                     # OpenGL开发Demo
 SUBDIRS += FFmpegDemo                     # ffmpeg库使用Demo
@@ -26,4 +25,5 @@ SUBDIRS += QSqlDemo                       # Qt使用数据库Demo
 SUBDIRS += PaintingDemo                   # 使用 QPainter绘制图片
 SUBDIRS += Web                            # Qt + web编程
 SUBDIRS += ConcurrentExamples             # Qt并发编程示例
+SUBDIRS += MapExamples                    # Qt + 地图开发示例
 
