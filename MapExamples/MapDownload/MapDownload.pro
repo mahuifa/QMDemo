@@ -1,25 +1,30 @@
 #---------------------------------------------------------------------------------------
-# @功能：
+# @功能：      QT下载瓦片地图简单示例
 # @编译器：     Desktop Qt 5.14.2 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.14.2/Tools/QtCreator/share/qtcreator
 #
-# @开发者     mhf
+# @开发者      mhf
 # @邮箱       1603291350@qq.com
 # @时间       2024-03-29 14:46:01
 # @备注
 #---------------------------------------------------------------------------------------
 
-QT       += core gui
-
+QT       += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
+    downloadinfo.cpp \
+    downloadthread.cpp \
+    formula.cpp \
     main.cpp \
     widget.cpp
 
 HEADERS += \
+    downloadinfo.h \
+    downloadthread.h \
+    formula.h \
     widget.h
 
 FORMS += \
