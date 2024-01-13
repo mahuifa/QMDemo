@@ -3,12 +3,12 @@
 #include <QObject>
 
 // 瓦片地图编号转经纬度
-extern qreal tile2long(int x, int z);
-extern qreal tile2lat(int y, int z);
+extern qreal tileTolon(int x, int z);
+extern qreal tileTolat(int y, int z);
 
 // 经纬度转瓦片地图编号
-extern int lon2tile(qreal lon, int z);
-extern int lat2tile(qreal lat, int z);
+extern int lonTotile(qreal lon, int z);
+extern int latTotile(qreal lat, int z);
 
 // 经纬度转距离 Vincenty
 extern qreal toDistance(qreal lon1, qreal lat1, qreal lon2, qreal lat2);

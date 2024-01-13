@@ -10,7 +10,7 @@
  * @param z
  * @return
  */
-qreal tile2long(int x, int z)
+qreal tileTolon(int x, int z)
 {
     return (x / qPow(2, z) * 360 - 180);
 }
@@ -21,7 +21,7 @@ qreal tile2long(int x, int z)
  * @param z
  * @return
  */
-qreal tile2lat(int y, int z)
+qreal tileTolat(int y, int z)
 {
     qreal n= M_PI - 2 * M_PI * y / qPow(2 , z);
     return (180 / M_PI * qAtan(0.5*(qExp(n) - qExp(-n))));
@@ -33,7 +33,7 @@ qreal tile2lat(int y, int z)
  * @param z
  * @return
  */
-int lon2tile(qreal lon, int z)
+int lonTotile(qreal lon, int z)
 {
   return (qFloor((lon + 180) / 360 * qPow(2, z)));
 }
@@ -44,7 +44,7 @@ int lon2tile(qreal lon, int z)
  * @param z
  * @return
  */
-int lat2tile(qreal lat, int z)
+int latTotile(qreal lat, int z)
 {
    return (qFloor((1 - qLn(qTan(lat * M_PI / 180) + 1 / qCos(lat * M_PI / 180)) / M_PI) / 2 * qPow(2, z)));
 }
@@ -87,9 +87,9 @@ qreal pixelToMeter(int z)
 
 qreal pixelToMeter(int x, int y, int z)
 {
-    qreal lon1 = tile2long(x, z);
-    qreal lon2 = tile2long(x + 1, z);
-    qreal lat1 = tile2long(y, z);
+    qreal lon1 = tileTolon(x, z);
+    qreal lon2 = tileTolon(x + 1, z);
+    qreal lat1 = tileTolon(y, z);
     qreal dis = toDistance(lon1, lat1, lon2, lat1);  // 通过相邻两个瓦片左上角经纬度计算瓦片边长的距离
     qreal meter = dis / 256;
 
@@ -173,9 +173,9 @@ qreal toLon(qreal lon, qreal lat, int dis)
  */
 qreal LatDisToPixel(qreal lon, qreal lat, int z)
 {
-    int x = lon2tile(lon, z);       // 计算瓦片编号
-    int y = lat2tile(lat, z);       // 计算瓦片编号
-    qreal yLat = tile2lat(y, z);    // 计算瓦片上边纬度
+    int x = lonTotile(lon, z);       // 计算瓦片编号
+    int y = latTotile(lat, z);       // 计算瓦片编号
+    qreal yLat = tileTolat(y, z);    // 计算瓦片上边纬度
     qreal ratio = pixelToMeter(x, y, z);  // 计算瓦片中像素分辨率
     qreal disY = toDistance(lon, lat, lon, yLat);  // 经度相同时计算纬度上的距离
     qreal pixelY = disY / ratio;    // 计算纬度上像素差
@@ -195,14 +195,14 @@ qreal LatDisToPixel(qreal lon, qreal lat, int z)
 qreal LatDisToPixel(qreal lon, qreal lat, int dis, int z)
 {
     // 计算中心瓦片编号
-    int cY = lat2tile(lat, z);
+    int cY = latTotile(lat, z);
     qreal cPixel = LatDisToPixel(lon, lat, z);  // 中心瓦片经纬度到上边的像素差
 
     qreal tempLat = toLat(lon, lat, dis);   // 计算纬度差
     qreal topLat = lat + tempLat;
     qreal pixel = LatDisToPixel(lon, topLat, z);  // 距离外的瓦片经纬度到上边的像素差
 
-    int dY = lat2tile(topLat, z);
+    int dY = latTotile(topLat, z);
     int idDiff = cY - dY;
     qreal pixelSun = 0;
     if(idDiff)
