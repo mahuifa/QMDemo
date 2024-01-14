@@ -120,6 +120,15 @@ void Widget::on_but_threads_clicked(bool checked)
  */
 void Widget::finished(int index)
 {
+    ImageInfo& info = m_infos[index];
+    // 创建文件夹
+    QString strPath =  ui->line_savePath->text() + QString("/%1/%2/").arg(info.z).arg(info.x);
+    QDir dir;
+    dir.mkpath(strPath);
+    // 保存文件
+    strPath += QString("%1.%2").arg(info.y).arg(ui->com_format->currentText());
+    info.img.save(strPath);
+
     index++;
     ui->progressBar->setValue(index);
     if(index == m_infos.count())
