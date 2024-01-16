@@ -25,6 +25,7 @@ struct ImageInfo
     short count = 0;      // 失败下载次数，初始为0，下载失败一次+1
 };
 
+// ArcGis瓦片下载信息计算
 void getArcGisMapInfo(const MapInfo& mapInfo, QList<ImageInfo>& infos);
 
 #endif // DOWNLOADINFO_H

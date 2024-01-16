@@ -16,6 +16,7 @@ Widget::Widget(QWidget *parent)
     m_dThread = new DownloadThread();      // 不能指定父对象
     connect(m_dThread, &DownloadThread::finished, this, &Widget::finished);
 
+    // 默认下载范围
     ui->dspin_LTLon->setValue(103.979482);
     ui->dspin_LTLat->setValue(30.66596);
     ui->dspin_RDLon->setValue(104.137009);
@@ -51,6 +52,9 @@ Widget::Widget(QWidget *parent)
     ui->com_format->addItem("jpg");
     ui->com_format->addItem("png");
     ui->com_format->addItem("bmp");
+
+    qRegisterMetaType<QList<ImageInfo>>("QList<ImageInfo>");
+    qRegisterMetaType<ImageInfo>("ImageInfo");
 }
 
 Widget::~Widget()
@@ -79,6 +83,7 @@ void Widget::on_but_thread_clicked(bool checked)
 {
     if(checked)
     {
+        m_timer.start();
         ui->but_thread->setText("停止下载");
         MapInfo info;
         info.topLeft = QPointF(ui->dspin_LTLon->value(), ui->dspin_LTLat->value());
@@ -87,13 +92,15 @@ void Widget::on_but_thread_clicked(bool checked)
         info.type = ui->com_type->currentText();
         info.format = ui->com_format->currentText();
         getArcGisMapInfo(info, m_infos);      // 计算下载信息
-        emit m_dThread->getImage(&m_infos);   // 开始下载
+        emit m_dThread->getImage(m_infos);    // 开始下载
         ui->progressBar->setMaximum(m_infos.count());
+        qDebug() << "瓦片数：" << m_infos.count();
     }
     else
     {
         ui->but_thread->setText("单线程下载");
         ui->but_thread->setChecked(false);
+        m_dThread->quit();
     }
 }
 
@@ -118,24 +125,26 @@ void Widget::on_but_threads_clicked(bool checked)
  * @brief        处理下载完成的图片
  * @param index  已经下载的索引
  */
-void Widget::finished(int index)
+void Widget::finished(ImageInfo info)
 {
-    ImageInfo& info = m_infos[index];
-    // 创建文件夹
-    QString strPath =  ui->line_savePath->text() + QString("/%1/%2/").arg(info.z).arg(info.x);
-    QDir dir;
-    dir.mkpath(strPath);
-    // 保存文件
-    strPath += QString("%1.%2").arg(info.y).arg(ui->com_format->currentText());
-    info.img.save(strPath);
+    if(!info.img.isNull())   // 下载失败图片为空
+    {
+        // 创建文件夹
+        QString strPath =  ui->line_savePath->text() + QString("/%1/%2/").arg(info.z).arg(info.x);
+        QDir dir;
+        dir.mkpath(strPath);
+        // 保存文件
+        strPath += QString("%1.%2").arg(info.y).arg(ui->com_format->currentText());
+        info.img.save(strPath);
+    }
 
-    index++;
-    ui->progressBar->setValue(index);
-    if(index == m_infos.count())
+    ui->progressBar->setValue(ui->progressBar->value() + 1);
+    if(ui->progressBar->value() == m_infos.count())
     {
         ui->but_thread->setChecked(false);
         ui->but_threads->setChecked(false);
         ui->but_thread->setText("单线程下载");
         ui->but_threads->setText("多线程下载");
+        qDebug() << "下载时长：" << m_timer.elapsed() <<" ms";
     }
 }

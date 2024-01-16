@@ -32,7 +32,6 @@ void getArcGisMapInfo(const MapInfo &mapInfo, QList<ImageInfo> &infos)
             info.y = y;
             info.url = url.arg(mapInfo.type).arg(mapInfo.z).arg(y).arg(x).arg(mapInfo.format);
             infos.append(info);
-            qDebug() << info.url;
         }
     }
 }

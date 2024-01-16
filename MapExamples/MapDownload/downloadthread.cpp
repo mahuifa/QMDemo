@@ -20,6 +20,11 @@ DownloadThread::~DownloadThread()
     m_thread->wait();
 }
 
+void DownloadThread::quit()
+{
+    m_quit = true;
+}
+
 void DownloadThread::started()
 {
     m_manager = new QNetworkAccessManager();
@@ -36,9 +41,10 @@ void DownloadThread::threadFinished()
  * @brief         开始发起下载瓦片请求
  * @param infos   传入包含需要下载信息的列表
  */
-void DownloadThread::startGet(QList<ImageInfo>* infos)
+void DownloadThread::startGet(QList<ImageInfo> infos)
 {
-    m_index = 0;
+    m_infos = infos;
+    m_quit = false;
     m_infos = infos;
     get();
 }
@@ -48,11 +54,11 @@ void DownloadThread::startGet(QList<ImageInfo>* infos)
  */
 void DownloadThread::get()
 {
-    if(!m_infos || m_infos->isEmpty() || (m_index >= m_infos->count()))
+    if(m_infos.isEmpty())
     {
         return;
     }
-    m_request.setUrl(m_infos->at(m_index).url);
+    m_request.setUrl(m_infos.first().url);   // 下载列表中第一个
     m_manager->get(m_request);
 }
 
@@ -62,12 +68,13 @@ void DownloadThread::get()
  */
 void DownloadThread::on_finished(QNetworkReply *reply)
 {
-    ImageInfo& info = (*m_infos)[m_index];
+    if(m_quit) return;
+    ImageInfo& info = m_infos.first();
     if(reply->error() == QNetworkReply::NoError)
     {
          info.img.loadFromData(reply->readAll());
-         emit finished(m_index);
-         m_index++;
+         emit finished(info);
+         m_infos.removeFirst();    // 下载后移除第一项
          get();
     }
     else
@@ -80,8 +87,8 @@ void DownloadThread::on_finished(QNetworkReply *reply)
         }
         else
         {
-            emit finished(m_index);
-            m_index++;
+            emit finished(info);
+            m_infos.removeFirst();    // 下载后移除第一项
         }
     }
 
