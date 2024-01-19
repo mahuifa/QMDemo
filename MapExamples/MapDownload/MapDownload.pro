@@ -9,7 +9,7 @@
 # @备注
 #---------------------------------------------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network concurrent
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     downloadinfo.cpp \
     downloadthread.cpp \
+    downloadthreads.cpp \
     formula.cpp \
     main.cpp \
     widget.cpp
@@ -24,6 +25,7 @@ SOURCES += \
 HEADERS += \
     downloadinfo.h \
     downloadthread.h \
+    downloadthreads.h \
     formula.h \
     widget.h
 

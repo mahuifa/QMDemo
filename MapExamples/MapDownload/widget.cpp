@@ -14,7 +14,9 @@ Widget::Widget(QWidget *parent)
     this->setWindowTitle(QString("QT下载瓦片地图简单示例--V%1").arg(APP_VERSION));
 
     m_dThread = new DownloadThread();      // 不能指定父对象
+    m_dThreads = new DownloadThreads();
     connect(m_dThread, &DownloadThread::finished, this, &Widget::finished);
+    connect(m_dThreads, &DownloadThreads::finished, this, &Widget::finished);
 
     // 默认下载范围
     ui->dspin_LTLon->setValue(103.979482);
@@ -60,6 +62,7 @@ Widget::Widget(QWidget *parent)
 Widget::~Widget()
 {
     delete m_dThread;
+    delete m_dThreads;
     delete ui;
 }
 
@@ -84,6 +87,7 @@ void Widget::on_but_thread_clicked(bool checked)
     if(checked)
     {
         m_timer.start();
+        ui->progressBar->setValue(0);
         ui->but_thread->setText("停止下载");
         MapInfo info;
         info.topLeft = QPointF(ui->dspin_LTLon->value(), ui->dspin_LTLat->value());
@@ -112,12 +116,25 @@ void Widget::on_but_threads_clicked(bool checked)
 {
     if(checked)
     {
+        m_timer.start();
+        ui->progressBar->setValue(0);
         ui->but_threads->setText("停止下载");
+        MapInfo info;
+        info.topLeft = QPointF(ui->dspin_LTLon->value(), ui->dspin_LTLat->value());
+        info.lowRight = QPointF(ui->dspin_RDLon->value(), ui->dspin_RDLat->value());
+        info.z = ui->spin_z->value();
+        info.type = ui->com_type->currentText();
+        info.format = ui->com_format->currentText();
+        getArcGisMapInfo(info, m_infos);      // 计算下载信息
+        m_dThreads->getImage(m_infos);       // 开始下载
+        ui->progressBar->setMaximum(m_infos.count());
+        qDebug() << "瓦片数：" << m_infos.count();
     }
     else
     {
         ui->but_threads->setText("多线程下载");
         ui->but_threads->setChecked(false);
+        m_dThreads->quit();
     }
 }
 
@@ -130,7 +147,12 @@ void Widget::finished(ImageInfo info)
     if(!info.img.isNull())   // 下载失败图片为空
     {
         // 创建文件夹
-        QString strPath =  ui->line_savePath->text() + QString("/%1/%2/").arg(info.z).arg(info.x);
+        QString strPath = ui->line_savePath->text();
+        if(strPath.isEmpty())
+        {
+            strPath = qApp->applicationDirPath() + "/map";   // 默认保存地址
+        }
+        strPath += QString("/%1/%2/").arg(info.z).arg(info.x);
         QDir dir;
         dir.mkpath(strPath);
         // 保存文件

@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "downloadthread.h"
 #include "downloadinfo.h"
+#include "downloadthreads.h"
 #include <QElapsedTimer>
 
 QT_BEGIN_NAMESPACE
@@ -30,7 +31,8 @@ private:
 
 private:
     Ui::Widget *ui;
-    DownloadThread* m_dThread = nullptr;     // 单线程下载
+    DownloadThread* m_dThread = nullptr;       // 单线程下载
+    DownloadThreads* m_dThreads = nullptr;     // 多线程下载
     QList<ImageInfo> m_infos;                // 保存下载瓦片图片的信息
     QElapsedTimer m_timer;
 };
