@@ -24,6 +24,7 @@ void getArcGisMapInfo(const MapInfo &mapInfo, QList<ImageInfo> &infos)
     infos.clear();   // 清除已有的数据
     ImageInfo info;
     info.z = mapInfo.z;
+    info.format = mapInfo.format;
     for(int x = ltX; x <= rdX; x++)
     {
         info.x = x;

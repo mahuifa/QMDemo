@@ -20,6 +20,7 @@ SOURCES += \
     downloadthreads.cpp \
     formula.cpp \
     main.cpp \
+    mapinput.cpp \
     widget.cpp
 
 HEADERS += \
@@ -27,9 +28,12 @@ HEADERS += \
     downloadthread.h \
     downloadthreads.h \
     formula.h \
+    mapStruct.h \
+    mapinput.h \
     widget.h
 
 FORMS += \
+    mapinput.ui \
     widget.ui
 
 #  定义程序版本号
