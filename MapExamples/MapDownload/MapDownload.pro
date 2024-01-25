@@ -15,7 +15,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
-    downloadinfo.cpp \
     downloadthread.cpp \
     downloadthreads.cpp \
     formula.cpp \
@@ -24,7 +23,6 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
-    downloadinfo.h \
     downloadthread.h \
     downloadthreads.h \
     formula.h \

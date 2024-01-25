@@ -19,7 +19,12 @@ public:
     const QList<ImageInfo> &getInputInfo();       // 获取下载地图所需的输入信息
 
 private:
+    // ArcGis
     void initArcGis();
+    void getArcGisMapInfo();
+    // 高德
+    void initAMap();
+    void getAMapInfo();
 
 private:
     Ui::MapInput *ui;

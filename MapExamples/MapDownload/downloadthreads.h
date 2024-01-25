@@ -3,7 +3,7 @@
 
 #include <QFutureWatcher>
 #include <QObject>
-#include "downloadinfo.h"
+#include "mapStruct.h"
 
 class DownloadThreads : public QObject
 {

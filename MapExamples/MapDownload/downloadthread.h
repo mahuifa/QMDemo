@@ -2,9 +2,8 @@
 #define DOWNLOADTHREAD_H
 
 #include <QObject>
-#include "downloadinfo.h"
 #include <QNetworkAccessManager>
-
+#include "mapStruct.h"
 
 class DownloadThread : public QObject
 {

@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include "downloadthread.h"
-#include "downloadinfo.h"
 #include "downloadthreads.h"
 #include <QElapsedTimer>
 #include "mapStruct.h"

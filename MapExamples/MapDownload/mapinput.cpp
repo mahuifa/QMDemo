@@ -7,7 +7,7 @@
  * ******************************************************************/
 #include "mapinput.h"
 #include "ui_mapinput.h"
-#include "downloadinfo.h"
+#include "formula.h"
 #include <QDebug>
 
 MapInput::MapInput(QWidget *parent) :
@@ -75,18 +75,11 @@ const QList<ImageInfo> &MapInput::getInputInfo()
 {
     m_infos.clear();    // 清除之前的内容
 
-    MapInfo info;
-    info.topLeft = QPointF(ui->dspin_LTLon->value(), ui->dspin_LTLat->value());
-    info.lowRight = QPointF(ui->dspin_RDLon->value(), ui->dspin_RDLat->value());
-    info.z = ui->spin_z->value();
-    info.type = ui->com_type->currentText();
-    info.format = ui->com_format->currentText();
-
     switch (ui->tabWidget->currentIndex())   // 判断是什么类型的地图源
     {
     case 0:     // ArcGis
     {
-        getArcGisMapInfo(info, m_infos);      // 计算下载信息
+        getArcGisMapInfo();      // 计算ArcGis下载信息
         break;
     }
     case 1:
@@ -102,4 +95,50 @@ const QList<ImageInfo> &MapInput::getInputInfo()
     }
     qDebug() << "瓦片数：" << m_infos.count();
     return m_infos;
+}
+
+/**
+ * @brief   通过输入地图信息计算需要下载的瓦片图信息，下载ArcGIS地图，WGS84坐标系，Web墨卡托投影，z y x输入
+ */
+void MapInput::getArcGisMapInfo()
+{
+    static QString url = "https://server.arcgisonline.com/arcgis/rest/services/%1/MapServer/tile/%2/%3/%4.%5";
+
+    int z = ui->spin_z->value();
+    QString type = ui->com_type->currentText();
+    QString format = ui->com_format->currentText();
+    int ltX = lonTotile(ui->dspin_LTLon->value(), z);   // 计算左上角瓦片X
+    int ltY = latTotile(ui->dspin_LTLat->value(), z);   // 计算左上角瓦片Y
+    int rdX = lonTotile(ui->dspin_RDLon->value(), z);   // 计算右下角瓦片X
+    int rdY = latTotile(ui->dspin_RDLat->value(), z);   // 计算右下角瓦片Y
+
+    ImageInfo info;
+    info.z = z;
+    info.format = format;
+    for(int x = ltX; x <= rdX; x++)
+    {
+        info.x = x;
+        for(int y = ltY; y <= rdY; y++)
+        {
+            info.y = y;
+            info.url = url.arg(type).arg(z).arg(y).arg(x).arg(format);
+            m_infos.append(info);
+        }
+    }
+}
+
+/**
+ * @brief 初始化高德地图下载选项信息
+ */
+void MapInput::initAMap()
+{
+
+}
+
+/**
+ * @brief 计算高德地图瓦片下载信息
+ */
+void MapInput::getAMapInfo()
+{
+
 }
