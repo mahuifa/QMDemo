@@ -30,6 +30,7 @@ DownloadThreads::~DownloadThreads()
 void getUrl(ImageInfo info)
 {
     QNetworkAccessManager manager;
+    qDebug() << info.url;
     QNetworkReply* reply = manager.get(QNetworkRequest(QUrl(info.url)));
     // 等待返回
     QEventLoop loop;

@@ -22,6 +22,7 @@ MapInput::MapInput(QWidget *parent) :
     ui->dspin_RDLon->setValue(104.137009);
     ui->dspin_RDLat->setValue(30.554068);
     initArcGis();
+    initAMap();
 }
 
 MapInput::~MapInput()
@@ -84,6 +85,7 @@ const QList<ImageInfo> &MapInput::getInputInfo()
     }
     case 1:
     {
+        getAMapInfo();            // 计算高德地图下载信息
         break;
     }
     case 2:
@@ -132,7 +134,31 @@ void MapInput::getArcGisMapInfo()
  */
 void MapInput::initAMap()
 {
+    // 域名  支持6卫星、7简图、8详图
+    for(int i = 1; i < 5; i++)
+    {
+        ui->com_amapPrefix->addItem(QString("wprd0%1").arg(i));
+    }
+    // 支持 7简图、8详图
+    for(int i = 1; i < 5; i++)
+    {
+        ui->com_amapPrefix->addItem(QString("webst0%1").arg(i));
+    }
+    // 语言设置
+    ui->com_amapLang->addItem("中文", "zh_cn");
+    ui->com_amapLang->addItem("英文", "en");
+    // 地图类型
+    ui->com_amapStyle->addItem("卫星图", 6);
+    ui->com_amapStyle->addItem("简图", 7);
+    ui->com_amapStyle->addItem("详图", 8);
+    // 图片尺寸，只在 8详图生效
+    ui->com_amapScl->addItem("256x256", 1);
+    ui->com_amapScl->addItem("512x512", 2);
 
+    // 填入下载格式
+    ui->com_amapFormat->addItem("jpg");
+    ui->com_amapFormat->addItem("png");
+    ui->com_amapFormat->addItem("bmp");
 }
 
 /**
@@ -140,5 +166,32 @@ void MapInput::initAMap()
  */
 void MapInput::getAMapInfo()
 {
+    static QString url = "https://%1.is.autonavi.com/appmaptile?";
 
+    int z = ui->spin_amapZ->value();
+    QString format = ui->com_amapFormat->currentText();
+    int ltX = lonTotile(ui->dspin_LTLon->value(), z);   // 计算左上角瓦片X
+    int ltY = latTotile(ui->dspin_LTLat->value(), z);   // 计算左上角瓦片Y
+    int rdX = lonTotile(ui->dspin_RDLon->value(), z);   // 计算右下角瓦片X
+    int rdY = latTotile(ui->dspin_RDLat->value(), z);   // 计算右下角瓦片Y
+
+    ImageInfo info;
+    info.z = z;
+    info.format = format;
+    QString tempUrl = url.arg(ui->com_amapPrefix->currentText());                // 设置域名
+    tempUrl += QString("&lang=%1").arg(ui->com_amapLang->currentData().toString());   // 设置语言
+    tempUrl += QString("&style=%1").arg(ui->com_amapStyle->currentData().toInt());     // 设置地图类型
+    tempUrl += QString("&scl=%1").arg(ui->com_amapScl->currentData().toInt());       // 设置图片尺寸，只在 8详图生效
+    tempUrl += QString("&ltype=%1").arg(ui->spin_amapLtype->value());                  // 设置图片中的信息，只有 7 8有效
+
+    for(int x = ltX; x <= rdX; x++)
+    {
+        info.x = x;
+        for(int y = ltY; y <= rdY; y++)
+        {
+            info.url = tempUrl + QString("&x=%1&y=%2&z=%3").arg(x).arg(y).arg(z);
+            info.y = y;
+            m_infos.append(info);
+        }
+    }
 }

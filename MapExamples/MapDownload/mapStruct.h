@@ -12,15 +12,6 @@
 #include <QPointF>
 #include <QString>
 
-struct MapInfo
-{
-    QPointF topLeft;        // 左上角经纬度
-    QPointF lowRight;       // 右下角经纬度
-    int z;                  // 下载层级
-    QString type;           // 地图类型
-    QString format;         // 图片格式
-};
-
 struct ImageInfo
 {
     // 瓦片编号
