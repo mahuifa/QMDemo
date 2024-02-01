@@ -27,10 +27,9 @@ DownloadThreads::~DownloadThreads()
  * @param info
  * @return
  */
-void getUrl(ImageInfo info)
+void getUrl(ImageInfo& info)
 {
     QNetworkAccessManager manager;
-    qDebug() << info.url;
     QNetworkReply* reply = manager.get(QNetworkRequest(QUrl(info.url)));
     // 等待返回
     QEventLoop loop;
@@ -44,7 +43,16 @@ void getUrl(ImageInfo info)
     }
     else
     {
-        qWarning() << "下载失败：" << reply->errorString();
+        info.count++;
+        if(info.count < 3)
+        {
+            getUrl(info);   // 下载失败重新下载
+            return;
+        }
+        else
+        {
+            qWarning() << "下载失败：" << reply->errorString();
+        }
     }
     if(g_this)
     {
