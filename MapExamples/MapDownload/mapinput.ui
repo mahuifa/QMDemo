@@ -6,65 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>423</width>
-    <height>243</height>
+    <width>333</width>
+    <height>364</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
+  <layout class="QGridLayout" name="gridLayout_4">
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>下载地图范围</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>左上角经纬度：</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QDoubleSpinBox" name="dspin_LTLon">
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="decimals">
-         <number>8</number>
-        </property>
-        <property name="minimum">
-         <double>-180.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>180.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.001000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QDoubleSpinBox" name="dspin_LTLat">
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="decimals">
-         <number>8</number>
-        </property>
-        <property name="minimum">
-         <double>-90.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>90.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.001000000000000</double>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
@@ -72,41 +27,24 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="dspin_RDLon">
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="decimals">
-         <number>8</number>
-        </property>
-        <property name="minimum">
-         <double>-180.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>180.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.001000000000000</double>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="line_LTGps">
+        <property name="text">
+         <string>103.979482,30.66596</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QDoubleSpinBox" name="dspin_RDLat">
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="line_RDGps">
+        <property name="text">
+         <string>104.137009,30.554068</string>
         </property>
-        <property name="decimals">
-         <number>8</number>
-        </property>
-        <property name="minimum">
-         <double>-90.000000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>90.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.001000000000000</double>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>左上角经纬度：</string>
         </property>
        </widget>
       </item>
@@ -123,6 +61,23 @@
        <string>ArcGis</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>地图类型：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QComboBox" name="com_format">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
@@ -130,35 +85,32 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QSpinBox" name="spin_z">
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::UpDownArrows</enum>
-         </property>
-         <property name="maximum">
-          <number>23</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string>文件格式：</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="com_format"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>地图类型：</string>
+       <item row="5" column="0">
+        <widget class="QComboBox" name="com_type">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="com_type"/>
+       <item row="1" column="0">
+        <widget class="QComboBox" name="com_z">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -166,51 +118,76 @@
       <attribute name="title">
        <string>高德</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0">
-        <widget class="QComboBox" name="com_amapPrefix"/>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>要素：</string>
+         </property>
+        </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="com_amapLang"/>
-       </item>
-       <item row="0" column="2" colspan="2">
-        <widget class="QComboBox" name="com_amapStyle"/>
-       </item>
-       <item row="0" column="4">
+       <item row="3" column="1">
         <widget class="QComboBox" name="com_amapScl"/>
        </item>
-       <item row="0" column="5">
-        <widget class="QSpinBox" name="spin_amapLtype"/>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="com_amapLang"/>
        </item>
-       <item row="1" column="0" colspan="3">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>语言：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>服务：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>地图类型：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
         <widget class="QLabel" name="label_6">
          <property name="text">
           <string>下载等级：</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="3" colspan="3">
-        <widget class="QSpinBox" name="spin_amapZ">
-         <property name="buttonSymbols">
-          <enum>QAbstractSpinBox::UpDownArrows</enum>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>19</number>
+       <item row="6" column="1">
+        <widget class="QComboBox" name="com_amapFormat"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="com_amapStyle"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>尺寸：</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="3">
+       <item row="6" column="0">
         <widget class="QLabel" name="label_7">
          <property name="text">
           <string>文件格式：</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="3" colspan="3">
-        <widget class="QComboBox" name="com_amapFormat"/>
+       <item row="4" column="1">
+        <widget class="QSpinBox" name="spin_amapLtype"/>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="com_amapPrefix"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="com_amapZ"/>
        </item>
       </layout>
      </widget>

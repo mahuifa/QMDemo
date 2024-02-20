@@ -44,20 +44,26 @@
       <string>下载</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="0">
-       <widget class="QPushButton" name="but_savePath">
-        <property name="text">
-         <string>选择下载路径</string>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLineEdit" name="line_savePath">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="but_thread">
-        <property name="text">
-         <string>单线程下载</string>
+      <item row="1" column="0" colspan="3">
+       <widget class="QProgressBar" name="progressBar">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-        <property name="checkable">
-         <bool>true</bool>
+        <property name="value">
+         <number>0</number>
         </property>
        </widget>
       </item>
@@ -71,15 +77,22 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="3">
-       <widget class="QProgressBar" name="progressBar">
-        <property name="value">
-         <number>0</number>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="but_savePath">
+        <property name="text">
+         <string>选择下载路径</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0" colspan="3">
-       <widget class="QLineEdit" name="line_savePath"/>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="but_thread">
+        <property name="text">
+         <string>单线程下载</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

@@ -16,11 +16,6 @@ MapInput::MapInput(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // 默认下载范围
-    ui->dspin_LTLon->setValue(103.979482);
-    ui->dspin_LTLat->setValue(30.66596);
-    ui->dspin_RDLon->setValue(104.137009);
-    ui->dspin_RDLat->setValue(30.554068);
     initArcGis();
     initAMap();
 }
@@ -35,6 +30,10 @@ MapInput::~MapInput()
  */
 void MapInput::initArcGis()
 {
+    for(int i = 0; i < 23; i++)
+    {
+        ui->com_z->addItem(QString("%1").arg(i), i);
+    }
     ui->com_type->addItem("NatGeo_World_Map");
     ui->com_type->addItem("USA_Topo_Maps ");
     ui->com_type->addItem("World_Imagery");
@@ -106,13 +105,16 @@ void MapInput::getArcGisMapInfo()
 {
     static QString url = "https://server.arcgisonline.com/arcgis/rest/services/%1/MapServer/tile/%2/%3/%4.%5";
 
-    int z = ui->spin_z->value();
+    int z = ui->com_z->currentData().toInt();
     QString type = ui->com_type->currentText();
     QString format = ui->com_format->currentText();
-    int ltX = lonTotile(ui->dspin_LTLon->value(), z);   // 计算左上角瓦片X
-    int ltY = latTotile(ui->dspin_LTLat->value(), z);   // 计算左上角瓦片Y
-    int rdX = lonTotile(ui->dspin_RDLon->value(), z);   // 计算右下角瓦片X
-    int rdY = latTotile(ui->dspin_RDLat->value(), z);   // 计算右下角瓦片Y
+    QStringList lt = ui->line_LTGps->text().trimmed().split(',');       // 左上角经纬度
+    QStringList rd = ui->line_RDGps->text().trimmed().split(',');       // 右下角经纬度
+    if(lt.count() != 2 || rd.count() != 2) return;                      // 判断输入是否正确
+    int ltX = lonTotile(lt.at(0).toDouble(), z);                 // 计算左上角瓦片X
+    int ltY = latTotile(lt.at(1).toDouble(), z);                 // 计算左上角瓦片Y
+    int rdX = lonTotile(rd.at(0).toDouble(), z);                 // 计算右下角瓦片X
+    int rdY = latTotile(rd.at(1).toDouble(), z);                 // 计算右下角瓦片Y
 
     ImageInfo info;
     info.z = z;
@@ -134,24 +136,26 @@ void MapInput::getArcGisMapInfo()
  */
 void MapInput::initAMap()
 {
-    // 域名  支持6卫星、7简图、8详图
     for(int i = 1; i < 5; i++)
     {
         ui->com_amapPrefix->addItem(QString("wprd0%1").arg(i));
     }
-    // 支持 7简图、8详图
     for(int i = 1; i < 5; i++)
     {
         ui->com_amapPrefix->addItem(QString("webst0%1").arg(i));
+    }
+    for(int i = 1; i < 19; i++)
+    {
+        ui->com_amapZ->addItem(QString("%1").arg(i), i);
     }
     // 语言设置
     ui->com_amapLang->addItem("中文", "zh_cn");
     ui->com_amapLang->addItem("英文", "en");
     // 地图类型
-    ui->com_amapStyle->addItem("卫星图", 6);
-    ui->com_amapStyle->addItem("简图", 7);
-    ui->com_amapStyle->addItem("详图", 8);
-    // 图片尺寸，只在 8详图生效
+    ui->com_amapStyle->addItem("卫星影像图", 6);
+    ui->com_amapStyle->addItem("矢量路网", 7);
+    ui->com_amapStyle->addItem("影像路网", 8);  // 支持png透明背景
+    // 图片尺寸，只在7 8生效
     ui->com_amapScl->addItem("256x256", 1);
     ui->com_amapScl->addItem("512x512", 2);
 
@@ -168,12 +172,15 @@ void MapInput::getAMapInfo()
 {
     static QString url = "https://%1.is.autonavi.com/appmaptile?";
 
-    int z = ui->spin_amapZ->value();
+    int z = ui->com_amapZ->currentData().toInt();
     QString format = ui->com_amapFormat->currentText();
-    int ltX = lonTotile(ui->dspin_LTLon->value(), z);   // 计算左上角瓦片X
-    int ltY = latTotile(ui->dspin_LTLat->value(), z);   // 计算左上角瓦片Y
-    int rdX = lonTotile(ui->dspin_RDLon->value(), z);   // 计算右下角瓦片X
-    int rdY = latTotile(ui->dspin_RDLat->value(), z);   // 计算右下角瓦片Y
+    QStringList lt = ui->line_LTGps->text().trimmed().split(',');       // 左上角经纬度
+    QStringList rd = ui->line_RDGps->text().trimmed().split(',');       // 右下角经纬度
+    if(lt.count() != 2 || rd.count() != 2) return;                      // 判断输入是否正确
+    int ltX = lonTotile(lt.at(0).toDouble(), z);                 // 计算左上角瓦片X
+    int ltY = latTotile(lt.at(1).toDouble(), z);                 // 计算左上角瓦片Y
+    int rdX = lonTotile(rd.at(0).toDouble(), z);                 // 计算右下角瓦片X
+    int rdY = latTotile(rd.at(1).toDouble(), z);                 // 计算右下角瓦片Y
 
     ImageInfo info;
     info.z = z;
@@ -181,7 +188,7 @@ void MapInput::getAMapInfo()
     QString tempUrl = url.arg(ui->com_amapPrefix->currentText());                // 设置域名
     tempUrl += QString("&lang=%1").arg(ui->com_amapLang->currentData().toString());   // 设置语言
     tempUrl += QString("&style=%1").arg(ui->com_amapStyle->currentData().toInt());     // 设置地图类型
-    tempUrl += QString("&scl=%1").arg(ui->com_amapScl->currentData().toInt());       // 设置图片尺寸，只在 8详图生效
+    tempUrl += QString("&scl=%1").arg(ui->com_amapScl->currentData().toInt());       // 设置图片尺寸，只在7 8生效
     tempUrl += QString("&ltype=%1").arg(ui->spin_amapLtype->value());                  // 设置图片中的信息，只有 7 8有效
 
     for(int x = ltX; x <= rdX; x++)
