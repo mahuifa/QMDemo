@@ -154,7 +154,8 @@ void MapInput::initAMap()
     // 地图类型
     ui->com_amapStyle->addItem("卫星影像图", 6);
     ui->com_amapStyle->addItem("矢量路网", 7);
-    ui->com_amapStyle->addItem("影像路网", 8);  // 支持png透明背景
+    ui->com_amapStyle->addItem("影像路网", 8);        // 支持png透明背景
+    ui->com_amapStyle->addItem("卫星+影像路网", 9);    // 支持png透明背景
     // 图片尺寸，只在7 8生效
     ui->com_amapScl->addItem("256x256", 1);
     ui->com_amapScl->addItem("512x512", 2);
@@ -185,20 +186,43 @@ void MapInput::getAMapInfo()
     ImageInfo info;
     info.z = z;
     info.format = format;
-    QString tempUrl = url.arg(ui->com_amapPrefix->currentText());                // 设置域名
-    tempUrl += QString("&lang=%1").arg(ui->com_amapLang->currentData().toString());   // 设置语言
-    tempUrl += QString("&style=%1").arg(ui->com_amapStyle->currentData().toInt());     // 设置地图类型
-    tempUrl += QString("&scl=%1").arg(ui->com_amapScl->currentData().toInt());       // 设置图片尺寸，只在7 8生效
-    tempUrl += QString("&ltype=%1").arg(ui->spin_amapLtype->value());                  // 设置图片中的信息，只有 7 8有效
-
-    for(int x = ltX; x <= rdX; x++)
+    int style = ui->com_amapStyle->currentData().toInt();
+    int count = 1;
+    if(style == 9)
     {
-        info.x = x;
-        for(int y = ltY; y <= rdY; y++)
+        count = 2;    // 如果是下载卫星图 + 路网图则循环两次
+    }
+
+    for(int i = 0; i < count; i++)
+    {
+        if(count == 2)
         {
-            info.url = tempUrl + QString("&x=%1&y=%2&z=%3").arg(x).arg(y).arg(z);
-            info.y = y;
-            m_infos.append(info);
+            if(i == 0)
+            {
+                style = 6;   // 第一次下载卫星图
+                info.format = "jpg";
+            }
+            else
+            {
+                style = 8;  // 第二次下载路网图
+                info.format = "png";   // 如果同时下载卫星图和路网图则路网图为透明png格式
+            }
+        }
+        QString tempUrl = url.arg(ui->com_amapPrefix->currentText());                     // 设置域名
+        tempUrl += QString("&style=%1").arg(style);                                       // 设置地图类型
+        tempUrl += QString("&lang=%1").arg(ui->com_amapLang->currentData().toString());   // 设置语言
+        tempUrl += QString("&scl=%1").arg(ui->com_amapScl->currentData().toInt());        // 设置图片尺寸，只在7 8生效
+        tempUrl += QString("&ltype=%1").arg(ui->spin_amapLtype->value());                 // 设置图片中的信息，只有 7 8有效
+
+        for(int x = ltX; x <= rdX; x++)
+        {
+            info.x = x;
+            for(int y = ltY; y <= rdY; y++)
+            {
+                info.url = tempUrl + QString("&x=%1&y=%2&z=%3").arg(x).arg(y).arg(z);
+                info.y = y;
+                m_infos.append(info);
+            }
         }
     }
 }
