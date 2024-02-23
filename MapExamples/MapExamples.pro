@@ -11,4 +11,5 @@
 
 TEMPLATE = subdirs
 
-SUBDIRS += MapDownload       # 简单的瓦片地图下载示例
+SUBDIRS += MapDownload \       # 简单的瓦片地图下载示例
+    MapView
