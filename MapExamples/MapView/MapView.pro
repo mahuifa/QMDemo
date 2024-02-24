@@ -1,5 +1,5 @@
 #---------------------------------------------------------------------------------------
-# @功能：      Qt使用QGraphicsView显示瓦片地图示例
+# @功能：      Qt使用QGraphicsView显示瓦片地图简单示例
 # @编译器：     Desktop Qt 5.14.2 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.14.2/Tools/QtCreator/share/qtcreator
 #
@@ -9,7 +9,7 @@
 # @备注
 #---------------------------------------------------------------------------------------
 
-QT       += core gui
+QT       += core gui concurrent
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -24,6 +24,9 @@ HEADERS += \
 
 FORMS += \
     widget.ui
+
+include($$PWD/MapView/MapView.pri)
+INCLUDEPATH += $$PWD/MapView/
 
 #  定义程序版本号
 VERSION = 1.0.0
