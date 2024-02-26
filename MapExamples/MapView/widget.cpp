@@ -19,7 +19,9 @@ Widget::~Widget()
     delete ui;
 }
 
-
+/**
+ * @brief 获取瓦片路径并显示
+ */
 void Widget::on_pushButton_clicked()
 {
     QString path = QFileDialog::getExistingDirectory(this, "瓦片路径",

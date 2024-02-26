@@ -19,7 +19,22 @@ MapGraphicsView::MapGraphicsView(QWidget *parent) : QGraphicsView(parent)
 MapGraphicsView::~MapGraphicsView()
 {
     g_this = nullptr;
+    quit();   // 如果程序退出时还在调用map就会报错，所以需要关闭
 }
+
+
+/**
+ * @brief 退出多线程
+ */
+void MapGraphicsView::quit()
+{
+    if(m_future.isRunning())   // 判断是否在运行
+    {
+        m_future.cancel();               // 取消多线程
+        m_future.waitForFinished();      // 等待退出
+    }
+}
+
 
 /**
  * @brief       设置加载显示的瓦片地图路径
@@ -29,8 +44,8 @@ void MapGraphicsView::setPath(const QString &path)
 {
     if(path.isEmpty()) return;
     m_path = path;
-    getMapLevel();
-    loatImage();   // 加载第一层瓦片
+    getMapLevel();      // 获取瓦片层级
+    loatImage();        // 加载第一层瓦片
 }
 
 /**
@@ -41,7 +56,7 @@ void MapGraphicsView::wheelEvent(QWheelEvent *event)
 {
     QGraphicsView::wheelEvent(event);
 
-    if(event->angleDelta().y() > 0)
+    if(event->angleDelta().y() > 0)   // 放大
     {
         if(m_keyIndex < m_mapItemGroup.count() -1)
         {
@@ -55,7 +70,7 @@ void MapGraphicsView::wheelEvent(QWheelEvent *event)
             m_keyIndex--;
         }
     }
-    loatImage();
+    loatImage();        // 加载新的层级瓦片
 }
 
 /**
@@ -65,7 +80,7 @@ void MapGraphicsView::getMapLevel()
 {
     if(m_path.isEmpty()) return;
 
-    clearHash();
+    clearHash();    // 加载新瓦片路径时将之前的内容清空
 
     QDir dir(m_path);
     dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);    // 设置过滤类型为文件夹，且不包含隐藏文件夹
@@ -90,7 +105,7 @@ void MapGraphicsView::getMapLevel()
  */
 void MapGraphicsView::getTitle()
 {
-    QString path = m_path + QString("/%1").arg(getKey());    // z
+    QString path = m_path + QString("/%1").arg(getKey());    // z  第一层文件夹
     QDir dir(path);
     dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);    // 设置过滤类型为文件夹，且不包含隐藏文件夹
     dir.setSorting(QDir::Name);                          // 设置按文件夹名称排序
@@ -99,7 +114,7 @@ void MapGraphicsView::getTitle()
     for(auto& strDir : dirs)
     {
         bool ok;
-        int x = strDir.toInt(&ok);
+        int x = strDir.toInt(&ok);                         // x层级 第二层文件夹
         if(ok)
         {
             point.setX(x);
@@ -136,6 +151,7 @@ void readImg(const QPoint& point)
             emit g_this->addImage(image, point);   // 由于不能在子线程中访问ui，所以这里通过信号将图片传递到ui线程进行绘制
         }
     }
+    QThread::msleep(500);
 }
 
 /**
@@ -151,7 +167,7 @@ void MapGraphicsView::loatImage()
         m_imgTitle.clear();
         getTitle();
         g_path = m_path + QString("/%1").arg(getKey());
-        QtConcurrent::map(m_imgTitle, readImg);
+        m_future = QtConcurrent::map(m_imgTitle, readImg);
     }
     m_scene->addItem(m_itemGroup);
     m_scene->setSceneRect(m_itemGroup->boundingRect());   // 根据图元大小自适应调整场景大小
@@ -175,7 +191,7 @@ void MapGraphicsView::clearMapItem()
 void MapGraphicsView::clearHash()
 {
     if(m_mapItemGroup.isEmpty()) return;
-    clearMapItem();
+    clearMapItem();     // 移除已经添加的图层
     m_keyIndex = 0;
     QList<int>keys = m_mapItemGroup.keys();
     for(auto key : keys)

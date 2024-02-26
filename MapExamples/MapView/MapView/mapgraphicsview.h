@@ -3,6 +3,7 @@
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QFuture>
 
 class MapGraphicsView : public QGraphicsView
 {
@@ -12,6 +13,7 @@ public:
     ~MapGraphicsView();
 
     void setPath(const QString& path);
+    void quit();
 
 protected:
     void wheelEvent(QWheelEvent *event) override;
@@ -34,6 +36,7 @@ private:
     int m_keyIndex = 0;               // 当前显示的瓦片层级
     QVector<QPoint> m_imgTitle;       // 保存图片编号
     QGraphicsItemGroup* m_itemGroup = nullptr;  // 当前显示层级图元
+    QFuture<void> m_future;
 };
 
 #endif // MAPGRAPHICSVIEW_H
