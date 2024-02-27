@@ -13,7 +13,8 @@ MapGraphicsView::MapGraphicsView(QWidget *parent) : QGraphicsView(parent)
     this->setScene(m_scene);
     g_this = this;
     connect(this, &MapGraphicsView::addImage, this, &MapGraphicsView::on_addImage);
-    this->setDragMode(QGraphicsView::ScrollHandDrag);
+    this->setDragMode(QGraphicsView::ScrollHandDrag);      // 设置鼠标拖拽
+    QThreadPool::globalInstance()->setMaxThreadCount(1);   // 可以设置线程池线程数
 }
 
 MapGraphicsView::~MapGraphicsView()
@@ -56,9 +57,13 @@ void MapGraphicsView::wheelEvent(QWheelEvent *event)
 {
     QGraphicsView::wheelEvent(event);
 
+    if(m_future.isRunning())   // 判断是否在运行
+    {
+        return;
+    }
     if(event->angleDelta().y() > 0)   // 放大
     {
-        if(m_keyIndex < m_mapItemGroup.count() -1)
+        if(m_keyIndex < m_mapItemGroups.count() -1)
         {
             m_keyIndex++;
         }
@@ -80,7 +85,7 @@ void MapGraphicsView::getMapLevel()
 {
     if(m_path.isEmpty()) return;
 
-    clearHash();    // 加载新瓦片路径时将之前的内容清空
+    clearReset();    // 加载新瓦片路径时将之前的内容清空
 
     QDir dir(m_path);
     dir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);    // 设置过滤类型为文件夹，且不包含隐藏文件夹
@@ -92,9 +97,18 @@ void MapGraphicsView::getMapLevel()
         int level = strDir.toInt(&ok);
         if(ok)
         {
-            if(!m_mapItemGroup.contains(level))  // 如果不包含
+            if(!m_mapItemGroups.contains(level))  // 如果不包含
             {
-                m_mapItemGroup[level] = new QGraphicsItemGroup();
+                // 初始化加载所有瓦片层级到场景中，默认不显示
+                QGraphicsItemGroup* itemMap = new QGraphicsItemGroup();
+                m_scene->addItem(itemMap);
+                itemMap->setVisible(false);
+                m_mapItemGroups[level] = itemMap;
+                // 初始化加载所有瓦片层级网格到场景中，默认不显示
+                QGraphicsItemGroup* itemGrid = new QGraphicsItemGroup();
+                m_scene->addItem(itemGrid);
+                itemGrid->setVisible(false);
+                m_gridItemGroups[level] = itemGrid;
             }
         }
     }
@@ -151,7 +165,7 @@ void readImg(const QPoint& point)
             emit g_this->addImage(image, point);   // 由于不能在子线程中访问ui，所以这里通过信号将图片传递到ui线程进行绘制
         }
     }
-    QThread::msleep(500);
+//    QThread::msleep(50);     // 加载时加上延时可以更加清晰的看到加载过程
 }
 
 /**
@@ -159,46 +173,51 @@ void readImg(const QPoint& point)
  */
 void MapGraphicsView::loatImage()
 {
-    clearMapItem();
-    m_itemGroup = m_mapItemGroup.value(getKey());
-    if(!m_itemGroup) return;
-    if(m_itemGroup->boundingRect().isEmpty())   // 如果图元为空则加载图元显示
+    quit();                  // 加载新瓦片之前判断是否还有线程在运行
+    m_imgTitle.clear();
+    if(m_mapitemGroup)
     {
-        m_imgTitle.clear();
-        getTitle();
+        m_mapitemGroup->setVisible(false);        // 隐藏图层
+        m_griditemGroup->setVisible(false);       // 隐藏图层
+    }
+    m_mapitemGroup = m_mapItemGroups.value(getKey());
+    m_griditemGroup = m_gridItemGroups.value(getKey());
+    if(!m_mapitemGroup || !m_griditemGroup) return;
+    if(m_mapitemGroup->boundingRect().isEmpty())   // 如果图元为空则加载图元显示
+    {
+        getTitle();      // 获取新层级的所有瓦片编号
         g_path = m_path + QString("/%1").arg(getKey());
         m_future = QtConcurrent::map(m_imgTitle, readImg);
     }
-    m_scene->addItem(m_itemGroup);
-    m_scene->setSceneRect(m_itemGroup->boundingRect());   // 根据图元大小自适应调整场景大小
+    m_mapitemGroup->setVisible(true);              // 显示新瓦片图层
+    m_griditemGroup->setVisible(true);             // 显示新网格图层
+    m_scene->setSceneRect(m_mapitemGroup->boundingRect());   // 根据图元大小自适应调整场景大小
 }
 
 /**
- * @brief 移除当前显示瓦片图元
+ * @brief 清除重置所有内容
  */
-void MapGraphicsView::clearMapItem()
+void MapGraphicsView::clearReset()
 {
-    if(m_itemGroup)
-    {
-        m_scene->removeItem(m_itemGroup);
-        m_itemGroup = nullptr;
-    }
-}
-
-/**
- * @brief 清空保存瓦片图元的哈希表
- */
-void MapGraphicsView::clearHash()
-{
-    if(m_mapItemGroup.isEmpty()) return;
-    clearMapItem();     // 移除已经添加的图层
+    if(m_mapItemGroups.isEmpty()) return;
     m_keyIndex = 0;
-    QList<int>keys = m_mapItemGroup.keys();
+    m_mapitemGroup = nullptr;
+    m_griditemGroup = nullptr;
+    m_imgTitle.clear();
+    QList<int>keys = m_mapItemGroups.keys();
     for(auto key : keys)
     {
-        QGraphicsItemGroup* item = m_mapItemGroup.value(key);
+        // 清除瓦片图元
+        QGraphicsItemGroup* item = m_mapItemGroups.value(key);
+        m_scene->removeItem(item);    // 从场景中移除图元
         delete item;
-        m_mapItemGroup.remove(key);
+        m_mapItemGroups.remove(key);   // 从哈希表中移除图元
+
+        // 清除网格
+        item = m_gridItemGroups.value(key);
+        m_scene->removeItem(item);     // 从场景中移除图元
+        delete item;
+        m_gridItemGroups.remove(key);   // 从哈希表中移除图元
     }
 }
 
@@ -208,9 +227,9 @@ void MapGraphicsView::clearHash()
  */
 int MapGraphicsView::getKey()
 {
-    if(m_mapItemGroup.isEmpty()) return -1;
+    if(m_mapItemGroups.isEmpty()) return -1;
 
-    QList<int>keys = m_mapItemGroup.keys();
+    QList<int>keys = m_mapItemGroups.keys();
     std::sort(keys.begin(), keys.end());    // 由于keys不是升序的，所以需要进行排序
     if(m_keyIndex < 0 || m_keyIndex >= keys.count())
     {
@@ -226,13 +245,36 @@ int MapGraphicsView::getKey()
  */
 void MapGraphicsView::on_addImage(QPixmap img, QPoint pos)
 {
-    if(!m_itemGroup)
+    if(!m_mapitemGroup || m_imgTitle.isEmpty())
     {
         return;
     }
-    QGraphicsPixmapItem* item = new QGraphicsPixmapItem(img);
+
+    // 计算瓦片显示位置，默认为256*256的瓦片大小
     QPoint& begin = m_imgTitle.first();
-    item->setPos((pos.x() - begin.x()) * 256, (pos.y() - begin.y()) * 256);   // 以第一张瓦片为原点
-    m_itemGroup->addToGroup(item);
-    m_scene->setSceneRect(m_itemGroup->boundingRect());   // 根据图元大小自适应调整场景大小
+    int x = (pos.x() - begin.x()) * 256;
+    int y = (pos.y() - begin.y()) * 256;
+    // 绘制瓦片
+    QGraphicsPixmapItem* itemImg = new QGraphicsPixmapItem(img);
+    itemImg->setPos(x, y);   // 以第一张瓦片为原点
+    m_mapitemGroup->addToGroup(itemImg);
+
+    // 绘制网格、
+    QGraphicsRectItem* itemRect = new QGraphicsRectItem(x, y, 256, 256);
+    m_griditemGroup->addToGroup(itemRect);
+    itemRect->setPen(QPen(Qt::red));
+    // 绘制编号
+    QString text = QString("%1,%2").arg(pos.x()).arg(pos.y());
+    QGraphicsSimpleTextItem* itemText = new QGraphicsSimpleTextItem(text);
+    QFont font;
+    font.setPointSize(14);                           // 设置字体大小为12
+    QFontMetrics metrics(font);
+    qreal w = metrics.horizontalAdvance(text) / 2.0; // 计算字符串宽度
+    qreal h = metrics.height() / 2.0;               // 字符串高度
+    itemText->setPos(x + 128 - w, y + 128 - h);     // 编号居中显示
+    itemText->setFont(font);
+    itemText->setPen(QPen(Qt::red));
+    m_griditemGroup->addToGroup(itemText);
+
+    m_scene->setSceneRect(m_mapitemGroup->boundingRect());   // 根据图元大小自适应调整场景大小
 }
