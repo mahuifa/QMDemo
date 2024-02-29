@@ -29,24 +29,42 @@ qreal tileTolat(int y, int z)
 
 /**
  * @brief        经度转编号x
- * @param lon
+ * @param lon   [-180, 180)
  * @param z
  * @return
  */
 int lonTotile(qreal lon, int z)
 {
-  return (qFloor((lon + 180) / 360 * qPow(2, z)));
+    // 限定经度范围
+    if(lon < -180)
+    {
+        lon = -180;
+    }
+    if(lon >= 180)
+    {
+        lon = 179.9999999;
+    }
+    return (qFloor((lon + 180) / 360 * qPow(2, z)));
 }
 
 /**
  * @brief       纬度转瓦片地图编号Y
- * @param lat
+ * @param lat  [-85.051128, 85.051128]
  * @param z
  * @return
  */
 int latTotile(qreal lat, int z)
 {
-   return (qFloor((1 - qLn(qTan(lat * M_PI / 180) + 1 / qCos(lat * M_PI / 180)) / M_PI) / 2 * qPow(2, z)));
+    // 限定纬度范围
+    if (lat > 85.051128)
+    {
+        lat = 85.051128;
+    }
+    if (lat < -85.051128)
+    {
+        lat = -85.051128;
+    }
+    return (qFloor((1 - qLn(qTan(lat * M_PI / 180) + 1 / qCos(lat * M_PI / 180)) / M_PI) / 2 * qPow(2, z)));
 }
 
 // 地球平均半径

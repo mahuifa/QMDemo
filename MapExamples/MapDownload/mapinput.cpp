@@ -144,7 +144,7 @@ void MapInput::initAMap()
     {
         ui->com_amapPrefix->addItem(QString("webst0%1").arg(i));
     }
-    for(int i = 1; i < 19; i++)
+    for(int i = 0; i < 19; i++)
     {
         ui->com_amapZ->addItem(QString("%1").arg(i), i);
     }
@@ -182,7 +182,7 @@ void MapInput::getAMapInfo()
     int ltY = latTotile(lt.at(1).toDouble(), z);                 // 计算左上角瓦片Y
     int rdX = lonTotile(rd.at(0).toDouble(), z);                 // 计算右下角瓦片X
     int rdY = latTotile(rd.at(1).toDouble(), z);                 // 计算右下角瓦片Y
-
+    qDebug() << ltX <<" " << ltY <<" " << rdX << " " << rdY;
     ImageInfo info;
     info.z = z;
     info.format = format;

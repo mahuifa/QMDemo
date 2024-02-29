@@ -264,7 +264,7 @@ void MapGraphicsView::on_addImage(QPixmap img, QPoint pos)
     m_griditemGroup->addToGroup(itemRect);
     itemRect->setPen(QPen(Qt::red));
     // 绘制编号
-    QString text = QString("%1,%2").arg(pos.x()).arg(pos.y());
+    QString text = QString("%1,%2,%3").arg(pos.x()).arg(pos.y()).arg(getKey());
     QGraphicsSimpleTextItem* itemText = new QGraphicsSimpleTextItem(text);
     QFont font;
     font.setPointSize(14);                           // 设置字体大小为12
