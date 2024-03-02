@@ -6,7 +6,9 @@
 # @开发者      mhf
 # @邮箱       1603291350@qq.com
 # @时间       2024-03-29 14:46:01
-# @备注
+# @备注       1、支持单线程、多线程下载瓦片地图。
+#            2、支持下载多样式arcGis瓦片地图；
+#            3、支持下载多样式高德瓦片地图；
 #---------------------------------------------------------------------------------------
 
 QT       += core gui network concurrent
@@ -15,6 +17,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
+    bingformula.cpp \
     downloadthread.cpp \
     downloadthreads.cpp \
     formula.cpp \
@@ -23,6 +26,7 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    bingformula.h \
     downloadthread.h \
     downloadthreads.h \
     formula.h \
