@@ -27,7 +27,7 @@ DownloadThreads::~DownloadThreads()
  * @param info
  * @return
  */
-void getUrl(ImageInfo& info)
+void getUrl(ImageInfo info)
 {
     QNetworkAccessManager manager;
     QNetworkReply* reply = manager.get(QNetworkRequest(QUrl(info.url)));

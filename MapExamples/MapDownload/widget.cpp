@@ -17,6 +17,8 @@ Widget::Widget(QWidget *parent)
     m_dThreads = new DownloadThreads();
     connect(m_dThread, &DownloadThread::finished, this, &Widget::finished);
     connect(m_dThreads, &DownloadThreads::finished, this, &Widget::finished);
+    ui->textEdit->document()->setMaximumBlockCount(100);   // 最大显示行数
+    ui->textEdit->moveCursor(QTextCursor::End);            // 自动滚动到底部
 
     qRegisterMetaType<QList<ImageInfo>>("QList<ImageInfo>");
     qRegisterMetaType<ImageInfo>("ImageInfo");
@@ -121,6 +123,11 @@ void Widget::finished(ImageInfo info)
         // 保存文件
         strPath += QString("%1.%2").arg(info.y).arg(info.format);
         info.img.save(strPath);
+        ui->textEdit->append(info.url);
+    }
+    else
+    {
+        ui->textEdit->append("下载失败：" + info.url);
     }
 
     ui->progressBar->setValue(ui->progressBar->value() + 1);

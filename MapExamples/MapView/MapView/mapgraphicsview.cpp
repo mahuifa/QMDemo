@@ -14,7 +14,7 @@ MapGraphicsView::MapGraphicsView(QWidget *parent) : QGraphicsView(parent)
     g_this = this;
     connect(this, &MapGraphicsView::addImage, this, &MapGraphicsView::on_addImage);
     this->setDragMode(QGraphicsView::ScrollHandDrag);      // 设置鼠标拖拽
-    QThreadPool::globalInstance()->setMaxThreadCount(1);   // 可以设置线程池线程数
+//    QThreadPool::globalInstance()->setMaxThreadCount(1);   // 可以设置线程池线程数
 }
 
 MapGraphicsView::~MapGraphicsView()
