@@ -20,4 +20,4 @@ SUBDIRS += PieChart                         # 该示例演示如何创建简单�
 SUBDIRS += PolarChart                       # 该示例显示了如何创建简单的极坐标图（11）
 SUBDIRS += ScatterChart                     # 这个例子展示了如何创建一个简单的散点图。（9）
 SUBDIRS += SplineChart                      # 该示例演示了如何创建简单的样条曲线图。（6）
-
+SUBDIRS += PictureScroll                    # 画卷式散点图，每个散点绑定一张图片
