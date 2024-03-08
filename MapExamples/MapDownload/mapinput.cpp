@@ -9,6 +9,7 @@
 #include "ui_mapinput.h"
 #include "formula.h"
 #include <QDebug>
+#include "bingformula.h"
 
 MapInput::MapInput(QWidget *parent) :
     QWidget(parent),
@@ -18,6 +19,7 @@ MapInput::MapInput(QWidget *parent) :
 
     initArcGis();
     initAMap();
+    initBing();
 }
 
 MapInput::~MapInput()
@@ -89,6 +91,7 @@ const QList<ImageInfo> &MapInput::getInputInfo()
     }
     case 2:
     {
+        getBingMapInfo();         // 计算bing地图下载信息
         break;
     }
     default:
@@ -182,7 +185,7 @@ void MapInput::getAMapInfo()
     int ltY = latTotile(lt.at(1).toDouble(), z);                 // 计算左上角瓦片Y
     int rdX = lonTotile(rd.at(0).toDouble(), z);                 // 计算右下角瓦片X
     int rdY = latTotile(rd.at(1).toDouble(), z);                 // 计算右下角瓦片Y
-    qDebug() << ltX <<" " << ltY <<" " << rdX << " " << rdY;
+
     ImageInfo info;
     info.z = z;
     info.format = format;
@@ -223,6 +226,97 @@ void MapInput::getAMapInfo()
                 info.y = y;
                 m_infos.append(info);
             }
+        }
+    }
+}
+
+/**
+ * @brief 初始化Bing地图配置
+ */
+void MapInput::initBing()
+{
+    // 服务器
+    for(int i = 0; i < 8; i++)
+    {
+        ui->com_bingPrefix->addItem(QString("%1").arg(i));
+    }
+    // 地图语言
+    ui->com_bingLang->addItem("中文", "zh-cn");
+    ui->com_bingLang->addItem("英语", "en-US");
+    // 地图类型
+    ui->com_bingType->addItem("卫星地图", "a");
+    ui->com_bingType->addItem("普通地图", "r");
+    ui->com_bingType->addItem("混合地图", "h");
+
+    ui->com_bingCstl->addItem("默认", "w4c");
+    ui->com_bingCstl->addItem("白天", "vb");     // 白天道路地图
+    ui->com_bingCstl->addItem("夜晚", "vbd");    // 夜晚道路图
+    // 瓦片等级
+    for(int i = 1; i < 21; i++)
+    {
+        ui->com_bingZ->addItem(QString("%1").arg(i));
+    }
+    // 填入下载格式
+    ui->com_bingFormat->addItem("jpg");
+    ui->com_bingFormat->addItem("png");
+    ui->com_bingFormat->addItem("bmp");
+}
+
+/**
+ * @brief 计算Bing地图的下载信息（这些url可能会失效，后续会使用其他方式下载）
+ *  https://learn.microsoft.com/en-us/bingmaps/rest-services/directly-accessing-the-bing-maps-tiles
+ */
+void MapInput::getBingMapInfo()
+{
+//https://r1.tiles.ditu.live.com/tiles/r1321001.png?g=1001&mkt=zh-cn
+//http://dynamic.t2.tiles.ditu.live.com/comp/ch/r1321001.png?it=G,OS,L&mkt=en-us&cstl=w4c&ur=cn
+//http://ecn.t{0}.tiles.virtualearth.net/tiles/{1}{2}.png? g={4}
+//https://t0.dynamic.tiles.ditu.live.com/comp/ch/1320300313132?mkt=zh-CN&ur=CN&it=G,RL&n=z&og=894&cstl=vb
+//https://t1.dynamic.tiles.ditu.live.com/comp/ch/13203012200201?mkt=zh-CN&ur=cn&it=G,RL&n=z&og=894&cstl=vbd
+//https://dynamic.t1.tiles.ditu.live.com/comp/ch/1320300313313?it=Z,TF&L&n=z&key=AvquUWQgfy7VPqHn9ergJsp3Q_EiUft0ed70vZsX0_aqPABBdK07OkwrXWoGXsTG&ur=cn&cstl=vbd
+
+#define USE_URL 1
+#if (USE_URL == 0)
+    // https://r1.tiles.ditu.live.com/tiles/r1321001.png?g=1001&mkt=zh-cn
+    static QString url = "https://r%1.tiles.ditu.live.com/tiles/%2%3.%4?g=1001&mkt=%5";    // 街道图r支持中文
+#elif (USE_URL == 1)
+    // http://dynamic.t2.tiles.ditu.live.com/comp/ch/r1321001.png?it=G,OS,L&mkt=en-us&cstl=w4c&ur=cn
+    static QString url = "http://dynamic.t%1.tiles.ditu.live.com/comp/ch/%2%3.%4?it=G,OS,L&mkt=%5&cstl=%6&ur=cn";
+#endif
+    int z = ui->com_bingZ->currentText().toInt();
+    QStringList lt = ui->line_LTGps->text().trimmed().split(',');       // 左上角经纬度
+    QStringList rd = ui->line_RDGps->text().trimmed().split(',');       // 右下角经纬度
+    if(lt.count() != 2 || rd.count() != 2) return;                      // 判断输入是否正确
+    int ltX = lonTotile(lt.at(0).toDouble(), z);                 // 计算左上角瓦片X
+    int ltY = latTotile(lt.at(1).toDouble(), z);                 // 计算左上角瓦片Y
+    int rdX = lonTotile(rd.at(0).toDouble(), z);                 // 计算右下角瓦片X
+    int rdY = latTotile(rd.at(1).toDouble(), z);                 // 计算右下角瓦片Y
+
+    QString format = ui->com_bingFormat->currentText();
+    ImageInfo info;
+    info.z = z;
+    info.format = format;
+    int prefix = ui->com_bingPrefix->currentIndex();
+    QString lang = ui->com_bingLang->currentData().toString();    // 语言
+    QString type = ui->com_bingType->currentData().toString();    // 类型
+    QString cstl = ui->com_bingCstl->currentData().toString();    // 样式
+
+    QPoint point;
+    for(int x = ltX; x <= rdX; x++)
+    {
+        info.x = x;
+        point.setX(x);
+        for(int y = ltY; y <= rdY; y++)
+        {
+            info.y = y;
+            point.setY(y);
+            QString quadKey = Bing::tileXYToQuadKey(point, z);    // 将xy转为quadkey
+#if (USE_URL == 0)
+            info.url = url.arg(prefix).arg(type).arg(quadKey).arg(format).arg(lang);
+#elif (USE_URL == 1)
+            info.url = url.arg(prefix).arg(type).arg(quadKey).arg(format).arg(lang).arg(cstl);
+#endif
+            m_infos.append(info);
         }
     }
 }

@@ -40,7 +40,7 @@ void Widget::on_but_savePath_clicked()
                                                qApp->applicationDirPath(),
                                                QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     if(path.isEmpty()) return;
-    ui->line_savePath->setText(path + "/map/");
+    ui->line_savePath->setText(path);
 }
 
 /**

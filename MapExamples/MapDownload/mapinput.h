@@ -25,6 +25,9 @@ private:
     // 高德
     void initAMap();
     void getAMapInfo();
+    // Bing地图
+    void initBing();
+    void getBingMapInfo();
 
 private:
     Ui::MapInput *ui;
