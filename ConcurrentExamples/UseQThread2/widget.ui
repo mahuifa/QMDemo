@@ -53,6 +53,11 @@
        <height>61</height>
       </size>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>线程开始</string>
      </property>
@@ -71,6 +76,11 @@
        <width>321</width>
        <height>61</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>线程退出</string>

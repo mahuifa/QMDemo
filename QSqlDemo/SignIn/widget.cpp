@@ -11,6 +11,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    this->resize(800, 700);
 
     QString user;
     switch (Dialog::type())

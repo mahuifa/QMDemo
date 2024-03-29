@@ -8,6 +8,8 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->resize(800, 700);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
     this->setWindowTitle(QString("QTransform偏移原点、旋转、缩放功能Demo - V%1").arg(APP_VERSION));
 
     ui->renderArea->installEventFilter(this);

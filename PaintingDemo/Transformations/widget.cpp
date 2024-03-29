@@ -1,12 +1,14 @@
 #include "widget.h"
 #include "renderarea.h"
-
+#include "QApplication"
 #include <qcombobox.h>
 #include <qdebug.h>
 #include <qgridlayout.h>
 
 Widget::Widget(QWidget *parent): QWidget(parent)
 {
+    this->resize(800, 700);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
     this->setWindowTitle(QString("QPainter偏移原点、旋转、缩放功能Demo - V%1").arg(APP_VERSION));
     initUI();
     setupShapes();         // 设置形状

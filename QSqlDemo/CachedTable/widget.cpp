@@ -10,6 +10,8 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    this->resize(800, 700);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
     this->setWindowTitle(QString("QSql-使用事务提交修改内容到数据库Demo - V%1").arg(APP_VERSION));
 
     m_model = new QSqlTableModel(this);

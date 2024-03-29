@@ -3,7 +3,9 @@
 *:!enabled {                                     /*不可用状态*/
 background-color: rgb(214, 214, 214);
 }
-
+*{
+ font: 9pt '宋体';
+}
 /********************QAbstractScrollArea样式**********************/
 #tab QAbstractScrollArea{
 /*    background-color: rgba(255, 0, 0, 150);*/     /* 设置背景色*/
@@ -32,15 +34,15 @@ QCheckBox::indicator{
 
 
 QCheckBox::indicator:unchecked {
-   image: url(:/image/正方形-未选中.png);    /* 设置未选中状态矩形部分图片*/
+   image: url(:/image/CheckBox_unchecked.png);    /* 设置未选中状态矩形部分图片*/
 }
 
 QCheckBox::indicator:checked {
-    image: url(:/image/复选框-选中.png);     /*设置选中状态*/
+    image: url(:/image/Checkbox_Select.png);     /*设置选中状态*/
 }
 
 QCheckBox::indicator:indeterminate{
-    image: url(:/image/复选框-未全选.png);    /*设置不确定状态*/
+    image: url(:/image/Checkbox_notAll.png);    /*设置不确定状态*/
 }
 
 QCheckBox::indicator:unchecked:hover,
@@ -65,11 +67,11 @@ QRadioButton::indicator{
 }
 
 QRadioButton::indicator:unchecked {
-    image: url(:/image/单选框-未选中.png);
+    image: url(:/image/RadioBox_Unchecked.png);
 }
 
 QRadioButton::indicator:checked{
-image: url(:/image/单选框-选中.png);
+image: url(:/image/RadioBox_checked.png);
 }
 
 QRadioButton::indicator:unchecked:hover,
@@ -150,7 +152,7 @@ QToolButton::menu-button {           /* setPopupMode设置了MenuButtonPopup后�
 }
 
 QToolButton::menu-arrow {           /* 设置下拉箭头样式 */
-    image: url(:/image/下.png);
+    image: url(:/image/down.png);
 }
 
 QToolButton::menu-arrow:open {     /* 打开菜单时偏移下拉箭头 */
@@ -431,11 +433,11 @@ QScrollBar::left-arrow:horizontal { /* 左按键中的箭头区域样式*/
 /*    border: 2px solid grey;
     width: 15px;
     height: 15px;*/
-    image: url(:/image/左.png);
+    image: url(:/image/laft.png);
 }
 
 QScrollBar::right-arrow:horizontal { /* 右按键中的箭头 区域*/
-    image: url(:/image/右.png);
+    image: url(:/image/right.png);
 }
 
 QScrollBar::sub-page:horizontal {   /* 设置滑动条左侧区域样式*/
@@ -480,11 +482,11 @@ QScrollBar::up-arrow:vertical { /* 上按键中的箭头区域样式*/
 /*    border: 2px solid grey;
     width: 15px;
     height: 15px;*/
-    image: url(:/image/上.png);
+    image: url(:/image/up.png);
 }
 
 QScrollBar::down-arrow:vertical { /* 下按键中的箭头 区域*/
-    image: url(:/image/下d.png);
+    image: url(:/image/down_d.png);
 }
 
 QScrollBar::sub-page:vertical {   /* 设置滑动条上侧区域样式*/
@@ -640,7 +642,7 @@ QAbstractSpinBox[buttonSymbols="1"]::up-button {
     border: 1px solid grey;
 }
 QAbstractSpinBox[buttonSymbols="1"]::up-arrow {
-    border-image: url(:/image/加.png);
+    border-image: url(:/image/plus.png);
 }
 
 QAbstractSpinBox[buttonSymbols="1"]::down-button {
@@ -649,7 +651,7 @@ QAbstractSpinBox[buttonSymbols="1"]::down-button {
     border: 1px solid grey;
 }
 QAbstractSpinBox[buttonSymbols="1"]::down-arrow {
-    border-image: url(:/image/减.png);
+    border-image: url(:/image/reduce.png);
 }
 
 

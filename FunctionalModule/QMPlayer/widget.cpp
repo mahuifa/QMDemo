@@ -14,6 +14,7 @@ Widget::Widget(QWidget *parent)
 
     init();
     connectSlot();
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
 }
 
 Widget::~Widget()

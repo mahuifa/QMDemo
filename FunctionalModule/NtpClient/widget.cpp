@@ -9,6 +9,7 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle(QString("NTP时间同步客户端 - V%1").arg(APP_VERSION));
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
 
     connect(&m_ntpClient, &NtpClient::updateData, ui->textEdit, &QTextEdit::append);
 

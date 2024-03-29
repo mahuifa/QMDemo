@@ -7,6 +7,8 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->resize(800, 700);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
     this->setWindowTitle(QString("QPainter绘制时【数据类型】和【抗锯齿】对效果的影响 - V%1").arg(APP_VERSION));
 
     ui->widget_2->setAntialiased(true);   // 开启抗锯齿

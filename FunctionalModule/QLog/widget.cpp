@@ -10,6 +10,7 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
 
     this->setWindowTitle(QString("自定义日志系统 - V%1").arg(APP_VERSION));
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
 //    LogSaveTxt::getInstance();   // 创建日志存储对象(无需窗口显示，只是保存)
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &Widget::on_timer);

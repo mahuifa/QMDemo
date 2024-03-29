@@ -9,6 +9,8 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle(QString("Qt多通信接口适配器程序Demo - V%1").arg(APP_VERSION));
+    this->resize(800, 700);
+    qApp->setStyleSheet("*{font: 9pt '宋体';}");
 }
 
 Widget::~Widget()

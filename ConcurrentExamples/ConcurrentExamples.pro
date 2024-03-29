@@ -14,3 +14,4 @@ SUBDIRS += UseQThread1        # Qt通过【实例化】QThread，使用moveToThr
 SUBDIRS += UseQThread2        # Qt通过子类化，继承QThread，重写run实现子线程
 SUBDIRS += UseQThreadPool     # Qt使用线程池QThreadPool示例
 SUBDIRS += UseConcurrent      # Qt Concurent API使用示例
+SUBDIRS += IOThread           # 在QT子线程中操作IO对象，包括QAbstractSocket、QFile、QSerialPort等

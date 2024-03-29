@@ -53,6 +53,11 @@
        <height>61</height>
       </size>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>QThread实例化实现(内部封装线程)</string>
      </property>
@@ -71,6 +76,11 @@
        <width>321</width>
        <height>61</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
      </property>
      <property name="text">
       <string>QThread实例化实现（外部指定线程）</string>

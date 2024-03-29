@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle(QString("Qt-截图工具 - V%1").arg(APP_VERSION));
+    qApp->setStyleSheet("*{font: 9pt '宋体'; }");
+    this->resize(800, 600);
 
     // 设置工具栏
     QAction* acNew    = new QAction(QIcon(":/img/剪切.ico"), "新建截图");
