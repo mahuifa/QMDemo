@@ -11,6 +11,6 @@
 
 TEMPLATE = subdirs
 
-SUBDIRS += MapDownload \       # 简单的瓦片地图下载示例
-    MapView2
+SUBDIRS += MapDownload       # 简单的瓦片地图下载示例
 SUBDIRS += MapView           # Qt使用QGraphicsView显示瓦片地图简单示例
+SUBDIRS += MapView2

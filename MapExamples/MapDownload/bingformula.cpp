@@ -6,10 +6,10 @@
  * 说明：   适用于Bing瓦片地图的算法
  * ******************************************************************/
 #include "bingformula.h"
-#include <QtMath>
 #include <qstring.h>
+#include <QtMath>
 
-static const qreal g_EarthRadius = 6378137;     // 赤道半径
+static const qreal g_EarthRadius = 6'378'137;   // 赤道半径
 
 /**
  * @brief      限定最小值，最大值范围
@@ -52,7 +52,7 @@ qreal Bing::clipLat(qreal lat)
  */
 uint Bing::mapSize(int level)
 {
-    uint w = 256;       // 第0级别为256*256
+    uint w = 256;   // 第0级别为256*256
     return (w << level);
 }
 
@@ -77,7 +77,7 @@ qreal Bing::groundResolution(qreal lat, int level)
  */
 qreal Bing::mapScale(qreal lat, int level, int screenDpi)
 {
-    return groundResolution(lat, level) * screenDpi / 0.0254;     // 1英寸等于0.0254米
+    return groundResolution(lat, level) * screenDpi / 0.0254;   // 1英寸等于0.0254米
 }
 
 /**
@@ -112,7 +112,7 @@ QPoint Bing::latLongToPixelXY(qreal lon, qreal lat, int level)
  * @param lon
  * @param lat
  */
-void Bing::pixelXYToLatLong(QPoint pos, int level, qreal &lon, qreal &lat)
+void Bing::pixelXYToLatLong(QPoint pos, int level, qreal& lon, qreal& lat)
 {
     uint size = mapSize(level);
     qreal x = (clip(pos.x(), 0, size - 1) / size) - 0.5;
@@ -163,15 +163,14 @@ QPoint Bing::latLongToTileXY(qreal lon, qreal lat, int level)
  * @param level
  * @return       经纬度 x:经度  y纬度
  */
-QPoint Bing::tileXYToLatLong(QPoint tile, int level)
+QPointF Bing::tileXYToLatLong(QPoint tile, int level)
 {
     qreal lon = 0;
     qreal lat = 0;
     QPoint pos = tileXYToPixelXY(tile);
     pixelXYToLatLong(pos, level, lon, lat);
-    return QPoint(lon, lat);
+    return QPointF(lon, lat);
 }
-
 
 /**
  * @brief         瓦片编号转 bing请求的QuadKey
@@ -182,15 +181,15 @@ QPoint Bing::tileXYToLatLong(QPoint tile, int level)
 QString Bing::tileXYToQuadKey(QPoint tile, int level)
 {
     QString key;
-    for(int i = level; i > 0; i--)
+    for (int i = level; i > 0; i--)
     {
         char digit = '0';
         int mask = 1 << (i - 1);
-        if((tile.x() & mask) != 0)
+        if ((tile.x() & mask) != 0)
         {
             digit++;
         }
-        if((tile.y() & mask) != 0)
+        if ((tile.y() & mask) != 0)
         {
             digit += 2;
         }
@@ -206,13 +205,13 @@ QString Bing::tileXYToQuadKey(QPoint tile, int level)
  * @param tileY      返回瓦片Y编号
  * @param level      返回瓦片等级
  */
-void Bing::quadKeyToTileXY(QString quadKey, int &tileX, int &tileY, int &level)
+void Bing::quadKeyToTileXY(QString quadKey, int& tileX, int& tileY, int& level)
 {
     tileX = 0;
     tileY = 0;
     level = quadKey.count();
     QByteArray buf = quadKey.toUtf8();
-    for(int i = level; i > 0; i--)
+    for (int i = level; i > 0; i--)
     {
         int mask = 1 << (i - 1);
         switch (buf.at(i - 1))

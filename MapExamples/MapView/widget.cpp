@@ -1,10 +1,10 @@
 #include "widget.h"
 #include "ui_widget.h"
-#include <QDebug>
-#include <QApplication>
 #include <qfiledialog.h>
+#include <QApplication>
+#include <QDebug>
 
-Widget::Widget(QWidget *parent)
+Widget::Widget(QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
@@ -24,10 +24,10 @@ Widget::~Widget()
  */
 void Widget::on_pushButton_clicked()
 {
-    QString path = QFileDialog::getExistingDirectory(this, "瓦片路径",
-                                               qApp->applicationDirPath(),
-                                               QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    if(path.isEmpty()) return;
+    QString path = QFileDialog::getExistingDirectory(this, "瓦片路径", qApp->applicationDirPath(),
+                                                     QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    if (path.isEmpty())
+        return;
     ui->lineEdit->setText(path);
     ui->graphicsView->setPath(path);
 }
