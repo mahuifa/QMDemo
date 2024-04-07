@@ -1,38 +1,40 @@
 #---------------------------------------------------------------------------------------
-# @功能：       QGraphicsItem基本图元演示
-#              1、包含内置的 直线、矩形、椭圆、多边形、简单文本、富文本、图片、绘图路径、窗口部件基本图元；
-#              2、使用自定义散点图元；
-#              3、实现所有图元鼠标选中、移动功能，包括窗口部件图元；
-#              4、解决自定义图元鼠标移动存在残留问题。
+# @功能：       画卷式散点图，每个散点绑定一张图片
 # @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
 #
 # @开发者     mhf
 # @邮箱       1603291350@qq.com
-# @时间       2022-09-02 23:17:22
-# @备注
+# @时间       2023-05-03 21:36:55
+# @备注      1、X轴固定，Y轴随坐标点自动修改显示范围，滚动显示；
+#            2、将图片与坐标点绑定，点击坐标点显示对应图片；
+#            3、通过滑动条滑动显示区域；
+#            4、通过鼠标滚轮缩放Y轴显示范围；
+#            5、可将坐标点、图片格式化保存到csv文件；
+#            6、支持清空显示；
+#            7、支持从CSV文件加载数据显示。
 #---------------------------------------------------------------------------------------
-QT       += core gui
+QT       += core gui charts concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
-
 SOURCES += \
+    chartview.cpp \
     main.cpp \
-    mainwindow.cpp \
-    qgraphicspointsitem.cpp
+    widget.cpp
 
 HEADERS += \
-    mainwindow.h \
-    qgraphicspointsitem.h
+    chartview.h \
+    widget.h
 
-FORMS += mainwindow.ui
-RESOURCES += image.qrc
+FORMS += widget.ui
+
+RESOURCES += img.qrc
 
 #  定义程序版本号
-VERSION = 1.0.1
+VERSION = 1.0.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
@@ -47,7 +49,7 @@ msvc {
         QMAKE_CFLAGS += /utf-8
         QMAKE_CXXFLAGS += /utf-8
     }else{
-#        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
+        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
     }
 }
 

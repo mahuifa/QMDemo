@@ -1,19 +1,17 @@
 #---------------------------------------------------------------------------------------
-# @功能：       QGraphicsItem基本图元演示
-#              1、包含内置的 直线、矩形、椭圆、多边形、简单文本、富文本、图片、绘图路径、窗口部件基本图元；
-#              2、使用自定义散点图元；
-#              3、实现所有图元鼠标选中、移动功能，包括窗口部件图元；
-#              4、解决自定义图元鼠标移动存在残留问题。
-# @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
-# @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
+# @功能：      Qt使用QGraphicsView显示瓦片地图简单示例
+# @编译器：     Desktop Qt 5.14.2 MSVC2017 64bit（也支持其它编译器）
+# @Qt IDE：    D:/Qt/Qt5.14.2/Tools/QtCreator/share/qtcreator
 #
 # @开发者     mhf
 # @邮箱       1603291350@qq.com
-# @时间       2022-09-02 23:17:22
-# @备注
+# @时间       2024-02-23 20:47:46
+# @备注      1.支持多线程加载显示本地离线瓦片地图(墨卡托投影)；
+#           2.瓦片切片规则以左上角为原点（谷歌、高德、ArcGis等），不支持百度瓦片规则
+#           3.支持显示瓦片网格、编号信息。
 #---------------------------------------------------------------------------------------
-QT       += core gui
 
+QT       += core gui concurrent
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -21,18 +19,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    qgraphicspointsitem.cpp
+    widget.cpp
 
 HEADERS += \
-    mainwindow.h \
-    qgraphicspointsitem.h
+    widget.h
 
-FORMS += mainwindow.ui
-RESOURCES += image.qrc
+FORMS += \
+    widget.ui
+
+include($$PWD/MapView/MapView.pri)
+INCLUDEPATH += $$PWD/MapView/
 
 #  定义程序版本号
-VERSION = 1.0.1
+VERSION = 1.0.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
@@ -50,4 +49,3 @@ msvc {
 #        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
     }
 }
-

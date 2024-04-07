@@ -1,38 +1,45 @@
 #---------------------------------------------------------------------------------------
-# @功能：       QGraphicsItem基本图元演示
-#              1、包含内置的 直线、矩形、椭圆、多边形、简单文本、富文本、图片、绘图路径、窗口部件基本图元；
-#              2、使用自定义散点图元；
-#              3、实现所有图元鼠标选中、移动功能，包括窗口部件图元；
-#              4、解决自定义图元鼠标移动存在残留问题。
-# @编译器：     Desktop Qt 5.12.5 MSVC2017 64bit（也支持其它编译器）
-# @Qt IDE：    D:/Qt/Qt5.12.5/Tools/QtCreator/share/qtcreator
+# @功能：      QT下载瓦片地图简单示例
+# @编译器：     Desktop Qt 5.14.2 MSVC2017 64bit（也支持其它编译器）
+# @Qt IDE：    D:/Qt/Qt5.14.2/Tools/QtCreator/share/qtcreator
 #
-# @开发者     mhf
+# @开发者      mhf
 # @邮箱       1603291350@qq.com
-# @时间       2022-09-02 23:17:22
-# @备注
+# @时间       2024-03-29 14:46:01
+# @备注       1、支持单线程、多线程下载瓦片地图。
+#            2、支持下载多样式arcGis瓦片地图；
+#            3、支持下载多样式高德瓦片地图；
 #---------------------------------------------------------------------------------------
-QT       += core gui
 
+QT       += core gui network concurrent
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 DEFINES += QT_DEPRECATED_WARNINGS
-
 SOURCES += \
+    bingformula.cpp \
+    downloadthread.cpp \
+    downloadthreads.cpp \
+    formula.cpp \
     main.cpp \
-    mainwindow.cpp \
-    qgraphicspointsitem.cpp
+    mapinput.cpp \
+    widget.cpp
 
 HEADERS += \
-    mainwindow.h \
-    qgraphicspointsitem.h
+    bingformula.h \
+    downloadthread.h \
+    downloadthreads.h \
+    formula.h \
+    mapStruct.h \
+    mapinput.h \
+    widget.h
 
-FORMS += mainwindow.ui
-RESOURCES += image.qrc
+FORMS += \
+    mapinput.ui \
+    widget.ui
 
 #  定义程序版本号
-VERSION = 1.0.1
+VERSION = 1.0.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
@@ -50,4 +57,3 @@ msvc {
 #        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
     }
 }
-

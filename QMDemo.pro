@@ -25,4 +25,5 @@ SUBDIRS += QSqlDemo                       # Qt使用数据库Demo
 SUBDIRS += PaintingDemo                   # 使用 QPainter绘制图片
 SUBDIRS += Web                            # Qt + web编程
 SUBDIRS += ConcurrentExamples             # Qt并发编程示例
+SUBDIRS += MapExamples                    # Qt + 地图开发示例
 

@@ -19,6 +19,7 @@
 |   ScatterChart   | 这个例子展示了如何创建一个简单的散点图                   |
 |   SplineChart    | 该示例演示了如何创建简单的样条曲线图                     |
 |    PolarChart    | 该示例演示了任何创建一个非常简单的极坐标图【雷达图】     |
+|  PictureScroll   | 画卷式散点图，每个散点绑定一张图片                       |
 
  
 
@@ -77,3 +78,7 @@
 ### 1.11 PolarChart
 
 ![image-20220507213204801](QtCharts.assets/image-20220507213204801.png)
+
+### 1.12 PictureScroll
+
+![PictureScroll-tuya](./QtCharts.assets/PictureScroll-tuya.gif)
