@@ -24,6 +24,7 @@
 |      QOpenGL       | [Qt - OpenGL开发](./OpenGLDemo/OpenGLDemo.md)                |
 |        Web         | [Qt - Web混合开发](./Web/Web.md)                             |
 | ConcurrentExamples | [Qt线程和并发编程示例](./ConcurrentExamples/ConcurrentExamples.md) |
+|    MapExamples     | [Qt 地图功能开发](./MapExamples/MapExamples.md)              |
 |                    |                                                              |
 |                    | **使用到第三方库**                                           |
 |  Web/CefExamples   | [Qt - Web混合开发（使用CEF）](./Web/Web.md)                  |
