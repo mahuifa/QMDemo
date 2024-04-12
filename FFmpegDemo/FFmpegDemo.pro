@@ -36,10 +36,10 @@ isEmpty($$ffmpegPath){
         SUBDIRS += AVIOReading     # 使用libavformat解复用器通过自定义AVIOContext读取回调访问媒体内容。
         SUBDIRS += DecodeAudio     # 使用libavcodec API的音频解码示例（MP3转pcm）
     }else{
-        message(<<<<<<<<<<<<<<<< [ffmpeg dll] The file path does not exist >>>>>>>>>>>>>>>>>>)
+        message("<<<<<<<<<<<<<<<< [ffmpeg dll] The file path does not exist >>>>>>>>>>>>>>>>>>")
     }
 }else{
-    message(<<<<<<<<<<<<<<<< [ffmpeg dll] The file path is NULL >>>>>>>>>>>>>>>>>>)
+    message("<<<<<<<<<<<<<<<< [ffmpeg dll] The file path is NULL >>>>>>>>>>>>>>>>>>")
 }
 
 

@@ -11,7 +11,9 @@
 #             3、将YUV转RGB的步骤由CPU转换改为使用GPU转换，降低CPU占用率；
 #             4、支持Windows、Linux打开本地摄像头；
 #             5、视频解码、线程控制、显示各部分功能分离，低耦合度。
-#             6、采用最新的5.1.2版本ffmpeg库进行开发，超详细注释信息，将所有踩过的坑、解决办法、注意事项都得很写清楚。
+#             6、采用最新的5.1.2版本ffmpeg库进行开发，超详细注释信息，将所有踩过的坑、解决办法、注意事项都得很写清楚;
+#             7、【注意：】如果打开摄像头失败，需要检测是不是摄像头分辨率设置不正确;
+#             8、由于不同电脑摄像头打开时解码器不同，获取的图像格式不同，所以为了便于显示，在获取图像后统一转换为YUV420P格式进行显示。
 #---------------------------------------------------------------------------------------
 QT       += core gui multimedia
 
@@ -35,7 +37,7 @@ include(./VideoPlay/VideoPlay.pri)
 INCLUDEPATH += ./VideoPlay
 
 #  定义程序版本号
-VERSION = 1.2.1
+VERSION = 1.3.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 TARGET  = VideoCamera1
 
@@ -50,7 +52,7 @@ msvc {
         QMAKE_CFLAGS += /utf-8
         QMAKE_CXXFLAGS += /utf-8
     }else{
-        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
+    # msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码
     }
 }
 
