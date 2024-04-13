@@ -32,7 +32,6 @@ public:
     bool open(const QString& url = QString());   // 打开媒体文件，或者流媒体rtmp、strp、http
     AVFrame* read();                             // 读取视频图像
     void close();                                // 关闭
-    bool isEnd();                                // 是否读取完成
     const qint64& pts();                         // 获取当前帧显示时间
 
 private:
@@ -58,7 +57,6 @@ private:
     qint64 m_pts = 0;                             // 图像帧的显示时间
     qreal m_frameRate = 0;                        // 视频帧率
     char* m_error = nullptr;                      // 保存异常信息
-    bool m_end = false;                           // 视频读取完成
 };
 
 #endif   // VIDEODECODE_H

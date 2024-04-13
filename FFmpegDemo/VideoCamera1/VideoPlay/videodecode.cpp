@@ -205,7 +205,6 @@ bool VideoDecode::open(const QString& url)
         return false;
     }
 
-    m_end = false;
     return true;
 }
 
@@ -250,10 +249,6 @@ AVFrame* VideoDecode::read()
     if (ret < 0)
     {
         av_frame_unref(m_frame);
-        if (readRet < 0)
-        {
-            m_end = true;   // 当无法读取到AVPacket并且解码器中也没有数据时表示读取完成
-        }
         return nullptr;
     }
     m_pts = m_frame->pts;
@@ -303,7 +298,7 @@ bool VideoDecode::toYUV420P()
 
     if (!m_frame1->data[0])
     {
-        av_image_alloc(m_frame1->data, m_frame1->linesize, m_frame1->width, m_frame1->height, AV_PIX_FMT_YUV420P, 16);
+        av_image_alloc(m_frame1->data, m_frame1->linesize, m_frame1->width, m_frame1->height, AV_PIX_FMT_YUV420P, 1);
     }
 
     int ret = sws_scale(m_swsContext,          // 缩放上下文
@@ -335,15 +330,6 @@ void VideoDecode::close()
     m_obtainFrames = 0;
     m_pts = 0;
     m_frameRate = 0;
-}
-
-/**
- * @brief  视频是否读取完成
- * @return
- */
-bool VideoDecode::isEnd()
-{
-    return m_end;
 }
 
 /**

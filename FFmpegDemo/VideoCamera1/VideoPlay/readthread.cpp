@@ -100,11 +100,6 @@ void ReadThread::run()
         }
         else
         {
-            // 当前读取到无效图像时判断是否读取完成
-            if (m_videoDecode->isEnd())
-            {
-                break;
-            }
             sleepMsec(1);   // 这里不能使用QThread::msleep()延时，否则会很不稳定
         }
     }

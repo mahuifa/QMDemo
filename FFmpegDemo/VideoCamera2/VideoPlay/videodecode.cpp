@@ -138,18 +138,14 @@ bool VideoDecode::open(const QString& url)
     }
 
     AVStream* m_outStream = m_formatContext->streams[m_videoIndex];   // 通过查询到的索引获取视频流
-
-    // 获取视频图像分辨率（AVStream中的AVCodecContext在新版本中弃用，改为使用AVCodecParameters）
-    m_size.setWidth(m_outStream->codecpar->width);
-    m_size.setHeight(m_outStream->codecpar->height);
-    m_frameRate = rationalToDouble(&m_outStream->avg_frame_rate);   // 视频帧率
+    m_frameRate = rationalToDouble(&m_outStream->avg_frame_rate);     // 视频帧率
 
     // 通过解码器ID获取视频解码器（新版本返回值必须使用const）
     const AVCodec* codec = avcodec_find_decoder(m_outStream->codecpar->codec_id);
     m_totalFrames = m_outStream->nb_frames;
 
 #if PRINT_LOG
-    qDebug() << QString("分辨率：[w:%1,h:%2] 帧率：%3  总帧数：%4  解码器：%5").arg(m_size.width()).arg(m_size.height()).arg(m_frameRate).arg(m_totalFrames).arg(codec->name);
+    qDebug() << QString("分辨率：[w:%1,h:%2] 帧率：%3  总帧数：%4  解码器：%5").arg(m_outStream->codecpar->width).arg(m_outStream->codecpar->height).arg(m_frameRate).arg(m_totalFrames).arg(codec->name);
 #endif
 
     // 分配AVCodecContext并将其字段设置为默认值。
@@ -194,27 +190,20 @@ bool VideoDecode::open(const QString& url)
         free();
         return false;
     }
+
     // 分配AVFrame并将其字段设置为默认值。
     m_frame = av_frame_alloc();
     if (!m_frame)
     {
-#if PRINT_LOG
-        qWarning() << "av_frame_alloc() Error！";
-#endif
         free();
         return false;
     }
-
-    // 分配图像空间
-    int size = av_image_get_buffer_size(AV_PIX_FMT_RGBA, m_size.width(), m_size.height(), 4);
-    /**
-     * 【注意：】这里可以多分配一些，否则如果只是安装size分配，大部分视频图像数据拷贝没有问题，
-     *         但是少部分视频图像在使用sws_scale()拷贝时会超出数组长度，在使用使用msvc debug模式时delete[] m_buffer会报错（HEAP CORRUPTION DETECTED: after Normal block(#32215) at 0x000001AC442830370.CRT delected that the application wrote to memory after end of heap buffer）
-     *         特别是这个视频流http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4
-     */
-    m_buffer = new uchar[size + 1000];   // 这里多分配1000个字节就基本不会出现拷贝超出的情况了，反正不缺这点内存
-    //    m_image = new QImage(m_buffer, m_size.width(), m_size.height(), QImage::Format_RGBA8888);  // 这种方式分配内存大部分情况下也可以，但是因为存在拷贝超出数组的情况，delete时也会报错
-    m_end = false;
+    m_frame1 = av_frame_alloc();
+    if (!m_frame1)
+    {
+        free();
+        return false;
+    }
 
     return true;
 }
@@ -241,13 +230,9 @@ AVFrame* VideoDecode::read()
         if (m_packet->stream_index == m_videoIndex)   // 如果是图像数据则进行解码
         {
             // 计算当前帧时间（毫秒）
-#if 1   // 方法一：适用于所有场景，但是存在一定误差
             m_packet->pts = qRound64(m_packet->pts * (1000 * rationalToDouble(&m_formatContext->streams[m_videoIndex]->time_base)));
             m_packet->dts = qRound64(m_packet->dts * (1000 * rationalToDouble(&m_formatContext->streams[m_videoIndex]->time_base)));
-#else   // 方法二：适用于播放本地视频文件，计算每一帧时间较准，但是由于网络视频流无法获取总帧数，所以无法适用
-            m_obtainFrames++;
-            m_packet->pts = qRound64(m_obtainFrames * (qreal(m_totalTime) / m_totalFrames));
-#endif
+
             // 将读取到的原始数据包传入解码器
             int ret = avcodec_send_packet(m_codecContext, m_packet);
             if (ret < 0)
@@ -256,7 +241,6 @@ AVFrame* VideoDecode::read()
             }
         }
     }
-
     av_packet_unref(m_packet);   // 释放数据包，引用计数-1，为0时释放空间
 
     av_frame_unref(m_frame);
@@ -264,13 +248,79 @@ AVFrame* VideoDecode::read()
     if (ret < 0)
     {
         av_frame_unref(m_frame);
-        if (readRet < 0)
-        {
-            m_end = true;   // 当无法读取到AVPacket并且解码器中也没有数据时表示读取完成
-        }
         return nullptr;
     }
-    return m_frame;
+
+    if (!toYUV420P())   // 转换图像格式
+    {
+        return nullptr;
+    }
+
+    return m_frame1;
+}
+
+/**
+ * @brief  将m_frame由原始格式转换为YUV420P格式的m_frame1
+ * @return
+ */
+bool VideoDecode::toYUV420P()
+{
+    // 图像转换上下文
+    if (!m_swsContext)
+    {
+        // 获取缓存的图像转换上下文。首先校验参数是否一致，如果校验不通过就释放资源；然后判断上下文是否存在，如果存在直接复用，如不存在进行分配、初始化操作
+        m_swsContext = sws_getCachedContext(m_swsContext,
+                                            m_frame->width,                    // 输入图像的宽度
+                                            m_frame->height,                   // 输入图像的高度
+                                            (AVPixelFormat) m_frame->format,   // 输入图像的像素格式
+                                            m_frame->width,                    // 输出图像的宽度
+                                            m_frame->height,                   // 输出图像的高度
+                                            AV_PIX_FMT_YUV420P,                // 输出图像的像素格式
+                                            SWS_FAST_BILINEAR,                 // 选择缩放算法(只有当输入输出图像大小不同时有效),一般选择SWS_FAST_BILINEAR
+                                            nullptr,                           // 输入图像的滤波器信息, 若不需要传NULL
+                                            nullptr,                           // 输出图像的滤波器信息, 若不需要传NULL
+                                            nullptr);                          // 特定缩放算法需要的参数(?)，默认为NULL
+        if (!m_swsContext)
+        {
+#if PRINT_LOG
+            qWarning() << "sws_getCachedContext() Error！";
+#endif
+            free();
+            return false;
+        }
+    }
+
+    m_frame1->width = m_frame->width;
+    m_frame1->height = m_frame->height;
+    m_frame1->height = m_frame->height;
+    m_frame1->pts = m_frame->pts;
+    m_frame1->pkt_dts = m_frame->pkt_dts;
+    m_frame1->time_base = m_frame->time_base;
+    m_frame1->pkt_size = m_frame->pkt_size;
+    m_frame1->pkt_dts = m_frame->pkt_dts;
+    m_frame1->quality = m_frame->quality;
+    m_frame1->quality = m_frame->quality;
+    m_frame1->format = AV_PIX_FMT_YUV420P;
+
+    if (!m_frame1->data[0])
+    {
+        av_frame_get_buffer(m_frame1, 1);
+        //        av_image_alloc(m_frame1->data, m_frame1->linesize, m_frame1->width, m_frame1->height, AV_PIX_FMT_YUV420P, 1);
+    }
+
+    int ret = sws_scale(m_swsContext,          // 缩放上下文
+                        m_frame->data,         // 原图像数组
+                        m_frame->linesize,     // 包含源图像每个平面步幅的数组
+                        0,                     // 开始位置
+                        m_frame1->height,      // 行数
+                        m_frame1->data,        // 目标图像数组
+                        m_frame1->linesize);   // 包含目标图像每个平面的步幅的数组
+    if (ret < 0)
+    {
+        showError(ret);
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -286,16 +336,6 @@ void VideoDecode::close()
     m_totalFrames = 0;
     m_obtainFrames = 0;
     m_frameRate = 0;
-    m_size = QSize(0, 0);
-}
-
-/**
- * @brief  视频是否读取完成
- * @return
- */
-bool VideoDecode::isEnd()
-{
-    return m_end;
 }
 
 AVStream* VideoDecode::getVideoStream() const
@@ -375,9 +415,9 @@ void VideoDecode::free()
     {
         av_frame_free(&m_frame);
     }
-    if (m_buffer)
+    if (m_frame1)
     {
-        delete[] m_buffer;
-        m_buffer = nullptr;
+        //        av_freep(m_frame1->data);
+        av_frame_free(&m_frame1);
     }
 }
