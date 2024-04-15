@@ -2,26 +2,28 @@
 #include "videodecode.h"
 #include "videosave.h"
 
-#include<QVariant>
+#include <QVariant>
 
+#include <playimage.h>
+#include <qimage.h>
+#include <QDebug>
 #include <QEventLoop>
 #include <QTimer>
-#include <QDebug>
-#include <qimage.h>
-#include <playimage.h>
 
-extern "C" {        // 用C规则编译指定的代码
+extern "C"
+{   // 用C规则编译指定的代码
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"
 #include "libavutil/avutil.h"
-#include "libswscale/swscale.h"
 #include "libavutil/imgutils.h"
+#include "libswscale/swscale.h"
 }
 
-ReadThread::ReadThread(QObject *parent) : QThread(parent)
+ReadThread::ReadThread(QObject* parent)
+    : QThread(parent)
 {
     m_videoDecode = new VideoDecode();
-    m_videoSave   = new VideoSave();
+    m_videoSave = new VideoSave();
 
     // 注册自定义枚举类型，否则信号槽无法发送
     qRegisterMetaType<PlayState>("PlayState");
@@ -29,11 +31,11 @@ ReadThread::ReadThread(QObject *parent) : QThread(parent)
 
 ReadThread::~ReadThread()
 {
-    if(m_videoSave)
+    if (m_videoSave)
     {
         delete m_videoSave;
     }
-    if(m_videoDecode)
+    if (m_videoDecode)
     {
         delete m_videoDecode;
     }
@@ -43,15 +45,14 @@ ReadThread::~ReadThread()
  * @brief      传入播放的视频地址并开启线程
  * @param url
  */
-void ReadThread::open(const QString &url)
+void ReadThread::open(const QString& url)
 {
-    if(!this->isRunning())
+    if (!this->isRunning())
     {
         m_url = url;
         emit this->start();
     }
 }
-
 
 /**
  * @brief 关闭播放
@@ -65,12 +66,12 @@ void ReadThread::close()
  * @brief    返回当前播放的地址
  * @return
  */
-const QString &ReadThread::url()
+const QString& ReadThread::url()
 {
     return m_url;
 }
 
-void ReadThread::savaVideo(const QString &fileName)
+void ReadThread::savaVideo(const QString& fileName)
 {
     m_videoSave->open(m_videoDecode->getVideoStream(), fileName);
 }
@@ -84,18 +85,19 @@ void ReadThread::stop()
  * @brief      非阻塞延时
  * @param msec 延时毫秒
  */
-void  sleepMsec(int msec)
+void sleepMsec(int msec)
 {
-    if(msec <= 0) return;
-    QEventLoop loop;		//定义一个新的事件循环
-    QTimer::singleShot(msec, &loop, SLOT(quit()));//创建单次定时器，槽函数为事件循环的退出函数
-    loop.exec();			//事件循环开始执行，程序会卡在这里，直到定时时间到，本循环被退出
+    if (msec <= 0)
+        return;
+    QEventLoop loop;                                 //定义一个新的事件循环
+    QTimer::singleShot(msec, &loop, SLOT(quit()));   //创建单次定时器，槽函数为事件循环的退出函数
+    loop.exec();                                     //事件循环开始执行，程序会卡在这里，直到定时时间到，本循环被退出
 }
 
 void ReadThread::run()
 {
-    bool ret = m_videoDecode->open(m_url);         // 打开网络流时会比较慢，如果放到Ui线程会卡
-    if(ret)
+    bool ret = m_videoDecode->open(m_url);   // 打开网络流时会比较慢，如果放到Ui线程会卡
+    if (ret)
     {
         m_play = true;
         emit playState(play);
@@ -108,24 +110,19 @@ void ReadThread::run()
     // 循环读取视频图像
     while (m_play)
     {
-        AVFrame* frame = m_videoDecode->read();  // 读取视频图像
-        if(frame)
+        AVFrame* frame = m_videoDecode->read();   // 读取视频图像
+        if (frame)
         {
             m_videoSave->write(frame);
             emit repaint(frame);
         }
         else
         {
-            // 当前读取到无效图像时判断是否读取完成
-            if(m_videoDecode->isEnd())
-            {
-                break;
-            }
             sleepMsec(1);   // 这里不能使用QThread::msleep()延时，否则会很不稳定
         }
     }
 
-    qDebug() << "关闭摄像头！" ;
+    qDebug() << "关闭摄像头！";
     m_videoDecode->close();
     emit playState(end);
 }

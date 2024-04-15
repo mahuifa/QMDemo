@@ -15,6 +15,7 @@
 | VideoPlayHWGL | 使用ffmpeg音视频库【软/硬解码 + OpenGL显示YUV/NV12】实现的视频播放器； |
 | VideoCamera1  | FFmpeg打开本地摄像头简单示例（软解码+OpenGL）；              |
 | VideoCamera2  | 使用ffmpeg音视频库【软解码】打开本地摄像头【录制视频】保存到本地示例； |
+| VideoCamera3  | FFmpeg音视频库打开本地摄像头，并直接显示获取的YUYV422原始图像，【不需要解码】； |
 |  AVIOReading  | API示例程序，演示如何从通过AVIOContext访问的自定义缓冲区读取数据； |
 |  DecodeAudio  | 使用libavcodec API的音频解码示例（MP3转pcm）；               |
 |   Screencap   | FFmpeg实现录屏功能                                           |
@@ -203,3 +204,18 @@
 > 3. 由于不需要进行编码，可以大大降低CPU占用率。
 
 ![image-20230104155424623](FFmpegDemo.assets/image-20230104155424623.png)
+
+
+
+### 1.12 VideoCamera3
+
+> 1. 使用ffmpeg音视频库打开本地摄像头；
+> 2. 采用【OpenGL显示YUV】图像，支持自适应窗口缩放，支持使用QOpenGLWidget、QOpenGLWindow显示；
+> 3. 打开摄像头后一般情况默认解码器为【rawvideo】，获取的图像像素格式为【YUYV422】，可以【不需要解码】，直接将YUYV422转为YUV420P进行显示；
+> 4. 支持Windows、Linux打开本地摄像头；
+> 5. 视频解码、线程控制、显示各部分功能分离，低耦合度。
+> 6. 采用5.1.2版本ffmpeg库进行开发，超详细注释信息，将所有踩过的坑、解决办法、注意事项都得很写清楚;
+> 7. 【注意：】如果打开摄像头失败，需要检测是不是摄像头分辨率设置不正确，解码器如果不是rawvideo则这个程序不执行;
+> 8. 由于不同电脑摄像头打开时解码器不同，获取的图像格式不同，所以为了便于显示，在获取图像后统一转换为YUV420P格式进行显示。
+
+![image-20240415223552799](./FFmpegDemo.assets/image-20240415223552799.png)

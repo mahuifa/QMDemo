@@ -31,15 +31,16 @@ isEmpty($$ffmpegPath){
         SUBDIRS += VideoPlaySave   # 使用软解码实现的视频播放器，并将裸流保存到视频文件中（无需编码）
         SUBDIRS += VideoCamera1    # FFmpeg打开本地摄像头简单示例（软解码+OpenGL）
         SUBDIRS += VideoCamera2    # FFmpeg打开本地摄像头【录制视频】保存到本地示例（软解码+OpenGL）
+        SUBDIRS += VideoCamera3    # FFmpeg音视频库打开本地摄像头，并直接显示获取的YUYV422原始图像，【不需要解码】；
         SUBDIRS += Screencap       # FFmpeg实现录屏功能
 
         SUBDIRS += AVIOReading     # 使用libavformat解复用器通过自定义AVIOContext读取回调访问媒体内容。
         SUBDIRS += DecodeAudio     # 使用libavcodec API的音频解码示例（MP3转pcm）
     }else{
-        message(<<<<<<<<<<<<<<<< [ffmpeg dll] The file path does not exist >>>>>>>>>>>>>>>>>>)
+        message("<<<<<<<<<<<<<<<< [ffmpeg dll] The file path does not exist >>>>>>>>>>>>>>>>>>")
     }
 }else{
-    message(<<<<<<<<<<<<<<<< [ffmpeg dll] The file path is NULL >>>>>>>>>>>>>>>>>>)
+    message("<<<<<<<<<<<<<<<< [ffmpeg dll] The file path is NULL >>>>>>>>>>>>>>>>>>")
 }
 
 

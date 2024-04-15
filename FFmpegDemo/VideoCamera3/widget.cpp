@@ -3,8 +3,8 @@
 #include <QCameraInfo>
 #include <QFileDialog>
 
-extern "C"
-{   // 用C规则编译指定的代码
+extern "C"   // 用C规则编译指定的代码
+{
 #include "libavcodec/avcodec.h"
 }
 Q_DECLARE_METATYPE(AVFrame)   //注册结构体，否则无法通过信号传递AVFrame
@@ -14,7 +14,7 @@ Widget::Widget(QWidget* parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->setWindowTitle(QString("Qt+ffmpeg打开本地摄像头Demo V%1").arg(APP_VERSION));
+    this->setWindowTitle(QString("Qt+ffmpeg调用摄像头不解码直接显示YUYV图像Demo V%1").arg(APP_VERSION));
 
     // 使用QOpenGLWindow绘制
     playImage = new PlayImage;
@@ -84,6 +84,6 @@ void Widget::on_playState(ReadThread::PlayState state)
     else
     {
         ui->but_open->setText("开始播放");
-        this->setWindowTitle(QString("Qt+ffmpeg打开本地摄像头Demo V%1").arg(APP_VERSION));
+        this->setWindowTitle(QString("Qt+ffmpeg调用摄像头不解码直接显示YUYV图像Demo V%1").arg(APP_VERSION));
     }
 }
