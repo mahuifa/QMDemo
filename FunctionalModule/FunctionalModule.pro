@@ -20,5 +20,7 @@ SUBDIRS += MouseKeyEvent                  # 自定义全局鼠标键盘事件监
 win32 {
 SUBDIRS += QMWidget                       # qt自定义窗口
 SUBDIRS += QMPlayer                       # 视频播放器界面
+}
+msvc {
 SUBDIRS += TestCrashHandler               # windows下Qt程序崩溃问题定位Demo（只在msvc编译下有效）
 }

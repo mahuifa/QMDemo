@@ -9,11 +9,9 @@
 #            虽然MSVC、MinGW都能运行并生成dump文件，但是由于Mingw编译的程序不会生成
 #            pdb符号文件，不方便调试，所以建议使用MSVC编译器
 #---------------------------------------------------------
-HEADERS += \
-    $$PWD/crashhandler.h
+HEADERS += $$PWD/crashhandler.h
 
-SOURCES += \
-    $$PWD/crashhandler.cpp
+SOURCES += $$PWD/crashhandler.cpp
 
 LIBS += -ldbghelp
 
@@ -24,7 +22,7 @@ msvc:CONFIG(release, debug|release) {
     QMAKE_CXXFLAGS_RELEASE += -Zi              # 生成调试信息
     QMAKE_LFLAGS_RELEASE   -= /INCREMENTAL:NO  # 选择增量链接
     QMAKE_LFLAGS_RELEASE   += /DEBUG           # 将调试信息放到PDB文件中
-    message(MSVC编译器Release关闭优化，生成调试信息使用)
+#    message("MSVC编译器Release关闭优化，生成调试信息使用"")
 }
 
 mingw:CONFIG(release, debug|release) {
@@ -36,7 +34,7 @@ mingw:CONFIG(release, debug|release) {
     QMAKE_CXXFLAGS_RELEASE += -g               # 生成C++调试信息
     QMAKE_LFLAGS_RELEASE   -= -Wl,-s           # 取消Release模式删除所有符号表和重新定位信息的设置
     QMAKE_LFLAGS_RELEASE   += -g               # 链接器生成调试信息
-    message(Mingw编译器Release关闭优化，生成调试信息使用)
+#    message("Mingw编译器Release关闭优化，生成调试信息使用"")
 }
 
 # 如果不加unix，MinGW也会进入这里
@@ -49,5 +47,5 @@ unix:gcc:CONFIG(release, debug|release) {
     QMAKE_CXXFLAGS_RELEASE += -g               # 生成C++调试信息
     QMAKE_LFLAGS_RELEASE   -= -Wl,-O1          # 取消Release模式链接器优化
     QMAKE_LFLAGS_RELEASE   += -g               # 链接器生成调试信息
-    message(GCC编译器Release关闭优化，生成调试信息使用)
+#    message("GCC编译器Release关闭优化，生成调试信息使用"")
 }
