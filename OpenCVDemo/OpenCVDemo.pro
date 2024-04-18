@@ -12,7 +12,7 @@ TEMPLATE = subdirs
 
 # CEF 库的路径， 如果路径为空则不编译当前工程
 win32{
-    opencvPath = E:/lib/opencv_MSVC2/
+    opencvPath = E:/lib/opencv_MSVC/
 }
 unix:!macx{
 }
