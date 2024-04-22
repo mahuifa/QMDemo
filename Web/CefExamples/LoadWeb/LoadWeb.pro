@@ -22,7 +22,7 @@ HEADERS += widget.h
 FORMS += widget.ui
 
 #  定义程序版本号
-VERSION = 1.0.0
+VERSION = 1.0.1
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 # 程序输出路径
@@ -77,6 +77,6 @@ msvc {
         QMAKE_CFLAGS += /utf-8
         QMAKE_CXXFLAGS += /utf-8
     }else{
-        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
+#        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
     }
 }
