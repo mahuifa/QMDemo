@@ -1,10 +1,15 @@
-#ifndef WIDGET_H
+﻿#ifndef WIDGET_H
 #define WIDGET_H
 
+#include "geturl.h"
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class Widget; }
+
+namespace Ui {
+class Widget;
+}
+
 QT_END_NAMESPACE
 
 class Widget : public QWidget
@@ -12,10 +17,14 @@ class Widget : public QWidget
     Q_OBJECT
 
 public:
-    Widget(QWidget *parent = nullptr);
+    Widget(QWidget* parent = nullptr);
     ~Widget();
 
+private slots:
+    void on_com_url_activated(int index);
+
 private:
-    Ui::Widget *ui;
+    Ui::Widget* ui;
+    GetUrl* m_geturl = nullptr;
 };
-#endif // WIDGET_H
+#endif   // WIDGET_H
