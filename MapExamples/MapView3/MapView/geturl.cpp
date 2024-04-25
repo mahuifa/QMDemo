@@ -16,14 +16,24 @@
 GetUrl::GetUrl(QObject* parent)
     : QObject{parent}
 {
+    m_thread = new QThread;
+    this->moveToThread(m_thread);
+    m_thread->start();
+
     m_rect.setTopLeft(Bing::latLongToPixelXY(64.16, 56.115, m_level));
     m_rect.setBottomRight(Bing::latLongToPixelXY(148.66, 9.34, m_level));
+    connect(GetUrlInterface::getInterface(), &GetUrlInterface::updateTitle, this, &GetUrl::updateTitle);
+    connect(GetUrlInterface::getInterface(), &GetUrlInterface::showRect, this, &GetUrl::showRect);
 }
 
 GetUrl::~GetUrl()
 {
     quit();
     clear();
+
+    m_thread->quit();
+    m_thread->wait();
+    delete m_thread;
 }
 
 /**
@@ -38,7 +48,7 @@ void GetUrl::setUrl(QString url)
     quit();   // 退出下载后再清空数组，防止数据竞争
     clear();
     m_url = url;
-    getImg(m_rect, m_level);
+    getImg(m_rect, m_level);   // 使用默认范围、层级更新地图
 }
 
 /**
@@ -58,7 +68,12 @@ void httpGet(ImageInfo info)
     if (reply->error() == QNetworkReply::NoError)
     {
         QByteArray buf = reply->readAll();
-        info.img.loadFromData(buf);
+        if (!buf.isEmpty())
+        {
+            info.img.loadFromData(buf);
+        }
+        emit GetUrlInterface::getInterface() -> update(info);
+        emit GetUrlInterface::getInterface() -> updateTitle(info.x, info.y, info.z);
     }
     else
     {
@@ -73,8 +88,6 @@ void httpGet(ImageInfo info)
             qWarning() << "下载失败：" << reply->errorString();
         }
     }
-
-    emit GetUrlInterface::getInterface() -> update(info);
 }
 
 /**
@@ -91,26 +104,50 @@ void GetUrl::getImg(QRect rect, int level)
     m_rect = rect;
     m_level = level;
 
-    quit();
-    getTitle(rect, level);
-    getUrl();
-    m_future = QtConcurrent::map(m_infos, httpGet);
+    if (m_future.isRunning())   // 判断是否在运行
+    {
+        return;
+    }
+    clear();
+    //    quit();                                           // 等待之前的退出
+    getTitle(rect, level);                            // 获取所有需要加载的瓦片编号
+    getUrl();                                         // 将瓦片编号转为url
+    m_future = QtConcurrent::map(m_infos, httpGet);   // 在线程池中下载瓦片图
 }
 
+/**
+ * @brief      设置获取瓦片地图的像素范围
+ * @param rect
+ */
+void GetUrl::showRect(QRect rect)
+{
+    getImg(rect, m_level);
+}
+
+/**
+ * @brief       获取瓦片编号
+ * @param rect
+ * @param level
+ */
 void GetUrl::getTitle(QRect rect, int level)
 {
     QPoint tl = Bing::pixelXYToTileXY(rect.topLeft());
     QPoint br = Bing::pixelXYToTileXY(rect.bottomRight());
 
-    QString value;
+    quint64 value = 0;
     ImageInfo info;
     info.z = level;
     for (int x = tl.x(); x < br.x(); x++)
     {
+        if (x < 0)
+            continue;
         info.x = x;
         for (int y = tl.y(); y < br.y(); y++)
         {
-            value = QString("%1_%2_%3").arg(level).arg(x).arg(y);
+            if (y < 0)
+                continue;
+            //            value = QString("%1_%2_%3").arg(level).arg(x).arg(y);
+            value = ((quint64) level << 48) + (x << 24) + y;
             if (!m_exist.contains(value))
             {
                 info.y = y;
@@ -175,4 +212,16 @@ void GetUrl::quit()
         m_future.cancel();            // 取消下载
         m_future.waitForFinished();   // 等待退出
     }
+}
+
+/**
+ * @brief     将下载成功的瓦片编号进行记录
+ * @param x
+ * @param y
+ * @param z
+ */
+void GetUrl::updateTitle(int x, int y, int z)
+{
+    quint64 value = (quint64(z) << 48) + (x << 24) + y;
+    m_exist.insert(value);
 }

@@ -23,6 +23,8 @@ public:
 private slots:
     void on_com_url_activated(int index);
 
+    void on_com_url_editTextChanged(const QString& arg1);
+
 private:
     Ui::Widget* ui;
     GetUrl* m_geturl = nullptr;

@@ -9,12 +9,26 @@ Widget::Widget(QWidget* parent)
 {
     ui->setupUi(this);
     this->resize(1200, 900);
-    qApp->setStyleSheet("*{font: 9pt '宋体';}");
+    qApp->setStyleSheet("*{font: 12pt '宋体';}");
     this->setWindowTitle(QString("QT加载显示离线瓦片地图示例（绝对像素坐标）--V%1").arg(APP_VERSION));
 
-    ui->com_url->addItem("https://server.arcgisonline.com/arcgis/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}.jpg");   // ArcGis
-    ui->com_url->addItem("https://wprd01.is.autonavi.com/appmaptile?&style=6&lang=zh_cn&scl=1&ltype=0&x={x}&y={y}&z={z}");          // 高德
-    ui->com_url->addItem("http://dynamic.t0.tiles.ditu.live.com/comp/ch/a{q}.jpg?it=G,OS,L&mkt=zh-cn&cstl=w4c&ur=cn");              // Bing
+    // 高德 地图源
+    ui->com_url->addItem("https://wprd01.is.autonavi.com/appmaptile?&style=6&lang=zh_cn&scl=1&ltype=0&x={x}&y={y}&z={z}");
+    ui->com_url->addItem("https://wprd01.is.autonavi.com/appmaptile?&style=7&lang=zh_cn&scl=1&ltype=0&x={x}&y={y}&z={z}");
+    ui->com_url->addItem("https://wprd01.is.autonavi.com/appmaptile?&style=8&lang=zh_cn&scl=1&ltype=0&x={x}&y={y}&z={z}");
+    ui->com_url->addItem("https://wprd01.is.autonavi.com/appmaptile?&style=9&lang=zh_cn&scl=1&ltype=0&x={x}&y={y}&z={z}");
+
+    // Bing地图源
+    ui->com_url->addItem("http://dynamic.t0.tiles.ditu.live.com/comp/ch/a{q}.jpg?it=G,OS,L&mkt=zh-cn&cstl=w4c&ur=cn");
+    ui->com_url->addItem("http://dynamic.t0.tiles.ditu.live.com/comp/ch/r{q}.jpg?it=G,OS,L&mkt=zh-cn&cstl=w4c&ur=cn");
+    ui->com_url->addItem("http://dynamic.t0.tiles.ditu.live.com/comp/ch/h{q}.jpg?it=G,OS,L&mkt=zh-cn&cstl=w4c&ur=cn");
+    ui->com_url->addItem("http://dynamic.t0.tiles.ditu.live.com/comp/ch/h{q}.jpg?it=G,OS,L&mkt=zh-cn&cstl=vbd&ur=cn");
+    ui->com_url->addItem("https://r0.tiles.ditu.live.com/tiles/a{q}.jpg?g=1001&mkt=zh-cn");   // Bing 卫星地图
+    // ArcGis地图源
+    ui->com_url->addItem("https://server.arcgisonline.com/arcgis/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}.jpg");
+    ui->com_url->addItem("https://server.arcgisonline.com/arcgis/rest/services/USA_Topo_Maps/MapServer/tile/{z}/{y}/{x}.jpg");
+    ui->com_url->addItem("https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.jpg");
+    ui->com_url->addItem("https://server.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}.jpg");
 
     qRegisterMetaType<ImageInfo>("ImageInfo");
     m_geturl = new GetUrl();
@@ -28,11 +42,26 @@ Widget::~Widget()
 }
 
 /**
- * @brief        设置地图源地址
+ * @brief        下拉框设置地图源地址
  * @param index
  */
 void Widget::on_com_url_activated(int index)
 {
     Q_UNUSED(index);
-    m_geturl->setUrl(ui->com_url->currentText());
+    if (m_geturl)
+    {
+        m_geturl->setUrl(ui->com_url->currentText());
+    }
+}
+
+/**
+ * @brief       下拉框输入设置地图源地址
+ * @param arg1
+ */
+void Widget::on_com_url_editTextChanged(const QString& arg1)
+{
+    if (m_geturl)
+    {
+        m_geturl->setUrl(arg1);
+    }
 }

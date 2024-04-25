@@ -17,7 +17,10 @@ public:
     }
 
 signals:
-    void update(ImageInfo info);
+    void update(ImageInfo info);             // 传出下载的瓦片图信息
+    void updateTitle(int x, int y, int z);   // 传出下载的瓦片编号
+
+    void showRect(QRect rect);
 };
 
 class GetUrl : public QObject
@@ -29,19 +32,22 @@ public:
 
     void setUrl(QString url);   // 设置获取瓦片地图的源地址
     void getImg(QRect rect, int level);
+    void showRect(QRect rect);
 
 private:
-    void getTitle(QRect rect, int level);   // 获取所有需要下载的瓦片地图编号
-    void getUrl();                          // 获取用于请求瓦片地图的信息
-    void clear();                           // 清空内容
-    void quit();                            // 退出下载
+    void getTitle(QRect rect, int level);    // 获取所有需要下载的瓦片地图编号
+    void getUrl();                           // 获取用于请求瓦片地图的信息
+    void clear();                            // 清空内容
+    void quit();                             // 退出下载
+    void updateTitle(int x, int y, int z);   // 传出下载的瓦片编号
 
 private:
+    QThread* m_thread = nullptr;
     QFuture<void> m_future;
     QRect m_rect;      // 显示瓦片地图像素范围
     int m_level = 5;   // 瓦片地图层级
     QString m_url;
-    QSet<QString> m_exist;        // 已经存在的瓦片地图编号
+    QSet<quint64> m_exist;        // 已经存在的瓦片地图编号
     QVector<ImageInfo> m_infos;   // 需要下载的瓦片地图信息
 };
 

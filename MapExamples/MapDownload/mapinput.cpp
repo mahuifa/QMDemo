@@ -96,10 +96,7 @@ const QList<ImageInfo>& MapInput::getInputInfo()
     default:
         break;
     }
-    for (auto info : m_infos)
-    {
-        qDebug() << info.url;
-    }
+
     qDebug() << "瓦片数：" << m_infos.count();
 
     return m_infos;

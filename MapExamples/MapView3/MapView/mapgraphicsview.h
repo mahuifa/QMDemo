@@ -1,4 +1,4 @@
-#ifndef MAPGRAPHICSVIEW_H
+﻿#ifndef MAPGRAPHICSVIEW_H
 #define MAPGRAPHICSVIEW_H
 
 #include "mapStruct.h"
@@ -12,6 +12,7 @@ public:
     ~MapGraphicsView() override;
 
     void setRect(QRect rect);
+    void setRect(int level);
     void drawImg(const ImageInfo& info);
     void clear();
 
@@ -30,8 +31,12 @@ private:
 
 private:
     QGraphicsScene* m_scene = nullptr;
+    int m_level = 0;   // 当前显示瓦片等级
     QPointF m_pos;
     QPointF m_scenePos;
+    QHash<quint64, QGraphicsPixmapItem*> m_itemsImg;        // 保存瓦片地图图元
+    QHash<quint64, QGraphicsRectItem*> m_itemsR;            // 保存瓦片地图图元
+    QHash<quint64, QGraphicsSimpleTextItem*> m_itemsText;   // 保存瓦片地图图元
 };
 
 #endif   // MAPGRAPHICSVIEW_H
