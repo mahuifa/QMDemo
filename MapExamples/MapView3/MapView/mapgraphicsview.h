@@ -1,6 +1,7 @@
 ﻿#ifndef MAPGRAPHICSVIEW_H
 #define MAPGRAPHICSVIEW_H
 
+#include "graphicsitemgroup.h"
 #include "mapStruct.h"
 #include <QGraphicsView>
 
@@ -23,7 +24,8 @@ signals:
     void mousePos(QPoint pos);
 
 protected:
-    void mouseMoveEvent(QMouseEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
     void wheelEvent(QWheelEvent* event) override;
 
 private:
@@ -31,12 +33,11 @@ private:
 
 private:
     QGraphicsScene* m_scene = nullptr;
-    int m_level = 0;   // 当前显示瓦片等级
+    int m_level = 0;           // 当前显示瓦片等级
+    bool m_moveView = false;   // 鼠标移动显示视图
     QPointF m_pos;
     QPointF m_scenePos;
-    QHash<quint64, QGraphicsPixmapItem*> m_itemsImg;        // 保存瓦片地图图元
-    QHash<quint64, QGraphicsRectItem*> m_itemsR;            // 保存瓦片地图图元
-    QHash<quint64, QGraphicsSimpleTextItem*> m_itemsText;   // 保存瓦片地图图元
+    QHash<quint16, GraphicsItemGroup*> m_itemGroup;   // 瓦片图元组
 };
 
 #endif   // MAPGRAPHICSVIEW_H

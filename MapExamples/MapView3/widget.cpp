@@ -33,6 +33,8 @@ Widget::Widget(QWidget* parent)
     qRegisterMetaType<ImageInfo>("ImageInfo");
     m_geturl = new GetUrl();
     m_geturl->setUrl(ui->com_url->currentText());
+
+    connect(GetUrlInterface::getInterface(), &GetUrlInterface::showRect, this, &Widget::showRect);
 }
 
 Widget::~Widget()
@@ -64,4 +66,19 @@ void Widget::on_com_url_editTextChanged(const QString& arg1)
     {
         m_geturl->setUrl(arg1);
     }
+}
+
+/**
+ * @brief        当前显示的地图像素范围
+ * @param rect
+ */
+void Widget::showRect(QRect rect)
+{
+    QString str = QString("[%1，%2]-[%3，%4]").arg(rect.x()).arg(rect.y()).arg(rect.right()).arg(rect.bottom());
+    ui->line_mapShowRect->setText(str);
+}
+
+void Widget::on_but_clear_clicked()
+{
+    ui->graphicsView->clear();
 }

@@ -16,7 +16,8 @@ MapGraphicsView::MapGraphicsView(QWidget* parent)
     m_scene = new QGraphicsScene();
     this->setScene(m_scene);
     this->setDragMode(QGraphicsView::ScrollHandDrag);   // 鼠标拖拽
-    this->setMouseTracking(true);                       // 开启鼠标追踪
+
+    //    this->setMouseTracking(true);                       // 开启鼠标追踪
 
     connect(GetUrlInterface::getInterface(), &GetUrlInterface::update, this, &MapGraphicsView::drawImg);
 }
@@ -56,35 +57,20 @@ void MapGraphicsView::drawImg(const ImageInfo& info)
 {
     if (m_level != info.z)
     {
+        if (!m_itemGroup.contains(info.z))
+        {
+            auto* item = new GraphicsItemGroup();
+            m_itemGroup.insert(info.z, item);
+            m_scene->addItem(item);
+        }
         m_level = info.z;
         setRect(m_level);
     }
-    quint64 key = (quint64(info.z) << 48) + (info.x << 24) + info.y;
-    if (m_itemsImg.contains(key))   // 如果瓦片已经存在则直接绘制
+
+    GraphicsItemGroup* itemGroup = m_itemGroup.value(m_level);
+    if (itemGroup)
     {
-        m_itemsImg[key]->setPixmap(info.img);
-        m_itemsImg[key]->show();
-        m_itemsR[key]->show();
-        m_itemsText[key]->show();
-    }
-    else   // 如果瓦片不存在则添加图元
-    {
-        // 绘制瓦片图
-        auto item = m_scene->addPixmap(info.img);
-        QPoint pos = Bing::tileXYToPixelXY(QPoint(info.x, info.y));
-        item->setPos(pos);
-        // 绘制边框
-        auto itemR = m_scene->addRect(0, 0, 255, 255, QPen(Qt::red));
-        itemR->setPos(pos);
-        // 绘制瓦片编号
-        QString str = QString("%1，%2").arg(info.x).arg(info.y);
-        QFont font("宋体", 14);
-        auto itemText = m_scene->addSimpleText(str, font);
-        itemText->setPos(pos);
-        itemText->setPen(QPen(Qt::red));
-        m_itemsImg[key] = item;
-        m_itemsR[key] = itemR;
-        m_itemsText[key] = itemText;
+        itemGroup->addImage(info);
     }
 }
 
@@ -93,24 +79,38 @@ void MapGraphicsView::drawImg(const ImageInfo& info)
  */
 void MapGraphicsView::clear()
 {
-    m_itemsImg.clear();
-    m_itemsR.clear();
-    m_itemsText.clear();
-    m_scene->clear();
+    auto* itemGroup = m_itemGroup.value(m_level);
+    if (itemGroup)
+    {
+        delete itemGroup;
+        m_itemGroup.remove(m_level);
+        m_level = 0;
+    }
 }
 
-/**
- * @brief        获取鼠标移动坐标
- * @param event
- */
-void MapGraphicsView::mouseMoveEvent(QMouseEvent* event)
+void MapGraphicsView::mousePressEvent(QMouseEvent* event)
 {
-    QGraphicsView::mouseMoveEvent(event);
+    QGraphicsView::mousePressEvent(event);
 
     if (event->buttons() & Qt::LeftButton)
     {
+        m_moveView = true;
+    }
+}
+
+/**
+ * @brief          鼠标释放
+ * @param event
+ */
+void MapGraphicsView::mouseReleaseEvent(QMouseEvent* event)
+{
+    QGraphicsView::mouseReleaseEvent(event);
+
+    if (m_moveView)   // 在鼠标左键释放时获取新的瓦片地图
+    {
         emit mousePos(this->mapToScene(event->pos()).toPoint());
         getShowRect();
+        m_moveView = false;
     }
 }
 

@@ -25,6 +25,11 @@ private slots:
 
     void on_com_url_editTextChanged(const QString& arg1);
 
+    void on_but_clear_clicked();
+
+private:
+    void showRect(QRect rect);
+
 private:
     Ui::Widget* ui;
     GetUrl* m_geturl = nullptr;
