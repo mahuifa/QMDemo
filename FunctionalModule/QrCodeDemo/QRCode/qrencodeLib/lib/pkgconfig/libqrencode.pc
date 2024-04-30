@@ -1,0 +1,11 @@
+prefix=C:/Users/MHF/Downloads/qrencode-4.1.1/QRencode
+exec_prefix=C:/Users/MHF/Downloads/qrencode-4.1.1/QRencode/bin
+libdir=C:/Users/MHF/Downloads/qrencode-4.1.1/QRencode/lib
+includedir=C:/Users/MHF/Downloads/qrencode-4.1.1/QRencode/include
+
+Name: libqrencode
+Description: A QR Code encoding library
+Version: 4.1.1
+Libs: -L${libdir} -lqrencode
+Libs.private: 
+Cflags: -I${includedir}
