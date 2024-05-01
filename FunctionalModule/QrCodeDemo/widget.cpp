@@ -1,6 +1,7 @@
 ﻿#include "widget.h"
 #include "qrencode.h"   // 添加头文件
 #include "ui_widget.h"
+#include <qfiledialog.h>
 #include <QDebug>
 #include <QPainter>
 
@@ -25,5 +26,9 @@ void Widget::on_pushButton_clicked()
 
 void Widget::on_but_save_clicked()
 {
-    ui->qrCodeView->save("E:/111/1.jpg");   // 保存二维码
+    QString path = QFileDialog::getSaveFileName(this, "二维码保存到", "./二维码.jpg", "图片 (*.jpg)");
+    if (path.isEmpty())
+        return;
+
+    ui->qrCodeView->save(path);   // 保存二维码
 }
