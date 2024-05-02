@@ -20,7 +20,7 @@
    <item row="1" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>GroupBox</string>
+      <string>地图输入</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="2">

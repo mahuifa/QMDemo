@@ -1,6 +1,6 @@
 #---------------------------------------------------------
 # 功能：      Qt崩溃定位Demo
-# 编译器：    MSVC
+# 编译器：    MSVC（MinGW、GCC不生效）
 #
 # @开发者     mhf
 # @邮箱       1603291350@qq.com
@@ -11,6 +11,16 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++11
+
+#  定义程序版本号
+VERSION = 1.1.0
+TARGET = TestCrash_$$VERSION
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"   # 程序版本号
+DEFINES += APP_NAME=\\\"$$TARGET\\\"      # 程序名称字符串
+
+include($$PWD/CrashHandler/CrashHandler.pri)
+INCLUDEPATH += $$PWD/CrashHandler
+
 SOURCES += \
     main.cpp \
     widget.cpp
@@ -18,13 +28,6 @@ SOURCES += \
 HEADERS += widget.h
 
 FORMS += widget.ui
-
-include($$PWD/CrashHandler/CrashHandler.pri)
-INCLUDEPATH += $$PWD/CrashHandler
-
-#  定义程序版本号
-VERSION = 1.0.1
-DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
 DESTDIR = $$PWD/../bin          # 程序输出路径
@@ -38,7 +41,7 @@ msvc {
         QMAKE_CFLAGS += /utf-8
         QMAKE_CXXFLAGS += /utf-8
     }else{
-        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
+#        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
     }
 }
 

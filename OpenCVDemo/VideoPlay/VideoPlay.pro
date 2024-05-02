@@ -36,7 +36,7 @@ FORMS += \
     widget.ui
 
 #  定义程序版本号
-VERSION = 1.1.2
+VERSION = 1.1.3
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器
@@ -47,24 +47,25 @@ DESTDIR = $$PWD/../bin64        # 使用64位编译器
 
 # 连接opencv库，opencv需要带有ffmpeg才可以打开本地视频或者网络视频流，否则只能打开图片和摄像头
 win32{
-    opencvDLL.files += E:/lib/opencv_MSVC2/build/x64/vc15/bin/opencv_videoio_ffmpeg460_64.dll
-    CONFIG(release, debug|release){
-        LIBS += -LE:/lib/opencv_MSVC2/build/x64/vc15/lib/ -lopencv_world460
-        opencvDLL.files += E:/lib/opencv_MSVC2/build/x64/vc15/bin/opencv_videoio_msmf460_64.dll
-        opencvDLL.files += E:/lib/opencv_MSVC2/build/x64/vc15/bin/opencv_world460.dll
-    }else:CONFIG(debug, debug|release){
-        LIBS += -LE:/lib/opencv_MSVC2/build/x64/vc15/lib/ -lopencv_world460d
-        opencvDLL.files += E:/lib/opencv_MSVC2/build/x64/vc15/bin/opencv_videoio_msmf460_64d.dll
-        opencvDLL.files += E:/lib/opencv_MSVC2/build/x64/vc15/bin/opencv_world460d.dll
-        opencvDLL.files += E:/lib/opencv_MSVC2/build/x64/vc15/bin/opencv_world460.pdb
-        opencvDLL.files += E:/lib/opencv_MSVC2/build/x64/vc15/bin/opencv_world460d.pdb
+    opencvPath = E:/lib/opencv_MSVC/   # 设置Opencv库路径
+    CONFIG(release, debug|release){   # Release模式
+        LIBS += -L$$opencvPath/build/x64/vc15/lib/ -lopencv_world3416  # 设置引入opencv库
+        opencvDLL.files += $$opencvPath/build/x64/vc15/bin/opencv_ffmpeg3416_64.dll
+        opencvDLL.files += $$opencvPath/build/x64/vc15/bin/opencv_world3416.dll
+    }else:CONFIG(debug, debug|release){ # Debug模式
+        LIBS += -L$$opencvPath/build/x64/vc15/lib/ -lopencv_world3416d
+        opencvDLL.files += $$opencvPath/build/x64/vc15/bin/opencv_ffmpeg3416_64.dll
+        opencvDLL.files += $$opencvPath/build/x64/vc15/bin/opencv_world3416d.dll
+#        opencvDLL.files += $$opencvPath/build/x64/vc15/bin/opencv_world460.pdb
+#        opencvDLL.files += $$opencvPath/build/x64/vc15/bin/opencv_world460d.pdb
     }
-    INCLUDEPATH += E:/lib/opencv_MSVC2/build/include
-    DEPENDPATH += E:/lib/opencv_MSVC2/build/include
+    INCLUDEPATH += $$opencvPath/build/include
+    DEPENDPATH += $$opencvPath/build/include
     # 自动安装依赖文件和库文件
     opencvDLL.path = $$DESTDIR
 
-    # msvc需要配置【Custom Process Step: nmake install】或者【Custom Process Step: D:\Qt\Qt5.12.5\Tools\QtCreator\bin\jom.exe install】才生效，或者自己手动拷贝
+    # 方法1：msvc需要配置【Custom Process Step: nmake install】或者【Custom Process Step: D:\Qt\Qt5.12.5\Tools\QtCreator\bin\jom.exe install】才生效，或者自己手动拷贝
+    # 方法2：msvc需要配置【项目】【运行】【添加部署步骤】【make】,参数输入【install】
     # Debug和Release需要分别配置
     # 执行之前先qmake，如果不想每次手动qmake，可以点击【工具】->【选项】->【构建和运行】->【qmake】->勾选【Run qmake every build】
     INSTALLS += opencvDLL      # 将opencv库文件拷贝到path路径下
@@ -79,7 +80,7 @@ msvc {
         QMAKE_CFLAGS += /utf-8
         QMAKE_CXXFLAGS += /utf-8
     }else{
-        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
+#        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
     }
 }
 

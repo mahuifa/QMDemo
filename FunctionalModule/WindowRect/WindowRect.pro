@@ -36,7 +36,7 @@ msvc {
         QMAKE_CFLAGS += /utf-8
         QMAKE_CXXFLAGS += /utf-8
     }else{
-        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
+#        message(msvc2015及以下版本在代码中使用【pragma execution_character_set("utf-8")】指定编码)
     }
 }
 
