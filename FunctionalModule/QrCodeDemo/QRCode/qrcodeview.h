@@ -16,12 +16,14 @@ public:
 
 protected:
     void paintEvent(QPaintEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
 
 signals:
 
 private:
     QString m_str;
-    QImage m_img;
+    QImage m_img;       // 保存原图
+    QImage m_imgShow;   // 保存缩放后的图片
 };
 
 #endif   // QRCODEVIEW_H
