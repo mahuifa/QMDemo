@@ -111,6 +111,8 @@ void QrCodeView::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
 
+    if (m_img.isNull())
+        return;
     int w = qMin(this->width(), this->height());   // 控件长宽的最小值，保证绘制完整正方形
     m_imgShow = m_img.scaled(w, w, Qt::KeepAspectRatio);
 

@@ -18,6 +18,7 @@
 |  MouseKeyEvent   | Qt实现自定义全局鼠标键盘事件监听器Demo   | Windows        |
 |   SnippingTool   | Qt实现截图工具                           | Windows、Linux |
 |  MouseKeyEvent   | Qt全局鼠标、键盘事件监听器               | Windows、Linux |
+|    QrCodeDemo    | Qt封装qrencode的二维码生成、显示控件     | 跨平台         |
 
  
 
@@ -181,3 +182,17 @@ Qt自身的鼠标事件、事件过滤器一般当鼠标移出窗口或者遇见
 > 6. Linux下通过x11 API获取到全局键盘事件，但是无法将x11键盘事件映射为QKeyEvent。 
 
 ![MouseKeyEvent](FunctionalModule.assets/MouseKeyEvent.gif)
+
+
+
+### 1.11 QrCodeDemo
+
+> 1. 将qrencode使用Qt封装为一个生成、显示二维码的控件；
+> 1. 支持使用QPainter绘制显示二维码；
+> 1. 可通过函数接口返回生成的二维码QImage；
+> 1. 可通过调用函数将生成的二维码保存到指定路径；
+> 1. 在窗口调整时可自动缩放显示二维码图片；
+> 1. 支持使用源码嵌入工程（更好的跨平台、支持各种编译器）；
+> 1. 支持使用编译好的静态库（MSVC2017-64）；
+
+![image-20240502211734717](./FunctionalModule.assets/image-20240502211734717.png)
