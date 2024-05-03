@@ -17,26 +17,15 @@ MapGraphicsView::MapGraphicsView(QWidget* parent)
     this->setScene(m_scene);
     this->setDragMode(QGraphicsView::ScrollHandDrag);   // 鼠标拖拽
 
+    // 窗口左上角初始显示位置(中国)
+    m_scenePos.setX(5700);
+    m_scenePos.setY(2700);
     //    this->setMouseTracking(true);                       // 开启鼠标追踪
 
     connect(GetUrlInterface::getInterface(), &GetUrlInterface::update, this, &MapGraphicsView::drawImg);
 }
 
 MapGraphicsView::~MapGraphicsView() {}
-
-/**
- * @brief       缩放后设置场景大小范围
- * @param rect
- */
-void MapGraphicsView::setRect(QRect rect)
-{
-    m_scene->setSceneRect(rect);
-
-    // 将显示位置移动到缩放之前的位置
-    this->horizontalScrollBar()->setValue(qRound(m_scenePos.x() - m_pos.x()));
-    this->verticalScrollBar()->setValue(qRound(m_scenePos.y() - m_pos.y()));
-    getShowRect();
-}
 
 void MapGraphicsView::setRect(int level)
 {
@@ -132,6 +121,12 @@ void MapGraphicsView::wheelEvent(QWheelEvent* event)
         m_scenePos = m_scenePos / 2;   // 缩小
         emit this->zoom(false);
     }
+}
+
+void MapGraphicsView::resizeEvent(QResizeEvent* event)
+{
+    QGraphicsView::resizeEvent(event);
+    getShowRect();
 }
 
 /**

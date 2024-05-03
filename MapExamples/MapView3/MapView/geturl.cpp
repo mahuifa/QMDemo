@@ -137,12 +137,12 @@ void GetUrl::getTitle(QRect rect, int level)
     quint64 value = 0;
     ImageInfo info;
     info.z = level;
-    for (int x = tl.x(); x < br.x(); x++)
+    for (int x = tl.x(); x <= br.x(); x++)
     {
         if (x < 0)
             continue;
         info.x = x;
-        for (int y = tl.y(); y < br.y(); y++)
+        for (int y = tl.y(); y <= br.y(); y++)
         {
             if (y < 0)
                 continue;

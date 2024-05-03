@@ -12,7 +12,6 @@ public:
     explicit MapGraphicsView(QWidget* parent = nullptr);
     ~MapGraphicsView() override;
 
-    void setRect(QRect rect);
     void setRect(int level);
     void drawImg(const ImageInfo& info);
     void clear();
@@ -27,6 +26,7 @@ protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void wheelEvent(QWheelEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
 
 private:
     void getShowRect();   // 获取显示范围

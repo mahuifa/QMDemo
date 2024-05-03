@@ -8,7 +8,7 @@ Widget::Widget(QWidget* parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->resize(1200, 900);
+    this->resize(1500, 1200);
     qApp->setStyleSheet("*{font: 12pt '宋体';}");
     this->setWindowTitle(QString("QT加载显示离线瓦片地图示例（绝对像素坐标）--V%1").arg(APP_VERSION));
 
