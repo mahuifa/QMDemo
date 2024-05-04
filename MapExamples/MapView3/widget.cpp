@@ -35,6 +35,11 @@ Widget::Widget(QWidget* parent)
     m_geturl->setUrl(ui->com_url->currentText());
 
     connect(GetUrlInterface::getInterface(), &GetUrlInterface::showRect, this, &Widget::showRect);
+    connect(GetUrlInterface::getInterface(), &GetUrlInterface::setLevel, this,
+            [&](int level)
+            {
+                ui->line_level->setText(QString("等级：%1").arg(level));
+            });
 }
 
 Widget::~Widget()

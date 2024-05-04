@@ -20,7 +20,8 @@ signals:
     void update(ImageInfo info);             // 传出下载的瓦片图信息
     void updateTitle(int x, int y, int z);   // 传出下载的瓦片编号
 
-    void showRect(QRect rect);
+    void showRect(QRect rect);   // 设置显示像素范围
+    void setLevel(int level);    // 设置瓦片层级
 };
 
 class GetUrl : public QObject
@@ -33,6 +34,7 @@ public:
     void setUrl(QString url);   // 设置获取瓦片地图的源地址
     void getImg(QRect rect, int level);
     void showRect(QRect rect);
+    void setLevel(int level);   // 设置瓦片层级
 
 private:
     void getTitle(QRect rect, int level);    // 获取所有需要下载的瓦片地图编号

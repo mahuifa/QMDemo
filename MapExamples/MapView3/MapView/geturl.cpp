@@ -24,6 +24,7 @@ GetUrl::GetUrl(QObject* parent)
     m_rect.setBottomRight(Bing::latLongToPixelXY(148.66, 9.34, m_level));
     connect(GetUrlInterface::getInterface(), &GetUrlInterface::updateTitle, this, &GetUrl::updateTitle);
     connect(GetUrlInterface::getInterface(), &GetUrlInterface::showRect, this, &GetUrl::showRect);
+    connect(GetUrlInterface::getInterface(), &GetUrlInterface::setLevel, this, &GetUrl::setLevel);
 }
 
 GetUrl::~GetUrl()
@@ -59,10 +60,11 @@ void GetUrl::setUrl(QString url)
 void httpGet(ImageInfo info)
 {
     QNetworkAccessManager manager;
-    QNetworkReply* reply = manager.get(QNetworkRequest(QUrl(info.url)));
+    QSharedPointer<QNetworkReply> reply(manager.get(QNetworkRequest(QUrl(info.url))));
     // 等待返回
     QEventLoop loop;
-    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    QObject::connect(reply.data(), &QNetworkReply::finished, &loop, &QEventLoop::quit);   // 等待获取完成
+    QTimer::singleShot(1000, &loop, &QEventLoop::quit);                                   // 等待超时
     loop.exec();
 
     if (reply->error() == QNetworkReply::NoError)
@@ -106,7 +108,8 @@ void GetUrl::getImg(QRect rect, int level)
 
     if (m_future.isRunning())   // 判断是否在运行
     {
-        return;
+        m_future.cancel();   // 取消下载
+                             //        return;
     }
     clear();
     //    quit();                                           // 等待之前的退出
@@ -121,7 +124,22 @@ void GetUrl::getImg(QRect rect, int level)
  */
 void GetUrl::showRect(QRect rect)
 {
+    if (rect.isEmpty())
+        return;
     getImg(rect, m_level);
+}
+
+/**
+ * @brief       通过设置显示瓦片层级别完成缩放显示
+ * @param level
+ */
+void GetUrl::setLevel(int level)
+{
+    if ((level < 0) || (level > 23))
+    {
+        return;
+    }
+    m_level = level;
 }
 
 /**
@@ -137,17 +155,23 @@ void GetUrl::getTitle(QRect rect, int level)
     quint64 value = 0;
     ImageInfo info;
     info.z = level;
+
+    int max = qPow(2, level);   // 最大瓦片编号
     for (int x = tl.x(); x <= br.x(); x++)
     {
         if (x < 0)
             continue;
+        if (x >= max)
+            break;
         info.x = x;
         for (int y = tl.y(); y <= br.y(); y++)
         {
             if (y < 0)
                 continue;
-            //            value = QString("%1_%2_%3").arg(level).arg(x).arg(y);
+            if (y >= max)
+                break;
             value = ((quint64) level << 48) + (x << 24) + y;
+
             if (!m_exist.contains(value))
             {
                 info.y = y;

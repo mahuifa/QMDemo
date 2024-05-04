@@ -44,19 +44,23 @@ void MapGraphicsView::setRect(int level)
  */
 void MapGraphicsView::drawImg(const ImageInfo& info)
 {
-    if (m_level != info.z)
+    if (m_zoom)
     {
-        if (!m_itemGroup.contains(info.z))
+        m_zoom = false;
+        if (!m_itemGroup.contains(info.z))   // 如果图层不存在则添加
         {
             auto* item = new GraphicsItemGroup();
             m_itemGroup.insert(info.z, item);
             m_scene->addItem(item);
         }
-        m_level = info.z;
-        setRect(m_level);
+        else   // 如果图层存在则显示
+        {
+            GraphicsItemGroup* itemGroup = m_itemGroup.value(info.z);
+            itemGroup->show();
+        }
     }
 
-    GraphicsItemGroup* itemGroup = m_itemGroup.value(m_level);
+    GraphicsItemGroup* itemGroup = m_itemGroup.value(info.z);
     if (itemGroup)
     {
         itemGroup->addImage(info);
@@ -114,19 +118,44 @@ void MapGraphicsView::wheelEvent(QWheelEvent* event)
     if (event->angleDelta().y() > 0)
     {
         m_scenePos = m_scenePos * 2;   // 放大
-        emit this->zoom(true);
+        m_level++;
     }
     else
     {
         m_scenePos = m_scenePos / 2;   // 缩小
-        emit this->zoom(false);
+        m_level--;
+    }
+    m_level = qBound(0, m_level, 23);   // 限制缩放层级
+    m_zoom = true;
+    setRect(m_level);                                            // 设置缩放后的视图大小
+    emit GetUrlInterface::getInterface() -> setLevel(m_level);   // 设置缩放级别
+    getShowRect();
+
+    // 隐藏缩放前所有图层
+    for (auto itemG : m_itemGroup)
+    {
+        itemG->hide();
     }
 }
 
+/**
+ * @brief       窗口大小变化后获取显示新的地图
+ * @param event
+ */
 void MapGraphicsView::resizeEvent(QResizeEvent* event)
 {
     QGraphicsView::resizeEvent(event);
-    getShowRect();
+    //    getShowRect();
+}
+
+/**
+ * @brief       窗口显示时设置显示瓦片的视图位置
+ * @param event
+ */
+void MapGraphicsView::showEvent(QShowEvent* event)
+{
+    QGraphicsView::showEvent(event);
+    setRect(m_level);
 }
 
 /**
@@ -135,7 +164,12 @@ void MapGraphicsView::resizeEvent(QResizeEvent* event)
 void MapGraphicsView::getShowRect()
 {
     QRect rect;
-    rect.setTopLeft(this->mapToScene(0, 0).toPoint());
-    rect.setBottomRight(this->mapToScene(this->width(), this->height()).toPoint());
+    int w = int(qPow(2, m_level) * 256);   // 最大范围
+    QPoint tl = this->mapToScene(0, 0).toPoint();
+    QPoint br = this->mapToScene(this->width(), this->height()).toPoint();
+    rect.setX(qMax(tl.x(), 0));
+    rect.setY(qMax(tl.y(), 0));
+    rect.setRight(qMin(br.x(), w));
+    rect.setBottom(qMin(br.y(), w));
     emit GetUrlInterface::getInterface() -> showRect(rect);
 }
