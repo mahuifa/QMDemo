@@ -2,6 +2,7 @@
 
 #include "bingformula.h"
 #include "geturl.h"
+#include <qthread.h>
 #include <QDebug>
 #include <QFont>
 #include <QGraphicsItem>
@@ -47,19 +48,19 @@ void MapGraphicsView::drawImg(const ImageInfo& info)
     if (m_zoom)
     {
         m_zoom = false;
-        if (!m_itemGroup.contains(info.z))   // 如果图层不存在则添加
+        if (m_itemGroup.contains(m_level))   // 如果图层存在则显示
         {
-            auto* item = new GraphicsItemGroup();
-            m_itemGroup.insert(info.z, item);
-            m_scene->addItem(item);
-        }
-        else   // 如果图层存在则显示
-        {
-            GraphicsItemGroup* itemGroup = m_itemGroup.value(info.z);
+            GraphicsItemGroup* itemGroup = m_itemGroup.value(m_level);
             itemGroup->show();
         }
     }
 
+    if (!m_itemGroup.contains(info.z))   // 如果图层不存在则添加
+    {
+        auto* item = new GraphicsItemGroup();
+        m_itemGroup.insert(info.z, item);
+        m_scene->addItem(item);
+    }
     GraphicsItemGroup* itemGroup = m_itemGroup.value(info.z);
     if (itemGroup)
     {
