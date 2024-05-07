@@ -48,6 +48,7 @@ void GetUrl::setUrl(QString url)
 
     quit();   // 退出下载后再清空数组，防止数据竞争
     clear();
+    m_exist.clear();   // 清空已下载列表
     m_url = url;
     getImg(m_rect, m_level);   // 使用默认范围、层级更新地图
 }
@@ -73,9 +74,9 @@ void httpGet(ImageInfo info)
         if (!buf.isEmpty())
         {
             info.img.loadFromData(buf);
+            emit GetUrlInterface::getInterface() -> update(info);
+            emit GetUrlInterface::getInterface() -> updateTitle(info.x, info.y, info.z);
         }
-        emit GetUrlInterface::getInterface() -> update(info);
-        emit GetUrlInterface::getInterface() -> updateTitle(info.x, info.y, info.z);
     }
     else
     {
@@ -109,11 +110,11 @@ void GetUrl::getImg(QRect rect, int level)
     if (m_future.isRunning())   // 判断是否在运行
     {
         m_future.cancel();   // 取消下载
-                             //        return;
     }
-    clear();
-    //    quit();                                           // 等待之前的退出
-    getTitle(rect, level);                            // 获取所有需要加载的瓦片编号
+    clear();   // 清空待下载列表
+
+    getTitle(rect, level);   // 获取所有需要加载的瓦片编号
+    qInfo() << m_infos.count();
     getUrl();                                         // 将瓦片编号转为url
     m_future = QtConcurrent::map(m_infos, httpGet);   // 在线程池中下载瓦片图
 }
@@ -138,6 +139,10 @@ void GetUrl::setLevel(int level)
     if ((level < 0) || (level > 23))
     {
         return;
+    }
+    if (m_level != level)
+    {
+        m_exist.clear();   // 清空已下载列表
     }
     m_level = level;
 }
@@ -221,7 +226,6 @@ void GetUrl::getUrl()
  */
 void GetUrl::clear()
 {
-    m_exist.clear();
     QVector<ImageInfo> info;
     m_infos.swap(info);
 }
@@ -239,7 +243,7 @@ void GetUrl::quit()
 }
 
 /**
- * @brief     将下载成功的瓦片编号进行记录
+ * @brief     将下载成功的瓦片编号添加进已下载列表，已经下载的瓦片在后续不进行下载
  * @param x
  * @param y
  * @param z

@@ -45,6 +45,7 @@ void MapGraphicsView::setRect(int level)
  */
 void MapGraphicsView::drawImg(const ImageInfo& info)
 {
+    //    qInfo() << info.x << info.y << info.z;
     if (m_zoom)
     {
         m_zoom = false;
@@ -126,7 +127,7 @@ void MapGraphicsView::wheelEvent(QWheelEvent* event)
         m_scenePos = m_scenePos / 2;   // 缩小
         m_level--;
     }
-    m_level = qBound(0, m_level, 23);   // 限制缩放层级
+    m_level = qBound(0, m_level, 22);   // 限制缩放层级
     m_zoom = true;
     setRect(m_level);                                            // 设置缩放后的视图大小
     emit GetUrlInterface::getInterface() -> setLevel(m_level);   // 设置缩放级别

@@ -2,6 +2,7 @@
 #include "ui_widget.h"
 #include <QApplication>
 #include <QDebug>
+#include <QtMath>
 
 Widget::Widget(QWidget* parent)
     : QWidget(parent)
@@ -38,6 +39,8 @@ Widget::Widget(QWidget* parent)
     connect(GetUrlInterface::getInterface(), &GetUrlInterface::setLevel, this,
             [&](int level)
             {
+                int w = int(qPow(2, level) * 256);   // 最大范围
+                ui->line_mapRange->setText(QString("[0，0]-[%1，%2]").arg(w).arg(w));
                 ui->line_level->setText(QString("等级：%1").arg(level));
             });
 }
@@ -83,6 +86,9 @@ void Widget::showRect(QRect rect)
     ui->line_mapShowRect->setText(str);
 }
 
+/**
+ * @brief 清空地图
+ */
 void Widget::on_but_clear_clicked()
 {
     ui->graphicsView->clear();
