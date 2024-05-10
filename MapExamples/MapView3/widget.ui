@@ -23,20 +23,27 @@
       <string>地图输入</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>显示范围：</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="1">
-       <widget class="QComboBox" name="com_format"/>
+       <widget class="QLineEdit" name="line_mapRange"/>
       </item>
       <item row="1" column="1">
        <widget class="QLineEdit" name="line_level">
         <property name="enabled">
          <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>瓦片层级：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>显示范围：</string>
         </property>
        </widget>
       </item>
@@ -48,31 +55,14 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QLineEdit" name="line_mapRange"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>文件格式：</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>鼠标位置：</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>瓦片层级：</string>
-        </property>
-       </widget>
+       <widget class="QLineEdit" name="line_mapShowRect"/>
       </item>
       <item row="4" column="1">
-       <widget class="QLineEdit" name="line_mapShowRect"/>
+       <widget class="QPushButton" name="but_clear">
+        <property name="text">
+         <string>清空</string>
+        </property>
+       </widget>
       </item>
       <item row="0" column="1">
        <widget class="QComboBox" name="com_url">
@@ -81,20 +71,10 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="line_mousePos"/>
-      </item>
-      <item row="3" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
          <string>地图范围：</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QPushButton" name="but_clear">
-        <property name="text">
-         <string>PushButton</string>
         </property>
        </widget>
       </item>

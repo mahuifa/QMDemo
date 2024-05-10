@@ -2,6 +2,7 @@
 
 #include "bingformula.h"
 #include "geturl.h"
+#include <qthread.h>
 #include <QDebug>
 #include <QFont>
 #include <QGraphicsItem>
@@ -17,26 +18,15 @@ MapGraphicsView::MapGraphicsView(QWidget* parent)
     this->setScene(m_scene);
     this->setDragMode(QGraphicsView::ScrollHandDrag);   // 鼠标拖拽
 
+    // 窗口左上角初始显示位置(中国)
+    m_scenePos.setX(5700);
+    m_scenePos.setY(2700);
     //    this->setMouseTracking(true);                       // 开启鼠标追踪
 
     connect(GetUrlInterface::getInterface(), &GetUrlInterface::update, this, &MapGraphicsView::drawImg);
 }
 
 MapGraphicsView::~MapGraphicsView() {}
-
-/**
- * @brief       缩放后设置场景大小范围
- * @param rect
- */
-void MapGraphicsView::setRect(QRect rect)
-{
-    m_scene->setSceneRect(rect);
-
-    // 将显示位置移动到缩放之前的位置
-    this->horizontalScrollBar()->setValue(qRound(m_scenePos.x() - m_pos.x()));
-    this->verticalScrollBar()->setValue(qRound(m_scenePos.y() - m_pos.y()));
-    getShowRect();
-}
 
 void MapGraphicsView::setRect(int level)
 {
@@ -55,19 +45,14 @@ void MapGraphicsView::setRect(int level)
  */
 void MapGraphicsView::drawImg(const ImageInfo& info)
 {
-    if (m_level != info.z)
+    if (!m_itemGroup.contains(info.z))   // 如果图层不存在则添加
     {
-        if (!m_itemGroup.contains(info.z))
-        {
-            auto* item = new GraphicsItemGroup();
-            m_itemGroup.insert(info.z, item);
-            m_scene->addItem(item);
-        }
-        m_level = info.z;
-        setRect(m_level);
+        auto* item = new GraphicsItemGroup();
+        m_itemGroup.insert(info.z, item);
+        m_scene->addItem(item);
     }
 
-    GraphicsItemGroup* itemGroup = m_itemGroup.value(m_level);
+    GraphicsItemGroup* itemGroup = m_itemGroup.value(info.z);
     if (itemGroup)
     {
         itemGroup->addImage(info);
@@ -125,13 +110,55 @@ void MapGraphicsView::wheelEvent(QWheelEvent* event)
     if (event->angleDelta().y() > 0)
     {
         m_scenePos = m_scenePos * 2;   // 放大
-        emit this->zoom(true);
+        m_level++;
     }
     else
     {
         m_scenePos = m_scenePos / 2;   // 缩小
-        emit this->zoom(false);
+        m_level--;
     }
+    m_level = qBound(0, m_level, 22);                            // 限制缩放层级
+    setRect(m_level);                                            // 设置缩放后的视图大小
+    emit GetUrlInterface::getInterface() -> setLevel(m_level);   // 设置缩放级别
+    getShowRect();
+
+    // 隐藏缩放前所有图层
+    for (auto itemG : m_itemGroup)
+    {
+        itemG->hide();
+    }
+
+    if (m_itemGroup.contains(m_level))   // 如果图层存在则显示
+    {
+        GraphicsItemGroup* itemGroup = m_itemGroup.value(m_level);
+        itemGroup->show();
+    }
+    else   // 如果不存在则添加
+    {
+        auto* item = new GraphicsItemGroup();
+        m_itemGroup.insert(m_level, item);
+        m_scene->addItem(item);
+    }
+}
+
+/**
+ * @brief       窗口大小变化后获取显示新的地图
+ * @param event
+ */
+void MapGraphicsView::resizeEvent(QResizeEvent* event)
+{
+    QGraphicsView::resizeEvent(event);
+    //    getShowRect();
+}
+
+/**
+ * @brief       窗口显示时设置显示瓦片的视图位置
+ * @param event
+ */
+void MapGraphicsView::showEvent(QShowEvent* event)
+{
+    QGraphicsView::showEvent(event);
+    setRect(m_level);
 }
 
 /**
@@ -140,7 +167,12 @@ void MapGraphicsView::wheelEvent(QWheelEvent* event)
 void MapGraphicsView::getShowRect()
 {
     QRect rect;
-    rect.setTopLeft(this->mapToScene(0, 0).toPoint());
-    rect.setBottomRight(this->mapToScene(this->width(), this->height()).toPoint());
+    int w = int(qPow(2, m_level) * 256);   // 最大范围
+    QPoint tl = this->mapToScene(0, 0).toPoint();
+    QPoint br = this->mapToScene(this->width(), this->height()).toPoint();
+    rect.setX(qMax(tl.x(), 0));
+    rect.setY(qMax(tl.y(), 0));
+    rect.setRight(qMin(br.x(), w));
+    rect.setBottom(qMin(br.y(), w));
     emit GetUrlInterface::getInterface() -> showRect(rect);
 }

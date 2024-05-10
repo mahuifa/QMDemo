@@ -2,15 +2,16 @@
 #include "ui_widget.h"
 #include <QApplication>
 #include <QDebug>
+#include <QtMath>
 
 Widget::Widget(QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->resize(1200, 900);
+    this->resize(1500, 1200);
     qApp->setStyleSheet("*{font: 12pt '宋体';}");
-    this->setWindowTitle(QString("QT加载显示离线瓦片地图示例（绝对像素坐标）--V%1").arg(APP_VERSION));
+    this->setWindowTitle(QString("QT加载显示在线瓦片地图示例（绝对像素坐标）--V%1").arg(APP_VERSION));
 
     // 高德 地图源
     ui->com_url->addItem("https://wprd01.is.autonavi.com/appmaptile?&style=6&lang=zh_cn&scl=1&ltype=0&x={x}&y={y}&z={z}");
@@ -35,6 +36,13 @@ Widget::Widget(QWidget* parent)
     m_geturl->setUrl(ui->com_url->currentText());
 
     connect(GetUrlInterface::getInterface(), &GetUrlInterface::showRect, this, &Widget::showRect);
+    connect(GetUrlInterface::getInterface(), &GetUrlInterface::setLevel, this,
+            [&](int level)
+            {
+                int w = int(qPow(2, level) * 256);   // 最大范围
+                ui->line_mapRange->setText(QString("[0，0]-[%1，%2]").arg(w).arg(w));
+                ui->line_level->setText(QString("等级：%1").arg(level));
+            });
 }
 
 Widget::~Widget()
@@ -78,6 +86,9 @@ void Widget::showRect(QRect rect)
     ui->line_mapShowRect->setText(str);
 }
 
+/**
+ * @brief 清空地图
+ */
 void Widget::on_but_clear_clicked()
 {
     ui->graphicsView->clear();

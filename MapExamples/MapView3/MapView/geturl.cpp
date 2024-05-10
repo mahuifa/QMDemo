@@ -24,6 +24,7 @@ GetUrl::GetUrl(QObject* parent)
     m_rect.setBottomRight(Bing::latLongToPixelXY(148.66, 9.34, m_level));
     connect(GetUrlInterface::getInterface(), &GetUrlInterface::updateTitle, this, &GetUrl::updateTitle);
     connect(GetUrlInterface::getInterface(), &GetUrlInterface::showRect, this, &GetUrl::showRect);
+    connect(GetUrlInterface::getInterface(), &GetUrlInterface::setLevel, this, &GetUrl::setLevel);
 }
 
 GetUrl::~GetUrl()
@@ -47,6 +48,7 @@ void GetUrl::setUrl(QString url)
 
     quit();   // 退出下载后再清空数组，防止数据竞争
     clear();
+    m_exist.clear();   // 清空已下载列表
     m_url = url;
     getImg(m_rect, m_level);   // 使用默认范围、层级更新地图
 }
@@ -59,10 +61,11 @@ void GetUrl::setUrl(QString url)
 void httpGet(ImageInfo info)
 {
     QNetworkAccessManager manager;
-    QNetworkReply* reply = manager.get(QNetworkRequest(QUrl(info.url)));
+    QSharedPointer<QNetworkReply> reply(manager.get(QNetworkRequest(QUrl(info.url))));
     // 等待返回
     QEventLoop loop;
-    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    QObject::connect(reply.data(), &QNetworkReply::finished, &loop, &QEventLoop::quit);   // 等待获取完成
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);                                   // 等待超时
     loop.exec();
 
     if (reply->error() == QNetworkReply::NoError)
@@ -71,22 +74,24 @@ void httpGet(ImageInfo info)
         if (!buf.isEmpty())
         {
             info.img.loadFromData(buf);
+            if (!info.img.isNull())
+            {
+                emit GetUrlInterface::getInterface() -> update(info);
+                emit GetUrlInterface::getInterface() -> updateTitle(info.x, info.y, info.z);
+                return;
+            }
         }
-        emit GetUrlInterface::getInterface() -> update(info);
-        emit GetUrlInterface::getInterface() -> updateTitle(info.x, info.y, info.z);
+    }
+
+    info.count++;
+    if (info.count < 3)
+    {
+        httpGet(info);   // 下载失败重新下载
+        return;
     }
     else
     {
-        info.count++;
-        if (info.count < 3)
-        {
-            httpGet(info);   // 下载失败重新下载
-            return;
-        }
-        else
-        {
-            qWarning() << "下载失败：" << reply->errorString();
-        }
+        qWarning() << "下载失败：" << reply->errorString();
     }
 }
 
@@ -106,11 +111,12 @@ void GetUrl::getImg(QRect rect, int level)
 
     if (m_future.isRunning())   // 判断是否在运行
     {
-        return;
+        m_future.cancel();   // 取消下载
     }
-    clear();
-    //    quit();                                           // 等待之前的退出
-    getTitle(rect, level);                            // 获取所有需要加载的瓦片编号
+    clear();   // 清空待下载列表
+
+    getTitle(rect, level);   // 获取所有需要加载的瓦片编号
+    qInfo() << "获取瓦片数：" << m_infos.count();
     getUrl();                                         // 将瓦片编号转为url
     m_future = QtConcurrent::map(m_infos, httpGet);   // 在线程池中下载瓦片图
 }
@@ -121,7 +127,26 @@ void GetUrl::getImg(QRect rect, int level)
  */
 void GetUrl::showRect(QRect rect)
 {
+    if (rect.isEmpty())
+        return;
     getImg(rect, m_level);
+}
+
+/**
+ * @brief       通过设置显示瓦片层级别完成缩放显示
+ * @param level
+ */
+void GetUrl::setLevel(int level)
+{
+    if ((level < 0) || (level > 23))
+    {
+        return;
+    }
+    if (m_level != level)
+    {
+        m_exist.clear();   // 清空已下载列表
+    }
+    m_level = level;
 }
 
 /**
@@ -137,17 +162,23 @@ void GetUrl::getTitle(QRect rect, int level)
     quint64 value = 0;
     ImageInfo info;
     info.z = level;
-    for (int x = tl.x(); x < br.x(); x++)
+
+    int max = qPow(2, level);   // 最大瓦片编号
+    for (int x = tl.x(); x <= br.x(); x++)
     {
         if (x < 0)
             continue;
+        if (x >= max)
+            break;
         info.x = x;
-        for (int y = tl.y(); y < br.y(); y++)
+        for (int y = tl.y(); y <= br.y(); y++)
         {
             if (y < 0)
                 continue;
-            //            value = QString("%1_%2_%3").arg(level).arg(x).arg(y);
+            if (y >= max)
+                break;
             value = ((quint64) level << 48) + (x << 24) + y;
+
             if (!m_exist.contains(value))
             {
                 info.y = y;
@@ -197,7 +228,6 @@ void GetUrl::getUrl()
  */
 void GetUrl::clear()
 {
-    m_exist.clear();
     QVector<ImageInfo> info;
     m_infos.swap(info);
 }
@@ -215,7 +245,7 @@ void GetUrl::quit()
 }
 
 /**
- * @brief     将下载成功的瓦片编号进行记录
+ * @brief     将下载成功的瓦片编号添加进已下载列表，已经下载的瓦片在后续不进行下载
  * @param x
  * @param y
  * @param z
