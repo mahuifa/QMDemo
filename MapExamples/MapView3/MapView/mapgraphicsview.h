@@ -33,7 +33,6 @@ private:
 
 private:
     QGraphicsScene* m_scene = nullptr;
-    bool m_zoom = true;        // 缩放 true缩放
     int m_level = 5;           // 当前显示瓦片等级
     bool m_moveView = false;   // 鼠标移动显示视图
     QPointF m_pos;

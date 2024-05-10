@@ -45,23 +45,13 @@ void MapGraphicsView::setRect(int level)
  */
 void MapGraphicsView::drawImg(const ImageInfo& info)
 {
-    //    qInfo() << info.x << info.y << info.z;
-    if (m_zoom)
-    {
-        m_zoom = false;
-        if (m_itemGroup.contains(m_level))   // 如果图层存在则显示
-        {
-            GraphicsItemGroup* itemGroup = m_itemGroup.value(m_level);
-            itemGroup->show();
-        }
-    }
-
     if (!m_itemGroup.contains(info.z))   // 如果图层不存在则添加
     {
         auto* item = new GraphicsItemGroup();
         m_itemGroup.insert(info.z, item);
         m_scene->addItem(item);
     }
+
     GraphicsItemGroup* itemGroup = m_itemGroup.value(info.z);
     if (itemGroup)
     {
@@ -127,8 +117,7 @@ void MapGraphicsView::wheelEvent(QWheelEvent* event)
         m_scenePos = m_scenePos / 2;   // 缩小
         m_level--;
     }
-    m_level = qBound(0, m_level, 22);   // 限制缩放层级
-    m_zoom = true;
+    m_level = qBound(0, m_level, 22);                            // 限制缩放层级
     setRect(m_level);                                            // 设置缩放后的视图大小
     emit GetUrlInterface::getInterface() -> setLevel(m_level);   // 设置缩放级别
     getShowRect();
@@ -137,6 +126,18 @@ void MapGraphicsView::wheelEvent(QWheelEvent* event)
     for (auto itemG : m_itemGroup)
     {
         itemG->hide();
+    }
+
+    if (m_itemGroup.contains(m_level))   // 如果图层存在则显示
+    {
+        GraphicsItemGroup* itemGroup = m_itemGroup.value(m_level);
+        itemGroup->show();
+    }
+    else   // 如果不存在则添加
+    {
+        auto* item = new GraphicsItemGroup();
+        m_itemGroup.insert(m_level, item);
+        m_scene->addItem(item);
     }
 }
 

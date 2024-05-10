@@ -65,7 +65,7 @@ void httpGet(ImageInfo info)
     // 等待返回
     QEventLoop loop;
     QObject::connect(reply.data(), &QNetworkReply::finished, &loop, &QEventLoop::quit);   // 等待获取完成
-    QTimer::singleShot(1000, &loop, &QEventLoop::quit);                                   // 等待超时
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);                                   // 等待超时
     loop.exec();
 
     if (reply->error() == QNetworkReply::NoError)
@@ -74,22 +74,24 @@ void httpGet(ImageInfo info)
         if (!buf.isEmpty())
         {
             info.img.loadFromData(buf);
-            emit GetUrlInterface::getInterface() -> update(info);
-            emit GetUrlInterface::getInterface() -> updateTitle(info.x, info.y, info.z);
+            if (!info.img.isNull())
+            {
+                emit GetUrlInterface::getInterface() -> update(info);
+                emit GetUrlInterface::getInterface() -> updateTitle(info.x, info.y, info.z);
+                return;
+            }
         }
+    }
+
+    info.count++;
+    if (info.count < 3)
+    {
+        httpGet(info);   // 下载失败重新下载
+        return;
     }
     else
     {
-        info.count++;
-        if (info.count < 3)
-        {
-            httpGet(info);   // 下载失败重新下载
-            return;
-        }
-        else
-        {
-            qWarning() << "下载失败：" << reply->errorString();
-        }
+        qWarning() << "下载失败：" << reply->errorString();
     }
 }
 
@@ -114,7 +116,7 @@ void GetUrl::getImg(QRect rect, int level)
     clear();   // 清空待下载列表
 
     getTitle(rect, level);   // 获取所有需要加载的瓦片编号
-    qInfo() << m_infos.count();
+    qInfo() << "获取瓦片数：" << m_infos.count();
     getUrl();                                         // 将瓦片编号转为url
     m_future = QtConcurrent::map(m_infos, httpGet);   // 在线程池中下载瓦片图
 }

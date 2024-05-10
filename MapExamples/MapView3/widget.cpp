@@ -11,7 +11,7 @@ Widget::Widget(QWidget* parent)
     ui->setupUi(this);
     this->resize(1500, 1200);
     qApp->setStyleSheet("*{font: 12pt '宋体';}");
-    this->setWindowTitle(QString("QT加载显示离线瓦片地图示例（绝对像素坐标）--V%1").arg(APP_VERSION));
+    this->setWindowTitle(QString("QT加载显示在线瓦片地图示例（绝对像素坐标）--V%1").arg(APP_VERSION));
 
     // 高德 地图源
     ui->com_url->addItem("https://wprd01.is.autonavi.com/appmaptile?&style=6&lang=zh_cn&scl=1&ltype=0&x={x}&y={y}&z={z}");
