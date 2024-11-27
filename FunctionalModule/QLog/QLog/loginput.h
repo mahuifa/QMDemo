@@ -1,4 +1,4 @@
-/******************************************************************************
+﻿/******************************************************************************
 * @文件名     loginput.h
 * @功能      拦截QDebug日志信息的单例类，并通过信号发送出去
 *
@@ -10,20 +10,20 @@
 #ifndef LOGINPUT_H
 #define LOGINPUT_H
 
+#include "logconfig.h"
+#include "logsavetxt.h"
 #include <QObject>
 #include <QTime>
-#include "logsavetxt.h"
-#include "logconfig.h"
 
 class LogInput : public QObject
 {
     Q_OBJECT
 public:
-    static LogInput* getInstance();           // 获取单例对象
-    static void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+    static LogInput* getInstance();   // 获取单例对象
+    static void myMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg);
 
 private:
-    explicit LogInput(QObject *parent = nullptr);
+    explicit LogInput(QObject* parent = nullptr);
     ~LogInput();
 
 signals:
@@ -36,10 +36,10 @@ signals:
      * @param line      日志来源行
      * @param msg       日志信息
      */
-    void logData(QtMsgType type, QTime time,QString file, QString function, int line, QString msg);
+    void logData(QtMsgType type, QString time, QString file, QString function, int line, QString msg);
 
 private:
     static LogInput* m_log;
 };
 
-#endif // LOGINPUT_H
+#endif   // LOGINPUT_H

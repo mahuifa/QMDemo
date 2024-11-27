@@ -8,19 +8,20 @@
 #ifndef LOGSAVEBASE_H
 #define LOGSAVEBASE_H
 
+#include <qapplication.h>
+#include <QMutex>
 #include <QObject>
 #include <QTime>
-#include <QMutex>
 
-#define LOG_PATH "./Log/"             // 日志文件保存路径
+#define LOG_PATH QApplication::applicationDirPath() + "/Log/"   // 日志文件保存路径
 
 class LogSaveBase : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit LogSaveBase(QObject *parent = nullptr);
-    ~LogSaveBase();
+    explicit LogSaveBase(QObject* parent = nullptr);
+    ~LogSaveBase() override;
 
 protected:
     /**
@@ -32,7 +33,7 @@ protected:
      * @param line      日志来源行
      * @param msg       日志信息
      */
-    virtual void on_logData(QtMsgType type, QTime time, QString file, QString function, int line, QString msg) = 0;
+    virtual void on_logData(QtMsgType type, QString time, QString file, QString function, int line, QString msg) = 0;
 
     /**
      * @brief   打开新文件
@@ -41,8 +42,9 @@ protected:
     virtual bool openNewFile() = 0;
 
 protected:
-    QString m_strLogName;        // 日志名
-    static LogSaveBase* m_logSave;                    // 静态单例对象
+    QThread* m_thread = nullptr;
+    QString m_strLogName;            // 日志名
+    static LogSaveBase* m_logSave;   // 静态单例对象
 };
 
-#endif // LOGSAVEBASE_H
+#endif   // LOGSAVEBASE_H

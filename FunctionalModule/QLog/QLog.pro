@@ -7,7 +7,7 @@
 # @时间       2022/03/27
 # @备注
 #---------------------------------------------------------
-QT       += core gui
+QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,7 +21,7 @@ HEADERS += widget.h
 FORMS += widget.ui
 
 #  定义程序版本号
-VERSION = 1.0.2
+VERSION = 1.1.0
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 contains(QT_ARCH, i386){        # 使用32位编译器

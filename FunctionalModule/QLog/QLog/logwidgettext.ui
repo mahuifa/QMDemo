@@ -37,7 +37,7 @@
      <item>
       <widget class="QCheckBox" name="check_debug">
        <property name="text">
-        <string>Debug</string>
+        <string>调试</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -47,7 +47,7 @@
      <item>
       <widget class="QCheckBox" name="check_Info">
        <property name="text">
-        <string>Info</string>
+        <string>普通</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -57,7 +57,7 @@
      <item>
       <widget class="QCheckBox" name="check_warning">
        <property name="text">
-        <string>Warning</string>
+        <string>警告</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -67,7 +67,7 @@
      <item>
       <widget class="QCheckBox" name="check_critical">
        <property name="text">
-        <string>Critical</string>
+        <string>危险</string>
        </property>
        <property name="checked">
         <bool>true</bool>

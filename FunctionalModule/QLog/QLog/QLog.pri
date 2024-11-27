@@ -8,6 +8,7 @@
 # 时间：     2022/03/27
 #---------------------------------------------------------------------
 DEFINES += QT_MESSAGELOGCONTEXT        # release模式下输出日志
+DEFINES += OUT_TERMINAL                # 日志输出到终端terminal
 
 FORMS += \
     $$PWD/logwidgettext.ui

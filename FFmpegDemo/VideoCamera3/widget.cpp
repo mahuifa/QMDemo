@@ -1,7 +1,8 @@
-#include "widget.h"
+﻿#include "widget.h"
 #include "ui_widget.h"
 #include <QCameraInfo>
 #include <QFileDialog>
+#include <QOpenGLContext>
 
 extern "C"   // 用C规则编译指定的代码
 {

@@ -1,31 +1,30 @@
 ﻿#include "logsavetxt.h"
 
 #include <qdebug.h>
+#include <qthread.h>
 
-LogSaveTxt::LogSaveTxt(QObject *parent) : LogSaveBase(parent)
+LogSaveTxt::LogSaveTxt(QObject* parent)
+    : LogSaveBase(parent)
 {
     m_strLogFormat = "%1 %2 %3 %4 %5 %6";
     m_strNameFormat = "yyyy-MM-dd HH-mm-ss.log";
     m_strTimeNameFormat = "yyyy-MM-dd.log";
 }
 
-LogSaveTxt::~LogSaveTxt()
-{
-
-}
+LogSaveTxt::~LogSaveTxt() {}
 
 void LogSaveTxt::initLog()
 {
     LogSaveTxt::getInstance();
 }
 
-LogSaveBase *LogSaveTxt::getInstance()
+LogSaveBase* LogSaveTxt::getInstance()
 {
-    if(nullptr == m_logSave)
+    if (nullptr == m_logSave)
     {
         static QMutex mutex;
         QMutexLocker locker(&mutex);
-        if(nullptr == m_logSave)
+        if (nullptr == m_logSave)
         {
             m_logSave = new LogSaveTxt();
         }
@@ -42,31 +41,31 @@ void LogSaveTxt::setFileType(FileType type)
     this->m_type = type;
 
     QMutexLocker locker(&m_mutex);
-    if(Log == m_type)
+    if (Log == m_type)
     {
         m_strLogFormat = "%1 %2 %3 %4 %5 %6";
         m_strNameFormat = "yyyy-MM-dd HH-mm-ss.log";
         m_strTimeNameFormat = "yyyy-MM-dd.log";
     }
-    else if(CSV == m_type)
+    else if (CSV == m_type)
     {
         m_strLogFormat = "%1,%2,%3,%4,%5,%6";
-        m_strNameFormat = "yyyy-MM-dd HH-mm-ss.CSV";       // 这里后缀只能用大写，因为小写的会被QTime替换
+        m_strNameFormat = "yyyy-MM-dd HH-mm-ss.CSV";   // 这里后缀只能用大写，因为小写的会被QTime替换
         m_strTimeNameFormat = "yyyy-MM-dd.CSV";
     }
     else
-    {}
+    {
+    }
 
-    LogConfig::setTxtLogName("");              // 清除配置文件中的日志文件名，便于立刻替换Log/CSV文件，如果没有这一行会等待满足创建新文件的条件才会替换Log/CSV
+    LogConfig::setTxtLogName("");   // 清除配置文件中的日志文件名，便于立刻替换Log/CSV文件，如果没有这一行会等待满足创建新文件的条件才会替换Log/CSV
     m_file.close();
 }
 
-void LogSaveTxt::on_logData(QtMsgType type, QTime time, QString file, QString function, int line, QString msg)
+void LogSaveTxt::on_logData(QtMsgType type, QString time, QString file, QString function, int line, QString msg)
 {
-    QMutexLocker locker(&m_mutex);
-
     QString strData = "debug";
-    switch (type) {
+    switch (type)
+    {
     case QtDebugMsg:
         strData = "debug";
         return;
@@ -75,27 +74,22 @@ void LogSaveTxt::on_logData(QtMsgType type, QTime time, QString file, QString fu
         break;
     case QtWarningMsg:
         strData = "warning";
-      break;
+        break;
     case QtCriticalMsg:
         strData = "critical";
         break;
     case QtFatalMsg:
         strData = "fatal";
-      break;
+        break;
     }
-    if(!openNewFile())
+
+    QMutexLocker locker(&m_mutex);
+    if (!openNewFile())
     {
         return;
     }
 
-    QString strLog = QString(m_strLogFormat)
-                            .arg(time.toString("HH:mm:ss"))
-                            .arg(strData)
-                            .arg(file)
-                            .arg(function)
-                            .arg(line)
-                            .arg(msg);
-    m_out << strLog <<"\n";
+    m_out << m_strLogFormat.arg(time).arg(strData).arg(file).arg(function).arg(line).arg(msg) << "\n";
     m_out.flush();
 }
 
@@ -107,14 +101,14 @@ void LogSaveTxt::on_logData(QtMsgType type, QTime time, QString file, QString fu
 bool LogSaveTxt::openFile(QString name)
 {
     m_file.setFileName(QString("%1%2").arg(LOG_PATH).arg(name));
-    if(m_file.open(QIODevice::ReadWrite| QIODevice::Text))
+    if (m_file.open(QIODevice::Append | QIODevice::Text))
     {
         m_out.setDevice(&m_file);
         return true;
     }
     else
     {
-        qWarning() <<"打开日志文件失败";
+        qWarning() << "打开日志文件失败";
         return false;
     }
 }
@@ -128,17 +122,17 @@ bool LogSaveTxt::openNewFile()
     switch (LogConfig::txtConfig.relyMode)
     {
     case Time:
-    {
-        return relyTime();
-    }
+        {
+            return relyTime();
+        }
     case Size:
-    {
-        return relySize();
-    }
+        {
+            return relySize();
+        }
     case RowNum:
-    {
-        return relyRowNum();
-    }
+        {
+            return relyRowNum();
+        }
     default:
         return false;
     }
@@ -151,9 +145,9 @@ bool LogSaveTxt::openNewFile()
 bool LogSaveTxt::relyTime()
 {
     QString strName = QDateTime::currentDateTime().toString(m_strTimeNameFormat);
-    if(LogConfig::txtConfig.time == 12)
+    if (LogConfig::txtConfig.time == 12)
     {
-        if(QTime::currentTime().hour() <= 12)
+        if (QTime::currentTime().hour() <= 12)
         {
             strName.replace(".log", "_上.log");
             strName.replace(".CSV", "_上.CSV");
@@ -165,9 +159,9 @@ bool LogSaveTxt::relyTime()
         }
     }
 
-    if(!m_file.isOpen())                    // 文件未打开
+    if (!m_file.isOpen())   // 文件未打开
     {
-        if(LogConfig::txtConfig.name.isEmpty())   // 配置文件中是否有文件名
+        if (LogConfig::txtConfig.name.isEmpty())   // 配置文件中是否有文件名
         {
             LogConfig::setTxtLogName(strName);
         }
@@ -175,7 +169,7 @@ bool LogSaveTxt::relyTime()
     }
     else
     {
-        if((LOG_PATH + strName) != m_file.fileName())        // 路径 + 新文件名 与打开的文件是否相同
+        if ((LOG_PATH + strName) != m_file.fileName())   // 路径 + 新文件名 与打开的文件是否相同
         {
             LogConfig::setTxtLogName(strName);
             m_file.close();
@@ -191,9 +185,9 @@ bool LogSaveTxt::relyTime()
  */
 bool LogSaveTxt::relySize()
 {
-    if(!m_file.isOpen())                    // 文件未打开
+    if (!m_file.isOpen())   // 文件未打开
     {
-        if(LogConfig::txtConfig.name.isEmpty())
+        if (LogConfig::txtConfig.name.isEmpty())
         {
             QString strName = QDateTime::currentDateTime().toString(m_strNameFormat);
             LogConfig::setTxtLogName(strName);
@@ -202,7 +196,7 @@ bool LogSaveTxt::relySize()
     }
     else
     {
-        if(m_file.size() >= LogConfig::txtConfig.size * 1024 * 1024)   // 判断文件大小
+        if (m_file.size() >= LogConfig::txtConfig.size * 1024 * 1024)   // 判断文件大小
         {
             m_file.close();
             QString strName = QDateTime::currentDateTime().toString(m_strNameFormat);
@@ -219,17 +213,17 @@ bool LogSaveTxt::relySize()
  */
 bool LogSaveTxt::relyRowNum()
 {
-    static uint rowNum = 0;                 // 文件行数
-    if(!m_file.isOpen())                    // 文件未打开
+    static uint rowNum = 0;   // 文件行数
+    if (!m_file.isOpen())     // 文件未打开
     {
-        if(LogConfig::txtConfig.name.isEmpty())
+        if (LogConfig::txtConfig.name.isEmpty())
         {
             QString strName = QDateTime::currentDateTime().toString(m_strNameFormat);
             LogConfig::setTxtLogName(strName);
         }
-        if(openFile(LogConfig::txtConfig.name))
+        if (openFile(LogConfig::txtConfig.name))
         {
-            rowNum = QString(m_file.readAll()).split('\n').count();      // 获取文件行数
+            rowNum = QString(m_file.readAll()).split('\n').count();   // 获取文件行数
             return true;
         }
         else
@@ -240,7 +234,7 @@ bool LogSaveTxt::relyRowNum()
     else
     {
         rowNum++;
-        if(rowNum > LogConfig::txtConfig.rowNum)   // 判断文件行数
+        if (rowNum > LogConfig::txtConfig.rowNum)   // 判断文件行数
         {
             rowNum = 1;
             m_file.close();
@@ -251,5 +245,3 @@ bool LogSaveTxt::relyRowNum()
         return true;
     }
 }
-
-
