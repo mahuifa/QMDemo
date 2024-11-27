@@ -3,7 +3,7 @@
 #include <QDateTime>
 #include <QMessageBox>
 
-#if defined(_MSC_VER)
+#if 1   //defined(_MSC_VER)
 #    if defined(_MSC_VER) && (_MSC_VER >= 1600) && (_MSC_VER <= 1900)
 #        pragma execution_character_set("utf-8")
 #    endif

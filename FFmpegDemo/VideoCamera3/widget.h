@@ -1,12 +1,16 @@
-#ifndef WIDGET_H
+﻿#ifndef WIDGET_H
 #define WIDGET_H
 
-#include <QWidget>
-#include "readthread.h"
 #include "playimage.h"
+#include "readthread.h"
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class Widget; }
+
+namespace Ui {
+class Widget;
+}
+
 QT_END_NAMESPACE
 
 class Widget : public QWidget
@@ -14,7 +18,7 @@ class Widget : public QWidget
     Q_OBJECT
 
 public:
-    Widget(QWidget *parent = nullptr);
+    Widget(QWidget* parent = nullptr);
     ~Widget();
 
 private slots:
@@ -23,9 +27,9 @@ private slots:
     void on_playState(ReadThread::PlayState state);
 
 private:
-    Ui::Widget *ui;
+    Ui::Widget* ui;
 
     PlayImage* playImage = nullptr;
     ReadThread* m_readThread = nullptr;
 };
-#endif // WIDGET_H
+#endif   // WIDGET_H

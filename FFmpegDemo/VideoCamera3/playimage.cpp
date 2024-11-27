@@ -1,4 +1,4 @@
-#include "playimage.h"
+﻿#include "playimage.h"
 
 extern "C"
 {   // 用C规则编译指定的代码
@@ -142,7 +142,7 @@ void PlayImage::initializeGL()
 
     // 加载shader脚本程序
     m_program = new QOpenGLShaderProgram(this);
-    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/vertex.vsh");
+    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex, ":/vertex.vsh");   // 注意: vsh文件需要使用utf-8编码。如果修改了可能会出现乱码
     m_program->addShaderFromSourceFile(QOpenGLShader::Fragment, ":/fragment.fsh");
     m_program->link();
 

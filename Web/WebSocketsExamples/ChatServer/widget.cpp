@@ -105,15 +105,10 @@ void Widget::on_textMessageReceived(const QString &message)
 void Widget::on_disconnected()
 {
     QWebSocket *socket = qobject_cast<QWebSocket *>(sender());
-    for(int i = 0; i < m_clients.count(); ++i)
+    if(socket)
     {
-        if(m_clients.at(i) == socket)
-        {
-            disconnect(socket, &QWebSocket::textMessageReceived, this, &Widget::on_textMessageReceived);
-            disconnect(socket, &QWebSocket::disconnected, this, &Widget::on_disconnected);
-            m_clients.removeAt(i);
-            break;
-        }
+        m_clients.removeAll(socket);
+        socket->deleteLater();
     }
     ui->textEdit->append(QString("[%1:%2] 断开连接！").arg(socket->peerAddress().toString()).arg(socket->peerPort()));
 }

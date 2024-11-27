@@ -1,4 +1,4 @@
-#---------------------------------------------------------------------------------------
+    #---------------------------------------------------------------------------------------
 # @功能：      QT下载瓦片地图简单示例
 # @编译器：     Desktop Qt 5.14.2 MSVC2017 64bit（也支持其它编译器）
 # @Qt IDE：    D:/Qt/Qt5.14.2/Tools/QtCreator/share/qtcreator
@@ -27,12 +27,12 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
-    bingformula.h \
-    downloadthread.h \
-    downloadthreads.h \
-    formula.h \
-    mapStruct.h \
-    mapinput.h \
+    bingformula.h \          # 来自bing的(通用)坐标转换算法、计算公式
+    downloadthread.h \       # 单线程下载
+    downloadthreads.h \      # 多线程下载
+    formula.h \              # 坐标转换算法、计算公式
+    mapStruct.h \            # 处理瓦片地图的结构体
+    mapinput.h \             # 瓦片地图下载url拼接
     widget.h
 
 FORMS += \
